@@ -1,4 +1,4 @@
-package org.sopt.certi
+package org.sopt.certi.presentation.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
