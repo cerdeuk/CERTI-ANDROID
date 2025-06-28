@@ -18,7 +18,6 @@ fun HomeRoute(
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
-
 }
 
 @Preview(showBackground = true)

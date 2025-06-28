@@ -4,9 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.usecase.DummyUseCase
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
