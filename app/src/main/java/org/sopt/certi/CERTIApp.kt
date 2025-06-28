@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class CertiApp : Application(){
+class CERTIApp : Application(){
     override fun onCreate() {
         super.onCreate()
         setDarkMode()
