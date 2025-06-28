@@ -1,6 +1,6 @@
 package org.sopt.certi.data.remote.datasourceimpl
 
-import jakarta.inject.Inject
+import javax.inject.Inject
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.dto.DummyResponseDto
 import org.sopt.certi.data.remote.service.DummyService

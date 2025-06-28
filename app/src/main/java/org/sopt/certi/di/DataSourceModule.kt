@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.datasourceimpl.DummyRemoteDataSourceImpl
 
