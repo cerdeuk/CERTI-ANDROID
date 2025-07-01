@@ -28,7 +28,8 @@ fun OnBoardingTrackScreen(
 ) {
     Text(
         text = "OnBoardingTrack",
-        modifier = Modifier.noRippleClickable(navigateToMajor))
+        modifier = Modifier.noRippleClickable(navigateToMajor)
+    )
 }
 
 @Preview(showBackground = true)

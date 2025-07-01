@@ -20,7 +20,7 @@ fun NavGraphBuilder.certRecommendNavGraph(
     composable<MainTabRoute.CertRecommend> {
         CertRecommendRoute(
             padding = padding,
-            navigateToCertDetail = {navController.navigateToCertDetail()}
+            navigateToCertDetail = { navController.navigateToCertDetail() }
         )
     }
 }

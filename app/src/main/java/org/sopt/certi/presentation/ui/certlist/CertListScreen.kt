@@ -32,7 +32,6 @@ fun CertListScreen(
 @Composable
 private fun PreviewCertListScreen() {
     CERTITheme {
-        CertListScreen(
-        )
+        CertListScreen()
     }
 }
