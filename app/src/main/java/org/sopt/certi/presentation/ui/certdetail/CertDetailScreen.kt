@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.home
+package org.sopt.certi.presentation.ui.certdetail
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
@@ -9,24 +9,24 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun HomeRoute(
+fun CertDetailRoute(
     padding: PaddingValues,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: CertDetailViewModel = hiltViewModel()
 ) {
-    HomeScreen()
+    CertDetailScreen()
 }
 
 @Composable
-fun HomeScreen(
+fun CertDetailScreen(
     modifier: Modifier = Modifier
 ) {
-    Text(text = "Home")
+    Text(text = "CertDetail")
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewHomeScreen() {
+private fun PreviewCertDetailScreen() {
     CERTITheme {
-        HomeScreen()
+        CertDetailScreen()
     }
 }
