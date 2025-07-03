@@ -18,7 +18,7 @@
 | <img src="https://avatars.githubusercontent.com/MinseoSONG" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/Jyunee54" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/mjth1s1s" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/kimjw2003" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> |
 |:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | [송민서](https://github.com/MinseoSONG) | [이지현](https://github.com/Jyunee54) | [김민지](https://github.com/mjth1s1s) | [김종우](https://github.com/kimjw2003) |
-| `로그인`<br>`온보딩`<br>`검색` | `이력서` | `홈` | `자격증` |
+| `소셜로그인`<br>`온보딩`<br>`검색` | `이력서` | `홈` | `자격증` |
 
 ## 🛠️ Development Environment
 
@@ -80,7 +80,7 @@
 
 ## 🗂️ Project Structure
 ```Text
-📂 org.sopt.cerdeuk
+📂 org.sopt.certi
 ┣ 📂 data
 ┃ ┣ 📂 local
 ┃ ┃ ┣ 📂 datasource
