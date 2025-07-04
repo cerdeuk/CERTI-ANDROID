@@ -3,6 +3,7 @@ package org.sopt.certi.ui.theme
 import android.R.attr.fontFamily
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -86,4 +87,7 @@ val defaultCertiTypography = CertiTypography(
         regular_10 = TextStyle(fontFamily = PretendardFont.Regular, fontSize = 10.sp)
     )
 )
+
+val LocalCertiTypographyProvider = staticCompositionLocalOf { defaultCertiTypography }
+
 
