@@ -1,6 +1,7 @@
 package org.sopt.certi.ui.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 // Default Color
@@ -87,3 +88,5 @@ val defaultCertiColors = CertiColors(
     backgroundColor = BackgroundColor,
     backgroundCardColor = BackgroundCardColor
 )
+
+val LocalCertiColorsProvider = staticCompositionLocalOf { defaultCertiColors }
