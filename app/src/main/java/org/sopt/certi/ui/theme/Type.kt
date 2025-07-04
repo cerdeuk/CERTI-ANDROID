@@ -85,5 +85,3 @@ val defaultCertiTypography = CertiTypography(
 )
 
 val LocalCertiTypographyProvider = staticCompositionLocalOf { defaultCertiTypography }
-
-
