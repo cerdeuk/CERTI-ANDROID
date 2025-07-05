@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,12 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MainBottomBar(
@@ -50,7 +53,7 @@ fun MainBottomBar(
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height((LocalConfiguration.current.screenHeightDp * 0.071f).dp)
+                    .height((LocalConfiguration.current.screenHeightDp * 0.064f).dp)
             ) {
                 tabs.forEach { tab ->
                     MainBottomBarItem(
@@ -87,10 +90,16 @@ private fun RowScope.MainBottomBarItem(
         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically)
     ) {
         Icon(
-            imageVector = if (selected) ImageVector.vectorResource(tab.selectedIconResId) else ImageVector.vectorResource(tab.defaultIconResId),
-            contentDescription = null,
-            tint = if (selected) Color.Black else Color.Cyan,
-            modifier = Modifier.size(36.dp)
+            imageVector = ImageVector.vectorResource(id = tab.defaultIconResId),
+            contentDescription = stringResource(tab.label),
+            tint = if (selected) tab.selectedIconColor else tab.defaultIconColor,
+            modifier = Modifier.size(24.dp)
+        )
+
+        Text(
+            text = stringResource(id = tab.label),
+            color = if (selected) tab.selectedIconColor else tab.defaultIconColor,
+            style = CertiTheme.typography.caption.semibold_10
         )
     }
 }
