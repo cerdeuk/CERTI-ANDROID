@@ -20,12 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.pressedClickable
-import org.sopt.certi.ui.theme.Gray100
-import org.sopt.certi.ui.theme.Gray400
-import org.sopt.certi.ui.theme.LocalCertiTypographyProvider
-import org.sopt.certi.ui.theme.MainBlue
-import org.sopt.certi.ui.theme.PurpleBlue
-import org.sopt.certi.ui.theme.White
+import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CertiBasicButton(
@@ -34,8 +29,6 @@ fun CertiBasicButton(
     buttonText: String = "",
     onClick: () -> Unit = {}
 ) {
-    val typoProvider = LocalCertiTypographyProvider.current
-
     var isPressed by remember { mutableStateOf(false) }
     val currentEnabled by rememberUpdatedState(enabled)
 
@@ -44,9 +37,9 @@ fun CertiBasicButton(
             .height(56.dp)
             .background(
                 color = if (!enabled) {
-                    Gray100
+                    CertiTheme.colors.gray100
                 } else {
-                    if (isPressed) MainBlue else PurpleBlue
+                    if (isPressed) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue
                 },
                 shape = RoundedCornerShape(12.dp)
             )
@@ -65,8 +58,8 @@ fun CertiBasicButton(
     ) {
         Text(
             text = buttonText,
-            style = typoProvider.body.semibold_16,
-            color = if (enabled) White else Gray400
+            style = CertiTheme.typography.body.semibold_16,
+            color = if (enabled) CertiTheme.colors.white else CertiTheme.colors.gray400
         )
     }
 }
