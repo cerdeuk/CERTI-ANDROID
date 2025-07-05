@@ -10,8 +10,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val LightColorScheme = lightColorScheme(
-    background = BackgroundColor,
-    primary = MainColor500
+    background = Black85,
+    primary = MainBlue
 )
 
 @Composable
