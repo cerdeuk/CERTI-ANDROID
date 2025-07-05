@@ -9,6 +9,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+
 private val LightColorScheme = lightColorScheme(
     background = Black85,
     primary = MainBlue
@@ -29,20 +30,21 @@ fun ProvideCertiColors(
 fun CERTITheme(
     content: @Composable () -> Unit
 ) {
-    ProvideCertiColors(
-        colors = defaultCertiColors
-    ) {
-        val view = LocalView.current
-        if (!view.isInEditMode) {
-            SideEffect {
-                (view.context as Activity).window.run {
-                    WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = true
+    ProvideCertiColors(colors = defaultCertiColors) {
+        CompositionLocalProvider(LocalCertiTypographyProvider provides defaultCertiTypography) {
+            val view = LocalView.current
+            if (!view.isInEditMode) {
+                SideEffect {
+                    (view.context as Activity).window.run {
+                        WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = true
+                    }
                 }
             }
+
+            MaterialTheme(
+                colorScheme = LightColorScheme,
+                content = content
+            )
         }
-        MaterialTheme(
-            colorScheme = LightColorScheme,
-            content = content
-        )
     }
 }
