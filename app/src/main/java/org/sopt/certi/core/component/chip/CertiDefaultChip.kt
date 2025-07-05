@@ -44,6 +44,5 @@ fun CertiDefaultChipPreview() {
         CertiDefaultChip(text = "컴퓨터공학")
         CertiDefaultChip(text = "시각디자인")
         CertiDefaultChip(text = "경영")
-
     }
 }
