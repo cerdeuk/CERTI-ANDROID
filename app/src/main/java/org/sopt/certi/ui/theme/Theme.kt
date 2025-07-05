@@ -9,7 +9,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-
 private val LightColorScheme = lightColorScheme(
     background = Black85,
     primary = MainBlue
