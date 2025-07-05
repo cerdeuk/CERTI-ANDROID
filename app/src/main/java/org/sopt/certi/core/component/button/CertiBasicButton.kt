@@ -27,7 +27,7 @@ fun CertiBasicButton(
     buttonText: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     var isPressed by remember { mutableStateOf(false) }
     val currentEnabled by rememberUpdatedState(enabled)
