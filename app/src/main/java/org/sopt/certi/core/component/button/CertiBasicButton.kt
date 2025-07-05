@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,17 +24,16 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CertiBasicButton(
+    buttonText: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    buttonText: String = "",
-    onClick: () -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
     val currentEnabled by rememberUpdatedState(enabled)
 
     Box(
         modifier = modifier
-            .height(56.dp)
             .background(
                 color = if (!enabled) {
                     CertiTheme.colors.gray100
@@ -59,7 +58,8 @@ fun CertiBasicButton(
         Text(
             text = buttonText,
             style = CertiTheme.typography.body.semibold_16,
-            color = if (enabled) CertiTheme.colors.white else CertiTheme.colors.gray400
+            color = if (enabled) CertiTheme.colors.white else CertiTheme.colors.gray400,
+            modifier = Modifier.padding(vertical = 18.dp)
         )
     }
 }
@@ -74,39 +74,45 @@ fun BasicButtonPreview() {
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = false,
-            buttonText = "다음"
+            buttonText = "다음",
+            onClick = {}
         )
 
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
-            buttonText = "다음"
+            buttonText = "다음",
+            onClick = {}
         )
 
         // 적용하기 버튼
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = false,
-            buttonText = "적용하기"
+            buttonText = "적용하기",
+            onClick = {}
         )
 
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
-            buttonText = "적용하기"
+            buttonText = "적용하기",
+            onClick = {}
         )
 
         // 추가하기 버튼
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = false,
-            buttonText = "추가하기"
+            buttonText = "추가하기",
+            onClick = {}
         )
 
         CertiBasicButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
-            buttonText = "추가하기"
+            buttonText = "추가하기",
+            onClick = {}
         )
     }
 }
