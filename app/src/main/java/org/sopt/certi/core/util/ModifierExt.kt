@@ -52,8 +52,7 @@ inline fun Modifier.pressedClickable(
     crossinline changePressed: (Boolean) -> Unit,
     crossinline onClick: () -> Unit,
     throttleDelay: Long = 300L
-): Modifier =  composed {
-
+): Modifier = composed {
     var lastClickTime by remember { mutableLongStateOf(0L) }
 
     pointerInput(Unit) {
@@ -71,6 +70,5 @@ inline fun Modifier.pressedClickable(
                 }
             }
         )
-
     }
 }

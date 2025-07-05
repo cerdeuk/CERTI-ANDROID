@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.ui.theme.Gray100
-import org.sopt.certi.ui.theme.Gray300
 import org.sopt.certi.ui.theme.Gray400
 import org.sopt.certi.ui.theme.LocalCertiTypographyProvider
 import org.sopt.certi.ui.theme.MainBlue
@@ -35,7 +32,7 @@ fun CertiBasicButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     buttonText: String = "",
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     val typoProvider = LocalCertiTypographyProvider.current
 
@@ -46,7 +43,9 @@ fun CertiBasicButton(
         modifier = modifier
             .height(56.dp)
             .background(
-                color = if(!enabled) Gray100 else {
+                color = if (!enabled) {
+                    Gray100
+                } else {
                     if (isPressed) MainBlue else PurpleBlue
                 },
                 shape = RoundedCornerShape(12.dp)
@@ -57,7 +56,7 @@ fun CertiBasicButton(
                     isPressed = it
                 },
                 onClick = {
-                    if(currentEnabled) {
+                    if (currentEnabled) {
                         onClick.invoke()
                     }
                 }
@@ -67,7 +66,7 @@ fun CertiBasicButton(
         Text(
             text = buttonText,
             style = typoProvider.body.semibold_16,
-            color = if(enabled) White else Gray400
+            color = if (enabled) White else Gray400
         )
     }
 }
