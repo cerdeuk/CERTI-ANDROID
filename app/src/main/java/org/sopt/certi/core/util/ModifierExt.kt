@@ -3,13 +3,18 @@ package org.sopt.certi.core.util
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -41,4 +46,31 @@ fun Modifier.roundedBackgroundWithBorder(
             color = borderColor,
             shape = RoundedCornerShape(cornerRadius)
         )
+}
+
+inline fun Modifier.pressedClickable(
+    crossinline changePressed: (Boolean) -> Unit,
+    crossinline onClick: () -> Unit,
+    throttleDelay: Long = 300L
+): Modifier =  composed {
+
+    var lastClickTime by remember { mutableLongStateOf(0L) }
+
+    pointerInput(Unit) {
+        detectTapGestures(
+            onPress = {
+                changePressed(true)
+                tryAwaitRelease()
+                changePressed(false)
+            },
+            onTap = {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastClickTime >= throttleDelay) {
+                    lastClickTime = currentTime
+                    onClick()
+                }
+            }
+        )
+
+    }
 }
