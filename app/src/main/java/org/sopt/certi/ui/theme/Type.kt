@@ -62,13 +62,13 @@ val defaultCertiTypography = CertiTypography(
         bold_24 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 24.sp,
-            lineHeight = 28.8.sp,       // 120%
+            lineHeight = 28.8.sp, // 120%
             letterSpacing = (-1.6).sp
         ),
         bold_22 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 22.sp,
-            lineHeight = 26.4.sp,       // 120%
+            lineHeight = 26.4.sp, // 120%
             letterSpacing = (-1.4).sp
         )
     ),
@@ -76,7 +76,7 @@ val defaultCertiTypography = CertiTypography(
         bold_20 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 20.sp,
-            lineHeight = 26.sp,         // 130%
+            lineHeight = 26.sp, // 130%
             letterSpacing = (-1.0).sp
         ),
         semibold_20 = TextStyle(
@@ -90,7 +90,7 @@ val defaultCertiTypography = CertiTypography(
         bold_18 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 18.sp,
-            lineHeight = 25.2.sp,       // 140%
+            lineHeight = 25.2.sp, // 140%
             letterSpacing = (-0.5).sp
         ),
         semibold_18 = TextStyle(
@@ -102,7 +102,7 @@ val defaultCertiTypography = CertiTypography(
         bold_16 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 16.sp,
-            lineHeight = 22.4.sp,       // 140%
+            lineHeight = 22.4.sp, // 140%
             letterSpacing = 0.sp
         ),
         semibold_16 = TextStyle(
@@ -122,7 +122,7 @@ val defaultCertiTypography = CertiTypography(
         bold_14 = TextStyle(
             fontFamily = PretendardFont.Bold,
             fontSize = 14.sp,
-            lineHeight = 19.6.sp,       // 140%
+            lineHeight = 19.6.sp, // 140%
             letterSpacing = 0.sp
         ),
         semibold_14 = TextStyle(
@@ -140,7 +140,7 @@ val defaultCertiTypography = CertiTypography(
         semibold_12 = TextStyle(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 12.sp,
-            lineHeight = 18.sp,         // 150%
+            lineHeight = 18.sp, // 150%
             letterSpacing = 0.8.sp
         ),
         regular_12 = TextStyle(
@@ -152,7 +152,7 @@ val defaultCertiTypography = CertiTypography(
         semibold_10 = TextStyle(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 10.sp,
-            lineHeight = 15.sp,         // 150%
+            lineHeight = 15.sp, // 150%
             letterSpacing = 1.sp
         ),
         regular_10 = TextStyle(
