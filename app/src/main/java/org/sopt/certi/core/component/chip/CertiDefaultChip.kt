@@ -1,6 +1,7 @@
 package org.sopt.certi.core.component.chip
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -29,5 +30,20 @@ fun CertiDefaultChip(
             style = CertiTheme.typography.caption.semibold_12,
             color = CertiTheme.colors.mainBlue
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CertiDefaultChipPreview() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        CertiDefaultChip(text = "컴퓨터공학")
+        CertiDefaultChip(text = "시각디자인")
+        CertiDefaultChip(text = "경영")
+
     }
 }
