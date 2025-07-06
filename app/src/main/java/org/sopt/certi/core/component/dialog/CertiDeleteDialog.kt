@@ -1,8 +1,6 @@
 package org.sopt.certi.core.component.dialog
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -28,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
-import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -40,9 +38,6 @@ fun CertiDeleteDialog(
     title: String = stringResource(R.string.delete_dialog_title),
     description: String = stringResource(R.string.delete_dialog_description)
 ) {
-    val cancelInteractionSource = remember { MutableInteractionSource() }
-    val confirmInteractionSource = remember { MutableInteractionSource() }
-
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Surface(
@@ -73,7 +68,6 @@ fun CertiDeleteDialog(
                             text = stringResource(R.string.delete_dialog_cancel),
                             textColor = CertiTheme.colors.black,
                             onClick = onDismiss,
-                            interactionSource = cancelInteractionSource,
                             modifier = Modifier.weight(1f)
                         )
                         Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(CertiTheme.colors.gray100))
@@ -81,7 +75,6 @@ fun CertiDeleteDialog(
                             text = stringResource(R.string.delete_dialog_confirm),
                             textColor = CertiTheme.colors.purpleBlue,
                             onClick = onConfirm,
-                            interactionSource = confirmInteractionSource,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -96,15 +89,17 @@ fun DialogButton(
     text: String,
     textColor: Color,
     onClick: () -> Unit,
-    interactionSource: MutableInteractionSource,
     modifier: Modifier = Modifier
 ) {
-    val isPressed by interactionSource.collectIsPressedAsState()
+    var isPressed by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
             .background(if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.white)
-            .noRippleClickable(onClick, interactionSource),
+            .pressedClickable(
+                changePressed = { isPressed = it },
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
