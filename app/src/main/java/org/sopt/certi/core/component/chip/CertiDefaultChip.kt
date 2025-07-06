@@ -11,12 +11,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertiDefaultChip(
+fun CertiChipSet(
+    chipTexts: List<String>,
+    modifier: Modifier = Modifier,
+    spacing: Dp = 4.dp  // 기본값
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(spacing)
+    ) {
+        chipTexts.forEach { text ->
+            CertiDefaultChip(text = text)
+        }
+    }
+}
+
+@Composable
+private fun CertiDefaultChip(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -36,16 +53,8 @@ fun CertiDefaultChip(
 
 @Preview(showBackground = true)
 @Composable
-fun CertiDefaultChipPreview() {
+fun CertiChipSetPreview() {
     CERTITheme {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
-            CertiDefaultChip(text = "컴퓨터공학")
-            CertiDefaultChip(text = "시각디자인")
-            CertiDefaultChip(text = "경영")
-        }
+        CertiChipSet(chipTexts = listOf("컴퓨터공학", "시각디자인", "경영"))
     }
 }
