@@ -1,4 +1,4 @@
-package org.sopt.certi.core.component
+package org.sopt.certi.core.component.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,7 +33,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun DeleteDialog(
+fun CertiDeleteDialog(
     showDialog: Boolean = false,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
@@ -121,7 +121,7 @@ fun DialogButton(
 fun DeleteDialogPreview() {
     var showDialog by remember { mutableStateOf(true) }
     CERTITheme {
-        DeleteDialog(
+        CertiDeleteDialog(
             showDialog = showDialog,
             onConfirm = { },
             onDismiss = { showDialog = false }
