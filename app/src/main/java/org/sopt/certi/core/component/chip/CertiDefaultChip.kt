@@ -17,8 +17,8 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertiChipSet(
-    chipTexts: List<String>,
+fun CertiChipList(
+    categories: List<String>,
     modifier: Modifier = Modifier,
     spacing: Dp = 4.dp // 기본값
 ) {
@@ -26,7 +26,7 @@ fun CertiChipSet(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(spacing)
     ) {
-        chipTexts.forEach { text ->
+        categories.forEach { text ->
             CertiDefaultChip(text = text)
         }
     }
@@ -55,6 +55,6 @@ private fun CertiDefaultChip(
 @Composable
 fun CertiChipSetPreview() {
     CERTITheme {
-        CertiChipSet(chipTexts = listOf("컴퓨터공학", "시각디자인", "경영"))
+        CertiChipList(categories = listOf("컴퓨터공학", "시각디자인", "경영"))
     }
 }
