@@ -9,4 +9,10 @@
 
     <!-- textfield -->
     <string name="textfield_placeholder">검색어를 입력해주세요.</string>
+
+    <!-- Delete Dialog -->
+    <string name="delete_dialog_title">삭제하시겠습니까?</string>
+    <string name="delete_dialog_description">삭제하게 되면 복구할 수 없어요.</string>
+    <string name="delete_dialog_confirm">확인</string>
+    <string name="delete_dialog_cancel">취소</string>
 </resources>
