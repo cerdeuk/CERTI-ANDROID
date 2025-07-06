@@ -14,8 +14,8 @@ import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun CertiTopBar(){
-    Row (
+fun CertiTopBar() {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
@@ -30,7 +30,7 @@ fun CertiTopBar(){
 
 @Preview(showBackground = true)
 @Composable
-fun CertiTopBarPreview(){
+fun CertiTopBarPreview() {
     CERTITheme {
         CertiTopBar()
     }
