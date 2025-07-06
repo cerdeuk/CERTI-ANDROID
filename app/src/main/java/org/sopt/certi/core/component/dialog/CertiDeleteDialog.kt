@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,52 +32,57 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CertiDeleteDialog(
-    showDialog: Boolean = false,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    onConfirmClick: () -> Unit,
+    onDismissClick: () -> Unit,
     title: String = stringResource(R.string.delete_dialog_title),
     description: String = stringResource(R.string.delete_dialog_description)
 ) {
-    if (showDialog) {
-        Dialog(onDismissRequest = onDismiss) {
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = CertiTheme.colors.white
+    Dialog(onDismissRequest = onDismissClick) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = CertiTheme.colors.white
+        ) {
+            Column(
+                modifier = Modifier.padding(top = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier.padding(top = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Text(
+                    text = title,
+                    style = CertiTheme.typography.body.semibold_18,
+                    color = CertiTheme.colors.gray600,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Text(
+                    text = description,
+                    style = CertiTheme.typography.caption.regular_14,
+                    color = CertiTheme.colors.gray600,
+                    modifier = Modifier.padding(bottom = 26.dp)
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = CertiTheme.colors.gray100
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Max)
                 ) {
-                    Text(
-                        text = title,
-                        style = CertiTheme.typography.body.semibold_18,
-                        color = CertiTheme.colors.gray600,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                    DialogButton(
+                        text = stringResource(R.string.delete_dialog_cancel),
+                        textColor = CertiTheme.colors.black,
+                        onClick = onDismissClick,
+                        modifier = Modifier.weight(1f)
                     )
-                    Text(
-                        text = description,
-                        style = CertiTheme.typography.caption.regular_14,
-                        color = CertiTheme.colors.gray600,
-                        modifier = Modifier.padding(bottom = 26.dp)
+                    VerticalDivider(
+                        thickness = 1.dp,
+                        color = CertiTheme.colors.gray100
                     )
-                    Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(CertiTheme.colors.gray100))
-                    Row(
-                        modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max)
-                    ) {
-                        DialogButton(
-                            text = stringResource(R.string.delete_dialog_cancel),
-                            textColor = CertiTheme.colors.black,
-                            onClick = onDismiss,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(CertiTheme.colors.gray100))
-                        DialogButton(
-                            text = stringResource(R.string.delete_dialog_confirm),
-                            textColor = CertiTheme.colors.purpleBlue,
-                            onClick = onConfirm,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
+                    DialogButton(
+                        text = stringResource(R.string.delete_dialog_confirm),
+                        textColor = CertiTheme.colors.purpleBlue,
+                        onClick = onConfirmClick,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }
@@ -116,10 +121,11 @@ fun DialogButton(
 fun DeleteDialogPreview() {
     var showDialog by remember { mutableStateOf(true) }
     CERTITheme {
-        CertiDeleteDialog(
-            showDialog = showDialog,
-            onConfirm = { },
-            onDismiss = { showDialog = false }
-        )
+        if(showDialog){
+            CertiDeleteDialog(
+                onConfirmClick = { },
+                onDismissClick = { showDialog = false }
+            )
+        }
     }
 }
