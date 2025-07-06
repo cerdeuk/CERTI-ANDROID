@@ -20,7 +20,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CertiChipSet(
     chipTexts: List<String>,
     modifier: Modifier = Modifier,
-    spacing: Dp = 4.dp  // 기본값
+    spacing: Dp = 4.dp // 기본값
 ) {
     Row(
         modifier = modifier,
