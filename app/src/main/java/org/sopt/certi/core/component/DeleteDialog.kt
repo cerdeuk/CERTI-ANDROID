@@ -31,16 +31,16 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun DeleteDialog(
-    showDialog:Boolean = false,
-    onConfirm: ()->Unit,
-    onDismiss: ()->Unit,
+    showDialog: Boolean = false,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
     title: String = stringResource(R.string.delete_dialog_title),
     description: String = stringResource(R.string.delete_dialog_description)
-){
+) {
     val cancelInteractionSource = remember { MutableInteractionSource() }
     val confirmInteractionSource = remember { MutableInteractionSource() }
 
-    if (showDialog){
+    if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Surface(
                 shape = RoundedCornerShape(12.dp),
@@ -93,14 +93,14 @@ fun DialogButton(
     onClick: () -> Unit,
     interactionSource: MutableInteractionSource,
     modifier: Modifier = Modifier
-){
+) {
     val isPressed by interactionSource.collectIsPressedAsState()
 
     Box(
         modifier = modifier
-                .border(1.dp, CertiTheme.colors.gray100)
-                .background(if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.white)
-                .noRippleClickable(onClick, interactionSource),
+            .border(1.dp, CertiTheme.colors.gray100)
+            .background(if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.white)
+            .noRippleClickable(onClick, interactionSource),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -114,13 +114,13 @@ fun DialogButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DeleteDialogPreview(){
+fun DeleteDialogPreview() {
     var showDialog by remember { mutableStateOf(true) }
     CERTITheme {
         DeleteDialog(
             showDialog = showDialog,
-            onConfirm = {  },
-            onDismiss = {showDialog = false}
+            onConfirm = { },
+            onDismiss = { showDialog = false }
         )
     }
 }
