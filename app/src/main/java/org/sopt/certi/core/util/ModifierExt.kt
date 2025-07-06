@@ -14,11 +14,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 inline fun Modifier.noRippleClickable(
-    crossinline onClick: () -> Unit
+    crossinline onClick: () -> Unit,
+    mutableInteractionSource: MutableInteractionSource? = null
 ): Modifier = composed {
+    val interactionSource = mutableInteractionSource ?: remember { MutableInteractionSource() }
     clickable(
         indication = null,
-        interactionSource = remember { MutableInteractionSource() }
+        interactionSource = interactionSource
     ) {
         onClick()
     }
