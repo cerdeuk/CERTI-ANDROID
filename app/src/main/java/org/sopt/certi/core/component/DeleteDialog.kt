@@ -1,14 +1,17 @@
 package org.sopt.certi.core.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -62,8 +65,9 @@ fun DeleteDialog(
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(bottom = 26.dp)
                     )
+                    Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(CertiTheme.colors.gray100))
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max)
                     ) {
                         DialogButton(
                             text = stringResource(R.string.delete_dialog_cancel),
@@ -72,6 +76,7 @@ fun DeleteDialog(
                             interactionSource = cancelInteractionSource,
                             modifier = Modifier.weight(1f)
                         )
+                        Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(CertiTheme.colors.gray100))
                         DialogButton(
                             text = stringResource(R.string.delete_dialog_confirm),
                             textColor = CertiTheme.colors.purpleBlue,
@@ -98,7 +103,6 @@ fun DialogButton(
 
     Box(
         modifier = modifier
-            .border(1.dp, CertiTheme.colors.gray100)
             .background(if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.white)
             .noRippleClickable(onClick, interactionSource),
         contentAlignment = Alignment.Center
