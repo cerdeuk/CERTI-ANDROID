@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CERTI</string>
+
+    <!-- MainBottomNavBar -->
+    <string name="main_bottom_navbar_home">홈</string>
+    <string name="main_bottom_navbar_category">카테고리</string>
+    <string name="main_bottom_navbar_recommend">추천</string>
+    <string name="main_bottom_navbar_resume">이력서</string>
 </resources>
