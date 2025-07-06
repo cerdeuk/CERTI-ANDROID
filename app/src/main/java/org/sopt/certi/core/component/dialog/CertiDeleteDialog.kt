@@ -121,7 +121,7 @@ fun DialogButton(
 fun DeleteDialogPreview() {
     var showDialog by remember { mutableStateOf(true) }
     CERTITheme {
-        if(showDialog){
+        if (showDialog) {
             CertiDeleteDialog(
                 onConfirmClick = { },
                 onDismissClick = { showDialog = false }
