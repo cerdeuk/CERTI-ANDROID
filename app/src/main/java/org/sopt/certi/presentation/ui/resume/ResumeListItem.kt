@@ -68,7 +68,7 @@ fun ResumeListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeItemPreview() {
+fun ResumeListItemPreview() {
     CERTITheme {
         Column {
             ResumeListItem(
