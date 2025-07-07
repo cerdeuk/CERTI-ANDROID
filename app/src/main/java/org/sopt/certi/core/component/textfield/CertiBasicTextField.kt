@@ -35,7 +35,7 @@ fun CertiBasicTextField(
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String = stringResource(id = R.string.textfield_placeholder),
-    maxLength: Int = 20
+    maxLength: Int = 30
 ) {
     Row(
         modifier = modifier
