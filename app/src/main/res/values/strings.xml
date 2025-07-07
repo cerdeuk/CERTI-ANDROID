@@ -15,4 +15,8 @@
     <string name="delete_dialog_description">삭제하게 되면 복구할 수 없어요.</string>
     <string name="delete_dialog_confirm">확인</string>
     <string name="delete_dialog_cancel">취소</string>
+
+    <!-- ReselectInterestedChip -->
+    <string name="reselect_interested_chip_text">희망분야 재설정하기</string>"
+
 </resources>
