@@ -40,16 +40,15 @@ fun SocialLoginButton(
                 color = CertiTheme.colors.gray200,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .noRippleClickable(onButtonClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(id = socialLoginType.icon),
             contentDescription = null,
-            modifier = Modifier
-                .size(22.dp)
-                .noRippleClickable(onButtonClick)
+            modifier = Modifier.size(22.dp)
         )
 
         Text(
