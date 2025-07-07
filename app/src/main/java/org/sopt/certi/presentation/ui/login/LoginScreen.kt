@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,9 +36,13 @@ fun LoginRoute(
     navigateToHome: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
     LoginScreen(
         padding = padding,
-        onKakaoLoginClick = {},
+        onKakaoLoginClick = {
+            viewModel.loginWithKakao(context)
+        },
         onGoogleLoginClick = { navigateToHome() }
     )
 }
@@ -76,9 +81,18 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             BouncingImage(
-                resId = R.drawable.img_login,
+                resId = R.drawable.img_bouncing_login,
                 heightRatio = 0.38f,
                 widthRatio = 0.7f
+            )
+
+            Image(
+                painter = painterResource(id = R.drawable.img_login_shadow),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(top = 28.dp)
+                    .height((LocalConfiguration.current.screenHeightDp * 0.025f).dp)
+                    .width((LocalConfiguration.current.screenWidthDp * 0.47f).dp)
             )
         }
 
