@@ -1,14 +1,26 @@
 package org.sopt.certi.presentation.ui.splash
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun SplashRoute(
@@ -30,7 +42,22 @@ fun SplashRoute(
 fun SplashScreen(
     padding: PaddingValues
 ) {
-    Text(text = "Splash")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+            .background(color = CertiTheme.colors.purpleBlue)
+            .padding(top = 236.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_splash_logo),
+            contentDescription = null,
+            modifier = Modifier
+                .heightForScreenPercentage(0.11f)
+                .widthForScreenPercentage(0.73f)
+        )
+    }
 }
 
 @Preview(showBackground = true)

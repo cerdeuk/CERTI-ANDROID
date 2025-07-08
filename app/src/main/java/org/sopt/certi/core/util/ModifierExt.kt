@@ -5,8 +5,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -74,4 +78,16 @@ inline fun Modifier.pressedClickable(
             }
         )
     }
+}
+
+@Composable
+fun Modifier.heightForScreenPercentage(percentage: Float): Modifier {
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    return this.height(screenHeight * percentage)
+}
+
+@Composable
+fun Modifier.widthForScreenPercentage(percentage: Float): Modifier {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    return this.width(screenWidth * percentage)
 }

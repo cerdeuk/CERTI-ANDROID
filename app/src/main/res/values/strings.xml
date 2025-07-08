@@ -23,7 +23,12 @@
 
     <!--Home Screen -->
     <string name="home_user_info_name">안녕하세요, %1$s님!</string>
-    <string name="home_fill_resume">회원님의 이력서를 채워보세요!</string>
     <string name="home_fill_completed">회원님의 이력서가 %1$d%% 채워졌어요!</string>
+
+    <!-- ReselectInterestedChip -->
+    <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
+
+    <!-- Resume ResumeListItem -->
+    <string name="resumelistitem_period">%s ~ %s</string>
 
 </resources>
