@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -29,14 +28,14 @@ import org.sopt.certi.ui.theme.White
 @Composable
 fun AcquiredButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
             .background(
-                color = if(isPressed) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue,
+                color = if (isPressed) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue,
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
@@ -62,18 +61,18 @@ fun AcquiredButton(
 @Composable
 fun AcquiredExpectedButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
             .background(
-                color = if(isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.blueWhite,
+                color = if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.blueWhite,
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
-            .border(width = 1.dp, color = if(isPressed) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue, shape = RoundedCornerShape(12.dp))
+            .border(width = 1.dp, color = if (isPressed) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue, shape = RoundedCornerShape(12.dp))
             .pressedClickable(
                 changePressed = {
                     isPressed = it
