@@ -40,9 +40,10 @@ fun PreCertificationItem(
             .width(200.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = CertiTheme.colors.white),
+            containerColor = CertiTheme.colors.white
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) {
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 12.dp, vertical = 14.dp)
