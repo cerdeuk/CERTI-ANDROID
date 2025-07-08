@@ -28,6 +28,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties["certi.base.url"].toString())
+
+        val kakaoNativeAppKey = properties["kakao.native.app.key"].toString()
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoNativeAppKey\"")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = kakaoNativeAppKey
     }
 
     buildTypes {
@@ -97,6 +101,9 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+
+    // Kakao
+    implementation(libs.kakao.user)
 }
 
 ktlint {
