@@ -27,10 +27,11 @@ fun ResumeTextField(
     value:String,
     onValueChange:(String)->Unit,
     modifier: Modifier = Modifier,
-    placeholder:String = stringResource(R.string.resume_textfield_placeholder)
+    placeholder:String = stringResource(R.string.resume_textfield_placeholder),
+    maxLength: Int
 ){
     BasicTextField(
-        value = value.take(10),
+        value = value.take(maxLength),
         onValueChange = onValueChange,
         modifier = modifier.fillMaxWidth(),
         textStyle = CertiTheme.typography.caption.semibold_14.copy(
@@ -60,7 +61,7 @@ fun ResumeTextField(
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = stringResource(R.string.resume_textfield_caption, value.length),
+                        text = stringResource(R.string.resume_textfield_caption, value.length, maxLength),
                         style = CertiTheme.typography.caption.semibold_14,
                         color = CertiTheme.colors.gray200
                     )
@@ -75,6 +76,10 @@ fun ResumeTextField(
 fun ResumeTextFieldPreview(){
     var text = remember { mutableStateOf("") }
     CERTITheme {
-        ResumeTextField(text.value, {text.value = it})
+        ResumeTextField(
+            value = text.value,
+            onValueChange = {text.value = it},
+            maxLength = 16
+        )
     }
 }
