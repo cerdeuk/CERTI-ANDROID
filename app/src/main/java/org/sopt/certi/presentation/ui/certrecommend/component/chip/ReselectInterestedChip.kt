@@ -1,4 +1,4 @@
-package org.sopt.certi.core.component.chip
+package org.sopt.certi.presentation.ui.certrecommend.component.chip
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
