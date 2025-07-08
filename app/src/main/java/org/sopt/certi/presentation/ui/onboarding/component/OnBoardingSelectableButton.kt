@@ -27,9 +27,11 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun OnBoardingSelectableButtons(
     selectableButtonType: SelectableButtonType,
-    onOptionSelected: (String) -> Unit,
+    selectedOptions: List<String>,
+    onOptionsChanged: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: String? = null
+    isMultiple: Boolean = false,
+    maxSelect: Int = 1
 ) {
     val chunkedOptions = selectableButtonType.options.chunked(size = selectableButtonType.chunkedSize)
 
@@ -41,11 +43,22 @@ fun OnBoardingSelectableButtons(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 rowOptions.forEach { option ->
+                    val isSelected = option in selectedOptions
                     OnBoardingSelectableButton(
                         selectableButtonType = selectableButtonType,
                         option = option,
-                        onClick = { onOptionSelected(option) },
-                        isSelected = option == selectedOption,
+                        onClick = {
+                            if (isMultiple) {
+                                if (isSelected) {
+                                    onOptionsChanged(selectedOptions - option)
+                                } else if (selectedOptions.size < maxSelect) {
+                                    onOptionsChanged(selectedOptions + option)
+                                }
+                            } else {
+                                onOptionsChanged(listOf(option))
+                            }
+                        },
+                        isSelected = isSelected,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -93,11 +106,14 @@ private fun OnBoardingSelectableButton(
 @Composable
 private fun PreviewOnBoardingSelectableButtonCategory() {
     CERTITheme {
-        var selectedOption by remember { mutableStateOf("") }
+        var selectedOptions by remember { mutableStateOf<List<String>>(emptyList()) }
+
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.CATEGORY,
-            onOptionSelected = { option -> selectedOption = option },
-            selectedOption = selectedOption
+            selectedOptions = selectedOptions,
+            isMultiple = true,
+            maxSelect = 3,
+            onOptionsChanged = { selectedOptions = it }
         )
     }
 }
@@ -109,8 +125,9 @@ private fun PreviewOnBoardingSelectableButtonTrack() {
         var selectedOption by remember { mutableStateOf("") }
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.TRACK,
-            onOptionSelected = { option -> selectedOption = option },
-            selectedOption = selectedOption
+            selectedOptions = listOfNotNull(selectedOption),
+            isMultiple = false,
+            onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
         )
     }
 }
@@ -122,8 +139,10 @@ private fun PreviewOnBoardingSelectableButtonGrade() {
         var selectedOption by remember { mutableStateOf("") }
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.GRADE,
-            onOptionSelected = { option -> selectedOption = option },
-            selectedOption = selectedOption
+            selectedOptions =
+                listOfNotNull(selectedOption),
+            isMultiple = false,
+            onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
         )
     }
 }
