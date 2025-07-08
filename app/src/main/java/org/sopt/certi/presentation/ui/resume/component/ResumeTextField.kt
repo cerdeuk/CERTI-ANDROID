@@ -24,15 +24,17 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeTextField(
-    value:String,
-    onValueChange:(String)->Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     maxLength: Int,
     modifier: Modifier = Modifier,
-    placeholder:String = stringResource(R.string.resume_textfield_placeholder),
-){
+    placeholder: String = stringResource(R.string.resume_textfield_placeholder)
+) {
     BasicTextField(
         value = value.take(maxLength),
-        onValueChange = onValueChange,
+        onValueChange = {
+            if (it.length <= maxLength) onValueChange(it)
+        },
         modifier = modifier.fillMaxWidth(),
         textStyle = CertiTheme.typography.caption.semibold_14.copy(
             color = CertiTheme.colors.gray600
@@ -73,12 +75,12 @@ fun ResumeTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeTextFieldPreview(){
+fun ResumeTextFieldPreview() {
     var text = remember { mutableStateOf("") }
     CERTITheme {
         ResumeTextField(
             value = text.value,
-            onValueChange = {text.value = it},
+            onValueChange = { text.value = it },
             maxLength = 16
         )
     }

@@ -18,9 +18,9 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeInputTitle(
-    title:String
-){
-    Row (
+    title: String
+) {
+    Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -38,7 +38,7 @@ fun ResumeInputTitle(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeInputTitlePreview(){
+fun ResumeInputTitlePreview() {
     CERTITheme {
         ResumeInputTitle(title = "근무회사")
     }

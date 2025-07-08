@@ -14,19 +14,19 @@ import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
 fun ResumeInputSection(
-    title:String,
-    value:String,
-    onValueChange:(String)->Unit,
+    title: String,
+    value: String,
+    onValueChange: (String) -> Unit,
     maxLength: Int,
-    modifier:Modifier = Modifier
-){
-    Column (
+    modifier: Modifier = Modifier
+) {
+    Column(
         modifier = modifier.fillMaxWidth()
     ) {
         ResumeInputTitle(title)
         Spacer(modifier = Modifier.height(24.dp))
         ResumeTextField(
-            value =value,
+            value = value,
             onValueChange = onValueChange,
             maxLength = maxLength
         )
@@ -35,13 +35,13 @@ fun ResumeInputSection(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeInputSectionPreview(){
+fun ResumeInputSectionPreview() {
     var text = remember { mutableStateOf("") }
     CERTITheme {
         ResumeInputSection(
             title = "근무회사",
             value = text.value,
-            onValueChange = {text.value = it},
+            onValueChange = { text.value = it },
             maxLength = 10
         )
     }
