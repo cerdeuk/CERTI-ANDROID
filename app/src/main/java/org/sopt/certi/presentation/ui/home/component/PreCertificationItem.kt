@@ -24,6 +24,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
 fun PreCertificationItem(
@@ -100,12 +101,7 @@ fun PreCertificationItem(
                 }
                 Image(
                     painter = painterResource(
-                        id = when (preCertificationData.emojiIndex) {
-                            0 -> R.drawable.ic_certi_emogi_50_1
-                            1 -> R.drawable.ic_certi_emoji_50_2
-                            2 -> R.drawable.ic_certi_emoji_50_3
-                            else -> R.drawable.ic_certi_emogi_50_1
-                        }
+                        id = CertiEmojiType.fromIndex(preCertificationData.emojiIndex).resId
                     ),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
