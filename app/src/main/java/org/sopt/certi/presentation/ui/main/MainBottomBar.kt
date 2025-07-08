@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -53,7 +54,7 @@ fun MainBottomBar(
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height((LocalConfiguration.current.screenHeightDp * 0.064f).dp)
+                    .heightForScreenPercentage(0.064f)
             ) {
                 tabs.forEach { tab ->
                     MainBottomBarItem(

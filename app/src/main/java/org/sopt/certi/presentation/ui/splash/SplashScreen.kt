@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -55,8 +57,8 @@ fun SplashScreen(
             painter = painterResource(id = R.drawable.img_splash_logo),
             contentDescription = null,
             modifier = Modifier
-                .height((LocalConfiguration.current.screenHeightDp * 0.11f).dp)
-                .width((LocalConfiguration.current.screenWidthDp * 0.73f).dp)
+                .heightForScreenPercentage(0.11f)
+                .widthForScreenPercentage(0.73f)
         )
     }
 }

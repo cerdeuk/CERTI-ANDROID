@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.type.SocialLoginType
 import org.sopt.certi.presentation.ui.login.component.BouncingImage
 import org.sopt.certi.presentation.ui.login.component.SocialLoginButton
@@ -68,8 +70,8 @@ fun LoginScreen(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(bottom = 20.dp)
-                    .height((LocalConfiguration.current.screenHeightDp * 0.056f).dp)
-                    .width((LocalConfiguration.current.screenWidthDp * 0.36f).dp),
+                    .heightForScreenPercentage(0.056f)
+                    .widthForScreenPercentage(0.36f),
                 contentScale = ContentScale.Fit
             )
 
@@ -91,8 +93,8 @@ fun LoginScreen(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 28.dp)
-                    .height((LocalConfiguration.current.screenHeightDp * 0.025f).dp)
-                    .width((LocalConfiguration.current.screenWidthDp * 0.47f).dp)
+                    .heightForScreenPercentage(0.025f)
+                    .widthForScreenPercentage(0.47f)
             )
         }
 
