@@ -64,11 +64,11 @@ fun PreCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(19.dp)
+                horizontalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(vertical = 5.dp),
+                        .padding(vertical = 6.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Row(
