@@ -49,6 +49,9 @@ fun OnBoardingSelectableButtons(
                         modifier = Modifier.weight(1f)
                     )
                 }
+                repeat(selectableButtonType.chunkedSize - rowOptions.size) {
+                    Spacer(Modifier.weight(1f))
+                }
             }
             if (selectableButtonType == SelectableButtonType.CATEGORY) {
                 Spacer(modifier = Modifier.height(14.dp))
