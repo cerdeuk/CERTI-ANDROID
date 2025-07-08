@@ -23,7 +23,6 @@ import org.sopt.certi.R
 import org.sopt.certi.domain.model.PreCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -34,9 +33,7 @@ fun PreCertificationItem(
 ) {
     Card(
         modifier = modifier
-            .background(color = CertiTheme.colors.white)
-            .height(132.dp)
-            .width(200.dp),
+            .background(color = CertiTheme.colors.white),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = CertiTheme.colors.white
@@ -62,8 +59,6 @@ fun PreCertificationItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 Column(
