@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
 fun PreCertificationItem(
@@ -106,10 +105,18 @@ fun PreCertificationItem(
                     }
                 }
                 Image(
-                    painter = painterResource(id = CertiEmojiType.fromId(preCertificationData.certificationId).resId),
+                    painter = painterResource(
+                        id = when (preCertificationData.emojiIndex) {
+                            0 -> R.drawable.ic_certi_emogi_50_1
+                            1 -> R.drawable.ic_certi_emoji_50_2
+                            2 -> R.drawable.ic_certi_emoji_50_3
+                            else -> R.drawable.ic_certi_emogi_50_1
+                        }
+                    ),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )
+
             }
         }
     }
@@ -124,7 +131,8 @@ fun PreCertificationItemPreview1() {
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
             testDate = "2025.08.12",
-            agencyName = "한국산업인력공단"
+            agencyName = "한국산업인력공단",
+            emojiIndex = 0
         ),
         modifier = Modifier.padding(16.dp)
     )
@@ -135,11 +143,28 @@ fun PreCertificationItemPreview1() {
 fun PreCertificationItemPreview2() {
     PreCertificationItem(
         preCertificationData = PreCertificationData(
-            certificationId = 2,
+            certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
             testDate = "2025.08.12",
-            agencyName = "한국산업인력공단"
+            agencyName = "한국산업인력공단",
+            emojiIndex = 1
+        ),
+        modifier = Modifier.padding(16.dp)
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreCertificationItemPreview3() {
+    PreCertificationItem(
+        preCertificationData = PreCertificationData(
+            certificationId = 1,
+            certificationName = "시각디자인산업기사",
+            averagePeriod = "3개월",
+            testDate = "2025.08.12",
+            agencyName = "한국산업인력공단",
+            emojiIndex = 2
         ),
         modifier = Modifier.padding(16.dp)
     )
