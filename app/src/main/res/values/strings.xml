@@ -26,4 +26,9 @@
 
     <!-- Resume ResumeListItem -->
     <string name="resumelistitem_period">%s ~ %s</string>
+    
+    <!-- CertDetailScreen -->
+    <string name="cert_detail_acquired_button_text">취득 완료</string>
+    <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
+
 </resources>
