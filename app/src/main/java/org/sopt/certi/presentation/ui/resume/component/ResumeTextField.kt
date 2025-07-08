@@ -26,9 +26,9 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeTextField(
     value:String,
     onValueChange:(String)->Unit,
+    maxLength: Int,
     modifier: Modifier = Modifier,
     placeholder:String = stringResource(R.string.resume_textfield_placeholder),
-    maxLength: Int
 ){
     BasicTextField(
         value = value.take(maxLength),

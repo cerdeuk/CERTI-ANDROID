@@ -32,5 +32,5 @@
 
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
-    <string name="resume_textfield_caption">%d/10</string>
+    <string name="resume_textfield_caption">%d/%d</string>
 </resources>
