@@ -32,8 +32,6 @@ fun RecommendFilterSelectableButton(
 
     Box(
         modifier = modifier
-            .width(100.dp)
-            .height(46.dp)
             .background(
                 color = if (isSelected) CertiTheme.colors.lightBlue else CertiTheme.colors.white,
                 shape = RoundedCornerShape(12.dp)
@@ -41,7 +39,7 @@ fun RecommendFilterSelectableButton(
             .clip(RoundedCornerShape(12.dp))
             .border(
                 width = 1.dp,
-                color = if (isSelected) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue,
+                color = if (isSelected) CertiTheme.colors.skyBlue else CertiTheme.colors.lightPurple,
                 shape = RoundedCornerShape(12.dp)
             )
             .noRippleClickable {
@@ -54,7 +52,7 @@ fun RecommendFilterSelectableButton(
             text = categoryType.description,
             style = CertiTheme.typography.caption.semibold_12,
             color = CertiTheme.colors.purpleBlue,
-            modifier = Modifier.padding(vertical = 12.dp)
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 10.dp)
         )
     }
 }
@@ -62,5 +60,8 @@ fun RecommendFilterSelectableButton(
 @Preview
 @Composable
 fun RecommendFilterSelectableButtonPreview() {
-    RecommendFilterSelectableButton(categoryType = CategoryType.MARKETING, onClick = {})
+    RecommendFilterSelectableButton(
+        categoryType = CategoryType.MARKETING,
+        onClick = {}
+    )
 }
