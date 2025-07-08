@@ -24,6 +24,9 @@
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
 
-    <!-- Resume ResumeListItem -->
+    <!-- ResumeListItem -->
     <string name="resumelistitem_period">%s ~ %s</string>
+
+    <!-- ResumeProfile -->
+    <string name="resume_profile">희망직무</string>
 </resources>
