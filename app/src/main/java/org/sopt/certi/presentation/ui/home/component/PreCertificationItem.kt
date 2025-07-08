@@ -24,6 +24,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
@@ -74,7 +76,10 @@ fun PreCertificationItem(
                             painter = painterResource(R.drawable.ic_date_16),
                             contentDescription = null,
                             tint = CertiTheme.colors.gray400,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier
+                                .widthForScreenPercentage(0.0444f)
+                                .heightForScreenPercentage(0.0205f)
+
                         )
                         Text(
                             text = preCertificationData.testDate,
@@ -90,7 +95,9 @@ fun PreCertificationItem(
                             painter = painterResource(R.drawable.ic_certification_16),
                             contentDescription = null,
                             tint = CertiTheme.colors.gray400,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier
+                                .widthForScreenPercentage(0.0444f)
+                                .heightForScreenPercentage(0.0205f)
                         )
                         Text(
                             text = preCertificationData.agencyName,
@@ -104,7 +111,9 @@ fun PreCertificationItem(
                         id = CertiEmojiType.fromIndex(preCertificationData.emojiIndex).resId
                     ),
                     contentDescription = null,
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier
+                        .widthForScreenPercentage(0.1389f)
+                        .heightForScreenPercentage(0.0641f)
                 )
             }
         }
