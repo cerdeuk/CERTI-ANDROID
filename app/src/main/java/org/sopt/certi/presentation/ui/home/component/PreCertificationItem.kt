@@ -116,7 +116,6 @@ fun PreCertificationItem(
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )
-
             }
         }
     }
