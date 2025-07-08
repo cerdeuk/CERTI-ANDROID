@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.certi.ui.theme.CERTITheme
-import timber.log.Timber
-import com.kakao.sdk.common.util.Utility
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

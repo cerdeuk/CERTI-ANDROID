@@ -59,6 +59,7 @@ fun UserInfoSection(
             color = CertiTheme.colors.gray600
         )
         Spacer(modifier = Modifier.height(24.dp))
+
         Row(
             modifier = Modifier
                 .padding(vertical = 3.dp)
@@ -83,13 +84,13 @@ fun UserInfoSection(
                     .fillMaxHeight()
                     .padding(vertical = 19.dp),
                 color = CertiTheme.colors.gray100,
-                thickness = 2.dp,
+                thickness = 2.dp
 
             )
             Spacer(modifier = Modifier.width(8.dp))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
                     text = userInfoData.university,
@@ -104,6 +105,7 @@ fun UserInfoSection(
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
