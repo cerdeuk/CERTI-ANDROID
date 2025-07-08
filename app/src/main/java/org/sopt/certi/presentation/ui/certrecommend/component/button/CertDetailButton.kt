@@ -39,14 +39,11 @@ fun AcquiredButton(
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
-            .pressedClickable(
-                changePressed = {
-                    isPressed = it
-                },
-                onClick = {
+            .pressedClickable(changePressed = {
+                isPressed = it
+            }, onClick = {
                     onClick.invoke()
-                }
-            ),
+                }),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -72,15 +69,16 @@ fun AcquiredExpectedButton(
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
-            .border(width = 1.dp, color = if (isPressed) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue, shape = RoundedCornerShape(12.dp))
-            .pressedClickable(
-                changePressed = {
-                    isPressed = it
-                },
-                onClick = {
+            .border(
+                width = 1.dp,
+                color = if (isPressed) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .pressedClickable(changePressed = {
+                isPressed = it
+            }, onClick = {
                     onClick.invoke()
-                }
-            ),
+                }),
         contentAlignment = Alignment.Center
     ) {
         Text(
