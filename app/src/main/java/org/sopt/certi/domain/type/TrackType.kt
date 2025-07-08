@@ -23,5 +23,5 @@ enum class TrackType(
     ),
     ARTS(
         description = "예체능계열"
-    ),
+    )
 }
