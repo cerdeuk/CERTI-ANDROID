@@ -135,13 +135,13 @@ val defaultCertiTypography = CertiTypography(
             fontFamily = PretendardFont.Regular,
             fontSize = 14.sp,
             lineHeight = 19.6.sp,
-            letterSpacing = 0.sp
+            letterSpacing = 0.8.sp
         ),
         semibold_12 = TextStyle(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 12.sp,
             lineHeight = 18.sp, // 150%
-            letterSpacing = 0.8.sp
+            letterSpacing = 0.sp
         ),
         regular_12 = TextStyle(
             fontFamily = PretendardFont.Regular,
