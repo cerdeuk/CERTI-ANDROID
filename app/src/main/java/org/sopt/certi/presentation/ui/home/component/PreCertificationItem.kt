@@ -39,8 +39,10 @@ fun PreCertificationItem(
             .height(132.dp)
             .width(200.dp),
         shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = CertiTheme.colors.white),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
+        ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 12.dp, vertical = 14.dp)
@@ -127,7 +129,7 @@ fun PreCertificationItemPreview1() {
     )
 }
 
-@Preview(showBackground = true, name = "2")
+@Preview(showBackground = true)
 @Composable
 fun PreCertificationItemPreview2() {
     PreCertificationItem(
