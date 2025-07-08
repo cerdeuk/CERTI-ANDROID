@@ -12,11 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -39,8 +40,8 @@ fun ResumeListItem(
             painter = painterResource(R.drawable.img_resume_list_item),
             contentDescription = null,
             modifier = Modifier
-                .width((LocalConfiguration.current.screenWidthDp * 0.1f).dp)
-                .height((LocalConfiguration.current.screenHeightDp * 0.05f).dp)
+                .widthForScreenPercentage(0.1f)
+                .heightForScreenPercentage(0.05f)
         )
         Spacer(modifier = Modifier.width(24.dp))
 
