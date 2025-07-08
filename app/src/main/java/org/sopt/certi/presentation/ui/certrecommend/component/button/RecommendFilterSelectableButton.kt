@@ -15,9 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +35,7 @@ fun RecommendFilterSelectableButton(
             .width(100.dp)
             .height(46.dp)
             .background(
-                color = if(isSelected) CertiTheme.colors.lightBlue else CertiTheme.colors.white,
+                color = if (isSelected) CertiTheme.colors.lightBlue else CertiTheme.colors.white,
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
