@@ -1,26 +1,21 @@
 package org.sopt.certi.presentation.ui.resume.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
-import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeListItem(
@@ -46,34 +41,13 @@ fun ResumeListItem(
         )
         Spacer(modifier = Modifier.width(24.dp))
 
-        Column {
-            Text(
-                text = stringResource(R.string.resumelistitem_period, startAt, endAt),
-                color = CertiTheme.colors.gray500,
-                style = CertiTheme.typography.caption.regular_12
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = organization,
-                color = CertiTheme.colors.gray500,
-                style = CertiTheme.typography.caption.regular_12
-            )
-        }
-        Spacer(modifier = Modifier.width(32.dp))
-
-        Column {
-            Text(
-                text = role,
-                color = CertiTheme.colors.gray600,
-                style = CertiTheme.typography.body.semibold_16
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = description,
-                color = CertiTheme.colors.gray600,
-                style = CertiTheme.typography.caption.regular_12
-            )
-        }
+        ResumeDescriptionSection(
+            startAt = startAt,
+            endAt = endAt,
+            organization = organization,
+            role = role,
+            description = description
+        )
     }
 }
 
