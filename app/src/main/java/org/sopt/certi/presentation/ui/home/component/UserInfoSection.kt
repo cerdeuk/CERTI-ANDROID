@@ -19,6 +19,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -30,7 +31,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.ui.theme.CERTITheme
-
+import androidx.compose.material3.VerticalDivider
 
 @Composable
 fun UserInfoSection(
@@ -54,6 +55,9 @@ fun UserInfoSection(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Row(
+            modifier = Modifier
+                .padding(vertical = 3.dp)
+                .height(IntrinsicSize.Max),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -69,11 +73,13 @@ fun UserInfoSection(
                 color = CertiTheme.colors.gray600
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Box(
+            VerticalDivider(
                 modifier = Modifier
-                    .width(2.dp)
-                    .padding(vertical = 3.dp)
-                    .background(CertiTheme.colors.gray100)
+                    .fillMaxHeight()
+                    .padding(vertical = 19.dp),
+                color = CertiTheme.colors.gray100,
+                thickness = 2.dp,
+
             )
             Spacer(modifier = Modifier.width(8.dp))
 
