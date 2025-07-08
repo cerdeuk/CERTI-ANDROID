@@ -20,13 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.sopt.certi.R
 import org.sopt.certi.core.util.pressedClickable
+import org.sopt.certi.presentation.type.AcquireButtonType
 import org.sopt.certi.ui.theme.CertiTheme
 import org.sopt.certi.ui.theme.White
 
 @Composable
-fun AcquiredButton(
+fun AcquireButton(
+    acquireButtonType: AcquireButtonType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -35,57 +36,28 @@ fun AcquiredButton(
     Box(
         modifier = modifier
             .background(
-                color = if (isPressed) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .clip(RoundedCornerShape(12.dp))
-            .pressedClickable(changePressed = {
-                isPressed = it
-            }, onClick = {
-                    onClick.invoke()
-                }),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = stringResource(R.string.cert_detail_acquired_button_text),
-            style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.white,
-            modifier = Modifier.padding(vertical = 13.dp)
-        )
-    }
-}
-
-@Composable
-fun AcquiredExpectedButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var isPressed by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = modifier
-            .background(
-                color = if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.blueWhite,
+                color = if (isPressed) acquireButtonType.pressedBackgroundColor else acquireButtonType.backgroundColor,
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
             .border(
-                width = 1.dp,
+                width = if (acquireButtonType.borderAvailable) 1.dp else 0.dp,
                 color = if (isPressed) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue,
                 shape = RoundedCornerShape(12.dp)
             )
-            .pressedClickable(changePressed = {
-                isPressed = it
-            }, onClick = {
-                    onClick.invoke()
-                }),
+            .pressedClickable(
+                changePressed = {
+                    isPressed = it
+                },
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.cert_detail_acquire_expected_button_text),
+            text = stringResource(acquireButtonType.buttonText),
             style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.purpleBlue,
-            modifier = Modifier.padding(vertical = 13.dp)
+            color = acquireButtonType.buttonTextColor,
+            modifier = Modifier.padding(vertical = 14.dp)
         )
     }
 }
@@ -97,7 +69,7 @@ fun AcquireButtonPreview() {
         modifier = Modifier.background(color = White),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        AcquiredButton(onClick = {}, modifier = Modifier.fillMaxWidth())
-        AcquiredExpectedButton(onClick = {}, modifier = Modifier.fillMaxWidth())
+        AcquireButton(acquireButtonType = AcquireButtonType.FINISH, onClick = {}, modifier = Modifier.fillMaxWidth())
+        AcquireButton(acquireButtonType = AcquireButtonType.EXPECTED, onClick = {}, modifier = Modifier.fillMaxWidth())
     }
 }
