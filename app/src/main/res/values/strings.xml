@@ -22,6 +22,8 @@
     <string name="delete_dialog_cancel">취소</string>
 
     <!-- ReselectInterestedChip -->
-    <string name="reselect_interested_chip_text">희망분야 재설정하기</string>"
+    <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
 
+    <!-- Resume ResumeListItem -->
+    <string name="resumelistitem_period">%s ~ %s</string>
 </resources>
