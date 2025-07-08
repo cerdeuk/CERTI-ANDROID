@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import org.sopt.certi.R
 import org.sopt.certi.domain.model.PreCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
-import androidx.compose.foundation.layout.size
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.core.util.heightForScreenPercentage
