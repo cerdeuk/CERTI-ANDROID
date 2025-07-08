@@ -43,10 +43,6 @@ fun UserInfoSection(
     } else {
         userInfoData.name
     }
-    val fullText = stringResource(R.string.home_fill_completed, userInfoData.percentage)
-    val percentageText = "${userInfoData.percentage}%"
-    val start = fullText.indexOf(percentageText)
-    val end = start + percentageText.length
 
     Column(
         modifier = modifier
@@ -126,15 +122,15 @@ fun UserInfoSection(
 
         Text(
             text = buildAnnotatedString {
-                append(fullText)
+                append(stringResource(R.string.home_fill_completed, userInfoData.percentage))
                 addStyle(
                     style = SpanStyle(
                         fontSize = CertiTheme.typography.caption.bold_14.fontSize,
                         fontWeight = FontWeight.Bold,
                         color = CertiTheme.colors.mainBlue
                     ),
-                    start = start,
-                    end = end
+                    start = stringResource(R.string.home_fill_completed, userInfoData.percentage).indexOf("${userInfoData.percentage}%"),
+                    end = stringResource(R.string.home_fill_completed, userInfoData.percentage).indexOf("${userInfoData.percentage}%") + "${userInfoData.percentage}%".length
                 )
             },
             style = CertiTheme.typography.caption.regular_14,
