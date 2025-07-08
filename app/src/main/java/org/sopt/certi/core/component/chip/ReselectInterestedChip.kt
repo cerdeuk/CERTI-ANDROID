@@ -22,8 +22,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ReselectInterestedChip(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    chipOnClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -36,9 +36,7 @@ fun ReselectInterestedChip(
                 changePressed = {
                     isPressed = it
                 },
-                onClick = {
-                    onClick()
-                }
+                onClick = chipOnClick
             )
     ) {
         Text(
@@ -54,6 +52,6 @@ fun ReselectInterestedChip(
 @Composable
 fun ReselectInterestedChipPreview() {
     ReselectInterestedChip(
-        onClick = {}
+        chipOnClick = {}
     )
 }
