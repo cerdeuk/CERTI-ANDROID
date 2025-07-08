@@ -37,6 +37,10 @@ fun UserInfoSection(
     userInfoData: UserInfoData,
     modifier: Modifier = Modifier
 ) {
+    val fullText = stringResource(R.string.home_fill_completed, userInfoData.percentage)
+    val percentageText = "${userInfoData.percentage}%"
+    val start = fullText.indexOf(percentageText)
+    val end = start + percentageText.length
 
     Column(
         modifier = modifier
@@ -106,34 +110,37 @@ fun UserInfoSection(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        if (userInfoData.percentage == 0) {
-            Text(
-                text = stringResource(R.string.home_fill_resume),
-                style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray600
-            )
-        } else {
-            val fullText = stringResource(R.string.home_fill_completed, userInfoData.percentage)
-            val percentageText = "${userInfoData.percentage}%"
-            val start = fullText.indexOf(percentageText)
-            val end = start + percentageText.length
 
-            Text(
-                text = buildAnnotatedString {
-                    append(fullText)
-                    addStyle(
-                        style = SpanStyle(
-                            fontSize = CertiTheme.typography.caption.bold_14.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = CertiTheme.colors.mainBlue
-                        ),
-                        start = start,
-                        end = end
-                    )
-                },
-                style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray600
-            )
-        }
+        Text(
+            text = buildAnnotatedString {
+                append(fullText)
+                addStyle(
+                    style = SpanStyle(
+                        fontSize = CertiTheme.typography.caption.bold_14.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        color = CertiTheme.colors.mainBlue
+                    ),
+                    start = start,
+                    end = end
+                )
+            },
+            style = CertiTheme.typography.caption.regular_14,
+            color = CertiTheme.colors.gray600
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewUserInfoSection() {
+    val dummyUserInfo = UserInfoData(
+        name = "김서티",
+        university = "솝트대학교",
+        major = "서티취득학과",
+        percentage = 48
+    )
+
+    CERTITheme {
+        UserInfoSection(userInfoData = dummyUserInfo)
     }
 }
