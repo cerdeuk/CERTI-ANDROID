@@ -38,6 +38,11 @@ fun UserInfoSection(
     userInfoData: UserInfoData,
     modifier: Modifier = Modifier
 ) {
+    val displayName = if (userInfoData.name.length >= 4) {
+        userInfoData.name.take(3) + "…"
+    } else {
+        userInfoData.name
+    }
     val fullText = stringResource(R.string.home_fill_completed, userInfoData.percentage)
     val percentageText = "${userInfoData.percentage}%"
     val start = fullText.indexOf(percentageText)
@@ -49,7 +54,7 @@ fun UserInfoSection(
             .padding(horizontal = 20.dp, vertical = 36.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.home_user_info_name, userInfoData.name),
+            text = stringResource(id = R.string.home_user_info_name, displayName),
             style = CertiTheme.typography.subtitle.bold_20,
             color = CertiTheme.colors.gray600
         )
@@ -68,7 +73,7 @@ fun UserInfoSection(
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = userInfoData.name,
+                text = displayName,
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
@@ -98,7 +103,7 @@ fun UserInfoSection(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -140,7 +145,7 @@ fun UserInfoSection(
 @Composable
 fun PreviewUserInfoSection() {
     val dummyUserInfo = UserInfoData(
-        name = "김서티",
+        name = "김서티야",
         university = "솝트대학교",
         major = "서티취득학과",
         percentage = 48
