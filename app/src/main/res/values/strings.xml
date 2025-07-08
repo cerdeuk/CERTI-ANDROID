@@ -28,5 +28,7 @@
     <string name="resumelistitem_period">%s ~ %s</string>
 
     <!-- ResumeProfile -->
-    <string name="resume_profile">희망직무</string>
+    <string name="resume_profile_title">희망직무</string>
+    <string name="resume_profile_jobs_1">%s · %s</string>
+    <string name="resume_profile_jobs_2">· %s</string>
 </resources>
