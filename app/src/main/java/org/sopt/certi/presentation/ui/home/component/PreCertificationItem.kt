@@ -76,8 +76,8 @@ fun PreCertificationItem(
                             contentDescription = null,
                             tint = CertiTheme.colors.gray400,
                             modifier = Modifier
-                                .widthForScreenPercentage(0.0444f)
-                                .heightForScreenPercentage(0.0205f)
+                                .widthForScreenPercentage(0.044f)
+                                .heightForScreenPercentage(0.02f)
 
                         )
                         Text(
@@ -95,8 +95,8 @@ fun PreCertificationItem(
                             contentDescription = null,
                             tint = CertiTheme.colors.gray400,
                             modifier = Modifier
-                                .widthForScreenPercentage(0.0444f)
-                                .heightForScreenPercentage(0.0205f)
+                                .widthForScreenPercentage(0.044f)
+                                .heightForScreenPercentage(0.02f)
                         )
                         Text(
                             text = preCertificationData.agencyName,
@@ -111,8 +111,8 @@ fun PreCertificationItem(
                     ),
                     contentDescription = null,
                     modifier = Modifier
-                        .widthForScreenPercentage(0.1389f)
-                        .heightForScreenPercentage(0.0641f)
+                        .widthForScreenPercentage(0.138f)
+                        .heightForScreenPercentage(0.064f)
                 )
             }
         }

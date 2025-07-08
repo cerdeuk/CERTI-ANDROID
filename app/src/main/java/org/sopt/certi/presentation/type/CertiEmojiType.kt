@@ -9,13 +9,12 @@ enum class CertiEmojiType(@DrawableRes val resId: Int) {
     EMOJI_3(resId = R.drawable.ic_certi_emoji_50_3);
 
     companion object {
-        fun fromIndex(index: Int): CertiEmojiType {
-            return when (index) {
+        fun fromIndex(index: Int): CertiEmojiType =
+            when (index) {
                 0 -> EMOJI_1
                 1 -> EMOJI_2
                 2 -> EMOJI_3
                 else -> EMOJI_1
             }
-        }
     }
 }
