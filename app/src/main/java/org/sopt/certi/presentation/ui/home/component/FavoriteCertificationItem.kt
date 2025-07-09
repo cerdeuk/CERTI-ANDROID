@@ -79,7 +79,9 @@ fun FavoriteCertificationItem(
             Text(
                 text = favoriteCertificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertiTheme.colors.gray600,
+                maxLines = 2,
+                modifier = Modifier.widthForScreenPercentage(0.261f)
             )
         }
         Column(
@@ -91,7 +93,8 @@ fun FavoriteCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_paper_16),
@@ -110,7 +113,8 @@ fun FavoriteCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_certification_16),
@@ -138,7 +142,7 @@ fun FavoriteCertificationItemPreview() {
     FavoriteCertificationItem(
         favoriteCertificationData = FavoriteCertificationData(
             certificationId = 1,
-            certificationName = "정보처리기사",
+            certificationName = "정보처리기사정보처리기사",
             qualificationType = "국가기술자격",
             testType = "실기형",
             agencyName = "한국산업인력공단"
