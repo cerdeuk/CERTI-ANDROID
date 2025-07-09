@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,14 +27,16 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeCertificationCardSmall(
+fun ResumeCertificationSmallCard(
     name: String,
-    createdAt: String,
+    year: Int,
+    month: Int,
+    day: Int,
     cardImageUrl: String,
     tags: List<String>,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    Box(
         modifier = modifier.clip(RoundedCornerShape(12.dp))
     ) {
         AsyncImage(
@@ -60,7 +61,11 @@ fun ResumeCertificationCardSmall(
             )
             Spacer(modifier = Modifier.height(4.dp))
 
-            FormatAcquisitionDate(createdAt)
+            Text(
+                text = stringResource(id = R.string.resume_certification_card_small, year, month, day),
+                style = CertiTheme.typography.caption.regular_12,
+                color = CertiTheme.colors.gray600
+            )
             Spacer(modifier = Modifier.height(8.dp))
 
             CertiChipList(categories = tags)
@@ -68,30 +73,19 @@ fun ResumeCertificationCardSmall(
     }
 }
 
-@Composable
-fun FormatAcquisitionDate(dateStr: String) {
-    val (year, month, day) = dateStr.split(".").map { it.toInt() }
-
-    val text = stringResource(id = R.string.resume_certification_card_small, year, month, day)
-
-    Text(
-        text = text,
-        style = CertiTheme.typography.caption.regular_12,
-        color = CertiTheme.colors.gray600
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun ResumeCertificationPreview() {
+fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ResumeCertificationCardSmall(
+            ResumeCertificationSmallCard(
                 name = "GTQ 1급 (그래픽기술자격)",
-                createdAt = "2025.07.03",
+                year = 2025,
+                month = 7,
+                day = 3,
                 cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
                 tags = listOf("태그", "태그", "태그")
             )
