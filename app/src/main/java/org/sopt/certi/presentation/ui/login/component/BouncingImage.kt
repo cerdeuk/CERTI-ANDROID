@@ -10,17 +10,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
@@ -30,7 +29,6 @@ fun BouncingImage(
     widthRatio: Float,
     contentDescription: String? = null
 ) {
-    val configuration = LocalConfiguration.current
     val infiniteTransition = rememberInfiniteTransition()
 
     val offsetY = infiniteTransition.animateValue(
@@ -48,8 +46,8 @@ fun BouncingImage(
         contentDescription = contentDescription,
         modifier = Modifier
             .offset(y = offsetY)
-            .height((configuration.screenHeightDp * heightRatio).dp)
-            .width((configuration.screenWidthDp * widthRatio).dp),
+            .heightForScreenPercentage(heightRatio)
+            .widthForScreenPercentage(widthRatio),
         contentScale = ContentScale.Fit
     )
 }

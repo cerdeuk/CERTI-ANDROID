@@ -14,10 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -47,7 +47,7 @@ fun SplashScreen(
             .fillMaxSize()
             .padding(padding)
             .background(color = CertiTheme.colors.purpleBlue)
-            .padding(top = 236.dp),
+            .padding(top = screenHeightDp(0.3f)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
