@@ -8,9 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -19,15 +20,14 @@ fun CertiTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .padding(top = 20.dp, bottom = 36.dp)
+            .padding(horizontal = screenWidthDp(0.06f), vertical = screenHeightDp(0.03f))
     ) {
         Image(
             painter = painterResource(R.drawable.img_logo_black),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(0.05f)
-                .widthForScreenPercentage(0.23f)
+                .heightForScreenPercentage(0.03f)
+                .widthForScreenPercentage(0.21f)
         )
     }
 }
