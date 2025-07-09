@@ -41,21 +41,24 @@ fun ResumeCertificationSmallCard(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .widthForScreenPercentage(0.55f)
-                .heightForScreenPercentage(0.38f),
+                .widthForScreenPercentage(200.dp)
+                .heightForScreenPercentage(300.dp),
             contentScale = ContentScale.Crop
         )
 
         Column(
             modifier = Modifier
-                .padding(horizontal = screenWidthDp(0.04f), vertical = screenHeightDp(0.04f))
+                .padding(
+                    horizontal = screenWidthDp(16.dp),
+                    vertical = screenHeightDp(32.dp)
+                )
         ) {
             Text(
                 text = certification.name,
                 style = CertiTheme.typography.caption.bold_14,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.height(screenHeightDp(0.005f)))
+            Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
 
             Text(
                 text = stringResource(
@@ -67,7 +70,7 @@ fun ResumeCertificationSmallCard(
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.height(screenHeightDp(0.01f)))
+            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 
             CertiChipList(categories = certification.tags)
         }

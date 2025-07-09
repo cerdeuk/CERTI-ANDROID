@@ -1,12 +1,14 @@
 package org.sopt.certi.presentation.type
 
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.domain.type.GradeType
 import org.sopt.certi.domain.type.TrackType
 
 enum class SelectableButtonType(
     val options: List<String>,
-    val verticalPadding: Int = 18,
+    val verticalPadding: Dp = 18.dp,
     val chunkedSize: Int = 2
 ) {
     CATEGORY(
@@ -45,6 +47,6 @@ enum class SelectableButtonType(
             TrackType.MEDICAL.description,
             TrackType.ARTS.description
         ),
-        verticalPadding = 30
+        verticalPadding = 30.dp
     )
 }

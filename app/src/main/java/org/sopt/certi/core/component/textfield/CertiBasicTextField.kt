@@ -51,7 +51,7 @@ fun CertiBasicTextField(
                 color = CertiTheme.colors.gray200,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(horizontal = screenWidthDp(0.03f), vertical = screenHeightDp(0.02f)),
+            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(16.dp)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

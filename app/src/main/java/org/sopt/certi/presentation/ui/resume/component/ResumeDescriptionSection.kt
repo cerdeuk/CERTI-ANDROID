@@ -13,6 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -32,14 +34,14 @@ fun ResumeDescriptionSection(
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(12.dp)))
             Text(
                 text = resumeListItem.organization,
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
         }
-        Spacer(modifier = Modifier.width(32.dp))
+        Spacer(modifier = Modifier.width(screenWidthDp(30.dp)))
 
         Column {
             Text(
@@ -47,7 +49,7 @@ fun ResumeDescriptionSection(
                 color = CertiTheme.colors.gray600,
                 style = CertiTheme.typography.body.semibold_16
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(10.dp)))
             Text(
                 text = resumeListItem.description,
                 color = CertiTheme.colors.gray600,

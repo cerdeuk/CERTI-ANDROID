@@ -41,7 +41,7 @@ fun SocialLoginButton(
                 color = CertiTheme.colors.gray200,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(vertical = screenHeightDp(0.02f))
+            .padding(vertical = screenHeightDp(16.dp))
             .noRippleClickable(onButtonClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

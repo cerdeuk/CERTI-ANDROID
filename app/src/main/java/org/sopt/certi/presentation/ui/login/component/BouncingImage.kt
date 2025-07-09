@@ -25,8 +25,6 @@ import org.sopt.certi.ui.theme.CERTITheme
 @Composable
 fun BouncingImage(
     resId: Int,
-    heightRatio: Float,
-    widthRatio: Float,
     contentDescription: String? = null
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -46,8 +44,8 @@ fun BouncingImage(
         contentDescription = contentDescription,
         modifier = Modifier
             .offset(y = offsetY)
-            .heightForScreenPercentage(heightRatio)
-            .widthForScreenPercentage(widthRatio),
+            .heightForScreenPercentage(242.dp)
+            .widthForScreenPercentage(252.dp),
         contentScale = ContentScale.Fit
     )
 }
@@ -60,9 +58,7 @@ private fun PreviewBouncingImage() {
             modifier = Modifier.fillMaxSize()
         ) {
             BouncingImage(
-                resId = org.sopt.certi.R.drawable.img_logo,
-                heightRatio = 0.056f,
-                widthRatio = 0.36f
+                resId = org.sopt.certi.R.drawable.img_logo
             )
         }
     }

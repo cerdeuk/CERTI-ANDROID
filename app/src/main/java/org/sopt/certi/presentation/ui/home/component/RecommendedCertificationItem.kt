@@ -19,6 +19,8 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.RecommendedCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
@@ -40,13 +42,13 @@ fun RecommendedCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(horizontal = screenWidthDp(16.dp), vertical = screenHeightDp(10.dp)),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -56,12 +58,13 @@ fun RecommendedCertificationItem(
                 )
                 VerticalDivider(
                     modifier = Modifier
-                        .heightForScreenPercentage(0.03f)
-                        .widthForScreenPercentage(0.002f)
+                        .heightForScreenPercentage(24.dp)
+                        .widthForScreenPercentage(2.dp)
                         .padding(vertical = 5.dp),
                     color = CertiTheme.colors.gray200,
                     thickness = 1.dp
                 )
+
                 Text(
                     text = stringResource(R.string.home_recommended_score, recommendedCertificationData.score),
                     style = CertiTheme.typography.caption.regular_14,
@@ -70,7 +73,7 @@ fun RecommendedCertificationItem(
             }
             CertiChipList(
                 categories = recommendedCertificationData.categories,
-                spacing = 6.dp
+                spacing = screenWidthDp(6.dp)
             )
         }
     }

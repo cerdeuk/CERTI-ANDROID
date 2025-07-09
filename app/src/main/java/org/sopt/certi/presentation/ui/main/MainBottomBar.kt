@@ -52,7 +52,7 @@ fun MainBottomBar(
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .heightForScreenPercentage(0.064f)
+                    .heightForScreenPercentage(50.dp)
             ) {
                 tabs.forEach { tab ->
                     MainBottomBarItem(

@@ -31,7 +31,7 @@ fun ResumeEditListItem(
             resumeListItem = resumeListItem,
             modifier = Modifier
                 .weight(1f)
-                .padding(end = 22.dp)
+                .padding(end = screenWidthDp(22.dp))
         )
 
         Icon(
