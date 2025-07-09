@@ -28,7 +28,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeCertificationCard(
+fun ResumeCertificationCardSmall(
     name: String,
     createdAt: String,
     cardImageUrl: String,
@@ -89,7 +89,7 @@ fun ResumeCertificationPreview() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ResumeCertificationCard(
+            ResumeCertificationCardSmall(
                 name = "GTQ 1급 (그래픽기술자격)",
                 createdAt = "2025.07.03",
                 cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
