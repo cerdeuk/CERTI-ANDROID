@@ -21,6 +21,11 @@
     <string name="delete_dialog_confirm">확인</string>
     <string name="delete_dialog_cancel">취소</string>
 
+    <!--Home Screen -->
+    <string name="home_user_info_name">안녕하세요, %1$s님!</string>
+    <string name="home_fill_completed">회원님의 이력서가 %1$d%% 채워졌어요!</string>
+    <string name="home_average_period">평균 취득 기간 약 %1$s</string>
+
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
 
@@ -29,4 +34,14 @@
 
     <!-- ResumeCertificationCard -->
     <string name="resume_certification_card_small">%s년 %s월 %s일 획득</string>
+    <string name="resume_certification_card_small">%s년 %s월 %s일에 획득</string>
+
+    <!-- ResumeTextField -->
+    <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
+    <string name="resume_textfield_caption">%d/%d</string>
+
+    <!-- CertDetailScreen -->
+    <string name="cert_detail_acquired_button_text">취득 완료</string>
+    <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
+
 </resources>
