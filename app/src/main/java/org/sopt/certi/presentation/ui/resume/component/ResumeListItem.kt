@@ -15,15 +15,12 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
 fun ResumeListItem(
-    startAt: String,
-    endAt: String,
-    organization: String,
-    role: String,
-    description: String,
+    resumeListItem: ResumeListData,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -41,13 +38,7 @@ fun ResumeListItem(
         )
         Spacer(modifier = Modifier.width(24.dp))
 
-        ResumeDescriptionSection(
-            startAt = startAt,
-            endAt = endAt,
-            organization = organization,
-            role = role,
-            description = description
-        )
+        ResumeDescriptionSection(resumeListItem = resumeListItem)
     }
 }
 
@@ -56,11 +47,13 @@ fun ResumeListItem(
 fun ResumeListItemPreview() {
     CERTITheme {
         ResumeListItem(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            resumeListItem = ResumeListData(
+                startAt = "2021.11",
+                endAt = "2022.01",
+                organization = "서티그룹",
+                role = "패션디자이너 인턴",
+                description = "브랜드 리서치 및 소재 조사"
+            )
         )
     }
 }

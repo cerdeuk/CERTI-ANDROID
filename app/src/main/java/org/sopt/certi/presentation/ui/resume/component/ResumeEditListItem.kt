@@ -13,16 +13,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeEditListItem(
-    startAt: String,
-    endAt: String,
-    organization: String,
-    role: String,
-    description: String,
+    resumeListItem: ResumeListData,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -31,11 +28,7 @@ fun ResumeEditListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResumeDescriptionSection(
-            startAt = startAt,
-            endAt = endAt,
-            organization = organization,
-            role = role,
-            description = description,
+            resumeListItem = resumeListItem,
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 22.dp)
@@ -56,11 +49,13 @@ fun ResumeEditListItem(
 fun ResumeEditListItemPreview() {
     CERTITheme {
         ResumeEditListItem(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사ㅇ",
+            resumeListItem = ResumeListData(
+                startAt = "2021.11",
+                endAt = "2022.01",
+                organization = "서티그룹",
+                role = "패션디자이너 인턴",
+                description = "브랜드 리서치 및 소재 조사ㅇ"
+            ),
             onDeleteClick = { }
         )
     }

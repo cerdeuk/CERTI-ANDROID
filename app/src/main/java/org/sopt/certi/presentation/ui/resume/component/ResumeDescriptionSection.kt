@@ -13,16 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeDescriptionSection(
-    startAt: String,
-    endAt: String,
-    organization: String,
-    role: String,
-    description: String,
+    resumeListItem: ResumeListData,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -31,13 +28,13 @@ fun ResumeDescriptionSection(
     ) {
         Column {
             Text(
-                text = stringResource(R.string.resume_list_item_period, startAt, endAt),
+                text = stringResource(R.string.resume_list_item_period, resumeListItem.startAt, resumeListItem.endAt),
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = organization,
+                text = resumeListItem.organization,
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
@@ -46,13 +43,13 @@ fun ResumeDescriptionSection(
 
         Column {
             Text(
-                text = role,
+                text = resumeListItem.role,
                 color = CertiTheme.colors.gray600,
                 style = CertiTheme.typography.body.semibold_16
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = description,
+                text = resumeListItem.description,
                 color = CertiTheme.colors.gray600,
                 style = CertiTheme.typography.caption.regular_12
             )
@@ -65,11 +62,13 @@ fun ResumeDescriptionSection(
 fun ResumeDescriptionSectionPreview() {
     CERTITheme {
         ResumeDescriptionSection(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            resumeListItem = ResumeListData(
+                startAt = "2021.11",
+                endAt = "2022.01",
+                organization = "서티그룹",
+                role = "패션디자이너 인턴",
+                description = "브랜드 리서치 및 소재 조사"
+            )
         )
     }
 }
