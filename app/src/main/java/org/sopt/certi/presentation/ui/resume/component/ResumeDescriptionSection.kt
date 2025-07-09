@@ -31,7 +31,7 @@ fun ResumeDescriptionSection(
     ) {
         Column {
             Text(
-                text = stringResource(R.string.resumelistitem_period, startAt, endAt),
+                text = stringResource(R.string.resume_list_item_period, startAt, endAt),
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
