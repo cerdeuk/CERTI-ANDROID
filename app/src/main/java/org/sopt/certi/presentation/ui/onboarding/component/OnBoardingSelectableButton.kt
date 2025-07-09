@@ -142,7 +142,7 @@ private fun PreviewOnBoardingSelectableButtonGrade() {
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.GRADE,
             selectedOptions =
-                listOfNotNull(selectedOption),
+            listOfNotNull(selectedOption),
             isMultiple = false,
             onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
         )
