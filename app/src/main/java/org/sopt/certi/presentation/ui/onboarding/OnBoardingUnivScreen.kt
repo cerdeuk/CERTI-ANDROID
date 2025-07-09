@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.textfield.CertiBasicTextField
@@ -57,24 +58,24 @@ fun OnBoardingUnivScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = screenHeightDp(0.064f), bottom = screenHeightDp(0.025f), start = screenWidthDp(0.05f), end = screenWidthDp(0.05f))
+            .padding(top = screenHeightDp(50.dp), bottom = screenHeightDp(22.dp), start = screenWidthDp(20.dp), end = screenWidthDp(20.dp))
     ) {
         Column {
             Image(
                 painter = painterResource(id = R.drawable.img_onboarding_progressbar_1),
                 contentDescription = null,
                 modifier = Modifier
-                    .widthForScreenPercentage(0.55f),
+                    .widthForScreenPercentage(200.dp),
                 contentScale = ContentScale.FillWidth
             )
-            Spacer(modifier = Modifier.padding(top = screenHeightDp(0.051f)))
+            Spacer(modifier = Modifier.padding(top = screenHeightDp(40.dp)))
 
             Text(
                 text = stringResource(R.string.onboarding_univ_title),
                 style = CertiTheme.typography.subtitle.bold_20,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.padding(top = screenHeightDp(0.048f)))
+            Spacer(modifier = Modifier.padding(top = screenHeightDp(38.dp)))
 
             OnboardingUnivSection(
                 value = value,
