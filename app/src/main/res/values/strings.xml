@@ -38,6 +38,7 @@
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
     <string name="resume_textfield_caption">%d/%d</string>
+    <string name="resume_textfield_date">YYYY-MM-DD</string>
 
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
