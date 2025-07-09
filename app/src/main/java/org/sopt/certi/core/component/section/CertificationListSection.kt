@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -54,12 +56,12 @@ fun CertificationListSection(
             modifier = Modifier
                 .noRippleClickable(onLikeClick)
                 .align(Alignment.TopEnd)
-                .padding(12.dp)
-                .size(24.dp)
+                .padding(screenWidthDp(0.03f))
+                .size(screenWidthDp(0.06f))
         )
 
         Column(
-            modifier = Modifier.padding(start = 12.dp, top = 22.dp, bottom = 16.dp)
+            modifier = Modifier.padding(start = screenWidthDp(0.03f), top = screenHeightDp(0.028f), bottom = screenHeightDp(0.02f))
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -74,10 +76,10 @@ fun CertificationListSection(
                     text = certificationListData.agency,
                     style = CertiTheme.typography.caption.regular_12,
                     color = CertiTheme.colors.black,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(start = screenWidthDp(0.02f))
                 )
             }
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(screenHeightDp(0.015f)))
 
             CertiChipList(categories = certificationListData.categories)
         }
@@ -85,7 +87,7 @@ fun CertificationListSection(
         Row(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 18.dp),
+                .padding(end = screenWidthDp(0.04f), bottom = screenHeightDp(0.023f)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -99,7 +101,7 @@ fun CertificationListSection(
                 text = certificationListData.applicationMethod,
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray500,
-                modifier = Modifier.padding(start = 4.dp)
+                modifier = Modifier.padding(start = screenWidthDp(0.01f))
             )
         }
     }

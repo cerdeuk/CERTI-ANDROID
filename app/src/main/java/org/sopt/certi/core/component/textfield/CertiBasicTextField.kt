@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -49,7 +51,7 @@ fun CertiBasicTextField(
                 color = CertiTheme.colors.gray200,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(horizontal = 12.dp, vertical = 18.dp),
+            .padding(horizontal = screenWidthDp(0.03f), vertical = screenHeightDp(0.02f)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
