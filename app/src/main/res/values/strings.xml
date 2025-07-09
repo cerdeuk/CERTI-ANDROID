@@ -34,5 +34,14 @@
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
     <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
+    
+    <!-- CertRecommendScreen -->
+    
+    <!-- RecommendBottomSheet -->
+    <string name="recommend_filter_bottomsheet_title">필터</string>
+    <string name="recommend_filter_bottomsheet_sub_title">희망직무/분야 재설정하기</string>
+    <string name="recommend_filter_bottomsheet_content">복수 선택이 가능합니다. (최대 3개)</string>
+    <string name="recommend_filter_bottomsheet_confirm_button">적용하기</string>
+    
 
 </resources>

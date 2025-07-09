@@ -21,6 +21,7 @@ import org.sopt.certi.domain.type.CategoryType
 fun RecommendFilterSelectableButton(
     categoryType: CategoryType,
     isSelected: Boolean,
+    clickable: Boolean = true,
     onClick: (CategoryType) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -33,7 +34,9 @@ fun RecommendFilterSelectableButton(
                 borderWidth = 1.dp
             )
             .noRippleClickable {
-                onClick(categoryType)
+                if (clickable) {
+                    onClick(categoryType)
+                }
             },
         contentAlignment = Alignment.Center
     ) {
