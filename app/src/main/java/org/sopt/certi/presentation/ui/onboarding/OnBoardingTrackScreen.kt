@@ -104,8 +104,8 @@ private fun OnBoardingTrackSection(
     OnBoardingSelectableButtons(
         selectableButtonType = SelectableButtonType.TRACK,
         selectedOptions = selectedOptions,
-        isMultiple = false,
-        onOptionsChanged = onOptionsChanged
+        onOptionsChanged = onOptionsChanged,
+        modifier = modifier
     )
 }
 
