@@ -37,7 +37,7 @@ fun RecommendedCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp, bottom = 10.dp, start = 16.dp, end = 68.dp),
+                .padding(top = 10.dp, bottom = 10.dp, start = 16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Row(
@@ -60,7 +60,7 @@ fun RecommendedCertificationItem(
                     thickness = 1.dp
                 )
                 Text(
-                    text = stringResource(R.string.home_recommended_score,recommendedCertificationData.score),
+                    text = stringResource(R.string.home_recommended_score, recommendedCertificationData.score),
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray500
                 )
