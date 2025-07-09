@@ -56,12 +56,12 @@ fun CertificationListSection(
             modifier = Modifier
                 .noRippleClickable(onLikeClick)
                 .align(Alignment.TopEnd)
-                .padding(screenWidthDp(0.03f))
-                .size(screenWidthDp(0.06f))
+                .padding(screenWidthDp(12.dp))
+                .size(screenWidthDp(22.dp))
         )
 
         Column(
-            modifier = Modifier.padding(start = screenWidthDp(0.03f), top = screenHeightDp(0.028f), bottom = screenHeightDp(0.02f))
+            modifier = Modifier.padding(start = screenWidthDp(12.dp), top = screenHeightDp(22.dp), bottom = screenHeightDp(16.dp))
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -76,10 +76,10 @@ fun CertificationListSection(
                     text = certificationListData.agency,
                     style = CertiTheme.typography.caption.regular_12,
                     color = CertiTheme.colors.black,
-                    modifier = Modifier.padding(start = screenWidthDp(0.02f))
+                    modifier = Modifier.padding(start = screenWidthDp(8.dp))
                 )
             }
-            Spacer(Modifier.height(screenHeightDp(0.015f)))
+            Spacer(Modifier.height(screenHeightDp(12.dp)))
 
             CertiChipList(categories = certificationListData.categories)
         }
@@ -87,7 +87,7 @@ fun CertificationListSection(
         Row(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = screenWidthDp(0.04f), bottom = screenHeightDp(0.023f)),
+                .padding(end = screenWidthDp(14.dp), bottom = screenHeightDp(18.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -101,7 +101,7 @@ fun CertificationListSection(
                 text = certificationListData.applicationMethod,
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray500,
-                modifier = Modifier.padding(start = screenWidthDp(0.01f))
+                modifier = Modifier.padding(start = screenWidthDp(4.dp))
             )
         }
     }

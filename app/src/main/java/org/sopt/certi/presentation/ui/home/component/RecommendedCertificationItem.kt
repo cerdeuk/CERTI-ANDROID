@@ -56,8 +56,8 @@ fun RecommendedCertificationItem(
                 )
                 VerticalDivider(
                     modifier = Modifier
-                        .heightForScreenPercentage(0.03f)
-                        .widthForScreenPercentage(0.002f)
+                        .heightForScreenPercentage(24.dp)
+                        .widthForScreenPercentage(2.dp)
                         .padding(vertical = 5.dp),
                     color = CertiTheme.colors.gray200,
                     thickness = 1.dp

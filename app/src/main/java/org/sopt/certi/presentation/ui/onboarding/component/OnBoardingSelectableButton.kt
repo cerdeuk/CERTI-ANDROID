@@ -41,7 +41,7 @@ fun OnBoardingSelectableButtons(
         chunkedOptions.forEach { rowOptions ->
             Row(
                 modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.04f)),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(14.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 rowOptions.forEach { option ->
@@ -69,9 +69,9 @@ fun OnBoardingSelectableButtons(
                 }
             }
             if (selectableButtonType == SelectableButtonType.CATEGORY) {
-                Spacer(modifier = Modifier.height(screenHeightDp(0.017f)))
+                Spacer(modifier = Modifier.height(screenHeightDp(14.dp)))
             } else {
-                Spacer(modifier = Modifier.height(screenHeightDp(0.015f)))
+                Spacer(modifier = Modifier.height(screenHeightDp(12.dp)))
             }
         }
     }
@@ -97,7 +97,7 @@ private fun OnBoardingSelectableButton(
     ) {
         Text(
             text = option,
-            modifier = Modifier.padding(vertical = screenHeightDp(selectableButtonType.verticalPadding / 780f)),
+            modifier = Modifier.padding(vertical = screenHeightDp(selectableButtonType.verticalPadding)),
             style = if (isSelected) CertiTheme.typography.body.semibold_16 else CertiTheme.typography.body.regular_16,
             color = if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.gray500
         )

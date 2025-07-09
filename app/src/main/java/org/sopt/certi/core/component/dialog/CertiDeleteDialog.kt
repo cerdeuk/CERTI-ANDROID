@@ -45,7 +45,7 @@ fun CertiDeleteDialog(
             color = CertiTheme.colors.white
         ) {
             Column(
-                modifier = Modifier.padding(top = screenHeightDp(0.04f)),
+                modifier = Modifier.padding(top = screenHeightDp(32.dp)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -53,13 +53,13 @@ fun CertiDeleteDialog(
                     style = CertiTheme.typography.body.semibold_18,
                     color = CertiTheme.colors.gray600
                 )
-                Spacer(modifier = Modifier.height(screenHeightDp(0.02f)))
+                Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
                 Text(
                     text = description,
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray600
                 )
-                Spacer(modifier = Modifier.height(screenHeightDp(0.03f)))
+                Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
@@ -113,7 +113,7 @@ fun DialogButton(
             text = text,
             style = CertiTheme.typography.body.semibold_18,
             color = textColor,
-            modifier = Modifier.padding(vertical = screenHeightDp(0.025f))
+            modifier = Modifier.padding(vertical = screenHeightDp(20.dp))
         )
     }
 }

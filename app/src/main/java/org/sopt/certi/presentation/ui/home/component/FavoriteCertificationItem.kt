@@ -38,8 +38,8 @@ fun FavoriteCertificationItem(
 ) {
     Box(
         modifier = modifier
-            .widthForScreenPercentage(0.444f)
-            .heightForScreenPercentage(0.205f)
+            .widthForScreenPercentage(160.dp)
+            .heightForScreenPercentage(160.dp)
             .roundedBackgroundWithBorder(
                 cornerRadius = 12.dp,
                 backgroundColor = CertiTheme.colors.white,
@@ -68,8 +68,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
-                        .widthForScreenPercentage(0.066f)
-                        .heightForScreenPercentage(0.03f)
+                        .widthForScreenPercentage(24.dp)
+                        .heightForScreenPercentage(24.dp)
                         .noRippleClickable { onFavoriteClicked() }
                 )
             }
@@ -99,8 +99,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .widthForScreenPercentage(0.044f)
-                        .heightForScreenPercentage(0.02f)
+                        .widthForScreenPercentage(16.dp)
+                        .heightForScreenPercentage(16.dp)
                 )
                 Text(
                     text = favoriteCertificationData.testType,
@@ -119,8 +119,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .widthForScreenPercentage(0.044f)
-                        .heightForScreenPercentage(0.02f)
+                        .widthForScreenPercentage(16.dp)
+                        .heightForScreenPercentage(16.dp)
                 )
                 Text(
                     text = favoriteCertificationData.agencyName,

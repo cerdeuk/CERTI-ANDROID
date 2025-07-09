@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -24,7 +25,7 @@ fun ResumeInputSection(
         modifier = modifier.fillMaxWidth()
     ) {
         ResumeInputTitle(title)
-        Spacer(modifier = Modifier.height(screenHeightDp(0.03f)))
+        Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
         ResumeTextField(
             value = value,
             onValueChange = onValueChange,
