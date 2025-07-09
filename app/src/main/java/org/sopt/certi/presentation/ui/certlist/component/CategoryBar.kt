@@ -50,7 +50,7 @@ fun CategoryBar(
                 modifier = Modifier.noRippleClickable { onCategorySelected(index) }
             )
 
-            if (index == categoryList.size - 1) {
+            if (index == categoryList.lastIndex) {
                 Spacer(Modifier.width(30.dp))
             }
         }
