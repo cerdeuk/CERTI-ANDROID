@@ -42,7 +42,8 @@ fun LoginRoute(
     LoginScreen(
         padding = padding,
         onKakaoLoginClick = {
-            viewModel.loginWithKakao(context)
+//            viewModel.loginWithKakao(context) : 추후 카카오 로그인 구현 시 사용
+            navigateToOnBoarding()
         },
         onGoogleLoginClick = { navigateToHome() }
     )
