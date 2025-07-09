@@ -21,6 +21,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,26 +44,14 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun RecommendFilterBottomSheet(
     sheetState: SheetState,
+    selectedList: List<CategoryType>,
+    onItemClick: (CategoryType) -> Unit,
     onConfirmClick: (List<CategoryType>) -> Unit,
     changeBottomSheetVisibility: (Boolean) -> Unit = { }
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val categoryList = listOf(
-        CategoryType.BUSINESS,
-        CategoryType.MARKETING,
-        CategoryType.TRADE,
-        CategoryType.IT,
-        CategoryType.MANUFACTURE,
-        CategoryType.SALES,
-        CategoryType.CONSTRUCTION,
-        CategoryType.FINANCE,
-        CategoryType.RND,
-        CategoryType.DESIGN,
-        CategoryType.MEDIA,
-        CategoryType.PROFESSIONAL
-    )
-    val selectedList = remember { mutableStateListOf<CategoryType>() }
+    val categoryList = CategoryType.entries.toTypedArray()
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -115,24 +104,12 @@ fun RecommendFilterBottomSheet(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(categoryList.size) { index ->
-                    var isSelected by remember { mutableStateOf(false) }
-
                     RecommendFilterSelectableButton(
                         categoryType = categoryList[index],
-                        isSelected = isSelected,
-                        clickable = if (selectedList.contains(categoryList[index]) || selectedList.size < 3) {
-                            true
-                        } else {
-                            false
-                        },
+                        isSelected = selectedList.contains(categoryList[index]),
+                        clickable = selectedList.contains(categoryList[index]) || selectedList.size < 3,
                         onClick = { categoryType ->
-                            if (selectedList.contains(categoryType)) {
-                                selectedList.remove(categoryType)
-                                isSelected = false
-                            } else {
-                                selectedList.add(categoryType)
-                                isSelected = true
-                            }
+                            onItemClick.invoke(categoryType)
                         }
                     )
                 }
@@ -165,8 +142,9 @@ fun PreviewRecommendFilterBottomSheet() {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    val selectedList = remember { mutableStateListOf<CategoryType>() }
 
     Box(
         modifier = Modifier
@@ -178,6 +156,14 @@ fun PreviewRecommendFilterBottomSheet() {
         if (showBottomSheet) {
             RecommendFilterBottomSheet(
                 sheetState = sheetState,
+                selectedList = selectedList,
+                onItemClick = { categoryType ->
+                    if (selectedList.contains(categoryType)) {
+                        selectedList.remove(categoryType)
+                    } else {
+                        selectedList.add(categoryType)
+                       }
+                  },
                 changeBottomSheetVisibility = { showBottomSheet = it },
                 onConfirmClick = { }
             )
