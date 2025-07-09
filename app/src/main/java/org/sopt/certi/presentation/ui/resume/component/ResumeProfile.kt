@@ -25,7 +25,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeProfile(
-    desiredJobs: List<String>,
+    category: List<String>,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -53,21 +53,21 @@ fun ResumeProfile(
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-            ResumeProfileJobs(desiredJobs)
+            ResumeProfileJobs(category)
         }
     }
 }
 
 @Composable
-fun ResumeProfileJobs(desiredJobs: List<String>) {
+fun ResumeProfileJobs(category: List<String>) {
     Column {
-        if (desiredJobs.size == 1) {
-            ThemedText(desiredJobs[0])
+        if (category.size == 1) {
+            ThemedText(category[0])
         } else {
-            ThemedText(stringResource(R.string.resume_profile_jobs_1, desiredJobs[0], desiredJobs[1]))
-            if (desiredJobs.size == 3) {
+            ThemedText(stringResource(R.string.resume_profile_jobs_1, category[0], category[1]))
+            if (category.size == 3) {
                 Spacer(modifier = Modifier.height(2.dp))
-                ThemedText(stringResource(R.string.resume_profile_jobs_2, desiredJobs[2]))
+                ThemedText(stringResource(R.string.resume_profile_jobs_2, category[2]))
             }
         }
     }
@@ -86,6 +86,6 @@ fun ThemedText(text: String) {
 @Composable
 fun ResumeProfilePreview() {
     ResumeProfile(
-        desiredJobs = listOf("IT/인터넷", "경영/사무", "경영/사무")
+        category = listOf("IT/인터넷", "경영/사무", "경영/사무")
     )
 }
