@@ -31,7 +31,7 @@
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
 
-    <!-- ResumeDescriptionSecrion -->
+    <!-- ResumeDescriptionSection -->
     <string name="resume_list_item_period">%s ~ %s</string>
 
     <!-- ResumeProfile -->
@@ -45,6 +45,9 @@
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
     <string name="resume_textfield_caption">%d/%d</string>
+
+    <!-- ResumeEmptyContent -->
+    <string name="resume_empty_content">경력사항을 추가해보세요!</string>
 
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
