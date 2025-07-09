@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.R
@@ -61,10 +62,11 @@ fun ResumeSection(
 fun ResumeEmptyContentPreview() {
     CERTITheme {
         ResumeSection(
-            title = "경력사항",
+            title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
             content = { horizontalPadding ->
                 ResumeEmptyContent(
+                    text = stringResource(R.string.resume_empty_experience_message),
                     modifier = Modifier.padding(horizontal = screenWidthDp(horizontalPadding))
                 )
             }
@@ -77,7 +79,7 @@ fun ResumeEmptyContentPreview() {
 fun ResumeListContentPreview() {
     CERTITheme {
         ResumeSection(
-            title = "경력사항",
+            title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
             content = { horizontalPadding ->
                 ResumeListContent(
@@ -123,7 +125,7 @@ fun ResumeListContentPreview() {
 fun ResumeCertificationPreview() {
     CERTITheme {
         ResumeSection(
-            title = "취득한 자격증",
+            title = stringResource(R.string.resume_section_certification_title),
             onClick = { },
             content = { horizontalPadding ->
                 ResumeCertificationContent(

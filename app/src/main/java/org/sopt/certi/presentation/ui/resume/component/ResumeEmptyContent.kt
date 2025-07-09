@@ -22,6 +22,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeEmptyContent(
+    text: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -40,7 +41,7 @@ fun ResumeEmptyContent(
         Spacer(modifier = Modifier.height(screenHeightDp(0.025f)))
 
         Text(
-            text = stringResource(R.string.resume_empty_content),
+            text = text,
             style = CertiTheme.typography.caption.regular_14,
             color = CertiTheme.colors.gray400
         )
@@ -51,6 +52,8 @@ fun ResumeEmptyContent(
 @Composable
 fun ResumeEmptyBoxPreview() {
     CERTITheme {
-        ResumeEmptyContent()
+        ResumeEmptyContent(
+            text = stringResource(R.string.resume_empty_experience_message)
+        )
     }
 }
