@@ -51,7 +51,7 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 14.dp, vertical = 20.dp)
+                .padding(horizontal = 14.dp, vertical = 18.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -77,11 +77,12 @@ fun FavoriteCertificationItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = favoriteCertificationData.certificationName,
+                text = favoriteCertificationData.certificationName.let { name ->
+                    if (name.length > 6) name.chunked(6).joinToString("\n") else name
+                },
                 style = CertiTheme.typography.body.bold_18,
                 color = CertiTheme.colors.gray600,
-                maxLines = 2,
-                modifier = Modifier.widthForScreenPercentage(0.261f)
+                maxLines = 2
             )
         }
         Column(
