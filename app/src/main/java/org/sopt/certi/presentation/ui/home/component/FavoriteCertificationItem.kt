@@ -42,9 +42,7 @@ fun FavoriteCertificationItem(
     Box(
         modifier = Modifier
             .size(160.dp)
-            .background(color = CertiTheme.colors.white,
-                shape = RoundedCornerShape(12.dp)
-            )
+            .background(CertiTheme.colors.white)
             .border(
                 width = 1.dp,
                 color = CertiTheme.colors.gray100,
@@ -55,12 +53,12 @@ fun FavoriteCertificationItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 14.dp, vertical = 20.dp),
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = favoriteCertificationData.qualificationType,
@@ -86,8 +84,10 @@ fun FavoriteCertificationItem(
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.BottomStart),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(horizontal = 14.dp, vertical = 18.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(
                     modifier = Modifier
@@ -130,7 +130,6 @@ fun FavoriteCertificationItem(
             }
         }
     }
-
 
 
 @Preview(showBackground = true)
