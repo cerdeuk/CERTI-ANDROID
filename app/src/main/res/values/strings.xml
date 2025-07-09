@@ -31,6 +31,13 @@
 
     <!-- ResumeDescriptionSecrion -->
     <string name="resume_list_item_period">%s ~ %s</string>
+    <!-- ResumeListItem -->
+    <string name="resumelistitem_period">%s ~ %s</string>
+
+    <!-- ResumeProfile -->
+    <string name="resume_profile_title">희망직무</string>
+    <string name="resume_profile_jobs_1">%s · %s</string>
+    <string name="resume_profile_jobs_2">· %s</string>
 
     <!-- ResumeCertificationCard -->
     <string name="resume_certification_card_small">%s년 %s월 %s일 획득</string>
