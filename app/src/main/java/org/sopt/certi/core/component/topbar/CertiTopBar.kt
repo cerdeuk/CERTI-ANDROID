@@ -20,8 +20,7 @@ fun CertiTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = screenWidthDp(0.06f))
-            .padding(top = screenWidthDp(0.04f), bottom = screenHeightDp(0.04f))
+            .padding(horizontal = screenWidthDp(0.06f), vertical = screenHeightDp(0.03f))
     ) {
         Image(
             painter = painterResource(R.drawable.img_logo_black),
