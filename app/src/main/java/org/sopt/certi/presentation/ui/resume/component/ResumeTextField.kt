@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -56,7 +57,7 @@ fun ResumeTextField(
                     innerTextField()
                 }
                 HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(vertical = screenHeightDp(0.01f)),
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
                 )
@@ -76,7 +77,7 @@ fun ResumeTextField(
 @Preview(showBackground = true)
 @Composable
 fun ResumeTextFieldPreview() {
-    var text = remember { mutableStateOf("") }
+    val text = remember { mutableStateOf("") }
     CERTITheme {
         ResumeTextField(
             value = text.value,

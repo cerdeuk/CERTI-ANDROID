@@ -11,8 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -35,14 +36,14 @@ fun ResumeDescriptionSection(
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(0.015f)))
             Text(
                 text = organization,
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
         }
-        Spacer(modifier = Modifier.width(32.dp))
+        Spacer(modifier = Modifier.width(screenWidthDp(0.09f)))
 
         Column {
             Text(
@@ -50,7 +51,7 @@ fun ResumeDescriptionSection(
                 color = CertiTheme.colors.gray600,
                 style = CertiTheme.typography.body.semibold_16
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(0.01f)))
             Text(
                 text = description,
                 color = CertiTheme.colors.gray600,

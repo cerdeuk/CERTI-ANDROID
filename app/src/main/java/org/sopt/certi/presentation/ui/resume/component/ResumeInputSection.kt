@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
@@ -24,7 +24,7 @@ fun ResumeInputSection(
         modifier = modifier.fillMaxWidth()
     ) {
         ResumeInputTitle(title)
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(screenHeightDp(0.03f)))
         ResumeTextField(
             value = value,
             onValueChange = onValueChange,
@@ -36,7 +36,7 @@ fun ResumeInputSection(
 @Preview(showBackground = true)
 @Composable
 fun ResumeInputSectionPreview() {
-    var text = remember { mutableStateOf("") }
+    val text = remember { mutableStateOf("") }
     CERTITheme {
         ResumeInputSection(
             title = "근무회사",
