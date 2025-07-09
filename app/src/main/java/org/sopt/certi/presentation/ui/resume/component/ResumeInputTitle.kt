@@ -13,6 +13,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -27,7 +28,7 @@ fun ResumeInputTitle(
             imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
             contentDescription = null
         )
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(screenWidthDp(4.dp)))
         Text(
             text = title,
             style = CertiTheme.typography.body.semibold_16,

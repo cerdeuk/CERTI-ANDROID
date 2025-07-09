@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -29,17 +31,17 @@ fun ResumeListItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
+            .padding(vertical = screenHeightDp(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(R.drawable.img_resume_list_item),
             contentDescription = null,
             modifier = Modifier
-                .widthForScreenPercentage(0.1f)
-                .heightForScreenPercentage(0.05f)
+                .widthForScreenPercentage(36.dp)
+                .heightForScreenPercentage(36.dp)
         )
-        Spacer(modifier = Modifier.width(24.dp))
+        Spacer(modifier = Modifier.width(screenWidthDp(24.dp)))
 
         ResumeDescriptionSection(
             startAt = startAt,
