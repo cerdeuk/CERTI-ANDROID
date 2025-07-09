@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.ui.theme.CERTITheme
 import androidx.compose.material3.VerticalDivider
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 
 @Composable
 fun UserInfoSection(
@@ -47,7 +49,7 @@ fun UserInfoSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 36.dp)
+            .padding(horizontal = screenWidthDp(0.05f), vertical = screenHeightDp(0.056f))
     ) {
         Text(
             text = stringResource(id = R.string.home_user_info_name, displayName),
