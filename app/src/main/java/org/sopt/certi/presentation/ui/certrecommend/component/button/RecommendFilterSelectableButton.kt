@@ -1,0 +1,64 @@
+package org.sopt.certi.presentation.ui.certrecommend.component.button
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import org.sopt.certi.ui.theme.CertiTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
+import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.domain.type.CategoryType
+
+@Composable
+fun RecommendFilterSelectableButton(
+    categoryType: CategoryType,
+    isSelected: Boolean,
+    clickable: Boolean = true,
+    onClick: (CategoryType) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .roundedBackgroundWithBorder(
+                cornerRadius = 12.dp,
+                backgroundColor = if (isSelected) CertiTheme.colors.lightBlue else CertiTheme.colors.white,
+                borderColor = if (isSelected) CertiTheme.colors.skyBlue else CertiTheme.colors.lightPurple,
+                borderWidth = 1.dp
+            )
+            .noRippleClickable {
+                if (clickable) {
+                    onClick(categoryType)
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = categoryType.description,
+            style = CertiTheme.typography.caption.semibold_12,
+            color = CertiTheme.colors.purpleBlue,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 10.dp)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecommendFilterSelectableButtonPreview() {
+    var isSelected by remember { mutableStateOf(false) }
+
+    RecommendFilterSelectableButton(
+        categoryType = CategoryType.MARKETING,
+        isSelected = isSelected,
+        onClick = {
+            isSelected = !isSelected
+        }
+    )
+}

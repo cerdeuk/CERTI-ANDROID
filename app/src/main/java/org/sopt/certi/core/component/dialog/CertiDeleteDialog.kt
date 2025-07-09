@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
 import org.sopt.certi.core.util.pressedClickable
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -43,21 +45,21 @@ fun CertiDeleteDialog(
             color = CertiTheme.colors.white
         ) {
             Column(
-                modifier = Modifier.padding(top = 32.dp),
+                modifier = Modifier.padding(top = screenHeightDp(0.04f)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = title,
                     style = CertiTheme.typography.body.semibold_18,
-                    color = CertiTheme.colors.gray600,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    color = CertiTheme.colors.gray600
                 )
+                Spacer(modifier = Modifier.height(screenHeightDp(0.02f)))
                 Text(
                     text = description,
                     style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.gray600,
-                    modifier = Modifier.padding(bottom = 26.dp)
+                    color = CertiTheme.colors.gray600
                 )
+                Spacer(modifier = Modifier.height(screenHeightDp(0.03f)))
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
@@ -111,7 +113,7 @@ fun DialogButton(
             text = text,
             style = CertiTheme.typography.body.semibold_18,
             color = textColor,
-            modifier = Modifier.padding(vertical = 20.dp)
+            modifier = Modifier.padding(vertical = screenHeightDp(0.025f))
         )
     }
 }
