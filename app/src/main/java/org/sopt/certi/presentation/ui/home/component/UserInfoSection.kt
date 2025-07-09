@@ -57,11 +57,11 @@ fun UserInfoSection(
             style = CertiTheme.typography.subtitle.bold_20,
             color = CertiTheme.colors.gray600
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(screenHeightDp(0.037f)))
 
         Row(
             modifier = Modifier
-                .padding(vertical = 3.dp)
+                .padding(vertical = screenHeightDp(0.003f))
                 .height(IntrinsicSize.Max),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -70,7 +70,7 @@ fun UserInfoSection(
                 contentDescription = null,
                 modifier = Modifier.size(screenWidthDp(0.2f))
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(screenWidthDp(0.03f)))
 
             Text(
                 text = displayName,
@@ -81,7 +81,7 @@ fun UserInfoSection(
             VerticalDivider(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(vertical = 19.dp),
+                    .padding(vertical = screenHeightDp(0.028f)),
                 color = CertiTheme.colors.gray100,
                 thickness = 2.dp
 
