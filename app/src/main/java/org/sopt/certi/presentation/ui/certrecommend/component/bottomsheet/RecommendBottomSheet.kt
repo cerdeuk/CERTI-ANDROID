@@ -21,7 +21,6 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -162,8 +161,8 @@ fun PreviewRecommendFilterBottomSheet() {
                         selectedList.remove(categoryType)
                     } else {
                         selectedList.add(categoryType)
-                       }
-                  },
+                    }
+                },
                 changeBottomSheetVisibility = { showBottomSheet = it },
                 onConfirmClick = { }
             )
