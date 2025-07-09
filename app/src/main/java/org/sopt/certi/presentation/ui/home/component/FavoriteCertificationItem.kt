@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -41,7 +39,8 @@ fun FavoriteCertificationItem(
 ) {
     Box(
         modifier = Modifier
-            .size(160.dp)
+            .widthForScreenPercentage(0.444f)
+            .heightForScreenPercentage(0.205f)
             .background(CertiTheme.colors.white)
             .border(
                 width = 1.dp,
@@ -130,7 +129,6 @@ fun FavoriteCertificationItem(
             }
         }
     }
-
 
 @Preview(showBackground = true)
 @Composable
