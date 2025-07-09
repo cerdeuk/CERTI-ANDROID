@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -31,12 +32,12 @@ fun ResumeCertificationSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = screenHeightDp(0.046f))
+            .padding(top = screenHeightDp(36.dp))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = screenWidthDp(0.055f)),
+                .padding(start = screenWidthDp(20.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(

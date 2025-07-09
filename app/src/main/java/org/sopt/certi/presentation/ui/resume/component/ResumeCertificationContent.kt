@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ResumeCertificationListData
@@ -24,18 +25,18 @@ fun ResumeCertificationContent(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = screenHeightDp(0.02f),
-                bottom = screenHeightDp(0.046f)
+                top = screenHeightDp(16.dp),
+                bottom = screenHeightDp(36.dp)
             ),
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.03f))
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
     ) {
         itemsIndexed(certifications) { index, certification ->
             if (index == 0) {
-                Spacer(modifier = Modifier.width(screenWidthDp(0.055f)))
+                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
             }
             ResumeCertificationSmallCard(certification)
             if (index == certifications.lastIndex) {
-                Spacer(modifier = Modifier.width(screenWidthDp(0.055f)))
+                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
             }
         }
     }

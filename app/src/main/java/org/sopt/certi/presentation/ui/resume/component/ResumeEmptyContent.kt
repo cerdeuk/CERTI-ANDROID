@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -28,17 +29,17 @@ fun ResumeEmptyContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = screenHeightDp(0.076f)),
+            .padding(vertical = screenHeightDp(60.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(R.drawable.img_empty),
             contentDescription = null,
             modifier = Modifier
-                .widthForScreenPercentage(0.36f)
-                .heightForScreenPercentage(0.13f)
+                .widthForScreenPercentage(130.dp)
+                .heightForScreenPercentage(100.dp)
         )
-        Spacer(modifier = Modifier.height(screenHeightDp(0.025f)))
+        Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
 
         Text(
             text = text,

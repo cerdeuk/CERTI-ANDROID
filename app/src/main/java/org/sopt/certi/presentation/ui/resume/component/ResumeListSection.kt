@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -30,9 +31,9 @@ fun ResumeListSection(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = screenWidthDp(0.055f))
             .fillMaxWidth()
-            .padding(top = screenHeightDp(0.046f))
+            .padding(top = screenHeightDp(36.dp))
+            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
