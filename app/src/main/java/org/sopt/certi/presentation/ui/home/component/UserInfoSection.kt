@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.sopt.certi.R
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -24,8 +23,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -111,9 +108,9 @@ fun UserInfoSection(
                 .padding(vertical = screenHeightDp(0.006f))
                 .height(screenHeightDp(0.006f))
                 .roundedBackgroundWithBorder(
-                cornerRadius = 12.dp,
-                backgroundColor = CertiTheme.colors.gray100
-            )
+                    cornerRadius = 12.dp,
+                    backgroundColor = CertiTheme.colors.gray100
+                )
 
         ) {
             Box(
