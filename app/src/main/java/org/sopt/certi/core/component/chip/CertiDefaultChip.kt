@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -33,21 +35,23 @@ fun CertiChipList(
 }
 
 @Composable
-private fun CertiDefaultChip(
+fun CertiDefaultChip(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = CertiTheme.typography.caption.semibold_12,
+    backgroundColor: Color = CertiTheme.colors.lightPurple
 ) {
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(
                 cornerRadius = 12.dp,
-                backgroundColor = CertiTheme.colors.lightPurple
+                backgroundColor = backgroundColor
             )
             .padding(horizontal = screenWidthDp(8.dp), vertical = screenHeightDp(4.dp))
     ) {
         Text(
             text = text,
-            style = CertiTheme.typography.caption.semibold_12,
+            style = textStyle,
             color = CertiTheme.colors.mainBlue
         )
     }

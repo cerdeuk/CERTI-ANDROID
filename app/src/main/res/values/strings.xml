@@ -13,7 +13,8 @@
     <string name="onboarding_major_title">학과를 선택해주세요</string>
     <string name="onboarding_category_title">희망직무를 선택해주세요</string>
     <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(최대 3개 선택 가능)</string>
-    <string name="onboarding_info_title">%s님,\n 이제 서티와 함께 해요!</string>
+    <string name="onboarding_info_nickname">%s님,</string>
+    <string name="onboarding_info_title">이제 서티와 함께 해요!</string>
     <string name="onboarding_info_final_education_title">최종학력</string>
     <string name="onboarding_info_major_title">학과</string>
     <string name="onboarding_info_category_title">희망직무</string>
