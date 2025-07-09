@@ -20,7 +20,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CertiChipList(
     categories: List<String>,
     modifier: Modifier = Modifier,
-    spacing: Dp = screenWidthDp(0.01f) // 기본값
+    spacing: Dp = screenWidthDp(0.016f) // 기본값
 ) {
     Row(
         modifier = modifier,
@@ -43,7 +43,7 @@ private fun CertiDefaultChip(
                 cornerRadius = 12.dp,
                 backgroundColor = CertiTheme.colors.lightPurple
             )
-            .padding(horizontal = screenWidthDp(0.02f), vertical = screenHeightDp(0.006f))
+            .padding(horizontal = screenWidthDp(0.022f), vertical = screenHeightDp(0.005f))
     ) {
         Text(
             text = text,

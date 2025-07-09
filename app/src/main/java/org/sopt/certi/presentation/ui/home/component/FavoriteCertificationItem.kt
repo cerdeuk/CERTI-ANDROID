@@ -53,7 +53,7 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = screenWidthDp(0.035f), vertical = screenHeightDp(0.028f))
+                .padding(horizontal = screenWidthDp(0.038f), vertical = screenHeightDp(0.023f))
         ) {
             Row(
                 modifier = Modifier
@@ -76,7 +76,7 @@ fun FavoriteCertificationItem(
                         .noRippleClickable { onFavoriteClicked() }
                 )
             }
-            Spacer(modifier = Modifier.height(screenHeightDp(0.0125f)))
+            Spacer(modifier = Modifier.height(screenHeightDp(0.01f)))
 
             Text(
                 text = favoriteCertificationData.certificationName,
@@ -94,7 +94,7 @@ fun FavoriteCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.01f)),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.011f)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -114,7 +114,7 @@ fun FavoriteCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.01f)),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.011f)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(

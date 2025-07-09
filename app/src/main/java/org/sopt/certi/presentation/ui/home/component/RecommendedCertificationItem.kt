@@ -44,13 +44,13 @@ fun RecommendedCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = screenWidthDp(0.04f), vertical = screenHeightDp(0.016f)),
+                .padding(horizontal = screenWidthDp(0.044f), vertical = screenHeightDp(0.011f)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(0.016f))
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.02f)),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.022f)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -60,9 +60,9 @@ fun RecommendedCertificationItem(
                 )
                 VerticalDivider(
                     modifier = Modifier
-                        .height(screenHeightDp(0.03f))
+                        .height(screenHeightDp(0.024f))
                         .width(screenWidthDp(0.002f))
-                        .padding(vertical = screenHeightDp(0.008f)),
+                        .padding(vertical = screenHeightDp(0.006f)),
                     color = CertiTheme.colors.gray200,
                     thickness = 1.dp
                 )
@@ -75,7 +75,7 @@ fun RecommendedCertificationItem(
             }
             CertiChipList(
                 categories = recommendedCertificationData.categories,
-                spacing = screenWidthDp(0.015f)
+                spacing = screenWidthDp(0.016f)
             )
         }
     }
