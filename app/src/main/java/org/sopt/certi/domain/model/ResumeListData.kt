@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.model
 
-class ResumeListData(
+data class ResumeListData(
     val startAt: String,
     val endAt: String,
     val organization: String,
