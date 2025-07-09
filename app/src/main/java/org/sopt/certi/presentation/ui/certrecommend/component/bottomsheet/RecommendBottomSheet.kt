@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.certrecommend.component.bottomsheet
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,13 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
+import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.certrecommend.component.button.RecommendFilterSelectableButton
 import org.sopt.certi.ui.theme.CertiTheme
@@ -65,8 +64,7 @@ fun RecommendFilterBottomSheet(
                     .padding(top = 24.dp)
                     .width(80.dp)
                     .height(5.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(CertiTheme.colors.gray200)
+                    .roundedBackgroundWithBorder(12.dp, CertiTheme.colors.gray200)
             )
         }
     ) {
