@@ -17,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -40,11 +41,11 @@ fun ResumeProfile(
                 .widthForScreenPercentage(0.22f)
                 .heightForScreenPercentage(0.1f)
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(screenWidthDp(0.03f)))
 
         Column(
             modifier = Modifier
-                .padding(vertical = 10.dp)
+                .padding(vertical = screenHeightDp(0.012f))
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -66,7 +67,7 @@ fun ResumeProfileJobs(category: List<String>) {
         } else {
             ThemedText(stringResource(R.string.resume_profile_jobs_1, category[0], category[1]))
             if (category.size == 3) {
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(screenHeightDp(0.002f)))
                 ThemedText(stringResource(R.string.resume_profile_jobs_2, category[2]))
             }
         }
