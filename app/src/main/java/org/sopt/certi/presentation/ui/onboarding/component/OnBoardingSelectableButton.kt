@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.SelectableButtonType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -39,7 +41,7 @@ fun OnBoardingSelectableButtons(
         chunkedOptions.forEach { rowOptions ->
             Row(
                 modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.04f)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 rowOptions.forEach { option ->
@@ -67,9 +69,9 @@ fun OnBoardingSelectableButtons(
                 }
             }
             if (selectableButtonType == SelectableButtonType.CATEGORY) {
-                Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(screenHeightDp(0.017f)))
             } else {
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(screenHeightDp(0.015f)))
             }
         }
     }
@@ -95,7 +97,7 @@ private fun OnBoardingSelectableButton(
     ) {
         Text(
             text = option,
-            modifier = Modifier.padding(vertical = selectableButtonType.verticalPadding.dp),
+            modifier = Modifier.padding(vertical = screenHeightDp(selectableButtonType.verticalPadding / 780f)),
             style = if (isSelected) CertiTheme.typography.body.semibold_16 else CertiTheme.typography.body.regular_16,
             color = if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.gray500
         )
@@ -140,7 +142,7 @@ private fun PreviewOnBoardingSelectableButtonGrade() {
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.GRADE,
             selectedOptions =
-            listOfNotNull(selectedOption),
+                listOfNotNull(selectedOption),
             isMultiple = false,
             onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
         )
