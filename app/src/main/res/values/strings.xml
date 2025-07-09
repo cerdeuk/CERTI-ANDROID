@@ -31,8 +31,6 @@
 
     <!-- ResumeDescriptionSecrion -->
     <string name="resume_list_item_period">%s ~ %s</string>
-    <!-- ResumeListItem -->
-    <string name="resumelistitem_period">%s ~ %s</string>
 
     <!-- ResumeProfile -->
     <string name="resume_profile_title">희망직무</string>
