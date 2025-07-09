@@ -6,6 +6,18 @@
     <string name="login_kakao_btn">카카오로 로그인</string>
     <string name="login_google_btn">Google로 로그인</string>
 
+    <!-- OnBoarding Screen -->
+    <string name="onboarding_univ_title">대학교 이름을 입력해주세요</string>
+    <string name="onboarding_grade_title">현재 학년을 선택해주세요</string>
+    <string name="onboarding_track_title">계열을 선택해주세요</string>
+    <string name="onboarding_major_title">학과를 선택해주세요</string>
+    <string name="onboarding_category_title">희망직무를 선택해주세요</string>
+    <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(최대 3개 선택 가능)</string>
+    <string name="onboarding_info_title">%s님,\n 이제 서티와 함께 해요!</string>
+    <string name="onboarding_info_final_education_title">최종학력</string>
+    <string name="onboarding_info_major_title">학과</string>
+    <string name="onboarding_info_category_title">희망직무</string>
+
     <!-- MainBottomNavBar -->
     <string name="main_bottom_navbar_home">홈</string>
     <string name="main_bottom_navbar_category">카테고리</string>
