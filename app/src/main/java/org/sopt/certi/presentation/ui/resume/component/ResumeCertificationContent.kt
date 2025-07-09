@@ -1,7 +1,6 @@
 package org.sopt.certi.presentation.ui.resume.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,7 +22,12 @@ fun ResumeCertificationContent(
     horizontalPadding: Float
 ) {
     LazyRow(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = screenHeightDp(0.02f),
+                bottom = screenHeightDp(0.046f)
+            ),
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.03f))
     ) {
         itemsIndexed(certifications) { index, certification ->
@@ -42,38 +46,34 @@ fun ResumeCertificationContent(
 @Composable
 fun ResumeCertificationRowPreview() {
     CERTITheme {
-        Column(
-            modifier = Modifier.padding(top = screenHeightDp(0.1f))
-        ) {
-            ResumeCertificationContent(
-                certifications = listOf(
-                    ResumeCertificationListData(
-                        name = "GTQ 1급 (그래픽기술자격)",
-                        year = 2025,
-                        month = 7,
-                        day = 3,
-                        cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                        tags = listOf("태그", "태그", "태그")
-                    ),
-                    ResumeCertificationListData(
-                        name = "GTQ 1급 (그래픽기술자격)",
-                        year = 2025,
-                        month = 7,
-                        day = 3,
-                        cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                        tags = listOf("태그", "태그", "태그")
-                    ),
-                    ResumeCertificationListData(
-                        name = "GTQ 1급 (그래픽기술자격)",
-                        year = 2025,
-                        month = 7,
-                        day = 3,
-                        cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                        tags = listOf("태그", "태그", "태그")
-                    )
+        ResumeCertificationContent(
+            certifications = listOf(
+                ResumeCertificationListData(
+                    name = "GTQ 1급 (그래픽기술자격)",
+                    year = 2025,
+                    month = 7,
+                    day = 3,
+                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                    tags = listOf("태그", "태그", "태그")
                 ),
-                horizontalPadding = 0.055f
-            )
-        }
+                ResumeCertificationListData(
+                    name = "GTQ 1급 (그래픽기술자격)",
+                    year = 2025,
+                    month = 7,
+                    day = 3,
+                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                    tags = listOf("태그", "태그", "태그")
+                ),
+                ResumeCertificationListData(
+                    name = "GTQ 1급 (그래픽기술자격)",
+                    year = 2025,
+                    month = 7,
+                    day = 3,
+                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                    tags = listOf("태그", "태그", "태그")
+                )
+            ),
+            horizontalPadding = 0.055f
+        )
     }
 }

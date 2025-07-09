@@ -16,11 +16,10 @@ fun ResumeListContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
-            .padding(
-                top = screenHeightDp(0.02f),
-                bottom = screenHeightDp(0.01f)
-            ),
+        modifier = modifier.padding(
+            top = screenHeightDp(0.02f),
+            bottom = screenHeightDp(0.01f)
+        ),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(0.03f))
     ) {
         resumeListItems.forEach { item ->

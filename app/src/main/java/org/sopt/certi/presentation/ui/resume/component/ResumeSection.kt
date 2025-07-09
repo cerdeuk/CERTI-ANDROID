@@ -16,6 +16,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.model.ResumeCertificationListData
 import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -31,10 +32,7 @@ fun ResumeSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                top = screenHeightDp(0.046f),
-                bottom = screenHeightDp(0.01f)
-            )
+            .padding(top = screenHeightDp(0.046f))
     ) {
         Row(
             modifier = Modifier
@@ -114,6 +112,48 @@ fun ResumeListContentPreview() {
                             description = "트렌드 리서치 및 소재 조사"
                         )
                     )
+                )
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ResumeCertificationPreview() {
+    CERTITheme {
+        ResumeSection(
+            title = "취득한 자격증",
+            onClick = { },
+            content = { horizontalPadding ->
+                ResumeCertificationContent(
+                    certifications = listOf(
+                        ResumeCertificationListData(
+                            name = "GTQ 1급 (그래픽기술자격)",
+                            year = 2025,
+                            month = 7,
+                            day = 3,
+                            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                            tags = listOf("태그", "태그", "태그")
+                        ),
+                        ResumeCertificationListData(
+                            name = "GTQ 1급 (그래픽기술자격)",
+                            year = 2025,
+                            month = 7,
+                            day = 3,
+                            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                            tags = listOf("태그", "태그", "태그")
+                        ),
+                        ResumeCertificationListData(
+                            name = "GTQ 1급 (그래픽기술자격)",
+                            year = 2025,
+                            month = 7,
+                            day = 3,
+                            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                            tags = listOf("태그", "태그", "태그")
+                        )
+                    ),
+                    horizontalPadding = horizontalPadding
                 )
             }
         )
