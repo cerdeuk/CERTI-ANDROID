@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.ui.theme.CERTITheme
 import androidx.compose.material3.VerticalDivider
+import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 
@@ -67,7 +68,7 @@ fun UserInfoSection(
             Image(
                 painter = painterResource(id = R.drawable.img_profile),
                 contentDescription = null,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(screenWidthDp(0.2f))
             )
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -76,7 +77,7 @@ fun UserInfoSection(
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(screenWidthDp(0.03f)))
             VerticalDivider(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -85,10 +86,10 @@ fun UserInfoSection(
                 thickness = 2.dp
 
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(screenWidthDp(0.02f)))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(screenHeightDp(0.006f))
             ) {
                 Text(
                     text = userInfoData.university,
@@ -102,25 +103,30 @@ fun UserInfoSection(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(screenHeightDp(0.019f)))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp)
-                .height(5.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(CertiTheme.colors.gray100)
+                .padding(vertical = screenHeightDp(0.006f))
+                .height(screenHeightDp(0.006f))
+                .roundedBackgroundWithBorder(
+                cornerRadius = 12.dp,
+                backgroundColor = CertiTheme.colors.gray100
+            )
+
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(userInfoData.percentage / 100f)
                     .fillMaxHeight()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(CertiTheme.colors.purpleBlue)
+                    .roundedBackgroundWithBorder(
+                        cornerRadius = 12.dp,
+                        backgroundColor = CertiTheme.colors.purpleBlue
+                    )
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(screenHeightDp(0.012f)))
 
         Text(
             text = buildAnnotatedString {
