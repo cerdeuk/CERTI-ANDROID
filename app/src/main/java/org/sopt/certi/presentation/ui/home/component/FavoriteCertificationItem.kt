@@ -51,84 +51,84 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 14.dp, vertical = 20.dp),
+                .padding(horizontal = 14.dp, vertical = 20.dp)
         ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = favoriteCertificationData.qualificationType,
-                        style = CertiTheme.typography.caption.regular_14,
-                        color = CertiTheme.colors.gray600
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_star_24),
-                        contentDescription = null,
-                        tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
-                        modifier = Modifier
-                            .widthForScreenPercentage(0.066f)
-                            .heightForScreenPercentage(0.03f)
-                            .clickable { onFavoriteClicked() }
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = favoriteCertificationData.certificationName,
-                    style = CertiTheme.typography.body.bold_18,
+                    text = favoriteCertificationData.qualificationType,
+                    style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray600
                 )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_star_24),
+                    contentDescription = null,
+                    tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
+                    modifier = Modifier
+                        .widthForScreenPercentage(0.066f)
+                        .heightForScreenPercentage(0.03f)
+                        .clickable { onFavoriteClicked() }
+                )
             }
-            Column(
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = favoriteCertificationData.certificationName,
+                style = CertiTheme.typography.body.bold_18,
+                color = CertiTheme.colors.gray600
+            )
+        }
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(horizontal = 14.dp, vertical = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(horizontal = 14.dp, vertical = 18.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Row(
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_paper_16),
+                    contentDescription = null,
+                    tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_paper_16),
-                        contentDescription = null,
-                        tint = CertiTheme.colors.gray400,
-                        modifier = Modifier
-                            .widthForScreenPercentage(0.044f)
-                            .heightForScreenPercentage(0.02f)
-                    )
-                    Text(
-                        text = favoriteCertificationData.testType,
-                        style = CertiTheme.typography.caption.regular_12,
-                        color = CertiTheme.colors.gray500
-                    )
-                }
-                Row(
+                        .widthForScreenPercentage(0.044f)
+                        .heightForScreenPercentage(0.02f)
+                )
+                Text(
+                    text = favoriteCertificationData.testType,
+                    style = CertiTheme.typography.caption.regular_12,
+                    color = CertiTheme.colors.gray500
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_certification_16),
+                    contentDescription = null,
+                    tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_certification_16),
-                        contentDescription = null,
-                        tint = CertiTheme.colors.gray400,
-                        modifier = Modifier
-                            .widthForScreenPercentage(0.044f)
-                            .heightForScreenPercentage(0.02f)
-                    )
-                    Text(
-                        text = favoriteCertificationData.agencyName,
-                        style = CertiTheme.typography.caption.regular_12,
-                        color = CertiTheme.colors.gray500
-                    )
-                }
+                        .widthForScreenPercentage(0.044f)
+                        .heightForScreenPercentage(0.02f)
+                )
+                Text(
+                    text = favoriteCertificationData.agencyName,
+                    style = CertiTheme.typography.caption.regular_12,
+                    color = CertiTheme.colors.gray500
+                )
             }
         }
     }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -146,6 +146,4 @@ fun FavoriteCertificationItemPreview() {
         isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite }
     )
-
 }
-
