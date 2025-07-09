@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -23,8 +24,8 @@ import org.sopt.certi.domain.model.PreCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import org.sopt.certi.core.util.heightForScreenPercentage
-import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
@@ -43,33 +44,33 @@ fun PreCertificationItem(
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 12.dp, vertical = 14.dp)
+                .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(14.dp))
         ) {
             Text(
                 text = preCertificationData.certificationName,
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 
             Text(
                 text = stringResource(R.string.home_average_period, preCertificationData.averagePeriod),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray600
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(18.dp)
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(18.dp))
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(vertical = 6.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                        .padding(vertical = screenHeightDp(6.dp)),
+                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(6.dp))
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_date_16),
@@ -88,7 +89,7 @@ fun PreCertificationItem(
                     }
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_certification_16),

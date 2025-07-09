@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +23,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
-import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.FavoriteCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -68,8 +69,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
-                        .widthForScreenPercentage(24.dp)
-                        .heightForScreenPercentage(24.dp)
+                        .width(screenWidthDp(24.dp))
+                        .height(screenHeightDp(24.dp))
                         .noRippleClickable { onFavoriteClicked() }
                 )
             }
@@ -99,8 +100,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .widthForScreenPercentage(16.dp)
-                        .heightForScreenPercentage(16.dp)
+                        .width(screenWidthDp(16.dp))
+                        .height(screenHeightDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.testType,
@@ -119,8 +120,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .widthForScreenPercentage(16.dp)
-                        .heightForScreenPercentage(16.dp)
+                        .width(screenWidthDp(16.dp))
+                        .height(screenHeightDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.agencyName,
@@ -140,7 +141,7 @@ fun FavoriteCertificationItemPreview() {
     FavoriteCertificationItem(
         favoriteCertificationData = FavoriteCertificationData(
             certificationId = 1,
-            certificationName = "시각디자인산업기사",
+            certificationName = "시각디자인산업기사안녕",
             qualificationType = "국가기술자격",
             testType = "실기형",
             agencyName = "한국산업인력공단"
