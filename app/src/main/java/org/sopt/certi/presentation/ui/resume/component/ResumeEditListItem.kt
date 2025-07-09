@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -38,7 +39,7 @@ fun ResumeEditListItem(
             description = description,
             modifier = Modifier
                 .weight(1f)
-                .padding(end = screenWidthDp(0.06f))
+                .padding(end = screenWidthDp(22.dp))
         )
 
         Icon(

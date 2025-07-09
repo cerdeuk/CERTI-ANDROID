@@ -5,14 +5,19 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+private val figmaScreenWidth = 360.dp
+private val figmaScreenHeight = 780.dp
+
 @Composable
-fun screenHeightDp(percentage: Float): Dp {
+fun screenHeightDp(height: Dp): Dp {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    return screenHeight * percentage
+    val ratio = screenHeight / figmaScreenHeight
+    return height * ratio
 }
 
 @Composable
-fun screenWidthDp(percentage: Float): Dp {
+fun screenWidthDp(width: Dp): Dp {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    return screenWidth * percentage
+    val ratio = screenWidth / figmaScreenWidth
+    return width * ratio
 }

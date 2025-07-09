@@ -14,10 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
-import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -46,16 +46,15 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding)
-            .background(color = CertiTheme.colors.purpleBlue)
-            .padding(top = screenHeightDp(0.3f)),
+            .background(color = CertiTheme.colors.purpleBlue),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_splash_logo),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(0.11f)
-                .widthForScreenPercentage(0.73f)
+                .heightForScreenPercentage(104.dp)
+                .widthForScreenPercentage(266.dp)
         )
     }
 }

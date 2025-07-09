@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -32,14 +33,14 @@ fun CategoryBar(
 
     LazyRow(
         modifier = modifier
-            .padding(vertical = screenHeightDp(0.01f))
+            .padding(vertical = screenHeightDp(10.dp))
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.06f)),
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(22.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(CategoryType.entries.size) { index ->
             if (index == 0) {
-                Spacer(Modifier.width(screenWidthDp(0.05f)))
+                Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
 
             val category = categoryList[index]
@@ -52,7 +53,7 @@ fun CategoryBar(
             )
 
             if (index == categoryList.lastIndex) {
-                Spacer(Modifier.width(screenWidthDp(0.05f)))
+                Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
         }
     }

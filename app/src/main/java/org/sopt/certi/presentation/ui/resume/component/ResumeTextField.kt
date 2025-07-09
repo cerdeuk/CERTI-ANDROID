@@ -57,7 +57,7 @@ fun ResumeTextField(
                     innerTextField()
                 }
                 HorizontalDivider(
-                    modifier = Modifier.padding(vertical = screenHeightDp(0.01f)),
+                    modifier = Modifier.padding(vertical = screenHeightDp(10.dp)),
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
                 )

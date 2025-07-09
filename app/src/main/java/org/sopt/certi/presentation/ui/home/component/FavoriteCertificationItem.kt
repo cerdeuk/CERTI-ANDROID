@@ -23,10 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.FavoriteCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -39,8 +41,8 @@ fun FavoriteCertificationItem(
 ) {
     Box(
         modifier = modifier
-            .width(screenWidthDp(0.444f))
-            .height(screenHeightDp(0.205f))
+            .widthForScreenPercentage(160.dp)
+            .heightForScreenPercentage(160.dp)
             .roundedBackgroundWithBorder(
                 cornerRadius = 12.dp,
                 backgroundColor = CertiTheme.colors.white,
@@ -51,7 +53,7 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = screenWidthDp(0.038f), vertical = screenHeightDp(0.023f))
+                .padding(horizontal = 14.dp, vertical = 20.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -69,12 +71,12 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
-                        .width(screenWidthDp(0.066f))
-                        .height(screenHeightDp(0.03f))
+                        .width(screenWidthDp(24.dp))
+                        .height(screenHeightDp(24.dp))
                         .noRippleClickable { onFavoriteClicked() }
                 )
             }
-            Spacer(modifier = Modifier.height(screenHeightDp(0.01f)))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = favoriteCertificationData.certificationName,
@@ -86,13 +88,13 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(horizontal = screenWidthDp(0.035f), vertical = screenHeightDp(0.025f)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(0.007f))
+                .padding(horizontal = 14.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.011f)),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -100,8 +102,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .width(screenWidthDp(0.044f))
-                        .height(screenHeightDp(0.02f))
+                        .width(screenWidthDp(16.dp))
+                        .height(screenHeightDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.testType,
@@ -112,7 +114,7 @@ fun FavoriteCertificationItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.011f)),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -120,8 +122,8 @@ fun FavoriteCertificationItem(
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
                     modifier = Modifier
-                        .width(screenWidthDp(0.044f))
-                        .height(screenHeightDp(0.02f))
+                        .width(screenWidthDp(16.dp))
+                        .height(screenHeightDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.agencyName,

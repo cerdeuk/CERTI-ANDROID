@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -18,10 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.RecommendedCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -42,13 +42,13 @@ fun RecommendedCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = screenWidthDp(0.044f), vertical = screenHeightDp(0.011f)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(0.016f))
+                .padding(horizontal = screenWidthDp(16.dp), vertical = screenHeightDp(10.dp)),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(0.022f)),
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -58,9 +58,9 @@ fun RecommendedCertificationItem(
                 )
                 VerticalDivider(
                     modifier = Modifier
-                        .height(screenHeightDp(0.024f))
-                        .width(screenWidthDp(0.002f))
-                        .padding(vertical = screenHeightDp(0.006f)),
+                        .heightForScreenPercentage(24.dp)
+                        .widthForScreenPercentage(2.dp)
+                        .padding(vertical = 5.dp),
                     color = CertiTheme.colors.gray200,
                     thickness = 1.dp
                 )
@@ -73,7 +73,7 @@ fun RecommendedCertificationItem(
             }
             CertiChipList(
                 categories = recommendedCertificationData.categories,
-                spacing = screenWidthDp(0.016f)
+                spacing = screenWidthDp(6.dp)
             )
         }
     }
