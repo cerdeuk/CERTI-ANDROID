@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.presentation.type.SocialLoginType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -40,7 +41,7 @@ fun SocialLoginButton(
                 color = CertiTheme.colors.gray200,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(vertical = 16.dp)
+            .padding(vertical = screenHeightDp(16.dp))
             .noRippleClickable(onButtonClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

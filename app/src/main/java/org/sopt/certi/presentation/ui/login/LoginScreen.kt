@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.type.SocialLoginType
 import org.sopt.certi.presentation.ui.login.component.BouncingImage
@@ -56,7 +58,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 100.dp, horizontal = 20.dp),
+            .padding(vertical = screenHeightDp(94.dp), horizontal = screenWidthDp(18.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -67,9 +69,9 @@ fun LoginScreen(
                 painter = painterResource(id = R.drawable.img_logo),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
-                    .heightForScreenPercentage(0.056f)
-                    .widthForScreenPercentage(0.36f),
+                    .padding(bottom = screenHeightDp(16.dp))
+                    .heightForScreenPercentage(44.dp)
+                    .widthForScreenPercentage(130.dp),
                 contentScale = ContentScale.Fit
             )
 
@@ -78,25 +80,23 @@ fun LoginScreen(
                 style = CertiTheme.typography.caption.regular_14,
                 color = CertiTheme.colors.gray400
             )
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(32.dp)))
 
             BouncingImage(
-                resId = R.drawable.img_bouncing_login,
-                heightRatio = 0.38f,
-                widthRatio = 0.7f
+                resId = R.drawable.img_bouncing_login
             )
 
             Image(
                 painter = painterResource(id = R.drawable.img_login_shadow),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(top = 28.dp)
-                    .heightForScreenPercentage(0.025f)
-                    .widthForScreenPercentage(0.47f)
+                    .padding(top = screenHeightDp(24.dp))
+                    .heightForScreenPercentage(20.dp)
+                    .widthForScreenPercentage(170.dp)
             )
         }
 
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(screenHeightDp(32.dp)))
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -106,7 +106,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onButtonClick = onKakaoLoginClick
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
             SocialLoginButton(
                 socialLoginType = SocialLoginType.GOOGLE,
                 modifier = Modifier.fillMaxWidth(),

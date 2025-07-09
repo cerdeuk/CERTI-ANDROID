@@ -22,6 +22,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+private val figmaScreenWidth = 360.dp
+private val figmaScreenHeight = 780.dp
+
 inline fun Modifier.noRippleClickable(
     crossinline onClick: () -> Unit
 ): Modifier = composed {
@@ -81,13 +84,15 @@ inline fun Modifier.pressedClickable(
 }
 
 @Composable
-fun Modifier.heightForScreenPercentage(percentage: Float): Modifier {
+fun Modifier.heightForScreenPercentage(height: Dp): Modifier {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    return this.height(screenHeight * percentage)
+    val ratio = screenHeight / figmaScreenHeight
+    return this.height(height * ratio)
 }
 
 @Composable
-fun Modifier.widthForScreenPercentage(percentage: Float): Modifier {
+fun Modifier.widthForScreenPercentage(width: Dp): Modifier {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    return this.width(screenWidth * percentage)
+    val ratio = screenWidth / figmaScreenWidth
+    return this.width(width * ratio)
 }

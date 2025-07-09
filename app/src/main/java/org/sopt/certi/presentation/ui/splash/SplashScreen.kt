@@ -46,16 +46,15 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding)
-            .background(color = CertiTheme.colors.purpleBlue)
-            .padding(top = 236.dp),
+            .background(color = CertiTheme.colors.purpleBlue),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_splash_logo),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(0.11f)
-                .widthForScreenPercentage(0.73f)
+                .heightForScreenPercentage(104.dp)
+                .widthForScreenPercentage(266.dp)
         )
     }
 }
