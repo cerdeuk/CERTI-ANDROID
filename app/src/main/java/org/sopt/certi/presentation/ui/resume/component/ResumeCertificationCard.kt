@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.resume.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,16 +10,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -30,19 +34,22 @@ fun ResumeCertificationCard(
     cardImageUrl: String,
     tags: List<String>,
     modifier: Modifier = Modifier
-){
-    Box (
+) {
+    Surface(
         modifier = modifier.clip(RoundedCornerShape(12.dp))
     ) {
-        Image(
-            painter = painterResource(R.drawable.img_certification_card_small),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(cardImageUrl)
+                .build(),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(0.4f)
-                .widthForScreenPercentage(0.58f)
+                .widthForScreenPercentage(0.55f)
+                .heightForScreenPercentage(0.38f),
+            contentScale = ContentScale.Crop
         )
 
-        Column (
+        Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 32.dp)
         ) {
@@ -63,16 +70,9 @@ fun ResumeCertificationCard(
 
 @Composable
 fun FormatAcquisitionDate(dateStr: String) {
-    val parts = dateStr.split(".")
-    val year = parts.getOrNull(0)?.toIntOrNull()
-    val month = parts.getOrNull(1)?.toIntOrNull()
-    val day = parts.getOrNull(2)?.toIntOrNull()
+    val (year, month, day) = dateStr.split(".").map { it.toInt() }
 
-    val text = if (year != null && month != null && day != null) {
-        stringResource(id = R.string.resume_certification_card_small, year, month, day)
-    } else {
-        ""
-    }
+    val text = stringResource(id = R.string.resume_certification_card_small, year, month, day)
 
     Text(
         text = text,
@@ -83,15 +83,18 @@ fun FormatAcquisitionDate(dateStr: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeCertificationPreview(){
-    Surface (
-        modifier = Modifier.fillMaxSize()
-    ) {
-        ResumeCertificationCard(
-            name = "GTQ 1급 (그래픽기술자격)",
-            createdAt = "2025.07.03",
-            cardImageUrl = "asdf",
-            tags = listOf("태그", "태그", "태그")
-        )
+fun ResumeCertificationPreview() {
+    CERTITheme {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ResumeCertificationCard(
+                name = "GTQ 1급 (그래픽기술자격)",
+                createdAt = "2025.07.03",
+                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                tags = listOf("태그", "태그", "태그")
+            )
+        }
     }
 }
