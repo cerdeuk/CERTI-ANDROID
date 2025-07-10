@@ -46,12 +46,15 @@ fun ResumeDateTextField(
             )
             onValueChange(newValue)
         },
+        textStyle = CertiTheme.typography.caption.semibold_12.copy(
+            color = CertiTheme.colors.gray600
+        ),
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(4.dp))
             .border(
                 width = 1.dp,
                 color = CertiTheme.colors.gray100,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(4.dp)
             )
             .background(CertiTheme.colors.white),
         keyboardOptions = KeyboardOptions(
