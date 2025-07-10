@@ -29,6 +29,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CertListRoute(
     padding: PaddingValues,
+    navigateToSearch: () -> Unit,
     viewModel: CertListViewModel = hiltViewModel()
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
@@ -113,6 +114,7 @@ fun CertListRoute(
     }
 
     CertListScreen(
+        navigateToSearch = navigateToSearch,
         selectedCategory = selectedIndex,
         onCategorySelected = { selectedIndex = it },
         isFavorite = isFavorite,
@@ -129,6 +131,7 @@ fun CertListRoute(
 
 @Composable
 private fun CertListScreen(
+    navigateToSearch: () -> Unit,
     selectedCategory: Int,
     onCategorySelected: (Int) -> Unit,
     isFavorite: Boolean,
@@ -141,7 +144,7 @@ private fun CertListScreen(
         modifier = modifier.fillMaxSize()
     ) {
         CategoryTopBar(
-            onClick = {},
+            onClick = navigateToSearch,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
         )
 
@@ -184,6 +187,7 @@ private fun CertListScreen(
 private fun PreviewCertListScreen() {
     CERTITheme {
         CertListScreen(
+            navigateToSearch = {},
             selectedCategory = 0,
             onCategorySelected = {},
             isFavorite = false,
