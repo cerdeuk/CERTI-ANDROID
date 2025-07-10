@@ -15,6 +15,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -52,7 +53,7 @@ fun ResumeListSection(
             )
         }
         if (resumeListItems.isEmpty()) {
-            ResumeEmptyContent(
+            CertiEmptySection(
                 text = stringResource(R.string.resume_empty_experience_message)
             )
         } else {
