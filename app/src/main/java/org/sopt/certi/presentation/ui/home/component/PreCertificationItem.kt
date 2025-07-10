@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -14,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -29,6 +33,25 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.type.CertiEmojiType
+
+@Composable
+fun PreCertificationListSection(
+    preCertificationList: List<PreCertificationData>,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp)),
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        items(preCertificationList) { item ->
+            PreCertificationItem(
+                preCertificationData = item
+            )
+        }
+    }
+}
 
 @Composable
 fun PreCertificationItem(
@@ -116,7 +139,7 @@ fun PreCertificationItem(
                     }
                     Image(
                         painter = painterResource(
-                            id = CertiEmojiType.fromIndex(preCertificationData.emojiIndex).resId
+                            id = CertiEmojiType.fromIndex(preCertificationData.iconIndex).resId
                         ),
                         contentDescription = null,
                         modifier = Modifier
@@ -149,7 +172,7 @@ private fun PreCertificationItemPreview_click() {
             averagePeriod = "3개월",
             testDate = "2025.08.12",
             agencyName = "한국산업인력공단",
-            emojiIndex = 0
+            iconIndex = 0
         ),
         modifier = Modifier.padding(20.dp),
         onClick = {}
@@ -166,7 +189,7 @@ private fun PreCertificationItemPreview_delete() {
             averagePeriod = "3개월",
             testDate = "2025.08.12",
             agencyName = "한국산업인력공단",
-            emojiIndex = 1
+            iconIndex = 1
         ),
         modifier = Modifier
             .padding(vertical = 20.dp),

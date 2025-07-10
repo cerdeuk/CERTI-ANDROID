@@ -26,6 +26,26 @@ import org.sopt.certi.domain.model.RecommendedCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
+fun RecommendedCertificationListSection(
+    recommendedList: List<RecommendedCertificationData>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        recommendedList
+            .take(3)
+            .forEach { item ->
+                RecommendedCertificationItem(
+                    recommendedCertificationData = item,
+                    onClick = { }
+                )
+            }
+    }
+}
+
+@Composable
 fun RecommendedCertificationItem(
     recommendedCertificationData: RecommendedCertificationData,
     modifier: Modifier = Modifier,
@@ -81,7 +101,7 @@ fun RecommendedCertificationItem(
 
 @Preview(showBackground = true, backgroundColor = 0xFFE0E0E0)
 @Composable
-fun RecommendedCertificationItemPreview() {
+private fun RecommendedCertificationItemPreview() {
     val sampleData = RecommendedCertificationData(
         name = "OPIc",
         score = 90,

@@ -6,5 +6,5 @@ data class PreCertificationData(
     val averagePeriod: String,
     val testDate: String,
     val agencyName: String,
-    val emojiIndex: Int
+    val iconIndex: Int
 )
