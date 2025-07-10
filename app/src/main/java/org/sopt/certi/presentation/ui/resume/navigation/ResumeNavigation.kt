@@ -16,15 +16,15 @@ fun NavController.navigateToResume(navOptions: NavOptions) {
     navigate(MainTabRoute.Resume, navOptions)
 }
 
-fun NavController.navigateToMyCert(){
+fun NavController.navigateToMyCert() {
     navigate(ResumeRoute.MyCert)
 }
 
-fun NavController.navigateToWorkExperience(){
+fun NavController.navigateToWorkExperience() {
     navigate(ResumeRoute.WorkExperience)
 }
 
-fun NavController.navigateToActivities(){
+fun NavController.navigateToActivities() {
     navigate(ResumeRoute.Activities)
 }
 

@@ -31,7 +31,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    onCertificationClick: (ResumeCertificationListData) -> Unit,
+    onCertificationClick: () -> Unit,
     acquiredCertificationList: List<ResumeCertificationListData>,
     modifier: Modifier = Modifier
 ) {
@@ -74,7 +74,7 @@ fun ResumeCertificationSection(
 @Composable
 private fun ResumeCertificationContent(
     acquiredCertificationList: List<ResumeCertificationListData>,
-    onCertificationClick: (ResumeCertificationListData)-> Unit,
+    onCertificationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -92,7 +92,7 @@ private fun ResumeCertificationContent(
             }
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = { onCertificationClick(certification) }
+                onClick = onCertificationClick
             )
             if (index == acquiredCertificationList.lastIndex) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
