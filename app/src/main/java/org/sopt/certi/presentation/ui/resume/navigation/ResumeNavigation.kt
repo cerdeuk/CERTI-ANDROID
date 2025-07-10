@@ -16,18 +16,28 @@ fun NavController.navigateToResume(navOptions: NavOptions) {
     navigate(MainTabRoute.Resume, navOptions)
 }
 
-fun NavController.navigateToMyCerti() {
+fun NavController.navigateToMyCert() {
     navigate(ResumeRoute.MyCert)
 }
 
+fun NavController.navigateToWorkExperience() {
+    navigate(ResumeRoute.WorkExperience)
+}
+
+fun NavController.navigateToActivities() {
+    navigate(ResumeRoute.Activities)
+}
+
 fun NavGraphBuilder.resumeNavGraph(
-    navController: NavController,
-    padding: PaddingValues
+    padding: PaddingValues,
+    navController: NavController
 ) {
     composable<MainTabRoute.Resume> {
         ResumeRoute(
             padding = padding,
-            navigateToMyCerti = navController::navigateToMyCerti
+            navigateToMyCert = navController::navigateToMyCert,
+            navigateToWorkExperience = navController::navigateToWorkExperience,
+            navigateToActivities = navController::navigateToActivities
         )
     }
 

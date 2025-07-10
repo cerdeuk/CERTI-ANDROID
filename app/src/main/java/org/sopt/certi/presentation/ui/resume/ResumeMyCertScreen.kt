@@ -120,7 +120,7 @@ fun ResumeMyCertScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun PreviewResumeMyCertScreen() {
     var showDialog by remember { mutableStateOf(false) }

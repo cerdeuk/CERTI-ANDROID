@@ -17,9 +17,11 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun CertiTopBar() {
+fun CertiTopBar(
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
     ) {

@@ -20,6 +20,7 @@ import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -30,10 +31,13 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun ResumeCertificationSmallCard(
     certification: ResumeCertificationListData,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.clip(RoundedCornerShape(12.dp))
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .noRippleClickable { onClick() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -89,7 +93,8 @@ private fun ResumeCertificationSmallCardPreview() {
                 day = 3,
                 cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
                 tags = listOf("태그", "태그", "태그")
-            )
+            ),
+            onClick = {}
         )
     }
 }

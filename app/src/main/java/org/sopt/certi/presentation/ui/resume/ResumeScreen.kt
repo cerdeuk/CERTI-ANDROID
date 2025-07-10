@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ResumeCertificationListData
 import org.sopt.certi.domain.model.ResumeListData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
@@ -29,10 +31,13 @@ import org.sopt.certi.ui.theme.CERTITheme
 @Composable
 fun ResumeRoute(
     padding: PaddingValues,
-    navigateToMyCerti: () -> Unit,
+    navigateToMyCert: () -> Unit,
+    navigateToWorkExperience: () -> Unit,
+    navigateToActivities: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
-    val dummyCertifications = listOf(
+    val dummyCategoryList = listOf("IT/인터넷")
+    val dummyAcquiredCertificationList = listOf(
         ResumeCertificationListData(
             name = "GTQ 1급 (그래픽기술자격)",
             year = 2025,
@@ -84,11 +89,14 @@ fun ResumeRoute(
     )
 
     ResumeScreen(
-        jobCategory = listOf("IT/인터넷"),
-        certifications = dummyCertifications,
+        jobCategory = dummyCategoryList,
+        acquiredCertificationList = dummyAcquiredCertificationList,
         experiences = dummyExperiences,
         activities = listOf(),
-        navigateToMyCerti = navigateToMyCerti,
+        onCertificationClick = {},
+        navigateToMyCert = navigateToMyCert,
+        navigateToWorkExperience = navigateToWorkExperience,
+        navigateToActivities = navigateToActivities,
         modifier = Modifier.padding(padding)
     )
 }
@@ -96,10 +104,13 @@ fun ResumeRoute(
 @Composable
 fun ResumeScreen(
     jobCategory: List<String>,
-    certifications: List<ResumeCertificationListData>,
+    acquiredCertificationList: List<ResumeCertificationListData>,
     experiences: List<ResumeListData>,
     activities: List<ResumeListData>,
-    navigateToMyCerti: () -> Unit,
+    onCertificationClick: () -> Unit,
+    navigateToMyCert: () -> Unit,
+    navigateToWorkExperience: () -> Unit,
+    navigateToActivities: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -118,44 +129,52 @@ fun ResumeScreen(
             }
 
             item {
-                Column {
-                    ResumeCertificationSection(
-                        title = stringResource(R.string.resume_section_certification_title),
-                        onClick = navigateToMyCerti,
-                        certifications = certifications
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.img_resume_line),
-                        contentDescription = null
-                    )
-                }
+                ResumeCertificationSection(
+                    title = stringResource(R.string.resume_section_certification_title),
+                    onClick = navigateToMyCert,
+                    onCertificationClick = onCertificationClick,
+                    acquiredCertificationList = acquiredCertificationList
+                )
             }
 
             item {
-                Column {
-                    ResumeListSection(
-                        title = stringResource(R.string.resume_section_experience_title),
-                        onClick = { },
-                        resumeListItems = experiences
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.img_resume_line),
-                        contentDescription = null
-                    )
-                }
+                Image(
+                    painter = painterResource(R.drawable.img_resume_line),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
 
             item {
-                Column {
-                    ResumeListSection(
-                        title = stringResource(R.string.resume_section_activity_title),
-                        onClick = { },
-                        resumeListItems = activities
-                    )
-                    if (!activities.isEmpty()) {
-                        Spacer(modifier = Modifier.height(screenHeightDp(52.dp)))
-                    }
-                }
+                ResumeListSection(
+                    title = stringResource(R.string.resume_section_experience_title),
+                    onClick = navigateToWorkExperience,
+                    resumeListItems = experiences
+                )
+            }
+
+            item {
+                Image(
+                    painter = painterResource(R.drawable.img_resume_line),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            item {
+                ResumeListSection(
+                    title = stringResource(R.string.resume_section_activity_title),
+                    onClick = navigateToActivities,
+                    resumeListItems = activities
+                )
+            }
+
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .height(screenHeightDp(52.dp))
+                        .showIf(activities.isNotEmpty())
+                )
             }
         }
     }
@@ -164,7 +183,7 @@ fun ResumeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewResumeScreen() {
-    val dummyCertifications = listOf(
+    val dummyAcquiredCertificationList = listOf(
         ResumeCertificationListData(
             name = "GTQ 1급 (그래픽기술자격)",
             year = 2025,
@@ -218,10 +237,13 @@ private fun PreviewResumeScreen() {
     CERTITheme {
         ResumeScreen(
             jobCategory = listOf("IT/인터넷", "경영/사무", "경영/사무"),
-            certifications = dummyCertifications,
+            acquiredCertificationList = dummyAcquiredCertificationList,
             experiences = dummyExperiences,
             activities = listOf(),
-            navigateToMyCerti = {}
+            onCertificationClick = {},
+            navigateToMyCert = {},
+            navigateToWorkExperience = {},
+            navigateToActivities = {}
         )
     }
 }
