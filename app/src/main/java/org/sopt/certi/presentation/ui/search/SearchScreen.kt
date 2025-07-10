@@ -111,7 +111,7 @@ fun SearchRoute(
                     tags = listOf("뿡뿡", "빵빵", "IT"),
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
-                ),
+                )
             )
         )
     }

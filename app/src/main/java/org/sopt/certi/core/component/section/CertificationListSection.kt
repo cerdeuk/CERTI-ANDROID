@@ -119,7 +119,7 @@ private fun PreviewCertificationListSection() {
                 isFavorite = isLiked,
                 certificationName = "정보처리기사",
                 agencyName = "국가기술자격",
-                tags = listOf("컴퓨터공학", "시각디자인", "경영"),
+                tags = listOf("컴퓨터공학", "시각디자인", "경영")
             ),
             onLikeClick = { isLiked = !isLiked },
             onCertificationClick = {}

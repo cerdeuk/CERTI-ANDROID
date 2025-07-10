@@ -88,13 +88,13 @@ private fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         ResumeCertificationSmallCard(
             certification =
-                ResumeData(
-                    certificationId = 1,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
+            ResumeData(
+                certificationId = 1,
+                certificationName = "GTQ 1급 (그래픽기술자격)",
+                createdAt = LocalDate.now(),
+                cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+                tags = listOf("태그", "태그", "태그")
+            ),
             onClick = {}
         )
     }
