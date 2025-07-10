@@ -19,9 +19,11 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeInputTitle(
-    title: String
+    title: String,
+    modifier: Modifier = Modifier
 ) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
