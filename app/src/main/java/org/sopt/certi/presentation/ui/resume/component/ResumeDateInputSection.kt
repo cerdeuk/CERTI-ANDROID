@@ -32,8 +32,8 @@ fun ResumeDateInputSection(
     endDate: MutableState<TextFieldValue>,
     onStartDateValueChange: (TextFieldValue) -> Unit,
     onEndDateValueChange: (TextFieldValue) -> Unit
-){
-    Column (
+) {
+    Column(
         modifier = modifier
     ) {
         ResumeInputTitle(title = title)
@@ -73,7 +73,7 @@ fun ResumeDateInputSection(
 
 @Preview(showBackground = true)
 @Composable
-private fun ResumeDateInputSectionPreview(){
+private fun ResumeDateInputSectionPreview() {
     val startDate = remember { mutableStateOf(TextFieldValue("")) }
     val endDate = remember { mutableStateOf(TextFieldValue("")) }
 
@@ -81,8 +81,8 @@ private fun ResumeDateInputSectionPreview(){
         ResumeDateInputSection(
             startDate = startDate,
             endDate = endDate,
-            onStartDateValueChange = {startDate.value = it},
-            onEndDateValueChange = {endDate.value = it}
+            onStartDateValueChange = { startDate.value = it },
+            onEndDateValueChange = { endDate.value = it }
         )
     }
 }
