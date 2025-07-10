@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.resume.component
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -40,9 +41,12 @@ fun ResumeAddButton(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_resume_add_24),
             contentDescription = null,
-            tint = CertiTheme.colors.mainBlue
+            tint = CertiTheme.colors.mainBlue,
+            modifier = Modifier.size(screenWidthDp(24.dp))
         )
+
         Spacer(modifier = Modifier.width(screenWidthDp(2.dp)))
+
         Text(
             text = stringResource(R.string.resume_add_button),
             style = CertiTheme.typography.body.bold_16,
