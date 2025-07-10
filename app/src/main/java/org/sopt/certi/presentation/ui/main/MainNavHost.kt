@@ -65,7 +65,10 @@ fun MainNavHost(
 
             certDetailNavGraph(padding = padding)
 
-            resumeNavGraph(padding = padding)
+            resumeNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
         }
     }
 }

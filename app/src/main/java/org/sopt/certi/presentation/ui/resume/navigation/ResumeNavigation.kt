@@ -6,16 +6,50 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.MainTabRoute
+import org.sopt.certi.core.navigation.ResumeRoute
+import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
+import org.sopt.certi.presentation.ui.resume.ResumeMyCertRoute
 import org.sopt.certi.presentation.ui.resume.ResumeRoute
+import org.sopt.certi.presentation.ui.resume.ResumeWorkExperienceRoute
 
 fun NavController.navigateToResume(navOptions: NavOptions) {
     navigate(MainTabRoute.Resume, navOptions)
 }
 
+fun NavController.navigateToMyCert() {
+    navigate(ResumeRoute.MyCert)
+}
+
+fun NavController.navigateToWorkExperience() {
+    navigate(ResumeRoute.WorkExperience)
+}
+
+fun NavController.navigateToActivities() {
+    navigate(ResumeRoute.Activities)
+}
+
 fun NavGraphBuilder.resumeNavGraph(
-    padding: PaddingValues
+    padding: PaddingValues,
+    navController: NavController
 ) {
     composable<MainTabRoute.Resume> {
-        ResumeRoute(padding = padding)
+        ResumeRoute(
+            padding = padding,
+            navigateToMyCert = navController::navigateToMyCert,
+            navigateToWorkExperience = navController::navigateToWorkExperience,
+            navigateToActivities = navController::navigateToActivities
+        )
+    }
+
+    composable<ResumeRoute.MyCert> {
+        ResumeMyCertRoute(padding = padding)
+    }
+
+    composable<ResumeRoute.WorkExperience> {
+        ResumeWorkExperienceRoute(padding = padding)
+    }
+
+    composable<ResumeRoute.Activities> {
+        ResumeActivitiesRoute(padding = padding)
     }
 }

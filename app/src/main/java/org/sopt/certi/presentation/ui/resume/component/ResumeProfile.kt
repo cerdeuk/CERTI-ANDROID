@@ -1,7 +1,6 @@
 package org.sopt.certi.presentation.ui.resume.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -46,15 +45,16 @@ fun ResumeProfile(
 
         Column(
             modifier = Modifier
-                .padding(vertical = screenHeightDp(4.dp))
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(vertical = screenHeightDp(10.dp))
+                .fillMaxHeight()
         ) {
             Text(
                 text = stringResource(R.string.resume_profile_title),
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
+            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
+
             ResumeProfileJobs(category)
         }
     }
