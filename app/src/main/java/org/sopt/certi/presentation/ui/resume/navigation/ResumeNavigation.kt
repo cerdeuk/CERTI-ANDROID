@@ -10,6 +10,7 @@ import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.ResumeMyCertRoute
 import org.sopt.certi.presentation.ui.resume.ResumeRoute
+import org.sopt.certi.presentation.ui.resume.ResumeWorkExperienceAddRoute
 import org.sopt.certi.presentation.ui.resume.ResumeWorkExperienceRoute
 
 fun NavController.navigateToResume(navOptions: NavOptions) {
@@ -22,6 +23,10 @@ fun NavController.navigateToMyCert() {
 
 fun NavController.navigateToWorkExperience() {
     navigate(ResumeRoute.WorkExperience)
+}
+
+fun NavController.navigateToWorkExperienceAdd() {
+    navigate(ResumeRoute.WorkExperienceAdd)
 }
 
 fun NavController.navigateToActivities() {
@@ -46,7 +51,14 @@ fun NavGraphBuilder.resumeNavGraph(
     }
 
     composable<ResumeRoute.WorkExperience> {
-        ResumeWorkExperienceRoute(padding = padding)
+        ResumeWorkExperienceRoute(
+            padding = padding,
+            onNavigateToAdd = navController::navigateToWorkExperienceAdd
+        )
+    }
+
+    composable<ResumeRoute.WorkExperienceAdd> {
+        ResumeWorkExperienceAddRoute(padding = padding)
     }
 
     composable<ResumeRoute.Activities> {
