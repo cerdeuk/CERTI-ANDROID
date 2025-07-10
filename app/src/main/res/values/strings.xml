@@ -48,6 +48,8 @@
     <string name="home_recommend_title">%1$s님에게 추천하는 자격증</string>
     <string name="home_pre_certification_title">취득 예정 자격증</string>
     <string name="home_favorite_title">즐겨찾기한 자격증</string>
+    <string name="home_pre_certification_empty">취득 예정 자격증이 없습니다.</string>
+    <string name="home_favorite_empty">즐겨찾기한 자격증이 없습니다.</string>
 
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>

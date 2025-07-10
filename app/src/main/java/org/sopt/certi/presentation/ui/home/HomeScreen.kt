@@ -1,14 +1,17 @@
 package org.sopt.certi.presentation.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
@@ -37,7 +40,10 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
+import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.showIf
 
 @Composable
 fun HomeRoute(
@@ -186,6 +192,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
+                                .noRippleClickable {  }
 
                         )
                     }
@@ -195,8 +202,7 @@ fun HomeScreen(
             item {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
+                        .fillMaxWidth()
                 ) {
                     Row(
                         modifier = Modifier
@@ -216,8 +222,33 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
+                                .noRippleClickable {  }
                         )
                     }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = screenHeightDp(60.dp), start = screenWidthDp(80.dp), end = screenWidthDp(80.dp))
+                            .showIf(preCertificationList.isEmpty()),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.img_empty),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(screenWidthDp(130.dp))
+                                .height(screenHeightDp(100.dp))
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = stringResource(id = R.string.home_pre_certification_empty),
+                            style = CertiTheme.typography.caption.regular_14,
+                            color = CertiTheme.colors.gray400
+                        )
+                    }
+                    Spacer(modifier = Modifier
+                        .height(screenHeightDp(16.dp))
+                        .showIf(preCertificationList.isNotEmpty()))
                     PreCertificationListSection(preCertificationList = preCertificationList)
                 }
             }
@@ -226,8 +257,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = screenHeightDp(36.dp)),
-                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
+                        .padding(bottom = screenHeightDp(36.dp))
                 ) {
                     Text(
                         text = stringResource(R.string.home_favorite_title),
@@ -235,6 +265,31 @@ fun HomeScreen(
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(start = screenWidthDp(20.dp))
                     )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = screenHeightDp(60.dp), start = screenWidthDp(80.dp), end = screenWidthDp(80.dp))
+                            .showIf(favoriteCertificationList.isEmpty()),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.img_empty),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(screenWidthDp(130.dp))
+                                .height(screenHeightDp(100.dp))
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = stringResource(id = R.string.home_favorite_empty),
+                            style = CertiTheme.typography.caption.regular_14,
+                            color = CertiTheme.colors.gray400
+                        )
+                    }
+                    Spacer(modifier = Modifier
+                        .height(screenHeightDp(16.dp))
+                        .showIf(favoriteCertificationList.isNotEmpty()))
+
                     FavoriteCertificationListSection(
                         favoriteCertificationList = favoriteCertificationList,
                         isFavorite = isFavorite,
@@ -297,22 +352,22 @@ private fun PreviewHomeScreen() {
                 )
             ),
             preCertificationList = listOf(
-                PreCertificationData(
-                    certificationId = 1,
-                    certificationName = "시각디자인산업기사",
-                    averagePeriod = "3개월",
-                    testDate = "2025.05.27",
-                    agencyName = "한국산업인력공단",
-                    iconIndex = 0
-                ),
-                PreCertificationData(
-                    certificationId = 2,
-                    certificationName = "정보처리기사",
-                    averagePeriod = "4개월",
-                    testDate = "2025.06.10",
-                    agencyName = "한국산업인력공단",
-                    iconIndex = 1
-                )
+//                PreCertificationData(
+//                    certificationId = 1,
+//                    certificationName = "시각디자인산업기사",
+//                    averagePeriod = "3개월",
+//                    testDate = "2025.05.27",
+//                    agencyName = "한국산업인력공단",
+//                    iconIndex = 0
+//                ),
+//                PreCertificationData(
+//                    certificationId = 2,
+//                    certificationName = "정보처리기사",
+//                    averagePeriod = "4개월",
+//                    testDate = "2025.06.10",
+//                    agencyName = "한국산업인력공단",
+//                    iconIndex = 1
+//                )
             ),
             favoriteCertificationList = favoriteCertificationList,
             isFavorite = { data -> favoriteIds.contains(data.certificationId) },
