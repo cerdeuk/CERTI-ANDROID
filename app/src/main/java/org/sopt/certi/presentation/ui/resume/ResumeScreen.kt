@@ -32,9 +32,41 @@ fun ResumeRoute(
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     ResumeScreen(
-        jobCategory = listOf(),
-        certifications = listOf(),
-        experiences = listOf(),
+        jobCategory = listOf("IT/인터넷"),
+        certifications = listOf(
+            ResumeCertificationListData(
+                name = "GTQ 1급 (그래픽기술자격)",
+                year = 2025,
+                month = 7,
+                day = 3,
+                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                tags = listOf("태그", "태그", "태그")
+            ),
+            ResumeCertificationListData(
+                name = "GTQ 1급 (그래픽기술자격)",
+                year = 2025,
+                month = 7,
+                day = 3,
+                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                tags = listOf("태그", "태그", "태그")
+            )
+        ),
+        experiences = listOf(
+            ResumeListData(
+                startAt = "2021.11",
+                endAt = "2022.01",
+                organization = "서티그룹",
+                role = "패션디자이너 인턴",
+                description = "트렌드 리서치 및 소재 조사"
+            ),
+            ResumeListData(
+                startAt = "2021.11",
+                endAt = "2022.01",
+                organization = "서티그룹",
+                role = "패션디자이너 인턴",
+                description = "트렌드 리서치 및 소재 조사"
+            )
+        ),
         activities = listOf(),
         modifier = Modifier.padding(padding)
     )
@@ -98,7 +130,9 @@ fun ResumeScreen(
                         onClick = { },
                         resumeListItems = activities
                     )
-                    Spacer(modifier = Modifier.height(screenHeightDp(52.dp)))
+                    if (!activities.isEmpty()) {
+                        Spacer(modifier = Modifier.height(screenHeightDp(52.dp)))
+                    }
                 }
             }
         }
