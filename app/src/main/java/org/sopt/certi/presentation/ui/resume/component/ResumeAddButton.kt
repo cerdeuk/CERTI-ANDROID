@@ -24,7 +24,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeAddButton(
-    onClick: ()->Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -51,7 +51,7 @@ fun ResumeAddButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun PreviewResumeButton() {
     CERTITheme {
