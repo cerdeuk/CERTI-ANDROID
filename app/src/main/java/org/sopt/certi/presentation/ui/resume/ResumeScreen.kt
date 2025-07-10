@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -98,6 +97,7 @@ fun ResumeRoute(
         acquiredCertificationList = dummyAcquiredCertificationList,
         experiences = dummyExperiences,
         activities = listOf(),
+        onCertificationClick = {},
         navigateToMyCert = navigateToMyCert,
         navigateToWorkExperience = navigateToWorkExperience,
         navigateToActivities = navigateToActivities,
@@ -111,6 +111,7 @@ fun ResumeScreen(
     acquiredCertificationList: List<ResumeCertificationListData>,
     experiences: List<ResumeListData>,
     activities: List<ResumeListData>,
+    onCertificationClick:()->Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
     navigateToActivities: () ->Unit,
@@ -135,7 +136,7 @@ fun ResumeScreen(
                 ResumeCertificationSection(
                     title = stringResource(R.string.resume_section_certification_title),
                     onClick = navigateToMyCert,
-                    onCertificationClick = {  },
+                    onCertificationClick = { onCertificationClick() },
                     acquiredCertificationList = acquiredCertificationList
                 )
             }
@@ -243,6 +244,7 @@ private fun PreviewResumeScreen() {
             acquiredCertificationList = dummyAcquiredCertificationList,
             experiences = dummyExperiences,
             activities = listOf(),
+            onCertificationClick = {},
             navigateToMyCert = {},
             navigateToWorkExperience = {},
             navigateToActivities = {}
