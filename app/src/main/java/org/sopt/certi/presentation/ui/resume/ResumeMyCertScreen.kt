@@ -8,12 +8,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
+import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ResumeCertificationListData
@@ -26,33 +31,51 @@ fun ResumeMyCertRoute(
     padding: PaddingValues,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
-    ResumeMyCertScreen(
-        certifications = listOf(
-            ResumeCertificationListData(
-                name = "GTQ 1급 (그래픽기술자격)",
-                year = 2025,
-                month = 7,
-                day = 3,
-                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                tags = listOf("태그", "태그", "태그")
-            ),
-            ResumeCertificationListData(
-                name = "GTQ 1급 (그래픽기술자격)",
-                year = 2025,
-                month = 7,
-                day = 3,
-                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                tags = listOf("태그", "태그", "태그")
-            ),
-            ResumeCertificationListData(
-                name = "GTQ 1급 (그래픽기술자격)",
-                year = 2025,
-                month = 7,
-                day = 3,
-                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                tags = listOf("태그", "태그", "태그")
-            )
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedCertification by remember { mutableStateOf<ResumeCertificationListData?>(null) }
+
+    val dummyCertifications = listOf(
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
         ),
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
+        ),
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
+        )
+    )
+
+    ResumeMyCertScreen(
+        certifications = dummyCertifications,
+        showDialog = showDialog,
+        onDeleteClick = {
+            selectedCertification = it
+            showDialog = true
+        },
+        onDialogConfirm = {
+            showDialog = false
+            selectedCertification = null
+        },
+        onDialogDismiss = {
+            showDialog = false
+            selectedCertification = null
+        },
         modifier = Modifier.padding(padding)
     )
 }
@@ -60,8 +83,19 @@ fun ResumeMyCertRoute(
 @Composable
 fun ResumeMyCertScreen(
     certifications: List<ResumeCertificationListData>,
+    showDialog: Boolean,
+    onDeleteClick: (ResumeCertificationListData)->Unit,
+    onDialogConfirm: () -> Unit,
+    onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    if (showDialog) {
+        CertiDeleteDialog(
+            onConfirmClick = onDialogConfirm,
+            onDismissClick = onDialogDismiss
+        )
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(
@@ -81,7 +115,8 @@ fun ResumeMyCertScreen(
 
         items(certifications){certification ->
             ResumeMyCertiListItem(
-                certification = certification
+                certification = certification,
+                onDeleteClick = {onDeleteClick(certification)}
             )
         }
     }
@@ -90,42 +125,53 @@ fun ResumeMyCertScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewResumeMyCertScreen() {
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedCertification by remember { mutableStateOf<ResumeCertificationListData?>(null) }
+
+    val dummyCertifications = listOf(
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
+        ),
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
+        ),
+        ResumeCertificationListData(
+            name = "GTQ 1급 (그래픽기술자격)",
+            year = 2025,
+            month = 7,
+            day = 3,
+            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            tags = listOf("태그", "태그", "태그")
+        )
+    )
+
     CERTITheme {
         ResumeMyCertScreen(
-            certifications = listOf(
-                ResumeCertificationListData(
-                    name = "GTQ 1급 (그래픽기술자격)",
-                    year = 2025,
-                    month = 7,
-                    day = 3,
-                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                ResumeCertificationListData(
-                    name = "GTQ 1급 (그래픽기술자격)",
-                    year = 2025,
-                    month = 7,
-                    day = 3,
-                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                ResumeCertificationListData(
-                    name = "GTQ 1급 (그래픽기술자격)",
-                    year = 2025,
-                    month = 7,
-                    day = 3,
-                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                ResumeCertificationListData(
-                    name = "GTQ 1급 (그래픽기술자격)",
-                    year = 2025,
-                    month = 7,
-                    day = 3,
-                    cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-                    tags = listOf("태그", "태그", "태그")
-                )
-            )
+            certifications = dummyCertifications,
+            showDialog = showDialog,
+            onDeleteClick = {
+                selectedCertification = it
+                showDialog = true
+            },
+            onDialogConfirm = {
+                // TODO: 삭제 처리 예정
+                showDialog = false
+                selectedCertification = null
+            },
+            onDialogDismiss = {
+                showDialog = false
+                selectedCertification = null
+            }
         )
     }
 }
