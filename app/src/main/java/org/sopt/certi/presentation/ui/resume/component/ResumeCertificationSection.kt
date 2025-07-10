@@ -42,7 +42,7 @@ fun ResumeCertificationSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = screenWidthDp(20.dp)),
+                .padding(horizontal = screenWidthDp(20.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
