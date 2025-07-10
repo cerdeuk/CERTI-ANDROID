@@ -46,7 +46,7 @@ fun UserInfoSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(36.dp))
+            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         Text(
             text = stringResource(id = R.string.home_user_info_name, displayName),

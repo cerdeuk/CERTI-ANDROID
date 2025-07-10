@@ -41,7 +41,6 @@ fun PreCertificationListSection(
 ) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp)),
         modifier = modifier
             .fillMaxWidth()
     ) {
