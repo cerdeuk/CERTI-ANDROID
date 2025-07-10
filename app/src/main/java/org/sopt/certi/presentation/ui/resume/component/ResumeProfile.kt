@@ -61,7 +61,7 @@ fun ResumeProfile(
 }
 
 @Composable
-fun ResumeProfileJobs(category: List<String>) {
+private fun ResumeProfileJobs(category: List<String>) {
     Column {
         if (category.size == 1) {
             ThemedText(category[0])
@@ -76,7 +76,7 @@ fun ResumeProfileJobs(category: List<String>) {
 }
 
 @Composable
-fun ThemedText(text: String) {
+private fun ThemedText(text: String) {
     Text(
         text = text,
         style = CertiTheme.typography.caption.regular_14,
@@ -86,7 +86,7 @@ fun ThemedText(text: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeProfilePreview() {
+private fun ResumeProfilePreview() {
     ResumeProfile(
         category = listOf("IT/인터넷", "경영/사무", "경영/사무")
     )

@@ -23,17 +23,13 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.domain.model.ResumeCertificationListData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeCertificationSmallCard(
-    name: String,
-    year: Int,
-    month: Int,
-    day: Int,
-    cardImageUrl: String,
-    tags: List<String>,
+    certification: ResumeCertificationListData,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -41,7 +37,7 @@ fun ResumeCertificationSmallCard(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(cardImageUrl)
+                .data(certification.cardImageUrl)
                 .build(),
             contentDescription = null,
             modifier = Modifier
@@ -58,35 +54,42 @@ fun ResumeCertificationSmallCard(
                 )
         ) {
             Text(
-                text = name,
+                text = certification.name,
                 style = CertiTheme.typography.caption.bold_14,
                 color = CertiTheme.colors.gray600
             )
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
 
             Text(
-                text = stringResource(id = R.string.resume_certification_card_small, year, month, day),
+                text = stringResource(
+                    id = R.string.resume_certification_card_small,
+                    certification.year,
+                    certification.month,
+                    certification.day
+                ),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray600
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 
-            CertiChipList(categories = tags)
+            CertiChipList(categories = certification.tags)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeCertificationSmallCardPreview() {
+private fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         ResumeCertificationSmallCard(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
-            tags = listOf("태그", "태그", "태그")
+            certification = ResumeCertificationListData(
+                name = "GTQ 1급 (그래픽기술자격)",
+                year = 2025,
+                month = 7,
+                day = 3,
+                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+                tags = listOf("태그", "태그", "태그")
+            )
         )
     }
 }
