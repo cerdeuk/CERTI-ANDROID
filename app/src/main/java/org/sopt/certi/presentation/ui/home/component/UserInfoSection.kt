@@ -152,7 +152,8 @@ fun PreviewUserInfoSection() {
         name = "김서티야",
         university = "솝트대학교",
         major = "서티취득학과",
-        percentage = 48
+        percentage = 48,
+        category = listOf()
     )
 
     CERTITheme {

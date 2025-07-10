@@ -29,7 +29,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun RecommendedCertificationItem(
     recommendedCertificationData: RecommendedCertificationData,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
