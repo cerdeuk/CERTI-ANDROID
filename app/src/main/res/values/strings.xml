@@ -90,6 +90,9 @@
     <string name="recommend_filter_bottomsheet_sub_title">희망직무/분야 재설정하기</string>
     <string name="recommend_filter_bottomsheet_content">복수 선택이 가능합니다. (최대 3개)</string>
     <string name="recommend_filter_bottomsheet_confirm_button">적용하기</string>
-    
+
+    <!-- CertAcquiredDialog -->
+    <string name="acquired_dialog_title">자격증 취득 완료</string>
+    <string name="acquired_dialog_confirm">캐릭터 카드 보러가기</string>
 
 </resources>
