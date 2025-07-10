@@ -114,13 +114,13 @@ fun ResumeMyCertScreen(
         items(certifications) { certification ->
             ResumeMyCertiListItem(
                 certification = certification,
-                onDeleteClick = { onDeleteClick() }
+                onDeleteClick = onDeleteClick
             )
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PreviewResumeMyCertScreen() {
     var showDialog by remember { mutableStateOf(false) }

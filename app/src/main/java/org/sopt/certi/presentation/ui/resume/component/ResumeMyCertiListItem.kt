@@ -35,7 +35,8 @@ fun ResumeMyCertiListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResumeCertificationSmallCard(
-            certification = certification
+            certification = certification,
+            onClick = { }
         )
 
         Spacer(modifier = Modifier.width(screenWidthDp(12.dp)))
