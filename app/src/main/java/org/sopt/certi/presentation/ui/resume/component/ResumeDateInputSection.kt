@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.resume.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,8 +44,7 @@ fun ResumeDateInputSection(
 
         Row(
             modifier = modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Absolute.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
             ResumeDateTextField(
                 value = startDate,
