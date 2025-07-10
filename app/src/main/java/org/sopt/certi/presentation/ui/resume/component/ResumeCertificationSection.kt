@@ -1,9 +1,14 @@
 package org.sopt.certi.presentation.ui.resume.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,8 +31,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    certifications: List<ResumeCertificationListData>
+    certifications: List<ResumeCertificationListData>,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -62,9 +67,35 @@ fun ResumeCertificationSection(
     }
 }
 
+@Composable
+private fun ResumeCertificationContent(
+    certifications: List<ResumeCertificationListData>,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = screenHeightDp(16.dp),
+                bottom = screenHeightDp(36.dp)
+            ),
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
+    ) {
+        itemsIndexed(certifications) { index, certification ->
+            if (index == 0) {
+                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
+            }
+            ResumeCertificationSmallCard(certification)
+            if (index == certifications.lastIndex) {
+                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun ResumeEmptyCertificationSectionPreview() {
+private fun ResumeEmptyCertificationSectionPreview() {
     CERTITheme {
         ResumeListSection(
             title = stringResource(R.string.resume_section_experience_title),
@@ -76,7 +107,7 @@ fun ResumeEmptyCertificationSectionPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeCertificationSectionPreview() {
+private fun ResumeCertificationSectionPreview() {
     CERTITheme {
         ResumeCertificationSection(
             title = stringResource(R.string.resume_section_experience_title),

@@ -86,7 +86,7 @@ fun ThemedText(text: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeProfilePreview() {
+private fun ResumeProfilePreview() {
     ResumeProfile(
         category = listOf("IT/인터넷", "경영/사무", "경영/사무")
     )

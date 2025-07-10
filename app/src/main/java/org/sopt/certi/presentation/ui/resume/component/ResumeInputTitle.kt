@@ -39,7 +39,7 @@ fun ResumeInputTitle(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeInputTitlePreview() {
+private fun ResumeInputTitlePreview() {
     CERTITheme {
         ResumeInputTitle(title = "근무회사")
     }

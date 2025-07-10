@@ -47,7 +47,7 @@ fun ResumeEditListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeEditListItemPreview() {
+private fun ResumeEditListItemPreview() {
     CERTITheme {
         ResumeEditListItem(
             resumeListItem = ResumeListData(

@@ -79,7 +79,7 @@ fun ResumeCertificationSmallCard(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeCertificationSmallCardPreview() {
+private fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         ResumeCertificationSmallCard(
             certification = ResumeCertificationListData(

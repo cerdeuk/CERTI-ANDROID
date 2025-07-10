@@ -61,7 +61,7 @@ fun ResumeDescriptionSection(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeDescriptionSectionPreview() {
+private fun ResumeDescriptionSectionPreview() {
     CERTITheme {
         ResumeDescriptionSection(
             resumeListItem = ResumeListData(

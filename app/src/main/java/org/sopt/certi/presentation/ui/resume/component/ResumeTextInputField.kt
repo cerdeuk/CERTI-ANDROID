@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -24,7 +25,28 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeTextField(
+fun ResumeInputSection(
+    title: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    maxLength: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        ResumeInputTitle(title)
+        Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
+        ResumeTextField(
+            value = value,
+            onValueChange = onValueChange,
+            maxLength = maxLength
+        )
+    }
+}
+
+@Composable
+private fun ResumeTextField(
     value: String,
     onValueChange: (String) -> Unit,
     maxLength: Int,
@@ -76,13 +98,14 @@ fun ResumeTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeTextFieldPreview() {
+private fun ResumeInputSectionPreview() {
     val text = remember { mutableStateOf("") }
     CERTITheme {
-        ResumeTextField(
+        ResumeInputSection(
+            title = "근무회사",
             value = text.value,
             onValueChange = { text.value = it },
-            maxLength = 16
+            maxLength = 10
         )
     }
 }

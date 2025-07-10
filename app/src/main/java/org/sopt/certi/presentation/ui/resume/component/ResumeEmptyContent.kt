@@ -51,7 +51,7 @@ fun ResumeEmptyContent(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeEmptyBoxPreview() {
+private fun ResumeEmptyBoxPreview() {
     CERTITheme {
         ResumeEmptyContent(
             text = stringResource(R.string.resume_empty_experience_message)
