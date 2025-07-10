@@ -17,6 +17,7 @@ import org.sopt.certi.presentation.ui.login.navigation.loginNavGraph
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingViewModel
 import org.sopt.certi.presentation.ui.onboarding.navigation.onBoardingNavGraph
 import org.sopt.certi.presentation.ui.resume.navigation.resumeNavGraph
+import org.sopt.certi.presentation.ui.search.navigation.searchNavGraph
 import org.sopt.certi.presentation.ui.splash.navigation.splashNavGraph
 
 @Composable
@@ -56,7 +57,15 @@ fun MainNavHost(
 
             homeNavGraph(padding = padding)
 
-            certListNavGraph(padding = padding)
+            certListNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
+
+            searchNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
 
             certRecommendNavGraph(
                 padding = padding,
