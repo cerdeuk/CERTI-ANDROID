@@ -31,7 +31,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    certifications: List<ResumeCertificationListData>,
+    onCertificationClick: () -> Unit,
+    acquiredCertificationList: List<ResumeCertificationListData>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -42,7 +43,7 @@ fun ResumeCertificationSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = screenWidthDp(20.dp)),
+                .padding(horizontal = screenWidthDp(20.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -57,19 +58,23 @@ fun ResumeCertificationSection(
                 modifier = Modifier.noRippleClickable { onClick() }
             )
         }
-        if (certifications.isEmpty()) {
+        if (acquiredCertificationList.isEmpty()) {
             ResumeEmptyContent(
                 text = stringResource(R.string.resume_empty_experience_message)
             )
         } else {
-            ResumeCertificationContent(certifications = certifications)
+            ResumeCertificationContent(
+                acquiredCertificationList = acquiredCertificationList,
+                onCertificationClick = onCertificationClick
+            )
         }
     }
 }
 
 @Composable
 private fun ResumeCertificationContent(
-    certifications: List<ResumeCertificationListData>,
+    acquiredCertificationList: List<ResumeCertificationListData>,
+    onCertificationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -81,12 +86,15 @@ private fun ResumeCertificationContent(
             ),
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
     ) {
-        itemsIndexed(certifications) { index, certification ->
+        itemsIndexed(acquiredCertificationList) { index, certification ->
             if (index == 0) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
             }
-            ResumeCertificationSmallCard(certification)
-            if (index == certifications.lastIndex) {
+            ResumeCertificationSmallCard(
+                certification = certification,
+                onClick = onCertificationClick
+            )
+            if (index == acquiredCertificationList.lastIndex) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
             }
         }
@@ -112,7 +120,8 @@ private fun ResumeCertificationSectionPreview() {
         ResumeCertificationSection(
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
-            certifications = listOf(
+            onCertificationClick = {},
+            acquiredCertificationList = listOf(
                 ResumeCertificationListData(
                     name = "GTQ 1급 (그래픽기술자격)",
                     year = 2025,
