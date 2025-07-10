@@ -22,6 +22,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -58,7 +60,7 @@ fun ResumeDateTextField(
         ),
         decorationBox = { innerTextField ->
             Box(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
+                modifier = Modifier.padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
                 contentAlignment = Alignment.CenterStart
             ) {
                 if (value.text.isEmpty()) {
@@ -90,8 +92,7 @@ fun ResumeDateInputPreview() {
     CERTITheme {
         ResumeDateTextField(
             value = textState.value,
-            onValueChange = { textState.value = it },
-            modifier = Modifier.padding(20.dp)
+            onValueChange = { textState.value = it }
         )
     }
 }
