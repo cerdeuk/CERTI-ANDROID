@@ -1,7 +1,6 @@
 package org.sopt.certi.presentation.ui.home.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -24,6 +24,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -32,98 +33,117 @@ import org.sopt.certi.presentation.type.CertiEmojiType
 @Composable
 fun PreCertificationItem(
     preCertificationData: PreCertificationData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    onDelete: (() -> Unit)? = null
 ) {
-    Card(
-        modifier = modifier
-            .background(color = CertiTheme.colors.white),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = CertiTheme.colors.white
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
     ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(14.dp))
+        Card(
+            modifier = modifier
+                .then(if (onClick != null) Modifier.noRippleClickable { onClick() } else Modifier),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = CertiTheme.colors.white
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            Text(
-                text = preCertificationData.certificationName,
-                style = CertiTheme.typography.body.semibold_16,
-                color = CertiTheme.colors.gray600
-            )
-            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
-
-            Text(
-                text = stringResource(R.string.home_average_period, preCertificationData.averagePeriod),
-                style = CertiTheme.typography.caption.semibold_12,
-                color = CertiTheme.colors.gray600
-            )
-            Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(18.dp))
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(14.dp))
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(vertical = screenHeightDp(6.dp)),
-                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(6.dp))
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_date_16),
-                            contentDescription = null,
-                            tint = CertiTheme.colors.gray400,
-                            modifier = Modifier
-                                .widthForScreenPercentage(16.dp)
-                                .heightForScreenPercentage(16.dp)
-
-                        )
-                        Text(
-                            text = preCertificationData.testDate,
-                            style = CertiTheme.typography.caption.regular_12,
-                            color = CertiTheme.colors.gray500
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_certification_16),
-                            contentDescription = null,
-                            tint = CertiTheme.colors.gray400,
-                            modifier = Modifier
-                                .widthForScreenPercentage(16.dp)
-                                .heightForScreenPercentage(16.dp)
-                        )
-                        Text(
-                            text = preCertificationData.agencyName,
-                            style = CertiTheme.typography.caption.regular_12,
-                            color = CertiTheme.colors.gray500
-                        )
-                    }
-                }
-                Image(
-                    painter = painterResource(
-                        id = CertiEmojiType.fromIndex(preCertificationData.emojiIndex).resId
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .widthForScreenPercentage(50.dp)
-                        .heightForScreenPercentage(50.dp)
+                Text(
+                    text = preCertificationData.certificationName,
+                    style = CertiTheme.typography.body.semibold_16,
+                    color = CertiTheme.colors.gray600
                 )
+                Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
+
+                Text(
+                    text = stringResource(R.string.home_average_period, preCertificationData.averagePeriod),
+                    style = CertiTheme.typography.caption.semibold_12,
+                    color = CertiTheme.colors.gray600
+                )
+                Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(screenWidthDp(18.dp))
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(vertical = screenHeightDp(6.dp)),
+                        verticalArrangement = Arrangement.spacedBy(screenHeightDp(6.dp))
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_date_16),
+                                contentDescription = null,
+                                tint = CertiTheme.colors.gray400,
+                                modifier = Modifier
+                                    .widthForScreenPercentage(16.dp)
+                                    .heightForScreenPercentage(16.dp)
+
+                            )
+                            Text(
+                                text = preCertificationData.testDate,
+                                style = CertiTheme.typography.caption.regular_12,
+                                color = CertiTheme.colors.gray500
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_certification_16),
+                                contentDescription = null,
+                                tint = CertiTheme.colors.gray400,
+                                modifier = Modifier
+                                    .widthForScreenPercentage(16.dp)
+                                    .heightForScreenPercentage(16.dp)
+                            )
+                            Text(
+                                text = preCertificationData.agencyName,
+                                style = CertiTheme.typography.caption.regular_12,
+                                color = CertiTheme.colors.gray500
+                            )
+                        }
+                    }
+                    Image(
+                        painter = painterResource(
+                            id = CertiEmojiType.fromIndex(preCertificationData.emojiIndex).resId
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .widthForScreenPercentage(50.dp)
+                            .heightForScreenPercentage(50.dp)
+                    )
+                }
             }
+        }
+        if (onDelete != null) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_close_36),
+                contentDescription = null,
+                tint = CertiTheme.colors.gray500,
+                modifier = Modifier
+                    .size(36.dp)
+                    .noRippleClickable { onDelete() }
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "클릭가능")
 @Composable
-fun PreCertificationItemPreview1() {
+fun PreCertificationItemPreview_click() {
     PreCertificationItem(
         preCertificationData = PreCertificationData(
             certificationId = 1,
@@ -133,13 +153,14 @@ fun PreCertificationItemPreview1() {
             agencyName = "한국산업인력공단",
             emojiIndex = 0
         ),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(20.dp),
+        onClick = {}
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "삭제가능")
 @Composable
-fun PreCertificationItemPreview2() {
+fun PreCertificationItemPreview_delete() {
     PreCertificationItem(
         preCertificationData = PreCertificationData(
             certificationId = 1,
@@ -149,22 +170,8 @@ fun PreCertificationItemPreview2() {
             agencyName = "한국산업인력공단",
             emojiIndex = 1
         ),
-        modifier = Modifier.padding(16.dp)
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreCertificationItemPreview3() {
-    PreCertificationItem(
-        preCertificationData = PreCertificationData(
-            certificationId = 1,
-            certificationName = "시각디자인산업기사",
-            averagePeriod = "3개월",
-            testDate = "2025.08.12",
-            agencyName = "한국산업인력공단",
-            emojiIndex = 2
-        ),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(vertical = 20.dp),
+        onDelete = {}
     )
 }
