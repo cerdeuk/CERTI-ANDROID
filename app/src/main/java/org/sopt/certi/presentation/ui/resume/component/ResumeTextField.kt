@@ -76,13 +76,13 @@ fun ResumeTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeTextFieldPreview() {
+private fun ResumeTextFieldPreview() {
     val text = remember { mutableStateOf("") }
     CERTITheme {
         ResumeTextField(
             value = text.value,
             onValueChange = { text.value = it },
-            maxLength = 16
+            maxLength = 10
         )
     }
 }
