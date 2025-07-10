@@ -74,7 +74,7 @@ fun ResumeMyCertRoute(
 fun ResumeMyCertScreen(
     certifications: List<ResumeCertificationListData>,
     showDialog: Boolean,
-    onDeleteClick: (ResumeCertificationListData) -> Unit,
+    onDeleteClick: () -> Unit,
     onDialogConfirm: () -> Unit,
     onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
@@ -106,7 +106,7 @@ fun ResumeMyCertScreen(
         items(certifications) { certification ->
             ResumeMyCertiListItem(
                 certification = certification,
-                onDeleteClick = { onDeleteClick(certification) }
+                onDeleteClick = { onDeleteClick() }
             )
         }
     }

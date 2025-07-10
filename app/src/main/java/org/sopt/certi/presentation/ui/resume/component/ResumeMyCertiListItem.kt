@@ -30,15 +30,6 @@ fun ResumeMyCertiListItem(
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-
-    if (showDialog) {
-        CertiDeleteDialog(
-            onConfirmClick = { },
-            onDismissClick = { showDialog = false }
-        )
-    }
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
