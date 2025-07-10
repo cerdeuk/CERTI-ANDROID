@@ -46,6 +46,9 @@
     <string name="home_average_period">평균 취득 기간 약 %1$s</string>
     <string name="home_recommended_score">추천점수 %1$d점</string>
 
+    <!-- CertList Screen -->
+    <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
+    <string name="cert_list_favorite_btn">즐겨찾기</string>
 
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
