@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -27,6 +26,7 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.type.CertiEmojiType
 
@@ -39,8 +39,6 @@ fun PreCertificationItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
     ) {
         Card(
@@ -128,16 +126,16 @@ fun PreCertificationItem(
                 }
             }
         }
-        if (onDelete != null) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_close_36),
-                contentDescription = null,
-                tint = CertiTheme.colors.gray500,
-                modifier = Modifier
-                    .size(36.dp)
-                    .noRippleClickable { onDelete() }
-            )
-        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_close_36),
+            contentDescription = null,
+            tint = CertiTheme.colors.gray500,
+            modifier = Modifier
+                .widthForScreenPercentage(36.dp)
+                .heightForScreenPercentage(36.dp)
+                .showIf(onDelete != null)
+                .noRippleClickable { onDelete?.invoke() }
+        )
     }
 }
 
