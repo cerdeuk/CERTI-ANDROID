@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
@@ -50,24 +49,12 @@ fun HomeRoute(
     padding: PaddingValues,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    var favoriteIds by remember { mutableStateOf(setOf<Int>()) }
-    val isFavorite: (FavoriteCertificationData) -> Boolean = { data ->
-        favoriteIds.contains(data.certificationId)
-    }
-    val onFavoriteClicked: (FavoriteCertificationData) -> Unit = { data ->
-        favoriteIds = if (favoriteIds.contains(data.certificationId)) {
-            favoriteIds - data.certificationId
-        } else {
-            favoriteIds + data.certificationId
-        }
-    }
+    var isFavorite by remember { mutableStateOf(false) }
 
     val userInfo = UserInfoData(
         name = "김서티",
         university = "솝트대학교",
-        major = "경영학과",
-        track = "인문계열",
-        category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+        major = "경영학과"
     )
     val recommendedList = listOf(
         RecommendedCertificationData(
@@ -134,8 +121,8 @@ fun HomeRoute(
         recommendedList = recommendedList,
         preCertificationList = preCertificationList,
         favoriteCertificationList = favoriteCertificationList,
-        isFavorite = isFavorite,
-        onFavoriteClicked = onFavoriteClicked,
+        isFavorite = { isFavorite },
+        onFavoriteClicked = { isFavorite = !isFavorite },
         modifier = Modifier.padding(padding)
     )
 }
@@ -159,8 +146,7 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
+                .fillMaxSize(),
             contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(36.dp))
         ) {
@@ -192,11 +178,11 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable {  }
+                                .noRippleClickable { }
 
                         )
                     }
-                    RecommendedCertificationListSection(recommendedList = recommendedList)
+                    RecommendedCertificationListSection(recommendedList = recommendedList, onCertificationClick = { })
                 }
             }
             item {
@@ -222,7 +208,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable {  }
+                                .noRippleClickable { }
                         )
                     }
                     Column(
@@ -246,9 +232,11 @@ fun HomeScreen(
                             color = CertiTheme.colors.gray400
                         )
                     }
-                    Spacer(modifier = Modifier
-                        .height(screenHeightDp(16.dp))
-                        .showIf(preCertificationList.isNotEmpty()))
+                    Spacer(
+                        modifier = Modifier
+                            .height(screenHeightDp(16.dp))
+                            .showIf(preCertificationList.isNotEmpty())
+                    )
                     PreCertificationListSection(preCertificationList = preCertificationList)
                 }
             }
@@ -286,9 +274,11 @@ fun HomeScreen(
                             color = CertiTheme.colors.gray400
                         )
                     }
-                    Spacer(modifier = Modifier
-                        .height(screenHeightDp(16.dp))
-                        .showIf(favoriteCertificationList.isNotEmpty()))
+                    Spacer(
+                        modifier = Modifier
+                            .height(screenHeightDp(16.dp))
+                            .showIf(favoriteCertificationList.isNotEmpty())
+                    )
 
                     FavoriteCertificationListSection(
                         favoriteCertificationList = favoriteCertificationList,
@@ -351,24 +341,7 @@ private fun PreviewHomeScreen() {
                     categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 )
             ),
-            preCertificationList = listOf(
-//                PreCertificationData(
-//                    certificationId = 1,
-//                    certificationName = "시각디자인산업기사",
-//                    averagePeriod = "3개월",
-//                    testDate = "2025.05.27",
-//                    agencyName = "한국산업인력공단",
-//                    iconIndex = 0
-//                ),
-//                PreCertificationData(
-//                    certificationId = 2,
-//                    certificationName = "정보처리기사",
-//                    averagePeriod = "4개월",
-//                    testDate = "2025.06.10",
-//                    agencyName = "한국산업인력공단",
-//                    iconIndex = 1
-//                )
-            ),
+            preCertificationList = listOf(),
             favoriteCertificationList = favoriteCertificationList,
             isFavorite = { data -> favoriteIds.contains(data.certificationId) },
             onFavoriteClicked = { data ->

@@ -28,20 +28,19 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun RecommendedCertificationListSection(
     recommendedList: List<RecommendedCertificationData>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCertificationClick: (RecommendedCertificationData) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
         modifier = modifier.fillMaxWidth()
     ) {
-        recommendedList
-            .take(3)
-            .forEach { item ->
-                RecommendedCertificationItem(
-                    recommendedCertificationData = item,
-                    onClick = { }
-                )
-            }
+        recommendedList.forEach { item ->
+            RecommendedCertificationItem(
+                recommendedCertificationData = item,
+                onClick = { onCertificationClick(item) }
+            )
+        }
     }
 }
 
