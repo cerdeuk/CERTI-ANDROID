@@ -33,7 +33,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.CertificationListData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -47,79 +47,71 @@ fun SearchRoute(
 
     var certificationList by remember {
         mutableStateOf(
-            listOf<CertificationListData>(
-                CertificationListData(
+            listOf<ResumeData>(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리기사",
-                    categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agency = "국가기술자격",
+                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
+                    agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리",
-                    categories = listOf("뿡뿡", "빵빵", "IT"),
-                    agency = "한국정보처리기관",
+                    tags = listOf("뿡뿡", "빵빵", "IT"),
+                    agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리기사",
-                    categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agency = "국가기술자격",
+                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
+                    agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리",
-                    categories = listOf("뿡뿡", "빵빵", "IT"),
-                    agency = "한국정보처리기관",
+                    tags = listOf("뿡뿡", "빵빵", "IT"),
+                    agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리기사",
-                    categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agency = "국가기술자격",
+                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
+                    agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리",
-                    categories = listOf("뿡뿡", "빵빵", "IT"),
-                    agency = "한국정보처리기관",
+                    tags = listOf("뿡뿡", "빵빵", "IT"),
+                    agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리기사",
-                    categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agency = "국가기술자격",
+                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
+                    agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
+                ResumeData(
                     certificationId = 1,
-                    isLiked = false,
+                    isFavorite = false,
                     certificationName = "정보처리",
-                    categories = listOf("뿡뿡", "빵빵", "IT"),
-                    agency = "한국정보처리기관",
+                    tags = listOf("뿡뿡", "빵빵", "IT"),
+                    agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                CertificationListData(
-                    certificationId = 1,
-                    isLiked = false,
-                    certificationName = "정보처리기사",
-                    categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agency = "국가기술자격",
-                    applicationMethod = "실기형"
-                )
             )
         )
     }
@@ -131,7 +123,7 @@ fun SearchRoute(
         onSearchClick = { searchState = true },
         onLikeClick = { index ->
             certificationList = certificationList.mapIndexed { i, item ->
-                if (i == index) item.copy(isLiked = !item.isLiked) else item
+                if (i == index) item.copy(isFavorite = !item.isFavorite) else item
             }
         },
         certificationList = emptyList(),
@@ -146,7 +138,7 @@ private fun SearchScreen(
     searchState: Boolean,
     onSearchClick: () -> Unit,
     onLikeClick: (Int) -> Unit,
-    certificationList: List<CertificationListData>,
+    certificationList: List<ResumeData>,
     modifier: Modifier = Modifier
 ) {
     Column(
