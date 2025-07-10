@@ -32,7 +32,6 @@ fun ResumeMyCertRoute(
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    var selectedCertification by remember { mutableStateOf<ResumeCertificationListData?>(null) }
 
     val dummyCertifications = listOf(
         ResumeCertificationListData(
@@ -64,18 +63,9 @@ fun ResumeMyCertRoute(
     ResumeMyCertScreen(
         certifications = dummyCertifications,
         showDialog = showDialog,
-        onDeleteClick = {
-            selectedCertification = it
-            showDialog = true
-        },
-        onDialogConfirm = {
-            showDialog = false
-            selectedCertification = null
-        },
-        onDialogDismiss = {
-            showDialog = false
-            selectedCertification = null
-        },
+        onDeleteClick = { showDialog = true },
+        onDialogConfirm = { showDialog = false },
+        onDialogDismiss = { showDialog = false },
         modifier = Modifier.padding(padding)
     )
 }
@@ -84,7 +74,7 @@ fun ResumeMyCertRoute(
 fun ResumeMyCertScreen(
     certifications: List<ResumeCertificationListData>,
     showDialog: Boolean,
-    onDeleteClick: (ResumeCertificationListData)->Unit,
+    onDeleteClick: (ResumeCertificationListData) -> Unit,
     onDialogConfirm: () -> Unit,
     onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
@@ -113,10 +103,10 @@ fun ResumeMyCertScreen(
             )
         }
 
-        items(certifications){certification ->
+        items(certifications) { certification ->
             ResumeMyCertiListItem(
                 certification = certification,
-                onDeleteClick = {onDeleteClick(certification)}
+                onDeleteClick = { onDeleteClick(certification) }
             )
         }
     }
@@ -126,7 +116,6 @@ fun ResumeMyCertScreen(
 @Composable
 private fun PreviewResumeMyCertScreen() {
     var showDialog by remember { mutableStateOf(false) }
-    var selectedCertification by remember { mutableStateOf<ResumeCertificationListData?>(null) }
 
     val dummyCertifications = listOf(
         ResumeCertificationListData(
@@ -159,19 +148,9 @@ private fun PreviewResumeMyCertScreen() {
         ResumeMyCertScreen(
             certifications = dummyCertifications,
             showDialog = showDialog,
-            onDeleteClick = {
-                selectedCertification = it
-                showDialog = true
-            },
-            onDialogConfirm = {
-                // TODO: 삭제 처리 예정
-                showDialog = false
-                selectedCertification = null
-            },
-            onDialogDismiss = {
-                showDialog = false
-                selectedCertification = null
-            }
+            onDeleteClick = { showDialog = true },
+            onDialogConfirm = { showDialog = false },
+            onDialogDismiss = { showDialog = false }
         )
     }
 }

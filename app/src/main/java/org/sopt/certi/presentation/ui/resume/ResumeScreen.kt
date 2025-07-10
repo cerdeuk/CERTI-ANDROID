@@ -29,7 +29,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 @Composable
 fun ResumeRoute(
     padding: PaddingValues,
-    navigateToMyCerti: ()->Unit,
+    navigateToMyCerti: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     ResumeScreen(
@@ -80,7 +80,7 @@ fun ResumeScreen(
     certifications: List<ResumeCertificationListData>,
     experiences: List<ResumeListData>,
     activities: List<ResumeListData>,
-    navigateToMyCerti:()->Unit,
+    navigateToMyCerti: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(

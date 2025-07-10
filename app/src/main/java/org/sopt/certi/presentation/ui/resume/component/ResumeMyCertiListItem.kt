@@ -29,20 +29,20 @@ fun ResumeMyCertiListItem(
     certification: ResumeCertificationListData,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     var showDialog by remember { mutableStateOf(false) }
 
-    if (showDialog){
+    if (showDialog) {
         CertiDeleteDialog(
             onConfirmClick = { },
             onDismissClick = { showDialog = false }
         )
     }
 
-    Row (
+    Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         ResumeCertificationSmallCard(
             certification = certification
         )
@@ -88,7 +88,7 @@ private fun PreviewResumeMyCertiListItem() {
                 cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
                 tags = listOf("태그", "태그", "태그")
             ),
-            onDeleteClick = {showDialog = true}
+            onDeleteClick = { showDialog = true }
         )
     }
 }
