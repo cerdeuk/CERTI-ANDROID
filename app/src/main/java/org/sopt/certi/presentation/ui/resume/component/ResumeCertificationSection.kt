@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -31,7 +32,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (ResumeCertificationListData) -> Unit,
     acquiredCertificationList: List<ResumeCertificationListData>,
     modifier: Modifier = Modifier
 ) {
@@ -74,7 +75,7 @@ fun ResumeCertificationSection(
 @Composable
 private fun ResumeCertificationContent(
     acquiredCertificationList: List<ResumeCertificationListData>,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (ResumeCertificationListData)-> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -92,7 +93,7 @@ private fun ResumeCertificationContent(
             }
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = onCertificationClick
+                onClick = { onCertificationClick(certification) }
             )
             if (index == acquiredCertificationList.lastIndex) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))

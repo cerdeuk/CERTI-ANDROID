@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,6 +41,7 @@ fun ResumeRoute(
     navigateToActivities: ()->Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
+    var showDialog by remember { mutableStateOf(true) }
     val dummyAcquiredCertificationList = listOf(
         ResumeCertificationListData(
             name = "GTQ 1급 (그래픽기술자격)",
@@ -129,7 +135,7 @@ fun ResumeScreen(
                 ResumeCertificationSection(
                     title = stringResource(R.string.resume_section_certification_title),
                     onClick = navigateToMyCert,
-                    onCertificationClick = {},
+                    onCertificationClick = {  },
                     acquiredCertificationList = acquiredCertificationList
                 )
             }
