@@ -29,6 +29,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 @Composable
 fun ResumeRoute(
     padding: PaddingValues,
+    navigateToMyCerti: ()->Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     ResumeScreen(
@@ -68,6 +69,7 @@ fun ResumeRoute(
             )
         ),
         activities = listOf(),
+        navigateToMyCerti = navigateToMyCerti,
         modifier = Modifier.padding(padding)
     )
 }
@@ -78,6 +80,7 @@ fun ResumeScreen(
     certifications: List<ResumeCertificationListData>,
     experiences: List<ResumeListData>,
     activities: List<ResumeListData>,
+    navigateToMyCerti:()->Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -99,7 +102,7 @@ fun ResumeScreen(
                 Column {
                     ResumeCertificationSection(
                         title = stringResource(R.string.resume_section_certification_title),
-                        onClick = { },
+                        onClick = navigateToMyCerti,
                         certifications = certifications
                     )
                     Image(
@@ -202,7 +205,8 @@ private fun PreviewResumeScreen() {
                     description = "트렌드 리서치 및 소재 조사"
                 )
             ),
-            activities = listOf()
+            activities = listOf(),
+            navigateToMyCerti = {}
         )
     }
 }
