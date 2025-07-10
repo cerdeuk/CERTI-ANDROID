@@ -2,7 +2,7 @@ package org.sopt.certi.domain.model
 
 data class CertificationListData(
     val certificationId: Long,
-    val isLiked: Boolean,
+    var isLiked: Boolean,
     val certificationName: String,
     val categories: List<String>,
     val agency: String,
