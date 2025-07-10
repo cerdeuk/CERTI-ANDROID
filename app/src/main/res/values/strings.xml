@@ -72,11 +72,6 @@
     <string name="resume_section_certification_title">취득한 자격증</string>
     <string name="resume_section_experience_title">경력사항</string>
     <string name="resume_section_activity_title">대내외 활동</string>
-
-    <!-- ResumeSection -->
-    <string name="resume_section_certification_title">취득한 자격증</string>
-    <string name="resume_section_experience_title">경력사항</string>
-    <string name="resume_section_activity_title">대내외 활동</string>
     <string name="resume_empty_certification_message">취득한 자격증이 없습니다.</string>
     <string name="resume_empty_experience_message">경력사항을 추가해보세요!</string>
     <string name="resume_empty_activity_message">대내외 활동을 추가해보세요!</string>

@@ -11,12 +11,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -68,4 +72,17 @@ fun ResumeTextField(
             }
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ResumeTextFieldPreview() {
+    val text = remember { mutableStateOf("") }
+    CERTITheme {
+        ResumeTextField(
+            value = text.value,
+            onValueChange = { text.value = it },
+            maxLength = 10
+        )
+    }
 }
