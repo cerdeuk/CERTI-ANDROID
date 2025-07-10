@@ -134,14 +134,14 @@ fun PreCertificationItem(
                 .widthForScreenPercentage(36.dp)
                 .heightForScreenPercentage(36.dp)
                 .showIf(onDelete != null)
-                .noRippleClickable { onDelete?.invoke() }
+                .noRippleClickable { onDelete }
         )
     }
 }
 
 @Preview(showBackground = true, name = "클릭가능")
 @Composable
-fun PreCertificationItemPreview_click() {
+private fun PreCertificationItemPreview_click() {
     PreCertificationItem(
         preCertificationData = PreCertificationData(
             certificationId = 1,
@@ -158,7 +158,7 @@ fun PreCertificationItemPreview_click() {
 
 @Preview(showBackground = true, name = "삭제가능")
 @Composable
-fun PreCertificationItemPreview_delete() {
+private fun PreCertificationItemPreview_delete() {
     PreCertificationItem(
         preCertificationData = PreCertificationData(
             certificationId = 1,
