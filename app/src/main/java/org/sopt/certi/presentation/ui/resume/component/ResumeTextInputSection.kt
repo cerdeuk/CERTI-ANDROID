@@ -14,7 +14,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun ResumeInputSection(
+fun ResumeTextInputSection(
     title: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -36,10 +36,10 @@ fun ResumeInputSection(
 
 @Preview(showBackground = true)
 @Composable
-fun ResumeInputSectionPreview() {
+private fun ResumeInputSectionPreview() {
     val text = remember { mutableStateOf("") }
     CERTITheme {
-        ResumeInputSection(
+        ResumeTextInputSection(
             title = "근무회사",
             value = text.value,
             onValueChange = { text.value = it },
