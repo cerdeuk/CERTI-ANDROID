@@ -250,7 +250,7 @@ fun HomeScreen(
                     )
                     if (favoriteCertificationList.isEmpty()) {
                         CertiEmptySection(
-                            text = stringResource(id = R.string.home_pre_certification_empty),
+                            text = stringResource(id = R.string.home_favorite_empty),
                             modifier = Modifier
                                 .padding(horizontal = screenWidthDp(80.dp))
                         )
