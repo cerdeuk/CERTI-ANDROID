@@ -38,7 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 
 @Composable
 fun HomeRoute(
@@ -55,19 +55,19 @@ fun HomeRoute(
         major = "경영학과"
     )
     val recommendedList = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "OPIc",
             recommendScore = 90,
             tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             recommendScore = 90,
             tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 3,
             certificationName = "정보처리기사",
             recommendScore = 90,
@@ -75,7 +75,7 @@ fun HomeRoute(
         )
     )
     val preCertificationList = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
@@ -83,7 +83,7 @@ fun HomeRoute(
             agencyName = "한국산업인력공단",
             iconIndex = 0
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
@@ -91,7 +91,7 @@ fun HomeRoute(
             agencyName = "한국산업인력공단",
             iconIndex = 1
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 3,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
@@ -101,14 +101,14 @@ fun HomeRoute(
         )
     )
     val favoriteCertificationList = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "정보처리기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
             certificationType = "국가기술자격"
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             testType = "실기형",
@@ -133,9 +133,9 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     userInfo: UserInfoData,
-    recommendedList: List<ResumeData>,
-    preCertificationList: List<ResumeData>,
-    favoriteCertificationList: List<ResumeData>,
+    recommendedList: List<CertificationData>,
+    preCertificationList: List<CertificationData>,
+    favoriteCertificationList: List<CertificationData>,
     isFavorite: Boolean = true,
     onFavoriteClicked: () -> Unit,
     navigateToCertRecommend: () -> Unit,
@@ -273,14 +273,14 @@ private fun PreviewHomeScreen() {
     var isFavorite by remember { mutableStateOf(true) }
 
     val favoriteCertificationList = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "정보처리기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
             certificationType = "국가기술자격"
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             testType = "실기형",
@@ -300,19 +300,19 @@ private fun PreviewHomeScreen() {
                 category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
             ),
             recommendedList = listOf(
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     certificationName = "OPIc",
                     recommendScore = 90,
                     tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 2,
                     certificationName = "시각디자인산업기사",
                     recommendScore = 90,
                     tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 3,
                     certificationName = "정보처리기사",
                     recommendScore = 90,

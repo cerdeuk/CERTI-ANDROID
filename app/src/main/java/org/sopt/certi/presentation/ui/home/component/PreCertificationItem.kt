@@ -36,7 +36,7 @@ import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
 fun PreCertificationListSection(
-    preCertificationList: List<ResumeData>,
+    preCertificationList: List<CertificationData>,
     modifier: Modifier = Modifier
 ) {
     LazyRow(

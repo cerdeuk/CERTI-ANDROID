@@ -37,7 +37,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun FavoriteCertificationListSection(
-    favoriteCertificationList: List<ResumeData>,
+    favoriteCertificationList: List<CertificationData>,
     isFavorite: Boolean,
     onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier

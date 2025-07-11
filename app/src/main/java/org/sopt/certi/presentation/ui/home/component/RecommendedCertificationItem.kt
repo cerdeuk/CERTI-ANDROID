@@ -27,7 +27,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun RecommendedCertificationListSection(
-    recommendedList: List<ResumeData>,
+    recommendedList: List<CertificationData>,
     modifier: Modifier = Modifier,
     onCertificationClick: (Long) -> Unit
 ) {
