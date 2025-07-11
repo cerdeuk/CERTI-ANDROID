@@ -37,7 +37,7 @@ fun CertiTopBar(
 
 @Preview(showBackground = true)
 @Composable
-fun CertiTopBarPreview() {
+private fun CertiTopBarPreview() {
     CERTITheme {
         CertiTopBar()
     }
