@@ -20,7 +20,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeListData
+import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
 import org.sopt.certi.ui.theme.CERTITheme
@@ -35,63 +35,63 @@ fun ResumeWorkExperienceRoute(
     var showDialog by remember { mutableStateOf(false) }
 
     val resumeDataList = listOf(
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
@@ -114,7 +114,7 @@ fun ResumeWorkExperienceRoute(
 @Composable
 fun ResumeWorkExperienceScreen(
     onNavigateToAdd: () -> Unit,
-    resumeDataList: List<ResumeListData>,
+    resumeDataList: List<ActivityData>,
     onDeleteDialogShow: Boolean,
     onDeleteClick: () -> Unit,
     onDialogConfirm: () -> Unit,
@@ -164,21 +164,21 @@ fun ResumeWorkExperienceScreen(
 @Composable
 private fun PreviewResumeWorkExperienceScreen() {
     val resumeDataList = listOf(
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "브랜드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
