@@ -33,7 +33,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -47,8 +47,8 @@ fun SearchRoute(
 
     var certificationList by remember {
         mutableStateOf(
-            listOf<ResumeData>(
-                ResumeData(
+            listOf<CertificationData>(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -56,7 +56,7 @@ fun SearchRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -64,7 +64,7 @@ fun SearchRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -72,7 +72,7 @@ fun SearchRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -80,7 +80,7 @@ fun SearchRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -88,7 +88,7 @@ fun SearchRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -96,7 +96,7 @@ fun SearchRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -104,7 +104,7 @@ fun SearchRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -138,7 +138,7 @@ private fun SearchScreen(
     searchState: Boolean,
     onSearchClick: () -> Unit,
     onLikeClick: (Int) -> Unit,
-    certificationList: List<ResumeData>,
+    certificationList: List<CertificationData>,
     modifier: Modifier = Modifier
 ) {
     Column(

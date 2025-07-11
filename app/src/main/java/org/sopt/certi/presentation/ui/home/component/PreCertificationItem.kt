@@ -27,12 +27,12 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
 fun PreCertificationItem(
-    preCertificationData: ResumeData,
+    preCertificationData: CertificationData,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null
@@ -143,7 +143,7 @@ fun PreCertificationItem(
 @Composable
 private fun PreCertificationItemPreview_click() {
     PreCertificationItem(
-        preCertificationData = ResumeData(
+        preCertificationData = CertificationData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
@@ -160,7 +160,7 @@ private fun PreCertificationItemPreview_click() {
 @Composable
 private fun PreCertificationItemPreview_delete() {
     PreCertificationItem(
-        preCertificationData = ResumeData(
+        preCertificationData = CertificationData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",

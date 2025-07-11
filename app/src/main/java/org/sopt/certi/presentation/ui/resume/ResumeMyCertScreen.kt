@@ -21,7 +21,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.resume.component.ResumeMyCertiListItem
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -35,28 +35,28 @@ fun ResumeMyCertRoute(
     var showDialog by remember { mutableStateOf(false) }
 
     val dummyCertifications = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
@@ -77,7 +77,7 @@ fun ResumeMyCertRoute(
 
 @Composable
 fun ResumeMyCertScreen(
-    certifications: List<ResumeData>,
+    certifications: List<CertificationData>,
     showDialog: Boolean,
     onDeleteClick: () -> Unit,
     onDialogConfirm: () -> Unit,
@@ -123,28 +123,28 @@ private fun PreviewResumeMyCertScreen() {
     var showDialog by remember { mutableStateOf(false) }
 
     val dummyCertifications = listOf(
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),
             cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeData(
+        CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
             createdAt = LocalDate.now(),

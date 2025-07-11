@@ -20,14 +20,14 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 
 @Composable
 fun ResumeMyCertiListItem(
-    certification: ResumeData,
+    certification: CertificationData,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -73,7 +73,7 @@ private fun PreviewResumeMyCertiListItem() {
 
     CERTITheme {
         ResumeMyCertiListItem(
-            certification = ResumeData(
+            certification = CertificationData(
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격)",
                 createdAt = LocalDate.now(),
