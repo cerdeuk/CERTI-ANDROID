@@ -37,7 +37,7 @@ fun ResumeWorkExperienceAddRoute(
     var organizationValue by remember { mutableStateOf("") }
     var roleValue by remember { mutableStateOf("") }
     var descriptionValue by remember { mutableStateOf("") }
-    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue,descriptionValue){
+    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
         derivedStateOf {
             startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
         }
@@ -46,14 +46,14 @@ fun ResumeWorkExperienceAddRoute(
     ResumeWorkExperienceAddScreen(
         startDate = startDate,
         endDate = endDate,
-        onStartDateValueChange = {startDate = it},
-        onEndDateValueChange = {endDate = it},
+        onStartDateValueChange = { startDate = it },
+        onEndDateValueChange = { endDate = it },
         organizationValue = organizationValue,
-        onOrganizationValueChange = {organizationValue = it},
+        onOrganizationValueChange = { organizationValue = it },
         roleValue = roleValue,
-        onRoleValueChange = {roleValue = it},
+        onRoleValueChange = { roleValue = it },
         descriptionValue = descriptionValue,
-        onDescriptionValueChange = {descriptionValue = it},
+        onDescriptionValueChange = { descriptionValue = it },
         onAddButtonClick = {},
         addButtonEnabled = addButtonEnabled,
         modifier = Modifier.padding(padding)
@@ -77,7 +77,7 @@ fun ResumeWorkExperienceAddScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
             modifier = Modifier.weight(1f, fill = true),
@@ -154,20 +154,24 @@ private fun PreviewResumeWorkExperienceAddScreen() {
     var organizationValue by remember { mutableStateOf("") }
     var roleValue by remember { mutableStateOf("") }
     var descriptionValue by remember { mutableStateOf("") }
-    var addButtonEnabled by remember { mutableStateOf(false) }
+    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
+        derivedStateOf {
+            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
+        }
+    }
 
     CERTITheme {
         ResumeWorkExperienceAddScreen(
             startDate = startDate,
             endDate = endDate,
-            onStartDateValueChange = {startDate = it},
-            onEndDateValueChange = {endDate = it},
+            onStartDateValueChange = { startDate = it },
+            onEndDateValueChange = { endDate = it },
             organizationValue = organizationValue,
-            onOrganizationValueChange = {organizationValue = it},
+            onOrganizationValueChange = { organizationValue = it },
             roleValue = roleValue,
-            onRoleValueChange = {roleValue = it},
+            onRoleValueChange = { roleValue = it },
             descriptionValue = descriptionValue,
-            onDescriptionValueChange = {descriptionValue = it},
+            onDescriptionValueChange = { descriptionValue = it },
             onAddButtonClick = {},
             addButtonEnabled = addButtonEnabled
         )
