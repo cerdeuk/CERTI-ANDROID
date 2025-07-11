@@ -124,7 +124,8 @@ fun HomeRoute(
         favoriteCertificationList = favoriteCertificationList,
         isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite },
-        navigateToCertRecommend = {},
+        onClick = { },
+        navigateToCertRecommend = { },
         navigateToPreCerti = { },
         modifier = Modifier.padding(padding)
     )
@@ -138,6 +139,7 @@ fun HomeScreen(
     favoriteCertificationList: List<CertificationData>,
     isFavorite: Boolean = true,
     onFavoriteClicked: () -> Unit,
+    onClick: () -> Unit,
     navigateToCertRecommend: () -> Unit,
     navigateToPreCerti: () -> Unit,
     modifier: Modifier = Modifier
@@ -226,7 +228,10 @@ fun HomeScreen(
                         )
                     } else {
                         Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
-                        PreCertificationListSection(preCertificationList = preCertificationList)
+                        PreCertificationListSection(
+                            preCertificationList = preCertificationList,
+                            onClick = onClick
+                        )
                         Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
                     }
                 }
@@ -323,6 +328,7 @@ private fun PreviewHomeScreen() {
             favoriteCertificationList = favoriteCertificationList,
             isFavorite = true,
             onFavoriteClicked = { isFavorite = !isFavorite },
+            onClick = { },
             navigateToCertRecommend = { },
             navigateToPreCerti = { }
         )

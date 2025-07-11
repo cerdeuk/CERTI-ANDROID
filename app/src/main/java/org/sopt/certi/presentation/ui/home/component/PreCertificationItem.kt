@@ -37,6 +37,7 @@ import org.sopt.certi.presentation.type.CertiEmojiType
 @Composable
 fun PreCertificationListSection(
     preCertificationList: List<CertificationData>,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -46,7 +47,8 @@ fun PreCertificationListSection(
     ) {
         items(preCertificationList) { item ->
             PreCertificationItem(
-                preCertificationData = item
+                preCertificationData = item,
+                onClick = { }
             )
         }
     }
@@ -55,9 +57,9 @@ fun PreCertificationListSection(
 @Composable
 fun PreCertificationItem(
     preCertificationData: CertificationData,
-    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    onDelete: (() -> Unit)? = null
+    onDelete: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
