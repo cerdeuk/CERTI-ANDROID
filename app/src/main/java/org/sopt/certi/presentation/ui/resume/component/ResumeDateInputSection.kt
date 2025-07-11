@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -15,8 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -26,6 +23,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -82,12 +80,13 @@ private fun ResumeDateTextField(
     modifier: Modifier = Modifier
 ) {
     BasicTextField(
-        value = value,
+        value = value.take(10),
         onValueChange = onValueChange,
         textStyle = CertiTheme.typography.caption.semibold_12.copy(
             color = CertiTheme.colors.gray600
         ),
         modifier = modifier
+            .widthForScreenPercentage(108.dp)
             .roundedBackgroundWithBorder(
                 cornerRadius = 1.dp,
                 backgroundColor = CertiTheme.colors.white,
