@@ -28,8 +28,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun RecommendedCertificationListSection(
     recommendedList: List<CertificationData>,
-    modifier: Modifier = Modifier,
-    onCertificationClick: (Long) -> Unit
+    onCertificationClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
