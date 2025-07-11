@@ -24,7 +24,7 @@ fun ResumeWorkExperienceAddRoute(
 fun ResumeWorkExperienceAddScreen(
     modifier: Modifier = Modifier
 ) {
-    Column (
+    Column(
         modifier = modifier
     ) {
         Text("ResumeWorkExperienceAddScreen")
