@@ -45,6 +45,7 @@ fun RecommendFilterBottomSheet(
     selectedList: List<CategoryType>,
     onItemClick: (CategoryType) -> Unit,
     onConfirmClick: (List<CategoryType>) -> Unit,
+    onDismissClick: () -> Unit,
     changeBottomSheetVisibility: (Boolean) -> Unit = { }
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -54,6 +55,7 @@ fun RecommendFilterBottomSheet(
     ModalBottomSheet(
         onDismissRequest = {
             changeBottomSheetVisibility(false)
+            onDismissClick()
         },
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
@@ -162,7 +164,8 @@ fun PreviewRecommendFilterBottomSheet() {
                     }
                 },
                 changeBottomSheetVisibility = { showBottomSheet = it },
-                onConfirmClick = { }
+                onConfirmClick = { },
+                onDismissClick = { }
             )
         }
     }

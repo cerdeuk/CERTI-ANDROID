@@ -96,6 +96,8 @@
     <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
     
     <!-- CertRecommendScreen -->
+    <string name="cert_recommend_title">서티님에게 추천하는 자격증</string>
+    <string name="cert_recommend_sub_title">분아별 추천 자격증을 모아봤어요!</string>
     
     <!-- RecommendBottomSheet -->
     <string name="recommend_filter_bottomsheet_title">필터</string>
