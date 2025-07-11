@@ -190,7 +190,7 @@ fun HomeScreen(
                         )
                     }
                     RecommendedCertificationListSection(recommendedList = recommendedList, onCertificationClick = { })
-                    Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
+                    Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
                 }
             }
             item {
