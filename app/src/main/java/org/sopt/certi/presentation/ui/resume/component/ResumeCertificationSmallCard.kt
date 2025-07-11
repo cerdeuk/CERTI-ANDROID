@@ -24,13 +24,14 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeCertificationListData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import java.time.LocalDate
 
 @Composable
 fun ResumeCertificationSmallCard(
-    certification: ResumeCertificationListData,
+    certification: ResumeData,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -41,7 +42,7 @@ fun ResumeCertificationSmallCard(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(certification.cardImageUrl)
+                .data(certification.cardFrontImageUrl)
                 .build(),
             contentDescription = null,
             modifier = Modifier
@@ -58,7 +59,7 @@ fun ResumeCertificationSmallCard(
                 )
         ) {
             Text(
-                text = certification.name,
+                text = certification.certificationName,
                 style = CertiTheme.typography.caption.bold_14,
                 color = CertiTheme.colors.gray600
             )
@@ -67,9 +68,9 @@ fun ResumeCertificationSmallCard(
             Text(
                 text = stringResource(
                     id = R.string.resume_certification_card_small,
-                    certification.year,
-                    certification.month,
-                    certification.day
+                    certification.createdAt.year,
+                    certification.createdAt.month,
+                    certification.createdAt.dayOfWeek
                 ),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray600
@@ -86,12 +87,12 @@ fun ResumeCertificationSmallCard(
 private fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         ResumeCertificationSmallCard(
-            certification = ResumeCertificationListData(
-                name = "GTQ 1급 (그래픽기술자격)",
-                year = 2025,
-                month = 7,
-                day = 3,
-                cardImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDAxMTBfMTgx/MDAxNTc4NjM1MTAxNjk1.m2q2MOZR3vArhqg1nC4-i2CEaVPlcPNcbic3KyTGj-cg.BBprGk0SqCmOMngKaT1CaaR_IBTJ8t-4LrOu_Nn2prAg.JPEG.p197273/88aad6.jpg?type=w800",
+            certification =
+            ResumeData(
+                certificationId = 1,
+                certificationName = "GTQ 1급 (그래픽기술자격)",
+                createdAt = LocalDate.now(),
+                cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
                 tags = listOf("태그", "태그", "태그")
             ),
             onClick = {}

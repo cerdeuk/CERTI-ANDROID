@@ -28,13 +28,13 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationListData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CertificationListSection(
-    certificationListData: CertificationListData,
+    certificationListData: ResumeData,
     onLikeClick: () -> Unit,
     onCertificationClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -52,7 +52,7 @@ fun CertificationListSection(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_star_24),
             contentDescription = null,
-            tint = if (certificationListData.isLiked) CertiTheme.colors.subYellow else CertiTheme.colors.gray200,
+            tint = if (certificationListData.isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray200,
             modifier = Modifier
                 .noRippleClickable(onLikeClick)
                 .align(Alignment.TopEnd)
@@ -73,7 +73,7 @@ fun CertificationListSection(
                 )
 
                 Text(
-                    text = certificationListData.agency,
+                    text = certificationListData.agencyName,
                     style = CertiTheme.typography.caption.regular_12,
                     color = CertiTheme.colors.black,
                     modifier = Modifier.padding(start = screenWidthDp(8.dp))
@@ -81,7 +81,7 @@ fun CertificationListSection(
             }
             Spacer(Modifier.height(screenHeightDp(12.dp)))
 
-            CertiChipList(categories = certificationListData.categories)
+            CertiChipList(categories = certificationListData.tags)
         }
 
         Row(
@@ -114,13 +114,12 @@ private fun PreviewCertificationListSection() {
 
     CERTITheme {
         CertificationListSection(
-            certificationListData = CertificationListData(
+            certificationListData = ResumeData(
                 certificationId = 1,
-                isLiked = isLiked,
+                isFavorite = isLiked,
                 certificationName = "정보처리기사",
-                agency = "국가기술자격",
-                categories = listOf("컴퓨터공학", "시각디자인", "경영"),
-                applicationMethod = "실기형"
+                agencyName = "국가기술자격",
+                tags = listOf("컴퓨터공학", "시각디자인", "경영")
             ),
             onLikeClick = { isLiked = !isLiked },
             onCertificationClick = {}

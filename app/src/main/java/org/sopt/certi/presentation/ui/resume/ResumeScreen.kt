@@ -21,12 +21,13 @@ import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
-import org.sopt.certi.domain.model.ResumeCertificationListData
-import org.sopt.certi.domain.model.ResumeListData
+import org.sopt.certi.domain.model.ActivityData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
 import org.sopt.certi.ui.theme.CERTITheme
+import java.time.LocalDate
 
 @Composable
 fun ResumeRoute(
@@ -38,48 +39,44 @@ fun ResumeRoute(
 ) {
     val dummyCategoryList = listOf("IT/인터넷")
     val dummyAcquiredCertificationList = listOf(
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         )
     )
     val dummyExperiences = listOf(
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "트렌드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
@@ -104,9 +101,9 @@ fun ResumeRoute(
 @Composable
 fun ResumeScreen(
     jobCategory: List<String>,
-    acquiredCertificationList: List<ResumeCertificationListData>,
-    experiences: List<ResumeListData>,
-    activities: List<ResumeListData>,
+    acquiredCertificationList: List<ResumeData>,
+    experiences: List<ActivityData>,
+    activities: List<ActivityData>,
     onCertificationClick: () -> Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
@@ -184,48 +181,44 @@ fun ResumeScreen(
 @Composable
 private fun PreviewResumeScreen() {
     val dummyAcquiredCertificationList = listOf(
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
             tags = listOf("태그", "태그", "태그")
         ),
-        ResumeCertificationListData(
-            name = "GTQ 1급 (그래픽기술자격)",
-            year = 2025,
-            month = 7,
-            day = 3,
-            cardImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        ResumeData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
             tags = listOf("태그", "태그", "태그")
         )
     )
     val dummyExperiences = listOf(
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
             description = "트렌드 리서치 및 소재 조사"
         ),
-        ResumeListData(
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
