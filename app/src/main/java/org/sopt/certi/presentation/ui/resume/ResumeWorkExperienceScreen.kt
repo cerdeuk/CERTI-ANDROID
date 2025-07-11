@@ -128,7 +128,7 @@ fun ResumeWorkExperienceScreen(
         )
     }
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp))
     ) {
         item {
