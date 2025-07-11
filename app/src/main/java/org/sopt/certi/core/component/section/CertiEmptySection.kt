@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume.component
+package org.sopt.certi.core.component.section
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -22,7 +22,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeEmptyContent(
+fun CertiEmptySection(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -53,7 +53,7 @@ fun ResumeEmptyContent(
 @Composable
 private fun ResumeEmptyBoxPreview() {
     CERTITheme {
-        ResumeEmptyContent(
+        CertiEmptySection(
             text = stringResource(R.string.resume_empty_experience_message)
         )
     }

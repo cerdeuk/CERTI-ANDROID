@@ -22,14 +22,14 @@ import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.RecommendedCertificationData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun RecommendedCertificationListSection(
-    recommendedList: List<RecommendedCertificationData>,
+    recommendedList: List<ResumeData>,
     modifier: Modifier = Modifier,
-    onCertificationClick: (RecommendedCertificationData) -> Unit
+    onCertificationClick: (Long) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
@@ -38,7 +38,7 @@ fun RecommendedCertificationListSection(
         recommendedList.forEach { item ->
             RecommendedCertificationItem(
                 recommendedCertificationData = item,
-                onClick = { onCertificationClick(item) }
+                onClick = { onCertificationClick(item.certificationId) }
             )
         }
     }
@@ -46,7 +46,7 @@ fun RecommendedCertificationListSection(
 
 @Composable
 fun RecommendedCertificationItem(
-    recommendedCertificationData: RecommendedCertificationData,
+    recommendedCertificationData: ResumeData,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -71,7 +71,7 @@ fun RecommendedCertificationItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = recommendedCertificationData.name,
+                    text = recommendedCertificationData.certificationName,
                     style = CertiTheme.typography.body.bold_18,
                     color = CertiTheme.colors.gray600
                 )
@@ -85,13 +85,13 @@ fun RecommendedCertificationItem(
                 )
 
                 Text(
-                    text = stringResource(R.string.home_recommended_score, recommendedCertificationData.score),
+                    text = stringResource(R.string.home_recommended_score, recommendedCertificationData.recommendScore),
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray500
                 )
             }
             CertiChipList(
-                categories = recommendedCertificationData.categories,
+                categories = recommendedCertificationData.tags,
                 spacing = screenWidthDp(6.dp)
             )
         }
@@ -100,11 +100,12 @@ fun RecommendedCertificationItem(
 
 @Preview(showBackground = true, backgroundColor = 0xFFE0E0E0)
 @Composable
-private fun RecommendedCertificationItemPreview() {
-    val sampleData = RecommendedCertificationData(
-        name = "OPIc",
-        score = 90,
-        categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+fun RecommendedCertificationItemPreview() {
+    val sampleData = ResumeData(
+        certificationId = 1,
+        certificationName = "OPIc",
+        recommendScore = 90,
+        tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
     )
 
     RecommendedCertificationItem(

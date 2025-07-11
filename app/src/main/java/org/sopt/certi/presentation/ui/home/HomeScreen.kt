@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,9 +25,6 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.FavoriteCertificationData
-import org.sopt.certi.domain.model.PreCertificationData
-import org.sopt.certi.domain.model.RecommendedCertificationData
 import org.sopt.certi.domain.model.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.PreCertificationListSection
@@ -39,14 +35,17 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
+import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.showIf
+import org.sopt.certi.domain.model.ResumeData
 
 @Composable
 fun HomeRoute(
     padding: PaddingValues,
+    navigateToRecommend: () -> Unit,
+    navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     var isFavorite by remember { mutableStateOf(false) }
@@ -57,62 +56,65 @@ fun HomeRoute(
         major = "경영학과"
     )
     val recommendedList = listOf(
-        RecommendedCertificationData(
-            name = "OPIc",
-            score = 90,
-            categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ResumeData(
+            certificationId = 1,
+            certificationName = "OPIc",
+            recommendScore = 90,
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         ),
-        RecommendedCertificationData(
-            name = "시각디자인산업기사",
-            score = 90,
-            categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ResumeData(
+            certificationId = 2,
+            certificationName = "시각디자인산업기사",
+            recommendScore = 90,
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         ),
-        RecommendedCertificationData(
-            name = "정보처리기사",
-            score = 90,
-            categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ResumeData(
+            certificationId = 3,
+            certificationName = "정보처리기사",
+            recommendScore = 90,
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         )
     )
     val preCertificationList = listOf(
-        PreCertificationData(
+        ResumeData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
-            testDate = "2025.05.27",
+            nearestTestDate = "2025.05.27",
             agencyName = "한국산업인력공단",
             iconIndex = 0
         ),
-        PreCertificationData(
+        ResumeData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
-            testDate = "2025.05.27",
+            nearestTestDate = "2025.05.27",
             agencyName = "한국산업인력공단",
             iconIndex = 1
         ),
-        PreCertificationData(
+        ResumeData(
             certificationId = 3,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
-            testDate = "2025.05.27",
+            nearestTestDate = "2025.05.27",
             agencyName = "한국산업인력공단",
             iconIndex = 2
         )
     )
     val favoriteCertificationList = listOf(
-        FavoriteCertificationData(
+        ResumeData(
             certificationId = 1,
             certificationName = "정보처리기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
-            qualificationType = "국가기술자격"
+            certificationType = "국가기술자격"
         ),
-        FavoriteCertificationData(
+        ResumeData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
-            qualificationType = "국가기술자격"
+            certificationType = "국가기술자격"
         )
     )
 
@@ -123,6 +125,8 @@ fun HomeRoute(
         favoriteCertificationList = favoriteCertificationList,
         isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite },
+        navigateToRecommend = navigateToRecommend,
+        navigateToPreCerti = navigateToPreCerti,
         modifier = Modifier.padding(padding)
     )
 }
@@ -130,11 +134,13 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     userInfo: UserInfoData,
-    recommendedList: List<RecommendedCertificationData>,
-    preCertificationList: List<PreCertificationData>,
-    favoriteCertificationList: List<FavoriteCertificationData>,
+    recommendedList: List<ResumeData>,
+    preCertificationList: List<ResumeData>,
+    favoriteCertificationList: List<ResumeData>,
     isFavorite: Boolean = true,
     onFavoriteClicked: () -> Unit,
+    navigateToRecommend: () -> Unit,
+    navigateToPreCerti: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -147,12 +153,13 @@ fun HomeScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
-            contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(36.dp))
+            contentPadding = PaddingValues(top = screenHeightDp(12.dp))
         ) {
             item {
                 UserInfoSection(userInfoData = userInfo)
+                Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
             }
+
             item {
                 Column(
                     modifier = Modifier
@@ -178,11 +185,12 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { }
+                                .noRippleClickable { navigateToRecommend() }
 
                         )
                     }
                     RecommendedCertificationListSection(recommendedList = recommendedList, onCertificationClick = { })
+                    Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
                 }
             }
             item {
@@ -208,36 +216,23 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { }
+                                .noRippleClickable { navigateToPreCerti() }
                         )
                     }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = screenHeightDp(60.dp), start = screenWidthDp(80.dp), end = screenWidthDp(80.dp))
-                            .showIf(preCertificationList.isEmpty()),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.img_empty),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(screenWidthDp(130.dp))
-                                .height(screenHeightDp(100.dp))
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
+                    if (preCertificationList.isEmpty()) {
+                        CertiEmptySection(
                             text = stringResource(id = R.string.home_pre_certification_empty),
-                            style = CertiTheme.typography.caption.regular_14,
-                            color = CertiTheme.colors.gray400
+                            modifier = Modifier
+                                .padding(horizontal = screenWidthDp(80.dp))
                         )
+                    } else {
+                        Spacer(
+                            modifier = Modifier
+                                .height(screenHeightDp(36.dp))
+                                .showIf(preCertificationList.isNotEmpty())
+                        )
+                        PreCertificationListSection(preCertificationList = preCertificationList)
                     }
-                    Spacer(
-                        modifier = Modifier
-                            .height(screenHeightDp(16.dp))
-                            .showIf(preCertificationList.isNotEmpty())
-                    )
-                    PreCertificationListSection(preCertificationList = preCertificationList)
                 }
             }
 
@@ -253,39 +248,25 @@ fun HomeScreen(
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(start = screenWidthDp(20.dp))
                     )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = screenHeightDp(60.dp), start = screenWidthDp(80.dp), end = screenWidthDp(80.dp))
-                            .showIf(favoriteCertificationList.isEmpty()),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.img_empty),
-                            contentDescription = null,
+                    if (favoriteCertificationList.isEmpty()) {
+                        CertiEmptySection(
+                            text = stringResource(id = R.string.home_pre_certification_empty),
                             modifier = Modifier
-                                .width(screenWidthDp(130.dp))
-                                .height(screenHeightDp(100.dp))
+                                .padding(horizontal = screenWidthDp(80.dp))
                         )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                            text = stringResource(id = R.string.home_favorite_empty),
-                            style = CertiTheme.typography.caption.regular_14,
-                            color = CertiTheme.colors.gray400
+                    } else {
+                        Spacer(
+                            modifier = Modifier
+                                .height(screenHeightDp(16.dp))
+                                .showIf(favoriteCertificationList.isNotEmpty())
+                        )
+                        FavoriteCertificationListSection(
+                            favoriteCertificationList = favoriteCertificationList,
+                            isFavorite = isFavorite,
+                            onFavoriteClicked = onFavoriteClicked,
+                            modifier = modifier
                         )
                     }
-                    Spacer(
-                        modifier = Modifier
-                            .height(screenHeightDp(16.dp))
-                            .showIf(favoriteCertificationList.isNotEmpty())
-                    )
-
-                    FavoriteCertificationListSection(
-                        favoriteCertificationList = favoriteCertificationList,
-                        isFavorite = isFavorite,
-                        onFavoriteClicked = onFavoriteClicked,
-                        modifier = modifier
-                    )
                 }
             }
         }
@@ -295,22 +276,22 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewHomeScreen() {
-    var favoriteIds by remember { mutableStateOf(setOf(1)) }
+    var isFavorite by remember { mutableStateOf(true) }
 
     val favoriteCertificationList = listOf(
-        FavoriteCertificationData(
+        ResumeData(
             certificationId = 1,
             certificationName = "정보처리기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
-            qualificationType = "국가기술자격"
+            certificationType = "국가기술자격"
         ),
-        FavoriteCertificationData(
+        ResumeData(
             certificationId = 2,
             certificationName = "시각디자인산업기사",
             testType = "실기형",
             agencyName = "한국산업인력공단",
-            qualificationType = "국가기술자격"
+            certificationType = "국가기술자격"
         )
     )
 
@@ -325,26 +306,31 @@ private fun PreviewHomeScreen() {
                 category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
             ),
             recommendedList = listOf(
-                RecommendedCertificationData(
-                    name = "OPIc",
-                    score = 90,
-                    categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                ResumeData(
+                    certificationId = 1,
+                    certificationName = "OPIc",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 ),
-                RecommendedCertificationData(
-                    name = "시각디자인산업기사",
-                    score = 90,
-                    categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                ResumeData(
+                    certificationId = 2,
+                    certificationName = "시각디자인산업기사",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 ),
-                RecommendedCertificationData(
-                    name = "정보처리기사",
-                    score = 90,
-                    categories = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                ResumeData(
+                    certificationId = 3,
+                    certificationName = "정보처리기사",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
                 )
             ),
             preCertificationList = listOf(),
             favoriteCertificationList = favoriteCertificationList,
             isFavorite = true,
-            onFavoriteClicked = { }
+            onFavoriteClicked = { isFavorite = !isFavorite },
+            navigateToRecommend = { },
+            navigateToPreCerti = { }
         )
     }
 }

@@ -19,12 +19,12 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeListData
+import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
 fun ResumeListContent(
-    resumeListItems: List<ResumeListData>,
+    resumeListItems: List<ActivityData>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -44,7 +44,7 @@ fun ResumeListContent(
 
 @Composable
 private fun ResumeListItem(
-    resumeListItem: ResumeListData,
+    resumeListItem: ActivityData,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -72,28 +72,28 @@ private fun ResumeListContentPreview() {
     CERTITheme {
         ResumeListContent(
             resumeListItems = listOf(
-                ResumeListData(
+                ActivityData(
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
                     role = "패션디자이너 인턴",
                     description = "트렌드 리서치 및 소재 조사"
                 ),
-                ResumeListData(
+                ActivityData(
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
                     role = "패션디자이너 인턴",
                     description = "트렌드 리서치 및 소재 조사"
                 ),
-                ResumeListData(
+                ActivityData(
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
                     role = "패션디자이너 인턴",
                     description = "트렌드 리서치 및 소재 조사"
                 ),
-                ResumeListData(
+                ActivityData(
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",

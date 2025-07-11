@@ -22,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import org.sopt.certi.R
-import org.sopt.certi.domain.model.PreCertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,11 +31,12 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.presentation.type.CertiEmojiType
 
 @Composable
 fun PreCertificationListSection(
-    preCertificationList: List<PreCertificationData>,
+    preCertificationList: List<ResumeData>,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -54,7 +54,7 @@ fun PreCertificationListSection(
 
 @Composable
 fun PreCertificationItem(
-    preCertificationData: PreCertificationData,
+    preCertificationData: ResumeData,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null
@@ -112,7 +112,7 @@ fun PreCertificationItem(
 
                             )
                             Text(
-                                text = preCertificationData.testDate,
+                                text = preCertificationData.nearestTestDate,
                                 style = CertiTheme.typography.caption.regular_12,
                                 color = CertiTheme.colors.gray500
                             )
@@ -165,11 +165,11 @@ fun PreCertificationItem(
 @Composable
 private fun PreCertificationItemPreview_click() {
     PreCertificationItem(
-        preCertificationData = PreCertificationData(
+        preCertificationData = ResumeData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
-            testDate = "2025.08.12",
+            nearestTestDate = "2025.08.12",
             agencyName = "한국산업인력공단",
             iconIndex = 0
         ),
@@ -182,11 +182,11 @@ private fun PreCertificationItemPreview_click() {
 @Composable
 private fun PreCertificationItemPreview_delete() {
     PreCertificationItem(
-        preCertificationData = PreCertificationData(
+        preCertificationData = ResumeData(
             certificationId = 1,
             certificationName = "시각디자인산업기사",
             averagePeriod = "3개월",
-            testDate = "2025.08.12",
+            nearestTestDate = "2025.08.12",
             agencyName = "한국산업인력공단",
             iconIndex = 1
         ),

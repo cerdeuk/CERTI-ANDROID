@@ -48,7 +48,7 @@ fun CertiBasicTextField(
             )
             .border(
                 width = 1.dp,
-                color = CertiTheme.colors.gray200,
+                color = CertiTheme.colors.gray300,
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(16.dp)),
