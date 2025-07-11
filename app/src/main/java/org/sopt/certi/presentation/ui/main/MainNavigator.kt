@@ -76,6 +76,17 @@ class MainNavigator(
         )
     }
 
+    fun navigateToRecommend() {
+        navController.navigateToCertRecommend(
+            navOptions {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        )
+    }
+
     private fun popBackStack() {
         navController.popBackStack()
     }

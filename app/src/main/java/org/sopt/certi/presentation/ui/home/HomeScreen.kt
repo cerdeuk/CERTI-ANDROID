@@ -38,13 +38,12 @@ import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ResumeData
 
 @Composable
 fun HomeRoute(
     padding: PaddingValues,
-    navigateToRecommend: () -> Unit,
+    navigateToCertRecommend: () -> Unit,
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -125,8 +124,8 @@ fun HomeRoute(
         favoriteCertificationList = favoriteCertificationList,
         isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite },
-        navigateToRecommend = navigateToRecommend,
-        navigateToPreCerti = navigateToPreCerti,
+        navigateToCertRecommend = {},
+        navigateToPreCerti = { },
         modifier = Modifier.padding(padding)
     )
 }
@@ -139,7 +138,7 @@ fun HomeScreen(
     favoriteCertificationList: List<ResumeData>,
     isFavorite: Boolean = true,
     onFavoriteClicked: () -> Unit,
-    navigateToRecommend: () -> Unit,
+    navigateToCertRecommend: () -> Unit,
     navigateToPreCerti: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -185,7 +184,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { navigateToRecommend() }
+                                .noRippleClickable { navigateToCertRecommend() }
 
                         )
                     }
@@ -226,12 +225,9 @@ fun HomeScreen(
                                 .padding(horizontal = screenWidthDp(80.dp))
                         )
                     } else {
-                        Spacer(
-                            modifier = Modifier
-                                .height(screenHeightDp(36.dp))
-                                .showIf(preCertificationList.isNotEmpty())
-                        )
+                        Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
                         PreCertificationListSection(preCertificationList = preCertificationList)
+                        Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
                     }
                 }
             }
@@ -240,7 +236,6 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = screenHeightDp(36.dp))
                 ) {
                     Text(
                         text = stringResource(R.string.home_favorite_title),
@@ -258,7 +253,6 @@ fun HomeScreen(
                         Spacer(
                             modifier = Modifier
                                 .height(screenHeightDp(16.dp))
-                                .showIf(favoriteCertificationList.isNotEmpty())
                         )
                         FavoriteCertificationListSection(
                             favoriteCertificationList = favoriteCertificationList,
@@ -329,7 +323,7 @@ private fun PreviewHomeScreen() {
             favoriteCertificationList = favoriteCertificationList,
             isFavorite = true,
             onFavoriteClicked = { isFavorite = !isFavorite },
-            navigateToRecommend = { },
+            navigateToCertRecommend = { },
             navigateToPreCerti = { }
         )
     }
