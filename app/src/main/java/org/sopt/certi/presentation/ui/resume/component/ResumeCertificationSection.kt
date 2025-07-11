@@ -24,7 +24,7 @@ import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -34,7 +34,7 @@ fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
     onCertificationClick: () -> Unit,
-    acquiredCertificationList: List<ResumeData>,
+    acquiredCertificationList: List<CertificationData>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -75,7 +75,7 @@ fun ResumeCertificationSection(
 
 @Composable
 private fun ResumeCertificationContent(
-    acquiredCertificationList: List<ResumeData>,
+    acquiredCertificationList: List<CertificationData>,
     onCertificationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -124,28 +124,28 @@ private fun ResumeCertificationSectionPreview() {
             onClick = { },
             onCertificationClick = {},
             acquiredCertificationList = listOf(
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),

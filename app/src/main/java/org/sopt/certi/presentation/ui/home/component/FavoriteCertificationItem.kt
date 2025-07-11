@@ -32,7 +32,7 @@ import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -60,7 +60,7 @@ fun FavoriteCertificationListSection(
 
 @Composable
 fun FavoriteCertificationItem(
-    favoriteCertificationData: ResumeData,
+    favoriteCertificationData: CertificationData,
     isFavorite: Boolean,
     onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -167,7 +167,7 @@ fun FavoriteCertificationItemPreview() {
     var isFavorite by remember { mutableStateOf(true) }
 
     FavoriteCertificationItem(
-        favoriteCertificationData = ResumeData(
+        favoriteCertificationData = CertificationData(
             certificationId = 1,
             certificationName = "시각디자인산업기사안녕",
             certificationType = "국가기술자격",
