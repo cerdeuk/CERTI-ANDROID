@@ -121,7 +121,7 @@ fun HomeRoute(
         recommendedList = recommendedList,
         preCertificationList = preCertificationList,
         favoriteCertificationList = favoriteCertificationList,
-        isFavorite = { isFavorite },
+        isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite },
         modifier = Modifier.padding(padding)
     )
@@ -133,8 +133,8 @@ fun HomeScreen(
     recommendedList: List<RecommendedCertificationData>,
     preCertificationList: List<PreCertificationData>,
     favoriteCertificationList: List<FavoriteCertificationData>,
-    isFavorite: (FavoriteCertificationData) -> Boolean = { true },
-    onFavoriteClicked: (FavoriteCertificationData) -> Unit,
+    isFavorite: Boolean = true,
+    onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -343,14 +343,8 @@ private fun PreviewHomeScreen() {
             ),
             preCertificationList = listOf(),
             favoriteCertificationList = favoriteCertificationList,
-            isFavorite = { data -> favoriteIds.contains(data.certificationId) },
-            onFavoriteClicked = { data ->
-                favoriteIds = if (favoriteIds.contains(data.certificationId)) {
-                    favoriteIds - data.certificationId
-                } else {
-                    favoriteIds + data.certificationId
-                }
-            }
+            isFavorite = true,
+            onFavoriteClicked = { }
         )
     }
 }

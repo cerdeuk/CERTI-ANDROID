@@ -38,8 +38,8 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun FavoriteCertificationListSection(
     favoriteCertificationList: List<FavoriteCertificationData>,
-    isFavorite: (FavoriteCertificationData) -> Boolean,
-    onFavoriteClicked: (FavoriteCertificationData) -> Unit,
+    isFavorite: Boolean,
+    onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -51,8 +51,8 @@ fun FavoriteCertificationListSection(
         items(favoriteCertificationList) { item ->
             FavoriteCertificationItem(
                 favoriteCertificationData = item,
-                isFavorite = isFavorite(item),
-                onFavoriteClicked = { onFavoriteClicked(item) }
+                isFavorite = isFavorite,
+                onFavoriteClicked = onFavoriteClicked
             )
         }
     }
