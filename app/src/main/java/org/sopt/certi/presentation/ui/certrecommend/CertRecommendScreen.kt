@@ -1,7 +1,10 @@
 package org.sopt.certi.presentation.ui.certrecommend
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -26,12 +30,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.util.heightForScreenPercentage
-import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.certrecommend.component.bottomsheet.RecommendFilterBottomSheet
+import org.sopt.certi.presentation.ui.certrecommend.component.chip.RecommendCategoryChip
 import org.sopt.certi.presentation.ui.certrecommend.component.chip.ReselectInterestedChip
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -44,14 +48,16 @@ fun CertRecommendRoute(
     navigateToCertDetail: () -> Unit,
     viewModel: CertRecommendViewModel = hiltViewModel()
 ) {
-    val dummyRecommendList = mutableListOf<CertificationData>()
-
-    var showFilterBottomSheet by remember { mutableStateOf(false) }
+    /** 필터 바텀시트 **/
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
+    var showFilterBottomSheet by remember { mutableStateOf(false) }
     val selectedCategoryList = remember { mutableStateListOf<CategoryType>() }
+    val localSelectedCategoryList = remember { mutableStateListOf<CategoryType>() }
 
+    // FIXME 더미 데이터
+    val dummyRecommendList = mutableListOf<CertificationData>()
     for (i in 0L..11L) {
         dummyRecommendList.add(
             CertificationData(
@@ -67,6 +73,7 @@ fun CertRecommendRoute(
 
     CertRecommendScreen(
         recommendCertList = dummyRecommendList,
+        selectedCategoryList = selectedCategoryList,
         showFilterBottomSheet = { showFilterBottomSheet = true },
         navigateToCertDetail = navigateToCertDetail,
         modifier = Modifier.padding(padding)
@@ -75,110 +82,94 @@ fun CertRecommendRoute(
     if (showFilterBottomSheet) {
         RecommendFilterBottomSheet(
             sheetState = sheetState,
-            selectedList = selectedCategoryList,
+            selectedList = localSelectedCategoryList,
             onItemClick = { categoryType ->
-                if (selectedCategoryList.contains(categoryType)) {
-                    selectedCategoryList.remove(categoryType)
+                if (localSelectedCategoryList.contains(categoryType)) {
+                    localSelectedCategoryList.remove(categoryType)
                 } else {
-                    selectedCategoryList.add(categoryType)
+                    localSelectedCategoryList.add(categoryType)
                 }
             },
             changeBottomSheetVisibility = { showFilterBottomSheet = it },
-            onConfirmClick = { }
+            onConfirmClick = {
+                // 적용하기 클릭
+                selectedCategoryList.clear()
+                selectedCategoryList.addAll(localSelectedCategoryList)
+                // TODO 필터 선택 완료 후 로직
+            },
+            onDismissClick = {
+                // 적용하기 누르지 않고 바텀시트 내렸을 때
+                localSelectedCategoryList.clear()
+                localSelectedCategoryList.addAll(selectedCategoryList)
+            }
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CertRecommendScreen(
     recommendCertList: List<CertificationData>,
+    selectedCategoryList: List<CategoryType>,
     showFilterBottomSheet: () -> Unit,
     navigateToCertDetail: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            top = screenHeightDp(34.dp),
-            bottom = screenHeightDp(36.dp)
-        )
-    ) {
-        item {
-            Text(
-                text = stringResource(R.string.cert_recommend_title),
-                style = CertiTheme.typography.subtitle.bold_20,
-                color = CertiTheme.colors.gray600,
-                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
+    CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                bottom = screenHeightDp(36.dp)
             )
-        }
-
-        item {
-            Spacer(Modifier.heightForScreenPercentage(8.dp))
-        }
-
-        item {
-            Text(
-                text = stringResource(R.string.cert_recommend_sub_title),
-                style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray600,
-                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
-            )
-        }
-
-        item {
-            Spacer(Modifier.heightForScreenPercentage(24.dp))
-        }
-
-        // 카테고리 리스트
-        item {
-            val categoryList = CategoryType.entries.toTypedArray()
-
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
-                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
-            ) {
-                item {
-                    ReselectInterestedChip(
-                        chipOnClick = {
-                            showFilterBottomSheet()
-                        }
+        ) {
+            stickyHeader {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(CertiTheme.colors.white)
+                ) {
+                    Spacer(Modifier.heightForScreenPercentage(34.dp))
+                    Text(
+                        text = stringResource(R.string.cert_recommend_title),
+                        style = CertiTheme.typography.subtitle.bold_20,
+                        color = CertiTheme.colors.gray600,
+                        modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
                     )
-                }
+                    Spacer(Modifier.heightForScreenPercentage(8.dp))
+                    Text(
+                        text = stringResource(R.string.cert_recommend_sub_title),
+                        style = CertiTheme.typography.caption.regular_14,
+                        color = CertiTheme.colors.gray600,
+                        modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
+                    )
+                    Spacer(Modifier.heightForScreenPercentage(24.dp))
 
-                items(categoryList.size) {
-                    CategoryChipItemLayout(categoryList[it])
+                    // 카테고리 리스트
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
+                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
+                    ) {
+                        item {
+                            ReselectInterestedChip(chipOnClick = { showFilterBottomSheet() })
+                        }
+                        items(selectedCategoryList.size) { index ->
+                            RecommendCategoryChip(selectedCategoryList[index])
+                        }
+                    }
+                    Spacer(Modifier.heightForScreenPercentage(22.dp))
                 }
             }
-        }
 
-        item {
-            Spacer(Modifier.heightForScreenPercentage(22.dp))
+            items(recommendCertList.size) {
+                CertificationListSection(
+                    certificationListData = recommendCertList[it],
+                    onLikeClick = {},
+                    onCertificationClick = navigateToCertDetail,
+                    modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(6.dp))
+                )
+            }
         }
-
-        items(recommendCertList.size) {
-            CertificationListSection(
-                certificationListData = recommendCertList[it],
-                onLikeClick = {},
-                onCertificationClick = navigateToCertDetail,
-                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(6.dp))
-            )
-        }
-    }
-}
-
-@Composable
-private fun CategoryChipItemLayout(categoryType: CategoryType) {
-    Box(
-        modifier = Modifier
-            .roundedBackgroundWithBorder(cornerRadius = 24.dp, backgroundColor = CertiTheme.colors.gray0)
-            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(6.dp))
-    ) {
-        Text(
-            text = categoryType.description,
-            style = CertiTheme.typography.caption.regular_12,
-            color = CertiTheme.colors.gray600
-        )
     }
 }
 
@@ -203,6 +194,7 @@ private fun PreviewCertRecommendScreen() {
 
         CertRecommendScreen(
             recommendCertList = dummyRecommendList,
+            selectedCategoryList = emptyList(),
             showFilterBottomSheet = {},
             navigateToCertDetail = {}
         )
