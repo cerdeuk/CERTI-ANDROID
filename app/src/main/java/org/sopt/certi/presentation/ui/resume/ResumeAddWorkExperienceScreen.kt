@@ -28,8 +28,9 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeWorkExperienceAddRoute(
+fun ResumeAddWorkExperienceRoute(
     padding: PaddingValues,
+    onNavigateToResume: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     var startDate by remember { mutableStateOf("") }
@@ -54,7 +55,7 @@ fun ResumeWorkExperienceAddRoute(
         onRoleValueChange = { roleValue = it },
         descriptionValue = descriptionValue,
         onDescriptionValueChange = { descriptionValue = it },
-        onAddButtonClick = {},
+        onNavigateToResume = onNavigateToResume,
         addButtonEnabled = addButtonEnabled,
         modifier = Modifier.padding(padding)
     )
@@ -72,7 +73,7 @@ fun ResumeWorkExperienceAddScreen(
     onRoleValueChange: (String) -> Unit,
     descriptionValue: String,
     onDescriptionValueChange: (String) -> Unit,
-    onAddButtonClick: () -> Unit,
+    onNavigateToResume: () -> Unit,
     addButtonEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -135,7 +136,7 @@ fun ResumeWorkExperienceAddScreen(
             item {
                 CertiBasicButton(
                     buttonText = stringResource(R.string.button_add),
-                    onClick = onAddButtonClick,
+                    onClick = onNavigateToResume,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = screenHeightDp(24.dp)),
@@ -172,7 +173,7 @@ private fun PreviewResumeWorkExperienceAddScreen() {
             onRoleValueChange = { roleValue = it },
             descriptionValue = descriptionValue,
             onDescriptionValueChange = { descriptionValue = it },
-            onAddButtonClick = {},
+            onNavigateToResume = {},
             addButtonEnabled = addButtonEnabled
         )
     }
