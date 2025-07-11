@@ -88,6 +88,7 @@
 
     <!-- ResumeWorkExperienceScreen -->
     <string name="resume_work_experience_edit">경력사항 수정</string>
+    <string name="resume_work_experience_add">경력사항 추가</string>
 
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
