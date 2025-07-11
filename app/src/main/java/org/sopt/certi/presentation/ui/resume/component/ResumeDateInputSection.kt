@@ -15,6 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,16 +36,16 @@ fun ResumeDateInputSection(
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.resume_section_certification_title)
+    title: String = stringResource(R.string.resume_work_experience_period)
 ) {
     Column(
         modifier = modifier
     ) {
         ResumeInputTitle(title = title)
+
         Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
 
         Row(
-            modifier = modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ResumeDateTextField(

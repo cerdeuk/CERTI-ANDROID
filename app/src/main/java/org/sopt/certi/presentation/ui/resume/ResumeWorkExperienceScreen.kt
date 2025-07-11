@@ -143,7 +143,7 @@ fun ResumeWorkExperienceScreen(
 
         item {
             Text(
-                text = stringResource(R.string.resume_work_experience_edit),
+                text = stringResource(R.string.resume_work_experience_edit_title),
                 style = CertiTheme.typography.subtitle.semibold_20,
                 color = CertiTheme.colors.gray600,
                 modifier = Modifier.padding(bottom = screenHeightDp(48.dp))
