@@ -14,13 +14,13 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeListData
+import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeEditListItem(
-    resumeListItem: ResumeListData,
+    resumeListItem: ActivityData,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,7 +50,7 @@ fun ResumeEditListItem(
 private fun ResumeEditListItemPreview() {
     CERTITheme {
         ResumeEditListItem(
-            resumeListItem = ResumeListData(
+            resumeListItem = ActivityData(
                 startAt = "2021.11",
                 endAt = "2022.01",
                 organization = "서티그룹",
