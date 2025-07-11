@@ -22,12 +22,31 @@ import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
+fun RecommendedCertificationListSection(
+    recommendedList: List<CertificationData>,
+    onCertificationClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        recommendedList.forEach { item ->
+            RecommendedCertificationItem(
+                recommendedCertificationData = item,
+                onClick = { onCertificationClick(item.certificationId) }
+            )
+        }
+    }
+}
+
+@Composable
 fun RecommendedCertificationItem(
-    recommendedCertificationData: ResumeData,
+    recommendedCertificationData: CertificationData,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -82,7 +101,7 @@ fun RecommendedCertificationItem(
 @Preview(showBackground = true, backgroundColor = 0xFFE0E0E0)
 @Composable
 fun RecommendedCertificationItemPreview() {
-    val sampleData = ResumeData(
+    val sampleData = CertificationData(
         certificationId = 1,
         certificationName = "OPIc",
         recommendScore = 90,

@@ -55,7 +55,9 @@ fun MainNavHost(
                 viewModel = onBoardingViewModel
             )
 
-            homeNavGraph(padding = padding)
+            homeNavGraph(
+                padding = padding
+            )
 
             certListNavGraph(
                 padding = padding,

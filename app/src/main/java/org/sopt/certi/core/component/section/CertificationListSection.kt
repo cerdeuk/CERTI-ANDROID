@@ -28,13 +28,13 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CertificationListSection(
-    certificationListData: ResumeData,
+    certificationListData: CertificationData,
     onLikeClick: () -> Unit,
     onCertificationClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -114,7 +114,7 @@ private fun PreviewCertificationListSection() {
 
     CERTITheme {
         CertificationListSection(
-            certificationListData = ResumeData(
+            certificationListData = CertificationData(
                 certificationId = 1,
                 isFavorite = isLiked,
                 certificationName = "정보처리기사",
