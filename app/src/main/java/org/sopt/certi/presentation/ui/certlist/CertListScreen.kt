@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
 import org.sopt.certi.presentation.ui.certlist.component.CategoryFavoriteButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
@@ -36,8 +36,8 @@ fun CertListRoute(
     var isFavorite by remember { mutableStateOf(false) }
     var certificationList by remember {
         mutableStateOf(
-            listOf<ResumeData>(
-                ResumeData(
+            listOf<CertificationData>(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -45,7 +45,7 @@ fun CertListRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -53,7 +53,7 @@ fun CertListRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -61,7 +61,7 @@ fun CertListRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -69,7 +69,7 @@ fun CertListRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -77,7 +77,7 @@ fun CertListRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -85,7 +85,7 @@ fun CertListRoute(
                     agencyName = "한국정보처리기관",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리기사",
@@ -93,7 +93,7 @@ fun CertListRoute(
                     agencyName = "국가기술자격",
                     applicationMethod = "실기형"
                 ),
-                ResumeData(
+                CertificationData(
                     certificationId = 1,
                     isFavorite = false,
                     certificationName = "정보처리",
@@ -128,7 +128,7 @@ private fun CertListScreen(
     onCategorySelected: (Int) -> Unit,
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
-    certificationList: List<ResumeData>,
+    certificationList: List<CertificationData>,
     onLikeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {

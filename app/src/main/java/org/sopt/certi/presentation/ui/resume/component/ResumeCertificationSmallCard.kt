@@ -24,14 +24,14 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.ResumeData
+import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 
 @Composable
 fun ResumeCertificationSmallCard(
-    certification: ResumeData,
+    certification: CertificationData,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -88,7 +88,7 @@ private fun ResumeCertificationSmallCardPreview() {
     CERTITheme {
         ResumeCertificationSmallCard(
             certification =
-            ResumeData(
+            CertificationData(
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격)",
                 createdAt = LocalDate.now(),

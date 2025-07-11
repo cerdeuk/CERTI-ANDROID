@@ -2,7 +2,7 @@ package org.sopt.certi.domain.model
 
 import java.time.LocalDate
 
-data class ResumeData(
+data class CertificationData(
     val certificationId: Long,
     val certificationName: String,
     val certificationType: String = "",
