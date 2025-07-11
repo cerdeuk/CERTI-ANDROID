@@ -50,6 +50,10 @@
     <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
     <string name="cert_list_favorite_btn">즐겨찾기</string>
 
+    <!-- Search Screen -->
+    <string name="search_result_title">총 %d개의 검색 결과</string>
+    <string name="search_empty_description">%s에\n해당하는 결과가 없어요.</string>
+
     <!-- ReselectInterestedChip -->
     <string name="reselect_interested_chip_text">희망분야 재설정하기</string>
 

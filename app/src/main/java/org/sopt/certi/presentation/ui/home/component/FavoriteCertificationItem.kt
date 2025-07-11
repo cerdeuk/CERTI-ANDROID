@@ -29,12 +29,12 @@ import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.FavoriteCertificationData
+import org.sopt.certi.domain.model.ResumeData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun FavoriteCertificationItem(
-    favoriteCertificationData: FavoriteCertificationData,
+    favoriteCertificationData: ResumeData,
     isFavorite: Boolean,
     onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -62,7 +62,7 @@ fun FavoriteCertificationItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = favoriteCertificationData.qualificationType,
+                    text = favoriteCertificationData.certificationType,
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray600
                 )
@@ -141,10 +141,10 @@ fun FavoriteCertificationItemPreview() {
     var isFavorite by remember { mutableStateOf(true) }
 
     FavoriteCertificationItem(
-        favoriteCertificationData = FavoriteCertificationData(
+        favoriteCertificationData = ResumeData(
             certificationId = 1,
             certificationName = "시각디자인산업기사안녕",
-            qualificationType = "국가기술자격",
+            certificationType = "국가기술자격",
             testType = "실기형",
             agencyName = "한국산업인력공단"
         ),
