@@ -26,7 +26,6 @@ import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.home.component.PreCertificationItem
 import org.sopt.certi.ui.theme.CERTITheme
 
-
 @Composable
 fun PreCertificationEditRoute(
     padding: PaddingValues,
@@ -145,7 +144,7 @@ fun PreCertificationEditScreenPreview() {
     CERTITheme {
         PreCertificationEditScreen(
             preCertificationList = mockList,
-            showDialog = showDialog,
+            showDialog = true,
             onDelete = { showDialog = true },
             onDialogConfirm = { showDialog = false },
             onDialogDismiss = { showDialog = false },

@@ -48,7 +48,7 @@ fun PreCertificationListSection(
         items(preCertificationList) { item ->
             PreCertificationItem(
                 preCertificationData = item,
-                onClick = { }
+                onClick = onClick
             )
         }
     }
