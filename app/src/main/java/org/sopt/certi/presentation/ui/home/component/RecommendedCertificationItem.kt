@@ -26,6 +26,25 @@ import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
+fun RecommendedCertificationListSection(
+    recommendedList: List<CertificationData>,
+    onCertificationClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        recommendedList.forEach { item ->
+            RecommendedCertificationItem(
+                recommendedCertificationData = item,
+                onClick = { onCertificationClick(item.certificationId) }
+            )
+        }
+    }
+}
+
+@Composable
 fun RecommendedCertificationItem(
     recommendedCertificationData: CertificationData,
     modifier: Modifier = Modifier,

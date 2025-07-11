@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.home.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +34,29 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
+
+@Composable
+fun FavoriteCertificationListSection(
+    favoriteCertificationList: List<CertificationData>,
+    isFavorite: Boolean,
+    onFavoriteClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp)),
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        items(favoriteCertificationList) { item ->
+            FavoriteCertificationItem(
+                favoriteCertificationData = item,
+                isFavorite = isFavorite,
+                onFavoriteClicked = onFavoriteClicked
+            )
+        }
+    }
+}
 
 @Composable
 fun FavoriteCertificationItem(
