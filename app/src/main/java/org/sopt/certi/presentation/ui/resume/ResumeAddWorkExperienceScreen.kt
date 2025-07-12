@@ -95,7 +95,7 @@ fun ResumeAddWorkExperienceScreen(
 
             item {
                 ResumeDateInputSection(
-                    title = stringResource(R.string.resume_work_experience_add_title),
+                    title = stringResource(R.string.resume_work_experience_period),
                     startDate = startDate,
                     endDate = endDate,
                     onStartDateValueChange = onStartDateValueChange,
