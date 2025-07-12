@@ -26,7 +26,7 @@ fun AcquiredDateChip(
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(
-                cornerRadius = 12.dp,
+                cornerRadius = 20.dp,
                 backgroundColor = CertiTheme.colors.white
             )
             .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(6.dp))
