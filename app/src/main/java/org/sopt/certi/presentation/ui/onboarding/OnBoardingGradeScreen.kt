@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.util.screenHeightDp
@@ -30,6 +29,7 @@ import org.sopt.certi.presentation.type.SelectableButtonType
 import org.sopt.certi.presentation.ui.onboarding.component.OnBoardingSelectableButtons
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import timber.log.Timber
 
 @Composable
 fun OnBoardingGradeRoute(
@@ -37,11 +37,13 @@ fun OnBoardingGradeRoute(
     navigateToTrack: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
-    var selectedOption by remember { mutableStateOf("") }
+    val grade by viewModel.grade.collectAsStateWithLifecycle()
+
+    LaunchedEffect(grade) { Timber.tag("ㅋㅋㅋ").d("grade: $grade") }
 
     OnBoardingGradeScreen(
-        selectedOptions = listOfNotNull(selectedOption),
-        onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() },
+        selectedGrade = grade,
+        onGradeSelected = viewModel::onGradeSelected,
         navigateToTrack = navigateToTrack,
         modifier = Modifier.padding(padding)
     )
@@ -49,8 +51,8 @@ fun OnBoardingGradeRoute(
 
 @Composable
 fun OnBoardingGradeScreen(
-    selectedOptions: List<String>,
-    onOptionsChanged: (List<String>) -> Unit,
+    selectedGrade: String?,
+    onGradeSelected: (String?) -> Unit,
     navigateToTrack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -77,8 +79,8 @@ fun OnBoardingGradeScreen(
             Spacer(modifier = Modifier.padding(top = screenHeightDp(38.dp)))
 
             OnBoardingGradeSection(
-                selectedOptions = selectedOptions,
-                onOptionsChanged = onOptionsChanged
+                selectedGrade = selectedGrade,
+                onGradeSelected = onGradeSelected
             )
         }
 
@@ -87,24 +89,22 @@ fun OnBoardingGradeScreen(
             onClick = navigateToTrack,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(
-                    alignment = Alignment.BottomCenter
-                ),
-            enabled = true
+                .align(alignment = Alignment.BottomCenter),
+            enabled = selectedGrade != null
         )
     }
 }
 
 @Composable
 private fun OnBoardingGradeSection(
-    selectedOptions: List<String>,
-    onOptionsChanged: (List<String>) -> Unit,
+    selectedGrade: String?,
+    onGradeSelected: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OnBoardingSelectableButtons(
         selectableButtonType = SelectableButtonType.GRADE,
-        selectedOptions = selectedOptions,
-        onOptionsChanged = onOptionsChanged,
+        selectedOptions = selectedGrade?.let { listOf(it) } ?: emptyList(),
+        onOptionsChanged = { options -> onGradeSelected(options.firstOrNull()) },
         modifier = modifier
     )
 }
@@ -113,10 +113,5 @@ private fun OnBoardingGradeSection(
 @Composable
 private fun PreviewOnBoardingGradeScreen() {
     CERTITheme {
-        OnBoardingGradeScreen(
-            selectedOptions = listOf("2"),
-            onOptionsChanged = {},
-            navigateToTrack = {}
-        )
     }
 }

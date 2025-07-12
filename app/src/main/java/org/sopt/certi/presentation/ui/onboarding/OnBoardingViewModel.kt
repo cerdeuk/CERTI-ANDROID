@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.sopt.certi.core.state.UiState
@@ -25,6 +26,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _onBoardingMajorLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _majorSearchText = MutableStateFlow("")
     private val _submittedMajorSearchText = MutableStateFlow("")
+
+    private val _grade = MutableStateFlow<String?>("")
+    val grade: StateFlow<String?> = _grade.asStateFlow()
 
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
@@ -132,5 +136,9 @@ class OnBoardingViewModel @Inject constructor(
     fun selectMajor(majorName: String) {
         _majorSearchText.value = majorName
         _submittedMajorSearchText.value = majorName
+    }
+
+    fun onGradeSelected(grade: String?) {
+        _grade.value = grade
     }
 }
