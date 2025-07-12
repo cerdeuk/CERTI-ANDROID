@@ -38,7 +38,7 @@ fun ResumeTextField(
         },
         modifier = modifier.fillMaxWidth(),
         textStyle = CertiTheme.typography.caption.semibold_14.copy(
-            color = CertiTheme.colors.gray600
+            color = CertiTheme.colors.gray300
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
@@ -66,7 +66,7 @@ fun ResumeTextField(
                     Text(
                         text = stringResource(R.string.resume_textfield_caption, value.length, maxLength),
                         style = CertiTheme.typography.caption.semibold_14,
-                        color = CertiTheme.colors.gray200
+                        color = CertiTheme.colors.gray300
                     )
                 }
             }

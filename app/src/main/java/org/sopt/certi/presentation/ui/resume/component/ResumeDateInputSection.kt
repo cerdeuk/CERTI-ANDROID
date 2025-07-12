@@ -83,7 +83,7 @@ private fun ResumeDateTextField(
         value = value.take(10),
         onValueChange = onValueChange,
         textStyle = CertiTheme.typography.caption.semibold_12.copy(
-            color = CertiTheme.colors.gray600
+            color = CertiTheme.colors.gray300
         ),
         modifier = modifier
             .widthForScreenPercentage(108.dp)
