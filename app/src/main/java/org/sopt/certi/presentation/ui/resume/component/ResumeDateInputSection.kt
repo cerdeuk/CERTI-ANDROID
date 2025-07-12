@@ -80,10 +80,14 @@ private fun ResumeDateTextField(
     modifier: Modifier = Modifier
 ) {
     BasicTextField(
-        value = value.take(10),
-        onValueChange = onValueChange,
+        value = value,
+        onValueChange = {
+            if (it.length <= 10) {
+                onValueChange(it)
+            }
+        },
         textStyle = CertiTheme.typography.caption.semibold_12.copy(
-            color = CertiTheme.colors.gray300
+            color = CertiTheme.colors.gray600
         ),
         modifier = modifier
             .widthForScreenPercentage(108.dp)
@@ -106,7 +110,7 @@ private fun ResumeDateTextField(
                     Text(
                         text = stringResource(R.string.resume_textfield_date),
                         style = CertiTheme.typography.caption.semibold_12,
-                        color = CertiTheme.colors.gray200
+                        color = CertiTheme.colors.gray300
                     )
                 }
                 innerTextField()
