@@ -38,7 +38,7 @@ fun ResumeEditListItem(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_close_36),
             contentDescription = null,
-            tint = CertiTheme.colors.gray500,
+            tint = CertiTheme.colors.gray300,
             modifier = Modifier
                 .noRippleClickable { onDeleteClick() }
         )

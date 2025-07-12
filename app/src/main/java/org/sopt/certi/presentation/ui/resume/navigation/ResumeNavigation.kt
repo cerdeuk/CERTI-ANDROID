@@ -9,6 +9,7 @@ import androidx.navigation.navOptions
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
+import org.sopt.certi.presentation.ui.resume.ResumeAddWorkExperienceRoute
 import org.sopt.certi.presentation.ui.resume.ResumeAddActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.ResumeMyCertRoute
 import org.sopt.certi.presentation.ui.resume.ResumeRoute
@@ -24,6 +25,10 @@ fun NavController.navigateToMyCert() {
 
 fun NavController.navigateToWorkExperience() {
     navigate(ResumeRoute.WorkExperience)
+}
+
+fun NavController.navigateToAddWorkExperience() {
+    navigate(ResumeRoute.AddWorkExperience)
 }
 
 fun NavController.navigateToActivities() {
@@ -52,7 +57,23 @@ fun NavGraphBuilder.resumeNavGraph(
     }
 
     composable<ResumeRoute.WorkExperience> {
-        ResumeWorkExperienceRoute(padding = padding)
+        ResumeWorkExperienceRoute(
+            padding = padding,
+            onNavigateToAddWordExperience = navController::navigateToAddWorkExperience
+        )
+    }
+
+    composable<ResumeRoute.AddWorkExperience> {
+        ResumeAddWorkExperienceRoute(
+            padding = padding,
+            onNavigateToResume = {
+                navController.navigateToResume(
+                    navOptions {
+                        popUpTo(MainTabRoute.Resume) { inclusive = true }
+                    }
+                )
+            }
+        )
     }
 
     composable<ResumeRoute.Activities> {
