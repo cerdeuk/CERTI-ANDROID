@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.domain.model.UserInfoData
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
@@ -35,6 +37,9 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _jobCategory = MutableStateFlow<List<String>>(emptyList())
     val jobCategory: StateFlow<List<String>> = _jobCategory.asStateFlow()
+
+    private val _userInfo = MutableStateFlow<UserInfoData?>(null)
+    val userInfo: StateFlow<UserInfoData?> = _userInfo.asStateFlow()
 
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
@@ -154,5 +159,18 @@ class OnBoardingViewModel @Inject constructor(
 
     fun onJobCategoryChanged(selected: List<String>) {
         _jobCategory.value = selected
+    }
+
+    fun postSignUp() {
+        viewModelScope.launch {
+            val result = UserInfoData(
+                name = "김서티",
+                university = _univSearchText.value,
+                track = _track.value ?: "",
+                major = _majorSearchText.value,
+                category = _jobCategory.value
+            )
+            _userInfo.value = result
+        }
     }
 }

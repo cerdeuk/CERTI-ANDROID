@@ -40,7 +40,10 @@ fun OnBoardingJobCategoryRoute(
     OnBoardingJobCategoryScreen(
         selectedJobCategory = jobCategory,
         onJobCategoryChanged = viewModel::onJobCategoryChanged,
-        navigateToOnBoardingInfo = navigateToOnBoardingInfo,
+        onSignUpClick = {
+            viewModel.postSignUp()
+            navigateToOnBoardingInfo()
+        },
         modifier = Modifier.padding(padding)
     )
 }
@@ -49,7 +52,7 @@ fun OnBoardingJobCategoryRoute(
 fun OnBoardingJobCategoryScreen(
     selectedJobCategory: List<String>,
     onJobCategoryChanged: (List<String>) -> Unit,
-    navigateToOnBoardingInfo: () -> Unit,
+    onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -90,12 +93,10 @@ fun OnBoardingJobCategoryScreen(
 
         CertiBasicButton(
             buttonText = stringResource(R.string.button_next),
-            onClick = navigateToOnBoardingInfo,
+            onClick = onSignUpClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(
-                    alignment = Alignment.BottomCenter
-                ),
+                .align(alignment = Alignment.BottomCenter),
             enabled = selectedJobCategory.isNotEmpty()
         )
     }
