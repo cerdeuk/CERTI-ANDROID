@@ -12,6 +12,7 @@ kotlin = "2.0.21"
 kotlinxSerializationJson = "1.7.3"
 ksp = "2.0.21-1.0.27"
 ktlint = "11.5.1"
+kotlinxImmutable = "0.4.0"
 
 # Jetpack Compose
 activityCompose = "1.10.1"
@@ -57,6 +58,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 
 # Kotlin
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
