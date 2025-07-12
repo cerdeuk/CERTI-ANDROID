@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -56,7 +58,7 @@ fun FlipCardOverlay(
         ) {
             Box(
                 modifier = Modifier
-                    .size(width = 250.dp, height = 376.dp)
+                    .size(width = screenWidthDp(250.dp), height = screenHeightDp(376.dp))
                     .graphicsLayer {
                         this.rotationY = rotationY
                         this.cameraDistance = cameraDistance
