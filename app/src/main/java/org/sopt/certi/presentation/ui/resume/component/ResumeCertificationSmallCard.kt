@@ -25,6 +25,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.presentation.type.CertCardColorType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -61,7 +62,7 @@ fun ResumeCertificationSmallCard(
             Text(
                 text = certification.certificationName,
                 style = CertiTheme.typography.caption.bold_14,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certification.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
 
@@ -73,11 +74,16 @@ fun ResumeCertificationSmallCard(
                     certification.createdAt.dayOfWeek
                 ),
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certification.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 
-            CertiChipList(categories = certification.tags)
+            CertiChipList(
+                categories = certification.tags,
+                textStyle = CertiTheme.typography.caption.semibold_12,
+                backgroundColor = CertCardColorType.fromIndex(certification.index).chipBackgroundColor,
+                textColor = CertCardColorType.fromIndex(certification.index).chipTextColor
+            )
         }
     }
 }

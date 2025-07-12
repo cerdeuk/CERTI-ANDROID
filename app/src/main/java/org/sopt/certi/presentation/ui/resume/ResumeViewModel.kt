@@ -72,9 +72,10 @@ class ResumeViewModel @Inject constructor(
         val acquiredCertificationList = {
             listOf(
                 CertificationData(
-                    certificationId = 1,
+                    certificationId = 2,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
+                    index = 2,
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
@@ -82,6 +83,7 @@ class ResumeViewModel @Inject constructor(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
+                    index = 3,
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
@@ -89,6 +91,7 @@ class ResumeViewModel @Inject constructor(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
+                    index = 1,
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
                     tags = listOf("태그", "태그", "태그")
                 ),
@@ -96,6 +99,7 @@ class ResumeViewModel @Inject constructor(
                     certificationId = 1,
                     certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
+                    index = 2,
                     cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
                     tags = listOf("태그", "태그", "태그")
                 )
@@ -134,6 +138,5 @@ class ResumeViewModel @Inject constructor(
     }
 
     fun onCertificationClick(selectedCertificationId: Long) {
-
     }
 }
