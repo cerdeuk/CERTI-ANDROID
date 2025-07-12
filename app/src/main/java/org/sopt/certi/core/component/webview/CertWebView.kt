@@ -43,10 +43,8 @@ fun CertWebView(
             webView = this
         }
     }, update = {
-        it.loadUrl(url)
-    })
+            it.loadUrl(url)
+        })
 }
 
-class CertWebViewClient : WebViewClient() {
-
-}
+class CertWebViewClient : WebViewClient()

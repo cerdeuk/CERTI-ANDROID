@@ -73,17 +73,17 @@ fun CertDetailRoute(
         modifier = Modifier.padding(padding)
     )
 
-    if(showAcquiredDialog) {
+    if (showAcquiredDialog) {
         CertAcquiredDialog(
             certName = dummyCertData.certificationName,
             onConfirmClick = {
-                //TODO 캐릭터 카드 보러가기 처리
+                // TODO 캐릭터 카드 보러가기 처리
             },
             setShowDialog = { showAcquiredDialog = it }
         )
     }
 
-    if(showWebView) {
+    if (showWebView) {
         CertWebView(
             url = dummyCertData.applicationUrl,
             closeWebView = { showWebView = false }
@@ -340,8 +340,6 @@ fun CertDetailScreen(
 
         Spacer(Modifier.heightForScreenPercentage(32.dp))
     }
-
-
 }
 
 @Preview(showBackground = true)
