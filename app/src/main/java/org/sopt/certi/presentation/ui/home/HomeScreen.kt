@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,7 +37,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.core.component.section.CertiEmptySection
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.domain.model.CertificationData
 
@@ -47,6 +50,16 @@ fun HomeRoute(
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.isFavorite) {
+        viewModel.getuserInfo()
+        viewModel.getRecommendedList()
+        viewModel.getPreCertList()
+        viewModel.getFavoriteList(uiState.isFavorite)
+
+    }
+
     var isFavorite by remember { mutableStateOf(false) }
 
     val userInfo = UserInfoData(
@@ -116,20 +129,27 @@ fun HomeRoute(
             certificationType = "국가기술자격"
         )
     )
-
-    HomeScreen(
-        userInfo = userInfo,
-        recommendedList = recommendedList,
-        preCertificationList = preCertificationList,
-        favoriteCertificationList = favoriteCertificationList,
-        isFavorite = isFavorite,
-        onFavoriteClicked = { isFavorite = !isFavorite },
-        onDetailClick = { },
-        navigateToCertRecommend = { },
-        navigateToPreCerti = navigateToPreCerti,
-        modifier = Modifier.padding(padding)
-    )
+    when (uiState.loadState) {
+        is UiState.Success -> HomeScreen(
+            userInfo = userInfo,
+            recommendedList = recommendedList,
+            preCertificationList = preCertificationList,
+            favoriteCertificationList = favoriteCertificationList,
+            isFavorite = isFavorite,
+            onFavoriteClicked = { isFavorite = !isFavorite },
+            onDetailClick = { },
+            navigateToCertRecommend = { },
+            navigateToPreCerti = navigateToPreCerti,
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Failure -> {}
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Init -> {}
+    }
 }
+
+
 
 @Composable
 fun HomeScreen(
