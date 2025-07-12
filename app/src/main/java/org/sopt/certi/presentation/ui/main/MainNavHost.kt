@@ -74,7 +74,10 @@ fun MainNavHost(
                 navController = navigator.navController
             )
 
-            certDetailNavGraph(padding = padding)
+            certDetailNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
 
             resumeNavGraph(
                 padding = padding,
