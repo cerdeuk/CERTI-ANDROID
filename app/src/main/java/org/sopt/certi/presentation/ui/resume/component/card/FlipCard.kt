@@ -72,7 +72,7 @@ fun FlipCardOverlay(
                         }
                     }
                     .clip(RoundedCornerShape(12.dp))
-                    .background(CertiTheme.colors.white)
+                    .background(CertiTheme.colors.subYellow)
                     .noRippleClickable { isFlipped = !isFlipped }
             ) {
                 if (rotationY <= 90f) {

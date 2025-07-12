@@ -59,7 +59,7 @@ fun CertificationCardBack(
 
         Column(
             modifier = Modifier
-                .padding(start = screenWidthDp(24.dp), top = screenHeightDp(36.dp)),
+                .padding(start = screenWidthDp(24.dp), end = screenWidthDp(24.dp), top = screenHeightDp(36.dp)),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
