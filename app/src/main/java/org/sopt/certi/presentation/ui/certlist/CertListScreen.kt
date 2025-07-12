@@ -17,7 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import okhttp3.internal.toImmutableList
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
@@ -44,14 +43,14 @@ fun CertListRoute(
 
     when (uiState.loadState) {
         is UiState.Success -> CertListScreen(
-            certListState = uiState,
-            navigateToSearch = navigateToSearch,
-            onCategorySelected = viewModel::onCategorySelected,
-            onFavoriteButtonClick = viewModel::onFavoriteClick,
-            certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
-            onLikeClick = viewModel::onLikeClick,
-            modifier = Modifier.padding(padding)
-        )
+                certListState = uiState,
+                navigateToSearch = navigateToSearch,
+                onCategorySelected = viewModel::onCategorySelected,
+                onFavoriteButtonClick = viewModel::onFavoriteClick,
+                certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
+                onLikeClick = viewModel::onLikeClick,
+                modifier = Modifier.padding(padding)
+            )
         is UiState.Failure -> {}
         is UiState.Loading -> {}
         is UiState.Empty -> {}
