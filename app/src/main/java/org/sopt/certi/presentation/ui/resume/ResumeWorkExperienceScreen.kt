@@ -29,7 +29,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun ResumeWorkExperienceRoute(
     padding: PaddingValues,
-    onNavigateToAdd: () -> Unit,
+    onNavigateToAddWordExperience: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -101,7 +101,7 @@ fun ResumeWorkExperienceRoute(
     )
 
     ResumeWorkExperienceScreen(
-        onNavigateToAdd = onNavigateToAdd,
+        onNavigateToAddWordExperience = onNavigateToAddWordExperience,
         resumeDataList = resumeDataList,
         onDeleteDialogShow = showDialog,
         onDeleteClick = { showDialog = true },
@@ -113,7 +113,7 @@ fun ResumeWorkExperienceRoute(
 
 @Composable
 fun ResumeWorkExperienceScreen(
-    onNavigateToAdd: () -> Unit,
+    onNavigateToAddWordExperience: () -> Unit,
     resumeDataList: List<ActivityData>,
     onDeleteDialogShow: Boolean,
     onDeleteClick: () -> Unit,
@@ -133,7 +133,7 @@ fun ResumeWorkExperienceScreen(
     ) {
         item {
             ResumeAddButton(
-                onClick = onNavigateToAdd,
+                onClick = onNavigateToAddWordExperience,
                 modifier = Modifier.padding(
                     top = screenHeightDp(60.dp),
                     bottom = screenHeightDp(48.dp)
@@ -190,7 +190,7 @@ private fun PreviewResumeWorkExperienceScreen() {
     CERTITheme {
         ResumeWorkExperienceScreen(
             resumeDataList = resumeDataList,
-            onNavigateToAdd = {},
+            onNavigateToAddWordExperience = {},
             onDeleteDialogShow = false,
             onDeleteClick = {},
             onDialogConfirm = {},
