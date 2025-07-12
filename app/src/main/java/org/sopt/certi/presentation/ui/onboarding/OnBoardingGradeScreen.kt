@@ -39,8 +39,6 @@ fun OnBoardingGradeRoute(
 ) {
     val grade by viewModel.grade.collectAsStateWithLifecycle()
 
-    LaunchedEffect(grade) { Timber.tag("ㅋㅋㅋ").d("grade: $grade") }
-
     OnBoardingGradeScreen(
         selectedGrade = grade,
         onGradeSelected = viewModel::onGradeSelected,
