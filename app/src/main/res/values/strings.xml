@@ -94,6 +94,15 @@
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
     <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
+    <string name="cert_detail_average_period_title">평균 취득 기간</string>
+    <string name="cert_detail_charge_title">수수료</string>
+    <string name="cert_detail_agency_title">기관명</string>
+    <string name="cert_detail_charge_content">%s원</string>
+    <string name="cert_detail_description_title">자격증 설명</string>
+    <string name="cert_detail_test_date_title">시험일자</string>
+    <string name="cert_detail_application_method_title">신청방법</string>
+    <string name="cert_detail_expiration_period_title">자격증 유효기간</string>
+    <string name="cert_detail_move_to_web_title">사이트로 이동하기</string>
     
     <!-- CertRecommendScreen -->
     <string name="cert_recommend_title">서티님에게 추천하는 자격증</string>

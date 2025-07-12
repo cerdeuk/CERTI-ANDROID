@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.certrecommend.component.button
+package org.sopt.certi.presentation.ui.certdetail.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

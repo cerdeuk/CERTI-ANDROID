@@ -164,7 +164,9 @@ fun CertRecommendScreen(
             items(recommendCertList.size) {
                 CertificationListSection(
                     certificationListData = recommendCertList[it],
-                    onLikeClick = {},
+                    onLikeClick = {
+                        navigateToCertDetail()
+                    },
                     onCertificationClick = navigateToCertDetail,
                     modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(6.dp))
                 )
