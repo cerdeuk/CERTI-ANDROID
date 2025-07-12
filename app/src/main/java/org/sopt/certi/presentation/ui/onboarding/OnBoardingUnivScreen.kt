@@ -160,6 +160,5 @@ private fun OnboardingUnivSection(
 @Composable
 private fun PreviewOnBoardingUnivScreen() {
     CERTITheme {
-
     }
 }
