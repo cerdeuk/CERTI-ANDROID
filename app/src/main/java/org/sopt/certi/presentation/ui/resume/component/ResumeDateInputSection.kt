@@ -29,12 +29,12 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeDateInputSection(
+    title: String,
     startDate: String,
     endDate: String,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.resume_section_certification_title)
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -43,7 +43,7 @@ fun ResumeDateInputSection(
         Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
 
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ResumeDateTextField(
@@ -80,7 +80,7 @@ private fun ResumeDateTextField(
     modifier: Modifier = Modifier
 ) {
     BasicTextField(
-        value = value,
+        value = value.take(10),
         onValueChange = onValueChange,
         textStyle = CertiTheme.typography.caption.semibold_12.copy(
             color = CertiTheme.colors.gray600
@@ -122,6 +122,7 @@ private fun ResumeDateInputSectionPreview() {
 
     CERTITheme {
         ResumeDateInputSection(
+            title = stringResource(R.string.resume_activities_period),
             startDate = startDate.value,
             endDate = endDate.value,
             onStartDateValueChange = { startDate.value = it },

@@ -65,10 +65,10 @@ fun NavGraphBuilder.resumeNavGraph(
     composable<ResumeRoute.AddActivities> {
         ResumeAddActivitiesRoute(
             padding = padding,
-            onNavigateToResume = {
+            navigateToResume = {
                 navController.navigateToResume(
                     navOptions {
-                        popUpTo(MainTabRoute.Resume) {inclusive = true}
+                        popUpTo(MainTabRoute.Resume) { inclusive = true }
                     }
                 )
             }
