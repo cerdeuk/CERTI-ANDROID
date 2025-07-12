@@ -44,7 +44,7 @@ fun ResumeAddWorkExperienceRoute(
         }
     }
 
-    ResumeWorkExperienceAddScreen(
+    ResumeAddWorkExperienceScreen(
         startDate = startDate,
         endDate = endDate,
         onStartDateValueChange = { startDate = it },
@@ -62,7 +62,7 @@ fun ResumeAddWorkExperienceRoute(
 }
 
 @Composable
-fun ResumeWorkExperienceAddScreen(
+fun ResumeAddWorkExperienceScreen(
     startDate: String,
     endDate: String,
     onStartDateValueChange: (String) -> Unit,
@@ -149,7 +149,7 @@ fun ResumeWorkExperienceAddScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewResumeWorkExperienceAddScreen() {
+private fun PreviewResumeAddWorkExperienceScreen() {
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var organizationValue by remember { mutableStateOf("") }
@@ -162,7 +162,7 @@ private fun PreviewResumeWorkExperienceAddScreen() {
     }
 
     CERTITheme {
-        ResumeWorkExperienceAddScreen(
+        ResumeAddWorkExperienceScreen(
             startDate = startDate,
             endDate = endDate,
             onStartDateValueChange = { startDate = it },
