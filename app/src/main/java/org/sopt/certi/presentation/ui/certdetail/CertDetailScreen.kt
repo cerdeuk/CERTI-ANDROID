@@ -63,14 +63,6 @@ fun CertDetailRoute(
     var showAcquiredFailToast by remember { mutableStateOf(false) }
 
     val uiState by viewModel.detailUiState.collectAsStateWithLifecycle()
-    var certData by remember {
-        mutableStateOf(
-            CertificationData(
-                certificationId = 0,
-                certificationName = "empty"
-            )
-        )
-    }
 
     LaunchedEffect(Unit) {
         viewModel.getCertDetailInfo(certId)
@@ -85,74 +77,70 @@ fun CertDetailRoute(
         }
     }
 
-    LaunchedEffect(uiState) {
-        when (uiState.loadState) {
-            is UiState.Success -> {
-                (uiState.detailCertificationLoadState as UiState.Success<CertificationData>).data.let {
-                    certData = it
-                }
+    when (uiState.loadState) {
+        is UiState.Success -> {
+            val certData = (uiState.detailCertificationLoadState as UiState.Success).data
+
+            CertDetailScreen(
+                certData = certData,
+                showWebView = { showWebView = true },
+                onAcquireExpectedBtnClick = {
+                    viewModel.acquireExpectCert(certId)
+                },
+                onAcquiredBtnClick = {
+                    viewModel.acquiredCert(certId)
+                },
+                modifier = Modifier.padding(padding)
+            )
+
+            if (showAcquiredDialog) {
+                CertAcquiredDialog(
+                    certName = certData.certificationName,
+                    onConfirmClick = {
+                        navigateToResume()
+                    },
+                    setShowDialog = { showAcquiredDialog = it }
+                )
             }
-            else -> {}
+
+            if (showWebView) {
+                CertWebView(
+                    url = certData.applicationUrl,
+                    closeWebView = { showWebView = false }
+                )
+            }
+
+            if (showAcquireExpectSuccessToast) {
+                ShowToastRoute(
+                    toastConfig = ToastConfig(
+                        titleMessage = stringResource(R.string.toast_acquire_expect_success_title),
+                        contentMessage = stringResource(R.string.toast_acquire_expect_success_content),
+                        endToastAction = { showAcquireExpectSuccessToast = false }
+                    )
+                )
+            }
+
+            if (showAcquireExpectFailToast) {
+                ShowToastRoute(
+                    toastConfig = ToastConfig(
+                        titleMessage = stringResource(R.string.toast_acquire_expect_fail_title),
+                        contentMessage = stringResource(R.string.toast_acquire_expect_fail_content),
+                        endToastAction = { showAcquireExpectFailToast = false }
+                    )
+                )
+            }
+
+            if (showAcquiredFailToast) {
+                ShowToastRoute(
+                    toastConfig = ToastConfig(
+                        titleMessage = stringResource(R.string.toast_acquired_fail_title),
+                        contentMessage = stringResource(R.string.toast_acquired_fail_content),
+                        endToastAction = { showAcquiredFailToast = false }
+                    )
+                )
+            }
         }
-    }
-
-    CertDetailScreen(
-        certData = certData,
-        showWebView = { showWebView = true },
-        onAcquireExpectedBtnClick = {
-            viewModel.acquireExpectCert(certId)
-        },
-        onAcquiredBtnClick = {
-            viewModel.acquiredCert(certId)
-        },
-        modifier = Modifier.padding(padding)
-    )
-
-    if (showAcquiredDialog) {
-        CertAcquiredDialog(
-            certName = certData.certificationName,
-            onConfirmClick = {
-                navigateToResume()
-            },
-            setShowDialog = { showAcquiredDialog = it }
-        )
-    }
-
-    if (showWebView) {
-        CertWebView(
-            url = certData.applicationUrl,
-            closeWebView = { showWebView = false }
-        )
-    }
-
-    if (showAcquireExpectSuccessToast) {
-        ShowToastRoute(
-            toastConfig = ToastConfig(
-                titleMessage = stringResource(R.string.toast_acquire_expect_success_title),
-                contentMessage = stringResource(R.string.toast_acquire_expect_success_content),
-                endToastAction = { showAcquireExpectSuccessToast = false }
-            )
-        )
-    }
-
-    if (showAcquireExpectFailToast) {
-        ShowToastRoute(
-            toastConfig = ToastConfig(
-                titleMessage = stringResource(R.string.toast_acquire_expect_fail_title),
-                contentMessage = stringResource(R.string.toast_acquire_expect_fail_content),
-                endToastAction = { showAcquireExpectFailToast = false }
-            )
-        )
-    }
-
-    if (showAcquiredFailToast) {
-        ShowToastRoute(
-            toastConfig = ToastConfig(
-                titleMessage = stringResource(R.string.toast_acquired_fail_title),
-                contentMessage = stringResource(R.string.toast_acquired_fail_content),
-                endToastAction = { showAcquiredFailToast = false }
-            )
-        )
+        else -> {}
     }
 }
 

@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import okhttp3.internal.toImmutableList
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
