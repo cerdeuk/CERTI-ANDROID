@@ -54,7 +54,7 @@ fun NavGraphBuilder.resumeNavGraph(
     composable<ResumeRoute.WorkExperience> {
         ResumeWorkExperienceRoute(
             padding = padding,
-            onNavigateToAdd = navController::navigateToAddWorkExperience
+            onNavigateToAddWordExperience = navController::navigateToAddWorkExperience
         )
     }
 
