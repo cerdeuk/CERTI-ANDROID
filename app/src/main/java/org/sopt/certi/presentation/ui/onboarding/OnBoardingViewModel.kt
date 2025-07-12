@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
 import javax.inject.Inject
 
@@ -20,6 +21,10 @@ class OnBoardingViewModel @Inject constructor(
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
     private val _submittedUnivSearchText = MutableStateFlow("")
+
+    private val _onBoardingMajorLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
+    private val _majorSearchText = MutableStateFlow("")
+    private val _submittedMajorSearchText = MutableStateFlow("")
 
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
@@ -39,6 +44,27 @@ class OnBoardingViewModel @Inject constructor(
                 univSearchText = "",
                 univListLoadState = UiState.Init,
                 submittedUnivSearchText = ""
+            )
+        )
+
+    val onBoardingMajorUiState: StateFlow<OnBoardingMajorUiState> =
+        combine(
+            _onBoardingMajorLoadState,
+            _majorSearchText,
+            _submittedMajorSearchText
+        ) { _onBoardingMajorLoadState, _majorSearchText, _submittedMajorSearchText ->
+            OnBoardingMajorUiState(
+                majorSearchText = _majorSearchText,
+                majorListLoadState = _onBoardingMajorLoadState,
+                submittedMajorSearchText = _submittedMajorSearchText
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = OnBoardingMajorUiState(
+                majorSearchText = "",
+                majorListLoadState = UiState.Init,
+                submittedMajorSearchText = ""
             )
         )
 
@@ -70,8 +96,41 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    fun selectUniv(univName: String){
+    fun selectUniv(univName: String) {
         _univSearchText.value = univName
         _submittedUnivSearchText.value = univName
+    }
+
+    fun getMajorList(majorSearchText: String) {
+        _submittedMajorSearchText.value = majorSearchText
+        val majorList = {
+            listOf(
+                "건국대학교",
+                "홍익대학교",
+                "응가대학교",
+                "뿡뿡대학교",
+                "건국대학교",
+                "홍익대학교",
+                "응가대학교",
+                "뿡뿡대학교",
+                "건국대학교",
+                "홍익대학교",
+                "응가대학교",
+                "뿡뿡대학교"
+            )
+        }
+        _onBoardingMajorLoadState.value = UiState.Success(majorList())
+    }
+
+    fun onMajorSearchTextChange(majorSearchText: String) {
+        _majorSearchText.value = majorSearchText
+        if (majorSearchText.isBlank()) {
+            _onBoardingMajorLoadState.value = UiState.Init
+        }
+    }
+
+    fun selectMajor(majorName: String) {
+        _majorSearchText.value = majorName
+        _submittedMajorSearchText.value = majorName
     }
 }
