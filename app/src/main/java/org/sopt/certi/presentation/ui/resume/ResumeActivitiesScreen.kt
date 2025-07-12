@@ -39,8 +39,8 @@ fun ResumeActivitiesRoute(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
+            role = "동아리 36기 기획, 동아리 36기 기획, 동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
