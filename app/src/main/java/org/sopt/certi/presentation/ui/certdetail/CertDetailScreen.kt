@@ -75,7 +75,7 @@ fun CertDetailRoute(
         viewModel.getCertDetailInfo(certId)
 
         viewModel.acquireExpectCertResult.collect {
-            when(it) {
+            when (it) {
                 is UiState.Success -> {
                     showAcquireExpectSuccessToast = true
                 }
@@ -87,7 +87,7 @@ fun CertDetailRoute(
         }
 
         viewModel.acquiredCertResult.collect {
-            when(it) {
+            when (it) {
                 is UiState.Success -> {
                     showAcquiredDialog = true
                 }
@@ -97,7 +97,6 @@ fun CertDetailRoute(
                 else -> {}
             }
         }
-
     }
 
     LaunchedEffect(loadedCertData) {

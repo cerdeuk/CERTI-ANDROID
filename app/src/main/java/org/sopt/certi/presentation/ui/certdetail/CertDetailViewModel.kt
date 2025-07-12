@@ -27,7 +27,6 @@ class CertDetailViewModel @Inject constructor(
     private val _acquiredCertResult = MutableSharedFlow<UiState<Unit>>()
     val acquiredCertResult = _acquiredCertResult.asSharedFlow()
 
-
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
         // TODO 자격증 상세정보 데이터 받아오는 로직
 
