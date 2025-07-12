@@ -27,8 +27,11 @@ class OnBoardingViewModel @Inject constructor(
     private val _majorSearchText = MutableStateFlow("")
     private val _submittedMajorSearchText = MutableStateFlow("")
 
-    private val _grade = MutableStateFlow<String?>("")
+    private val _grade = MutableStateFlow<String?>(null)
     val grade: StateFlow<String?> = _grade.asStateFlow()
+
+    private val _track = MutableStateFlow<String?>(null)
+    val track: StateFlow<String?> = _track.asStateFlow()
 
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
@@ -140,5 +143,9 @@ class OnBoardingViewModel @Inject constructor(
 
     fun onGradeSelected(grade: String?) {
         _grade.value = grade
+    }
+
+    fun onTrackSelected(track: String?) {
+        _track.value = track
     }
 }
