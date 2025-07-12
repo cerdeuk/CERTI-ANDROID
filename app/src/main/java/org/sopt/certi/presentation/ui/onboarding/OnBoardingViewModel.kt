@@ -33,6 +33,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _track = MutableStateFlow<String?>(null)
     val track: StateFlow<String?> = _track.asStateFlow()
 
+    private val _jobCategory = MutableStateFlow<List<String>>(emptyList())
+    val jobCategory: StateFlow<List<String>> = _jobCategory.asStateFlow()
+
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
             _onBoardingUnivLoadState,
@@ -59,11 +62,11 @@ class OnBoardingViewModel @Inject constructor(
             _onBoardingMajorLoadState,
             _majorSearchText,
             _submittedMajorSearchText
-        ) { _onBoardingMajorLoadState, _majorSearchText, _submittedMajorSearchText ->
+        ) { onBoardingMajorLoadState, majorSearchText, submittedMajorSearchText ->
             OnBoardingMajorUiState(
-                majorSearchText = _majorSearchText,
-                majorListLoadState = _onBoardingMajorLoadState,
-                submittedMajorSearchText = _submittedMajorSearchText
+                majorSearchText = majorSearchText,
+                majorListLoadState = onBoardingMajorLoadState,
+                submittedMajorSearchText = submittedMajorSearchText
             )
         }.stateIn(
             scope = viewModelScope,
@@ -147,5 +150,9 @@ class OnBoardingViewModel @Inject constructor(
 
     fun onTrackSelected(track: String?) {
         _track.value = track
+    }
+
+    fun onJobCategoryChanged(selected: List<String>) {
+        _jobCategory.value = selected
     }
 }
