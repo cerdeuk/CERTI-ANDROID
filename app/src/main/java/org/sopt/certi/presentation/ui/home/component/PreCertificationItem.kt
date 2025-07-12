@@ -37,6 +37,7 @@ import org.sopt.certi.presentation.type.CertiEmojiType
 @Composable
 fun PreCertificationListSection(
     preCertificationList: List<CertificationData>,
+    onDetailClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -46,7 +47,8 @@ fun PreCertificationListSection(
     ) {
         items(preCertificationList) { item ->
             PreCertificationItem(
-                preCertificationData = item
+                preCertificationData = item,
+                onDetailClick = onDetailClick
             )
         }
     }
@@ -55,9 +57,9 @@ fun PreCertificationListSection(
 @Composable
 fun PreCertificationItem(
     preCertificationData: CertificationData,
-    modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
-    onDelete: (() -> Unit)? = null
+    onDetailClick: (() -> Unit)? = null,
+    onDelete: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -65,7 +67,7 @@ fun PreCertificationItem(
     ) {
         Card(
             modifier = modifier
-                .then(if (onClick != null) Modifier.noRippleClickable { onClick() } else Modifier),
+                .then(if (onDetailClick != null) Modifier.noRippleClickable { onDetailClick() } else Modifier),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = CertiTheme.colors.white
@@ -151,7 +153,7 @@ fun PreCertificationItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_close_36),
             contentDescription = null,
-            tint = CertiTheme.colors.gray500,
+            tint = CertiTheme.colors.gray300,
             modifier = Modifier
                 .widthForScreenPercentage(36.dp)
                 .heightForScreenPercentage(36.dp)
@@ -174,7 +176,7 @@ private fun PreCertificationItemPreview_click() {
             iconIndex = 0
         ),
         modifier = Modifier.padding(20.dp),
-        onClick = {}
+        onDetailClick = {}
     )
 }
 
