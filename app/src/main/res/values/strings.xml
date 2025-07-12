@@ -111,6 +111,13 @@
     <string name="cert_detail_application_method_title">신청방법</string>
     <string name="cert_detail_expiration_period_title">자격증 유효기간</string>
     <string name="cert_detail_move_to_web_title">사이트로 이동하기</string>
+    <string name="toast_acquire_expect_success_title">취득 예정 자격증이 추가되었어요!</string>
+    <string name="toast_acquire_expect_success_content">(홈-취득 예정 자격증에서 확인 가능)</string>
+    <string name="toast_acquire_expect_fail_title">이미 추가된 자격증입니다.</string>
+    <string name="toast_acquire_expect_fail_content">홈-취득 예정 자격증에서 확인 가능</string>
+    <string name="toast_acquired_fail_title">이미 취득 완료된 자격증입니다.</string>
+    <string name="toast_acquired_fail_content">이력서 탭에서 확인 가능</string>
+
     
     <!-- CertRecommendScreen -->
     <string name="cert_recommend_title">서티님에게 추천하는 자격증</string>

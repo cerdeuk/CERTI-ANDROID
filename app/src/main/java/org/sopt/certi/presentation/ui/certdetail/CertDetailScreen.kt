@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
+import org.sopt.certi.core.component.toast.ShowToastRoute
 import org.sopt.certi.core.component.webview.CertWebView
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.formatMoney
@@ -40,6 +41,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.presentation.model.ToastConfig
 import org.sopt.certi.presentation.type.AcquireButtonType
 import org.sopt.certi.presentation.ui.certdetail.component.button.AcquireButton
 import org.sopt.certi.presentation.ui.certdetail.component.button.MoveToWebButton
@@ -55,10 +57,9 @@ fun CertDetailRoute(
 ) {
     var showAcquiredDialog by remember { mutableStateOf(false) }
     var showWebView by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        viewModel.getCertDetailInfo(certId)
-    }
+    var showAcquireExpectSuccessToast by remember { mutableStateOf(false) }
+    var showAcquireExpectFailToast by remember { mutableStateOf(false) }
+    var showAcquiredFailToast by remember { mutableStateOf(false) }
 
     val loadedCertData by viewModel.certDetailInfo.collectAsStateWithLifecycle()
     var certData by remember {
@@ -68,6 +69,35 @@ fun CertDetailRoute(
                 certificationName = "empty"
             )
         )
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.getCertDetailInfo(certId)
+
+        viewModel.acquireExpectCertResult.collect {
+            when(it) {
+                is UiState.Success -> {
+                    showAcquireExpectSuccessToast = true
+                }
+                is UiState.Failure -> {
+                    showAcquireExpectFailToast = true
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.acquiredCertResult.collect {
+            when(it) {
+                is UiState.Success -> {
+                    showAcquiredDialog = true
+                }
+                is UiState.Failure -> {
+                    showAcquiredFailToast = true
+                }
+                else -> {}
+            }
+        }
+
     }
 
     LaunchedEffect(loadedCertData) {
@@ -85,11 +115,10 @@ fun CertDetailRoute(
         certData = certData,
         showWebView = { showWebView = true },
         onAcquireExpectedBtnClick = {
-            // TODO 취득 예정 로직 처리
+            viewModel.acquireExpectCert(certId)
         },
         onAcquiredBtnClick = {
-            // TODO 취득 완료 로직 처리
-            showAcquiredDialog = true
+            viewModel.acquiredCert(certId)
         },
         modifier = Modifier.padding(padding)
     )
@@ -108,6 +137,36 @@ fun CertDetailRoute(
         CertWebView(
             url = certData.applicationUrl,
             closeWebView = { showWebView = false }
+        )
+    }
+
+    if (showAcquireExpectSuccessToast) {
+        ShowToastRoute(
+            toastConfig = ToastConfig(
+                titleMessage = stringResource(R.string.toast_acquire_expect_success_title),
+                contentMessage = stringResource(R.string.toast_acquire_expect_success_content),
+                endToastAction = { showAcquireExpectSuccessToast = false }
+            )
+        )
+    }
+
+    if (showAcquireExpectFailToast) {
+        ShowToastRoute(
+            toastConfig = ToastConfig(
+                titleMessage = stringResource(R.string.toast_acquire_expect_fail_title),
+                contentMessage = stringResource(R.string.toast_acquire_expect_fail_content),
+                endToastAction = { showAcquireExpectFailToast = false }
+            )
+        )
+    }
+
+    if (showAcquiredFailToast) {
+        ShowToastRoute(
+            toastConfig = ToastConfig(
+                titleMessage = stringResource(R.string.toast_acquired_fail_title),
+                contentMessage = stringResource(R.string.toast_acquired_fail_content),
+                endToastAction = { showAcquiredFailToast = false }
+            )
         )
     }
 }

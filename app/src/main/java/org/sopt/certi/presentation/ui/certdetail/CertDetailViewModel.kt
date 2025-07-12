@@ -3,7 +3,9 @@ package org.sopt.certi.presentation.ui.certdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
@@ -19,8 +21,15 @@ class CertDetailViewModel @Inject constructor(
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData?>>(UiState.Init)
     val certDetailInfo = _certDetailInfo.asStateFlow()
 
+    private val _acquireExpectCertResult = MutableSharedFlow<UiState<Unit>>()
+    val acquireExpectCertResult = _acquireExpectCertResult.asSharedFlow()
+
+    private val _acquiredCertResult = MutableSharedFlow<UiState<Unit>>()
+    val acquiredCertResult = _acquiredCertResult.asSharedFlow()
+
+
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
-        // TODO 서버 데이터 받아오는 로직
+        // TODO 자격증 상세정보 데이터 받아오는 로직
 
         val dummyCertInfo = CertificationData(
             certificationId = 0,
@@ -38,5 +47,17 @@ class CertDetailViewModel @Inject constructor(
         )
 
         _certDetailInfo.emit(UiState.Success(dummyCertInfo))
+    }
+
+    fun acquireExpectCert(certId: Long) = viewModelScope.launch {
+        // TODO 취득 예정 로직
+
+        _acquireExpectCertResult.emit(UiState.Failure("이미 한거임 ㅋ"))
+    }
+
+    fun acquiredCert(certId: Long) = viewModelScope.launch {
+        // TODO 취득 완료 로직
+
+        _acquiredCertResult.emit(UiState.Failure("이미 한거임 ㅋ"))
     }
 }
