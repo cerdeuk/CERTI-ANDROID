@@ -32,7 +32,7 @@ fun ResumeActivitiesRoute(
     onNavigateToAddActivities: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var onDeleteDialogShow by remember { mutableStateOf(false) }
 
     val resumeDataList = listOf(
         ActivityData(
@@ -89,30 +89,25 @@ fun ResumeActivitiesRoute(
     ResumeActivitiesScreen(
         onNavigateToAdd = onNavigateToAddActivities,
         resumeDataList = resumeDataList,
-        onDeleteDialogShow = showDialog,
-        onDeleteClick = { showDialog = true },
-        onDialogConfirm = { showDialog = false },
-        onDialogDismiss = { showDialog = false },
+        onDeleteClick = { onDeleteDialogShow = true },
         modifier = Modifier.padding(padding)
     )
+
+    if (onDeleteDialogShow) {
+        CertiDeleteDialog(
+            onConfirmClick = {onDeleteDialogShow = false},
+            onDismissClick = {onDeleteDialogShow = false}
+        )
+    }
 }
 
 @Composable
 fun ResumeActivitiesScreen(
     onNavigateToAdd: () -> Unit,
     resumeDataList: List<ActivityData>,
-    onDeleteDialogShow: Boolean,
     onDeleteClick: () -> Unit,
-    onDialogConfirm: () -> Unit,
-    onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (onDeleteDialogShow) {
-        CertiDeleteDialog(
-            onConfirmClick = onDialogConfirm,
-            onDismissClick = onDialogDismiss
-        )
-    }
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp))
@@ -172,16 +167,20 @@ private fun PreviewResumeActivitiesScreen() {
         )
     )
 
-    var showDialog by remember { mutableStateOf(false) }
+    var onDeleteDialogShow by remember { mutableStateOf(false) }
 
     CERTITheme {
         ResumeActivitiesScreen(
             resumeDataList = resumeDataList,
             onNavigateToAdd = {},
-            onDeleteDialogShow = false,
-            onDeleteClick = { showDialog = true },
-            onDialogConfirm = { showDialog = false },
-            onDialogDismiss = { showDialog = false }
+            onDeleteClick = { onDeleteDialogShow = true },
         )
+
+        if (onDeleteDialogShow) {
+            CertiDeleteDialog(
+                onConfirmClick = {onDeleteDialogShow = false},
+                onDismissClick = {onDeleteDialogShow = false}
+            )
+        }
     }
 }
