@@ -35,7 +35,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun ShowToastRoute(
     toastConfig: ToastConfig,
-    showToastVisibility: (Boolean) -> Unit
+    showToastVisibility: (Boolean) -> Unit = {}
 ) {
     LaunchedEffect(Unit) {
         delay(2000)
