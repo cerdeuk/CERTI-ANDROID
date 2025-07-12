@@ -8,7 +8,7 @@ data class CertListUiState(
     val selectedCategory: Int,
     val isFavorite: Boolean
 ) {
-    val isLoaded: UiState<Unit>
+    val loadState: UiState<Unit>
         get() = when (certificationListLoadState) {
             is UiState.Success -> UiState.Success(Unit)
             else -> UiState.Empty
