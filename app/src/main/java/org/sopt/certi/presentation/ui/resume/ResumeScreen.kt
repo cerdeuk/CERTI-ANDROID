@@ -10,14 +10,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import okhttp3.internal.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
@@ -37,73 +42,37 @@ fun ResumeRoute(
     navigateToActivities: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
-    val dummyCategoryList = listOf("IT/인터넷")
-    val dummyAcquiredCertificationList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        )
-    )
-    val dummyExperiences = listOf(
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "트렌드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "트렌드 리서치 및 소재 조사"
-        )
-    )
+    val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
 
-    ResumeScreen(
-        jobCategory = dummyCategoryList,
-        acquiredCertificationList = dummyAcquiredCertificationList,
-        experiences = dummyExperiences,
-        activities = listOf(),
-        onCertificationClick = {},
-        navigateToMyCert = navigateToMyCert,
-        navigateToWorkExperience = navigateToWorkExperience,
-        navigateToActivities = navigateToActivities,
-        modifier = Modifier.padding(padding)
-    )
+    LaunchedEffect(Unit) {
+        viewModel.getResumeData()
+    }
+
+    when (uiState.loadState) {
+        is UiState.Success -> ResumeScreen(
+            jobCategory = (uiState.jobCategoryLoadState as UiState.Success<List<String>>).data.toImmutableList(),
+            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
+            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            onCertificationClick = { viewModel.onCertificationClick(uiState.selectedCertificationId) },
+            navigateToMyCert = navigateToMyCert,
+            navigateToWorkExperience = navigateToWorkExperience,
+            navigateToActivities = navigateToActivities,
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Failure -> {}
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Init -> {}
+    }
 }
 
 @Composable
 fun ResumeScreen(
     jobCategory: List<String>,
     acquiredCertificationList: List<CertificationData>,
-    experiences: List<ActivityData>,
-    activities: List<ActivityData>,
+    experienceList: List<ActivityData>,
+    activityList: List<ActivityData>,
     onCertificationClick: () -> Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
@@ -146,7 +115,7 @@ fun ResumeScreen(
                 ResumeListSection(
                     title = stringResource(R.string.resume_section_experience_title),
                     onClick = navigateToWorkExperience,
-                    resumeListItems = experiences
+                    resumeListItems = experienceList
                 )
             }
 
@@ -162,7 +131,7 @@ fun ResumeScreen(
                 ResumeListSection(
                     title = stringResource(R.string.resume_section_activity_title),
                     onClick = navigateToActivities,
-                    resumeListItems = activities
+                    resumeListItems = activityList
                 )
             }
 
@@ -170,7 +139,7 @@ fun ResumeScreen(
                 Spacer(
                     modifier = Modifier
                         .height(screenHeightDp(52.dp))
-                        .showIf(activities.isNotEmpty())
+                        .showIf(activityList.isNotEmpty())
                 )
             }
         }
@@ -231,8 +200,8 @@ private fun PreviewResumeScreen() {
         ResumeScreen(
             jobCategory = listOf("IT/인터넷", "경영/사무", "경영/사무"),
             acquiredCertificationList = dummyAcquiredCertificationList,
-            experiences = dummyExperiences,
-            activities = listOf(),
+            experienceList = dummyExperiences,
+            activityList = listOf(),
             onCertificationClick = {},
             navigateToMyCert = {},
             navigateToWorkExperience = {},
