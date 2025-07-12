@@ -43,14 +43,14 @@ fun CertListRoute(
 
     when (uiState.loadState) {
         is UiState.Success -> CertListScreen(
-                certListState = uiState,
-                navigateToSearch = navigateToSearch,
-                onCategorySelected = viewModel::onCategorySelected,
-                onFavoriteButtonClick = viewModel::onFavoriteClick,
-                certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
-                onLikeClick = viewModel::onLikeClick,
-                modifier = Modifier.padding(padding)
-            )
+            certListState = uiState,
+            navigateToSearch = navigateToSearch,
+            onCategorySelected = viewModel::onCategorySelected,
+            onFavoriteButtonClick = viewModel::onFavoriteClick,
+            certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
+            onLikeClick = viewModel::onLikeClick,
+            modifier = Modifier.padding(padding)
+        )
         is UiState.Failure -> {}
         is UiState.Loading -> {}
         is UiState.Empty -> {}
