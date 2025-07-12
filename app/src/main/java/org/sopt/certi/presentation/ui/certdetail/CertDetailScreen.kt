@@ -46,6 +46,8 @@ import org.sopt.certi.presentation.model.ToastConfig
 import org.sopt.certi.presentation.type.AcquireButtonType
 import org.sopt.certi.presentation.ui.certdetail.component.button.AcquireButton
 import org.sopt.certi.presentation.ui.certdetail.component.button.MoveToWebButton
+import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
+import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -62,7 +64,7 @@ fun CertDetailRoute(
     var showAcquireExpectFailToast by remember { mutableStateOf(false) }
     var showAcquiredFailToast by remember { mutableStateOf(false) }
 
-    val loadedCertData by viewModel.certDetailInfo.collectAsStateWithLifecycle()
+    val uiState by viewModel.detailUiState.collectAsStateWithLifecycle()
     var certData by remember {
         mutableStateOf(
             CertificationData(
@@ -75,39 +77,20 @@ fun CertDetailRoute(
     LaunchedEffect(Unit) {
         viewModel.getCertDetailInfo(certId)
 
-        launch {
-            viewModel.acquireExpectCertResult.collect {
-                when (it) {
-                    is UiState.Success -> {
-                        showAcquireExpectSuccessToast = true
-                    }
-                    is UiState.Failure -> {
-                        showAcquireExpectFailToast = true
-                    }
-                    else -> {}
-                }
-            }
-        }
-
-        launch {
-            viewModel.acquiredCertResult.collect {
-                when (it) {
-                    is UiState.Success -> {
-                        showAcquiredDialog = true
-                    }
-                    is UiState.Failure -> {
-                        showAcquiredFailToast = true
-                    }
-                    else -> {}
-                }
+        viewModel.sideEffect.collect {
+            when(it) {
+                DetailSideEffect.ShowAcquiredSuccessDialog -> showAcquiredDialog = true
+                DetailSideEffect.ShowAcquiredFailToast -> showAcquiredFailToast = true
+                DetailSideEffect.ShowAcquireExpectFailToast -> showAcquireExpectFailToast = true
+                DetailSideEffect.ShowAcquireExpectSuccessToast -> showAcquireExpectSuccessToast = true
             }
         }
     }
 
-    LaunchedEffect(loadedCertData) {
-        when (loadedCertData) {
+    LaunchedEffect(uiState) {
+        when(uiState.loadState) {
             is UiState.Success -> {
-                (loadedCertData as UiState.Success<CertificationData?>).data?.let {
+                (uiState.detailCertificationLoadState as UiState.Success<CertificationData>).data.let {
                     certData = it
                 }
             }

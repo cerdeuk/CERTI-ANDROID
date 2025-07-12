@@ -3,14 +3,19 @@ package org.sopt.certi.presentation.ui.certdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
+import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,14 +23,27 @@ class CertDetailViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase
 ) : ViewModel() {
 
-    private val _certDetailInfo = MutableStateFlow<UiState<CertificationData?>>(UiState.Init)
-    val certDetailInfo = _certDetailInfo.asStateFlow()
+    private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)
 
-    private val _acquireExpectCertResult = MutableSharedFlow<UiState<Unit>>()
-    val acquireExpectCertResult = _acquireExpectCertResult.asSharedFlow()
+    val detailUiState: StateFlow<DetailUiState> =
+        combine(
+            _certDetailInfo,
+        ) { loadState ->
+            DetailUiState(
+                detailCertificationLoadState = loadState[0],
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = DetailUiState(
+                detailCertificationLoadState = UiState.Init,
+            )
+        )
 
-    private val _acquiredCertResult = MutableSharedFlow<UiState<Unit>>()
-    val acquiredCertResult = _acquiredCertResult.asSharedFlow()
+    private val _sideEffect = Channel<DetailSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
+
+
 
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
         // TODO 자격증 상세정보 데이터 받아오는 로직
@@ -51,12 +69,14 @@ class CertDetailViewModel @Inject constructor(
     fun acquireExpectCert(certId: Long) = viewModelScope.launch {
         // TODO 취득 예정 로직
 
-        _acquireExpectCertResult.emit(UiState.Failure("이미 한거임 ㅋ"))
+        _sideEffect.send(DetailSideEffect.ShowAcquireExpectSuccessToast)
+        _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
     }
 
     fun acquiredCert(certId: Long) = viewModelScope.launch {
         // TODO 취득 완료 로직
 
-        _acquiredCertResult.emit(UiState.Failure("이미 한거임 ㅋ"))
+        _sideEffect.send(DetailSideEffect.ShowAcquiredSuccessDialog)
+        _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)
     }
 }
