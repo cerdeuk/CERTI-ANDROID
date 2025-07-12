@@ -106,7 +106,6 @@ fun CertDetailScreen(
     onAcquiredBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
     val numberFormatter = java.text.DecimalFormat("#,###")
 
     LazyColumn(
