@@ -38,65 +38,51 @@ fun ResumeActivitiesRoute(
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         )
     )
 
@@ -167,23 +153,22 @@ private fun PreviewResumeActivitiesScreen() {
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
+        ),ActivityData(
+            startAt = "2021.11",
+            endAt = "2022.01",
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            organization = "sopt",
+            role = "동아리 36기 기획",
+            description = "서비스 기획 및 아이디어 도출"
         )
     )
 
