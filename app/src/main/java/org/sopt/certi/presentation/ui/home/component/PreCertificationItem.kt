@@ -37,7 +37,7 @@ import org.sopt.certi.presentation.type.CertiEmojiType
 @Composable
 fun PreCertificationListSection(
     preCertificationList: List<CertificationData>,
-    onClick: () -> Unit,
+    onDetailClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -48,7 +48,7 @@ fun PreCertificationListSection(
         items(preCertificationList) { item ->
             PreCertificationItem(
                 preCertificationData = item,
-                onClick = onClick
+                onDetailClick = onDetailClick
             )
         }
     }
@@ -57,7 +57,7 @@ fun PreCertificationListSection(
 @Composable
 fun PreCertificationItem(
     preCertificationData: CertificationData,
-    onClick: (() -> Unit)? = null,
+    onDetailClick: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun PreCertificationItem(
     ) {
         Card(
             modifier = modifier
-                .then(if (onClick != null) Modifier.noRippleClickable { onClick() } else Modifier),
+                .then(if (onDetailClick != null) Modifier.noRippleClickable { onDetailClick() } else Modifier),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = CertiTheme.colors.white
@@ -158,7 +158,7 @@ fun PreCertificationItem(
                 .widthForScreenPercentage(36.dp)
                 .heightForScreenPercentage(36.dp)
                 .showIf(onDelete != null)
-                .noRippleClickable { onDelete?.invoke() }
+                .noRippleClickable { onDelete }
         )
     }
 }
@@ -176,7 +176,7 @@ private fun PreCertificationItemPreview_click() {
             iconIndex = 0
         ),
         modifier = Modifier.padding(20.dp),
-        onClick = {}
+        onDetailClick = {}
     )
 }
 
