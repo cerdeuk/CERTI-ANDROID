@@ -128,8 +128,11 @@ class SearchViewModel @Inject constructor(
         val currentState = _searchLoadState.value
         if (currentState is UiState.Success) {
             val updated = currentState.data.map {
-                if (it.certificationId == certificationId) it.copy(isFavorite = !it.isFavorite)
-                else it
+                if (it.certificationId == certificationId) {
+                    it.copy(isFavorite = !it.isFavorite)
+                } else {
+                    it
+                }
             }
             _searchLoadState.value = UiState.Success(updated)
         }

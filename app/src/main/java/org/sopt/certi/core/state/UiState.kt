@@ -13,5 +13,5 @@ sealed interface UiState<out T> {
         val msg: String
     ) : UiState<Nothing>
 
-    data object Init: UiState<Nothing>
+    data object Init : UiState<Nothing>
 }
