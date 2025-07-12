@@ -153,12 +153,12 @@ fun PreCertificationItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_close_36),
             contentDescription = null,
-            tint = CertiTheme.colors.gray500,
+            tint = CertiTheme.colors.gray300,
             modifier = Modifier
                 .widthForScreenPercentage(36.dp)
                 .heightForScreenPercentage(36.dp)
                 .showIf(onDelete != null)
-                .noRippleClickable { onDelete }
+                .noRippleClickable { onDelete?.invoke() }
         )
     }
 }

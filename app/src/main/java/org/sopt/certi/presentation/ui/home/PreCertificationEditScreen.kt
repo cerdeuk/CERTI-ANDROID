@@ -73,7 +73,7 @@ fun PreCertificationEditRoute(
 fun PreCertificationEditScreen(
     preCertificationList: List<CertificationData>,
     showDialog: Boolean,
-    onDelete: () -> Unit = {},
+    onDelete: () -> Unit,
     onDialogConfirm: () -> Unit = {},
     onDialogDismiss: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -102,7 +102,7 @@ fun PreCertificationEditScreen(
             items(preCertificationList) { item ->
                 PreCertificationItem(
                     preCertificationData = item,
-                    onDelete = { }
+                    onDelete = onDelete
                 )
             }
         }

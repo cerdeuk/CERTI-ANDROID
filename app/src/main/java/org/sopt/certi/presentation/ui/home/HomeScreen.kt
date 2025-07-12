@@ -126,7 +126,7 @@ fun HomeRoute(
         onFavoriteClicked = { isFavorite = !isFavorite },
         onClick = { },
         navigateToCertRecommend = { },
-        navigateToPreCerti = { },
+        navigateToPreCerti = navigateToPreCerti,
         modifier = Modifier.padding(padding)
     )
 }
