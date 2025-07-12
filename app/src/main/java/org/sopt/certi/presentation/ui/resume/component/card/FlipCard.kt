@@ -25,13 +25,16 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.model.CertificationData
 
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import java.time.LocalDate
 
 @Composable
 fun FlipCardOverlay(
     showCard: Boolean,
+    certificationData: CertificationData,
     onDismiss: () -> Unit
 ) {
     var isFlipped by remember { mutableStateOf(false) }
@@ -70,11 +73,14 @@ fun FlipCardOverlay(
                     .noRippleClickable { isFlipped = !isFlipped }
             ) {
                 if (rotationY <= 90f) {
-                    CertificationCardFront()
+                    CertificationCardFront(
+                        certificationData = certificationData
+                    )
                 } else {
                     CertificationCardBack()
                 }
             }
+
         }
     }
 }
@@ -84,12 +90,20 @@ fun FlipCardOverlay(
 fun FlipCardInteractivePreview() {
     var showCard by remember { mutableStateOf(true) }
 
-    if (showCard) {
-        CERTITheme {
-            FlipCardOverlay(
-                showCard = showCard,
-                onDismiss = { showCard = false }
-            )
-        }
+    val certificationData = CertificationData(
+        certificationId = 1,
+        certificationName = "GTQ 1급 (그래픽기술자격)",
+        createdAt = LocalDate.now(),
+        cardFrontImageUrl = "https://via.placeholder.com/250x376.png?text=Front",
+        tags = listOf("디자인", "컴퓨터")
+    )
+
+    CERTITheme {
+        FlipCardOverlay(
+            showCard = showCard,
+            certificationData = certificationData,
+            onDismiss = { showCard = false }
+        )
     }
 }
+

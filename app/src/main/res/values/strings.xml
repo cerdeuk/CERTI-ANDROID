@@ -107,6 +107,9 @@
     <string name="resume_activities_activity">활동</string>
     <string name="resume_activities_description">활동 관련 내용</string>
 
+    <!-- ResumeFlipCard -->
+    <string name="resume_flip_card_touch">터치해서 뒷면 보기</string>
+
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
     <string name="cert_detail_acquire_expected_button_text">취득 예정</string>
