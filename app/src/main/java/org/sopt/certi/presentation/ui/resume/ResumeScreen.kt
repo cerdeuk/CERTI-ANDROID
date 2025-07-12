@@ -28,9 +28,11 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.UserInfoData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
+import org.sopt.certi.presentation.ui.resume.component.card.FlipCardOverlay
 import org.sopt.certi.ui.theme.CERTITheme
 import java.time.LocalDate
 
@@ -54,7 +56,9 @@ fun ResumeRoute(
             acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
             experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
-            onCertificationClick = { viewModel.onCertificationClick(uiState.selectedCertificationId) },
+            onCertificationClick = { certificationId ->
+                viewModel.onCertificationClick(certificationId)
+            },
             navigateToMyCert = navigateToMyCert,
             navigateToWorkExperience = navigateToWorkExperience,
             navigateToActivities = navigateToActivities,
@@ -65,6 +69,31 @@ fun ResumeRoute(
         is UiState.Empty -> {}
         is UiState.Init -> {}
     }
+
+    val userInfo = UserInfoData(
+        name = "김민지",
+        university = "",
+        major = ""
+    )
+
+    val certificationData = CertificationData(
+        certificationId = 1,
+        certificationName = "GTQ 1급 (그래픽기술자격)",
+        createdAt = LocalDate.now(),
+        description = "1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+        index = 2,
+        cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
+        tags = listOf("태그", "태그", "태그")
+    )
+
+    if (uiState.selectedCertificationId != null) {
+        FlipCardOverlay(
+            certificationData = certificationData,
+            userInfo = userInfo,
+            onDismiss = { viewModel.onCertificationDetailDismiss() }
+        )
+    }
 }
 
 @Composable
@@ -73,7 +102,7 @@ fun ResumeScreen(
     acquiredCertificationList: List<CertificationData>,
     experienceList: List<ActivityData>,
     activityList: List<ActivityData>,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
     navigateToActivities: () -> Unit,

@@ -9,7 +9,7 @@ data class ResumeUiState(
     val acquiredCertificationListLoadState: UiState<List<CertificationData>>,
     val experienceListLoadState: UiState<List<ActivityData>>,
     val activityListLoadState: UiState<List<ActivityData>>,
-    val selectedCertificationId: Long
+    val selectedCertificationId: Long?
 ) {
     val loadState: UiState<Unit>
         get() = when {

@@ -65,7 +65,7 @@ fun CertificationCardBack(
             Text(
                 text = certificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertiTheme.colors.white
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 

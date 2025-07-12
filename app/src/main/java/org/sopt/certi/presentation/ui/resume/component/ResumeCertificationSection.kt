@@ -33,7 +33,7 @@ import java.time.LocalDate
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     acquiredCertificationList: List<CertificationData>,
     modifier: Modifier = Modifier
 ) {
@@ -76,7 +76,7 @@ fun ResumeCertificationSection(
 @Composable
 private fun ResumeCertificationContent(
     acquiredCertificationList: List<CertificationData>,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -94,7 +94,7 @@ private fun ResumeCertificationContent(
             }
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = onCertificationClick
+                onClick = { onCertificationClick(certification.certificationId) }
             )
             if (index == acquiredCertificationList.lastIndex) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))

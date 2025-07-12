@@ -34,7 +34,6 @@ import java.time.LocalDate
 
 @Composable
 fun FlipCardOverlay(
-    showCard: Boolean,
     certificationData: CertificationData,
     userInfo: UserInfoData,
     onDismiss: () -> Unit
@@ -48,43 +47,41 @@ fun FlipCardOverlay(
     )
     val cameraDistance = with(LocalDensity.current) { 12.dp.toPx() }
 
-    if (showCard) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(CertiTheme.colors.black.copy(alpha = 0.4f))
-                .noRippleClickable { onDismiss() }
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(CertiTheme.colors.black.copy(alpha = 0.4f))
+            .noRippleClickable { onDismiss() }
+    )
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         Box(
             modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(width = screenWidthDp(250.dp), height = screenHeightDp(376.dp))
-                    .graphicsLayer {
-                        this.rotationY = rotationY
-                        this.cameraDistance = cameraDistance
-                        if (rotationY > 90f) {
-                            scaleX = -1f
-                        }
+                .size(width = screenWidthDp(250.dp), height = screenHeightDp(376.dp))
+                .graphicsLayer {
+                    this.rotationY = rotationY
+                    this.cameraDistance = cameraDistance
+                    if (rotationY > 90f) {
+                        scaleX = -1f
                     }
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(CertiTheme.colors.subYellow)
-                    .noRippleClickable { isFlipped = !isFlipped }
-            ) {
-                if (rotationY <= 90f) {
-                    CertificationCardFront(
-                        certificationData = certificationData
-                    )
-                } else {
-                    CertificationCardBack(
-                        certificationData = certificationData,
-                        userInfo = userInfo
-                    )
                 }
+                .clip(RoundedCornerShape(12.dp))
+                .background(CertiTheme.colors.subYellow)
+                .noRippleClickable { isFlipped = !isFlipped }
+        ) {
+            if (rotationY <= 90f) {
+                CertificationCardFront(
+                    certificationData = certificationData
+                )
+            } else {
+                CertificationCardBack(
+                    certificationData = certificationData,
+                    userInfo = userInfo
+                )
             }
         }
     }
@@ -111,11 +108,12 @@ fun FlipCardInteractivePreview() {
     )
 
     CERTITheme {
-        FlipCardOverlay(
-            showCard = showCard,
-            certificationData = certificationData,
-            userInfo = userInfo,
-            onDismiss = { showCard = false }
-        )
+        if (showCard) {
+            FlipCardOverlay(
+                certificationData = certificationData,
+                userInfo = userInfo,
+                onDismiss = { showCard = false }
+            )
+        }
     }
 }

@@ -28,6 +28,7 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.presentation.type.CertCardColorType
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
@@ -55,7 +56,7 @@ fun CertificationCardFront(
             Text(
                 text = certificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certificationData.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
             Text(
@@ -66,11 +67,14 @@ fun CertificationCardFront(
                     certificationData.createdAt.dayOfWeek
                 ),
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certificationData.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
             CertiChipList(
-                categories = certificationData.tags
+                categories = certificationData.tags,
+                textStyle = CertiTheme.typography.caption.semibold_12,
+                backgroundColor = CertCardColorType.fromIndex(certificationData.index).chipBackgroundColor,
+                textColor = CertCardColorType.fromIndex(certificationData.index).chipTextColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(224.dp)))
             Spacer(modifier = Modifier.width(screenWidthDp(16.dp)))
