@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
@@ -31,10 +32,6 @@ fun NavController.navigateToAddWorkExperience() {
 
 fun NavController.navigateToActivities() {
     navigate(ResumeRoute.Activities)
-}
-
-fun NavController.navigateToResume() {
-    navigate(MainTabRoute.Resume)
 }
 
 fun NavGraphBuilder.resumeNavGraph(
@@ -64,7 +61,13 @@ fun NavGraphBuilder.resumeNavGraph(
     composable<ResumeRoute.WorkExperienceAdd> {
         ResumeAddWorkExperienceRoute(
             padding = padding,
-            onNavigateToResume = navController::navigateToResume
+            onNavigateToResume = {
+                navController.navigateToResume(
+                    navOptions {
+                        popUpTo(MainTabRoute.Resume) { inclusive = true }
+                    }
+                )
+            }
         )
     }
 
