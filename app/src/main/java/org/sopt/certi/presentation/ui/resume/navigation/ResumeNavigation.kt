@@ -27,7 +27,7 @@ fun NavController.navigateToWorkExperience() {
 }
 
 fun NavController.navigateToAddWorkExperience() {
-    navigate(ResumeRoute.WorkExperienceAdd)
+    navigate(ResumeRoute.AddWorkExperience)
 }
 
 fun NavController.navigateToActivities() {
@@ -58,7 +58,7 @@ fun NavGraphBuilder.resumeNavGraph(
         )
     }
 
-    composable<ResumeRoute.WorkExperienceAdd> {
+    composable<ResumeRoute.AddWorkExperience> {
         ResumeAddWorkExperienceRoute(
             padding = padding,
             onNavigateToResume = {

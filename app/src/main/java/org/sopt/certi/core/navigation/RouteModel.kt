@@ -60,7 +60,7 @@ sealed interface ResumeRoute : Route {
     data object WorkExperience : ResumeRoute
 
     @Serializable
-    data object WorkExperienceAdd : ResumeRoute
+    data object AddWorkExperience : ResumeRoute
 
     @Serializable
     data object Activities : ResumeRoute
