@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
@@ -74,27 +75,31 @@ fun CertDetailRoute(
     LaunchedEffect(Unit) {
         viewModel.getCertDetailInfo(certId)
 
-        viewModel.acquireExpectCertResult.collect {
-            when (it) {
-                is UiState.Success -> {
-                    showAcquireExpectSuccessToast = true
+        launch {
+            viewModel.acquireExpectCertResult.collect {
+                when (it) {
+                    is UiState.Success -> {
+                        showAcquireExpectSuccessToast = true
+                    }
+                    is UiState.Failure -> {
+                        showAcquireExpectFailToast = true
+                    }
+                    else -> {}
                 }
-                is UiState.Failure -> {
-                    showAcquireExpectFailToast = true
-                }
-                else -> {}
             }
         }
 
-        viewModel.acquiredCertResult.collect {
-            when (it) {
-                is UiState.Success -> {
-                    showAcquiredDialog = true
+        launch {
+            viewModel.acquiredCertResult.collect {
+                when (it) {
+                    is UiState.Success -> {
+                        showAcquiredDialog = true
+                    }
+                    is UiState.Failure -> {
+                        showAcquiredFailToast = true
+                    }
+                    else -> {}
                 }
-                is UiState.Failure -> {
-                    showAcquiredFailToast = true
-                }
-                else -> {}
             }
         }
     }
