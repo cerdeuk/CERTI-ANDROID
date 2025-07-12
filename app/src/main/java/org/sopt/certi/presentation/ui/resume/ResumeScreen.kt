@@ -214,8 +214,8 @@ private fun PreviewResumeScreen() {
         ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
+            organization = "서티그룹, 서티그룹, 서티그룹, 서티그룹",
+            role = "패션디자이너 인턴, 패션디자이너 인턴",
             description = "트렌드 리서치 및 소재 조사"
         ),
         ActivityData(

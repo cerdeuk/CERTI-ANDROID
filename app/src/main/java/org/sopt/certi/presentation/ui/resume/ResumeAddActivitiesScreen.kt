@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.resume
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -76,75 +77,78 @@ fun ResumeAddActivitiesScreen(
     navigateToResume: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            horizontal = screenWidthDp(20.dp)
-        )
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.resume_activities_add_title),
-                style = CertiTheme.typography.subtitle.semibold_20,
-                color = CertiTheme.colors.gray600,
-                modifier = Modifier.padding(
-                    top = screenHeightDp(60.dp),
-                    bottom = screenHeightDp(24.dp)
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(
+                horizontal = screenWidthDp(20.dp)
+            )
+        ) {
+            item {
+                Text(
+                    text = stringResource(R.string.resume_activities_add_title),
+                    style = CertiTheme.typography.subtitle.semibold_20,
+                    color = CertiTheme.colors.gray600,
+                    modifier = Modifier.padding(
+                        top = screenHeightDp(60.dp),
+                        bottom = screenHeightDp(24.dp)
+                    )
                 )
-            )
+            }
+
+            item {
+                ResumeDateInputSection(
+                    title = stringResource(R.string.resume_activities_period),
+                    startDate = startDate,
+                    endDate = endDate,
+                    onStartDateValueChange = onStartDateValueChange,
+                    onEndDateValueChange = onEndDateValueChange,
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                )
+            }
+
+            item {
+                ResumeTextInputSection(
+                    title = stringResource(R.string.resume_activities_organization),
+                    value = organizationValue,
+                    onValueChange = onOrganizationValueChange,
+                    maxLength = 30,
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                )
+            }
+
+            item {
+                ResumeTextInputSection(
+                    title = stringResource(R.string.resume_activities_activity),
+                    value = activityValue,
+                    onValueChange = onActivityValueChange,
+                    maxLength = 30,
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                )
+            }
+
+            item {
+                ResumeTextInputSection(
+                    title = stringResource(R.string.resume_activities_description),
+                    value = descriptionValue,
+                    onValueChange = onDescriptionValue,
+                    maxLength = 80,
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                )
+            }
         }
 
-        item {
-            ResumeDateInputSection(
-                title = stringResource(R.string.resume_activities_period),
-                startDate = startDate,
-                endDate = endDate,
-                onStartDateValueChange = onStartDateValueChange,
-                onEndDateValueChange = onEndDateValueChange,
-                modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
-            )
-        }
-
-        item {
-            ResumeTextInputSection(
-                title = stringResource(R.string.resume_activities_organization),
-                value = organizationValue,
-                onValueChange = onOrganizationValueChange,
-                maxLength = 10,
-                modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
-            )
-        }
-
-        item {
-            ResumeTextInputSection(
-                title = stringResource(R.string.resume_activities_activity),
-                value = activityValue,
-                onValueChange = onActivityValueChange,
-                maxLength = 10,
-                modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
-            )
-        }
-
-        item {
-            ResumeTextInputSection(
-                title = stringResource(R.string.resume_activities_description),
-                value = descriptionValue,
-                onValueChange = onDescriptionValue,
-                maxLength = 16,
-                modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
-            )
-        }
-
-        item {
-            CertiBasicButton(
-                buttonText = stringResource(R.string.resume_add_button),
-                onClick = navigateToResume,
-                enabled = addButtonEnabled,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = screenHeightDp(24.dp))
-            )
-        }
+        CertiBasicButton(
+            buttonText = stringResource(R.string.resume_add_button),
+            onClick = navigateToResume,
+            enabled = addButtonEnabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = screenHeightDp(24.dp))
+                .padding(horizontal = screenWidthDp(20.dp))
+        )
     }
 }
 
