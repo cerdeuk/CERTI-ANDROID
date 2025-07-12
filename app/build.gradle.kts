@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.immutable)
 
     // Network
     implementation(libs.kotlinx.serialization.json)

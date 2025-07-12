@@ -49,7 +49,7 @@ fun CertiBasicButton(
                 },
                 onClick = {
                     if (currentEnabled) {
-                        onClick.invoke()
+                        onClick()
                     }
                 }
             ),

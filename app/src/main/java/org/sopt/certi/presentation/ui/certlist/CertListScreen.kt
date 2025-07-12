@@ -5,24 +5,27 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.core.component.section.CertificationListSection
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
 import org.sopt.certi.presentation.ui.certlist.component.CategoryFavoriteButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
+import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -32,104 +35,37 @@ fun CertListRoute(
     navigateToSearch: () -> Unit,
     viewModel: CertListViewModel = hiltViewModel()
 ) {
-    var selectedIndex by remember { mutableIntStateOf(0) }
-    var isFavorite by remember { mutableStateOf(false) }
-    var certificationList by remember {
-        mutableStateOf(
-            listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                )
-            )
-        )
+    val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.selectedCategory, uiState.isFavorite) {
+        viewModel.getCertificationList(uiState.isFavorite, uiState.selectedCategory)
     }
 
-    CertListScreen(
-        navigateToSearch = navigateToSearch,
-        selectedCategory = selectedIndex,
-        onCategorySelected = { selectedIndex = it },
-        isFavorite = isFavorite,
-        onFavoriteClick = { isFavorite = !isFavorite },
-        certificationList = certificationList,
-        onLikeClick = { index ->
-            certificationList = certificationList.mapIndexed { i, item ->
-                if (i == index) item.copy(isFavorite = !item.isFavorite) else item
-            }
-        },
-        modifier = Modifier.padding(padding)
-    )
+    when (uiState.loadState) {
+        is UiState.Success -> CertListScreen(
+            certListState = uiState,
+            navigateToSearch = navigateToSearch,
+            onCategorySelected = viewModel::onCategorySelected,
+            onFavoriteButtonClick = viewModel::onFavoriteClick,
+            certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
+            onLikeClick = viewModel::onLikeClick,
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Failure -> {}
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Init -> {}
+    }
 }
 
 @Composable
 private fun CertListScreen(
+    certListState: CertListUiState,
     navigateToSearch: () -> Unit,
-    selectedCategory: Int,
     onCategorySelected: (Int) -> Unit,
-    isFavorite: Boolean,
-    onFavoriteClick: () -> Unit,
-    certificationList: List<CertificationData>,
-    onLikeClick: (Int) -> Unit,
+    onFavoriteButtonClick: () -> Unit,
+    certificationList: ImmutableList<CertificationData>,
+    onLikeClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -141,7 +77,7 @@ private fun CertListScreen(
         )
 
         CategoryBar(
-            selectedCategory = selectedCategory,
+            selectedCategory = certListState.selectedCategory,
             onCategorySelected = onCategorySelected
         )
         HorizontalDivider(
@@ -150,8 +86,8 @@ private fun CertListScreen(
         )
 
         CategoryFavoriteButton(
-            onClick = onFavoriteClick,
-            isFavorite = isFavorite,
+            onClick = onFavoriteButtonClick,
+            isFavorite = certListState.isFavorite,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
         )
 
@@ -160,10 +96,13 @@ private fun CertListScreen(
                 .padding(horizontal = screenWidthDp(20.dp))
                 .fillMaxSize()
         ) {
-            items(certificationList.size) { index ->
+            items(
+                items = certificationList,
+                key = { it.certificationId }
+            ) { item ->
                 CertificationListSection(
-                    certificationListData = certificationList[index],
-                    onLikeClick = { onLikeClick(index) },
+                    certificationListData = item,
+                    onLikeClick = { onLikeClick(item.certificationId) },
                     onCertificationClick = {
                         // 상세페이지로 화면 전환
                     },
@@ -178,14 +117,5 @@ private fun CertListScreen(
 @Composable
 private fun PreviewCertListScreen() {
     CERTITheme {
-        CertListScreen(
-            navigateToSearch = {},
-            selectedCategory = 0,
-            onCategorySelected = {},
-            isFavorite = false,
-            onFavoriteClick = {},
-            certificationList = listOf(),
-            onLikeClick = {}
-        )
     }
 }
