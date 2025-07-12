@@ -136,7 +136,7 @@ fun OnBoardingUnivScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment = Alignment.BottomCenter),
-            enabled = (onBoardingUnivUiState.submittedUnivSearchText.isNotBlank() && univList.contains(onBoardingUnivUiState.submittedUnivSearchText))
+            enabled = (onBoardingUnivUiState.univSearchText.isNotBlank() && univList.contains(onBoardingUnivUiState.univSearchText))
         )
     }
 }
