@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -24,6 +23,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -34,16 +34,16 @@ fun ResumeDateInputSection(
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.resume_section_certification_title)
+    title: String = stringResource(R.string.resume_work_experience_period)
 ) {
     Column(
         modifier = modifier
     ) {
         ResumeInputTitle(title = title)
+
         Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
 
         Row(
-            modifier = modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ResumeDateTextField(
@@ -81,11 +81,16 @@ private fun ResumeDateTextField(
 ) {
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = {
+            if (it.length <= 10) {
+                onValueChange(it)
+            }
+        },
         textStyle = CertiTheme.typography.caption.semibold_12.copy(
             color = CertiTheme.colors.gray600
         ),
         modifier = modifier
+            .widthForScreenPercentage(108.dp)
             .roundedBackgroundWithBorder(
                 cornerRadius = 1.dp,
                 backgroundColor = CertiTheme.colors.white,
@@ -105,7 +110,7 @@ private fun ResumeDateTextField(
                     Text(
                         text = stringResource(R.string.resume_textfield_date),
                         style = CertiTheme.typography.caption.semibold_12,
-                        color = CertiTheme.colors.gray200
+                        color = CertiTheme.colors.gray300
                     )
                 }
                 innerTextField()

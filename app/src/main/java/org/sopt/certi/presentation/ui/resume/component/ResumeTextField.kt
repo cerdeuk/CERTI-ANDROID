@@ -32,7 +32,7 @@ fun ResumeTextField(
     placeholder: String = stringResource(R.string.resume_textfield_placeholder)
 ) {
     BasicTextField(
-        value = value.take(maxLength),
+        value = value,
         onValueChange = {
             if (it.length <= maxLength) onValueChange(it)
         },
@@ -66,7 +66,7 @@ fun ResumeTextField(
                     Text(
                         text = stringResource(R.string.resume_textfield_caption, value.length, maxLength),
                         style = CertiTheme.typography.caption.semibold_14,
-                        color = CertiTheme.colors.gray200
+                        color = CertiTheme.colors.gray300
                     )
                 }
             }

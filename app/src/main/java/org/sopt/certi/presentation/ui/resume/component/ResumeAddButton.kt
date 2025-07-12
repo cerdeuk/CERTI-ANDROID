@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
@@ -42,7 +43,7 @@ fun ResumeAddButton(
             imageVector = ImageVector.vectorResource(R.drawable.ic_resume_add_24),
             contentDescription = null,
             tint = CertiTheme.colors.mainBlue,
-            modifier = Modifier.size(screenWidthDp(24.dp))
+            modifier = Modifier.size(min(screenHeightDp(24.dp), screenWidthDp(24.dp)))
         )
 
         Spacer(modifier = Modifier.width(screenWidthDp(2.dp)))

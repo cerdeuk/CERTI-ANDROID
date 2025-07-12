@@ -76,7 +76,7 @@
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
     <string name="resume_textfield_caption">%d/%d</string>
-    <string name="resume_textfield_date">YYYY-MM-DD</string>
+    <string name="resume_textfield_date">YYYY.MM.DD</string>
     <string name="resume_date_input_text_1">부터</string>
     <string name="resume_date_input_text_2">까지</string>
 
@@ -90,6 +90,14 @@
     
     <!-- ResumeButton -->
     <string name="resume_add_button">작성하기</string>
+
+    <!-- ResumeWorkExperienceScreen -->
+    <string name="resume_work_experience_edit_title">경력사항 수정</string>
+    <string name="resume_work_experience_add_title">경력사항 추가</string>
+    <string name="resume_work_experience_period">근무기간</string>
+    <string name="resume_work_experience_organization">근무회사</string>
+    <string name="resume_work_experience_role">직무</string>
+    <string name="resume_work_experience_description">직무 관련 내용</string>
 
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>
