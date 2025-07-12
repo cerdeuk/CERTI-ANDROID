@@ -14,7 +14,7 @@ fun CertificationCardFront() {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = CertiTheme.colors.skyBlue,
+                color = CertiTheme.colors.skyBlue
             )
     ) {
         Text("앞면")

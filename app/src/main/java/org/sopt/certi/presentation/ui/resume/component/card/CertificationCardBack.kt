@@ -14,7 +14,7 @@ fun CertificationCardBack() {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = CertiTheme.colors.white,
+                color = CertiTheme.colors.white
             )
     ) {
         Text("뒷면")
