@@ -57,7 +57,7 @@ fun CertRecommendRoute(
     val localSelectedCategoryList = remember { mutableStateListOf<CategoryType>() }
 
     // FIXME 더미 데이터
-    val dummyRecommendList = mutableListOf<CertificationData>()
+    val dummyRecommendList = remember { mutableStateListOf<CertificationData>() }
     for (i in 0L..11L) {
         dummyRecommendList.add(
             CertificationData(
@@ -75,6 +75,14 @@ fun CertRecommendRoute(
         recommendCertList = dummyRecommendList,
         selectedCategoryList = selectedCategoryList,
         showFilterBottomSheet = { showFilterBottomSheet = true },
+        likeOnClick = { index ->
+            val modifiedList = dummyRecommendList.mapIndexed { i, item ->
+                if (i == index) item.copy(isFavorite = !item.isFavorite) else item
+            }
+
+            dummyRecommendList.clear()
+            dummyRecommendList.addAll(modifiedList)
+        },
         navigateToCertDetail = navigateToCertDetail,
         modifier = Modifier.padding(padding)
     )
@@ -92,13 +100,11 @@ fun CertRecommendRoute(
             },
             changeBottomSheetVisibility = { showFilterBottomSheet = it },
             onConfirmClick = {
-                // 적용하기 클릭
                 selectedCategoryList.clear()
                 selectedCategoryList.addAll(localSelectedCategoryList)
                 // TODO 필터 선택 완료 후 로직
             },
             onDismissClick = {
-                // 적용하기 누르지 않고 바텀시트 내렸을 때
                 localSelectedCategoryList.clear()
                 localSelectedCategoryList.addAll(selectedCategoryList)
             }
@@ -112,6 +118,7 @@ fun CertRecommendScreen(
     recommendCertList: List<CertificationData>,
     selectedCategoryList: List<CategoryType>,
     showFilterBottomSheet: () -> Unit,
+    likeOnClick: (Int) -> Unit,
     navigateToCertDetail: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -161,11 +168,12 @@ fun CertRecommendScreen(
                 }
             }
 
-            items(recommendCertList.size) {
+            items(recommendCertList.size) { index ->
                 CertificationListSection(
-                    certificationListData = recommendCertList[it],
+                    certificationListData = recommendCertList[index],
                     onLikeClick = {
-                        navigateToCertDetail()
+                        // TODO 즐겨찾기 로직 처리
+                        likeOnClick(index)
                     },
                     onCertificationClick = navigateToCertDetail,
                     modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(6.dp))
@@ -198,7 +206,8 @@ private fun PreviewCertRecommendScreen() {
             recommendCertList = dummyRecommendList,
             selectedCategoryList = emptyList(),
             showFilterBottomSheet = {},
-            navigateToCertDetail = {}
+            navigateToCertDetail = {},
+            likeOnClick = {}
         )
     }
 }

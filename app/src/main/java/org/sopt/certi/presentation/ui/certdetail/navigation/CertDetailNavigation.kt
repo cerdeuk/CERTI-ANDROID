@@ -20,7 +20,7 @@ fun NavGraphBuilder.certDetailNavGraph(
 ) {
     composable<CertRecommendRoute.CertDetail> {
         val navOptions = navOptions {
-            popUpTo(MainTab.HOME.route) {
+            popUpTo(MainTab.RESUME.route) {
                 inclusive = false
             }
             launchSingleTop = true

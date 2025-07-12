@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
+import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.webview.CertWebView
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -39,7 +40,6 @@ import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.type.AcquireButtonType
 import org.sopt.certi.presentation.ui.certdetail.component.button.AcquireButton
 import org.sopt.certi.presentation.ui.certdetail.component.button.MoveToWebButton
-import org.sopt.certi.presentation.ui.certdetail.component.chip.CertDetailTagChip
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -69,8 +69,14 @@ fun CertDetailRoute(
 
     CertDetailScreen(
         certData = dummyCertData,
-        showAcquiredDialog = { showAcquiredDialog = true },
         showWebView = { showWebView = true },
+        onAcquireExpectedBtnClick = {
+            // TODO 취득 예정 로직 처리
+        },
+        onAcquiredBtnClick = {
+            // TODO 취득 완료 로직 처리
+            showAcquiredDialog = true
+        },
         modifier = Modifier.padding(padding)
     )
 
@@ -78,8 +84,6 @@ fun CertDetailRoute(
         CertAcquiredDialog(
             certName = dummyCertData.certificationName,
             onConfirmClick = {
-                // TODO 캐릭터 카드 보러가기 처리
-
                 navigateToResume()
             },
             setShowDialog = { showAcquiredDialog = it }
@@ -97,249 +101,252 @@ fun CertDetailRoute(
 @Composable
 fun CertDetailScreen(
     certData: CertificationData,
-    showAcquiredDialog: () -> Unit,
     showWebView: () -> Unit,
+    onAcquireExpectedBtnClick: () -> Unit,
+    onAcquiredBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
     val numberFormatter = java.text.DecimalFormat("#,###")
 
-    Column(
+    LazyColumn(
         modifier = modifier
-            .padding(horizontal = screenWidthDp(20.dp))
-            .verticalScroll(scrollState)
+            .padding(horizontal = screenWidthDp(20.dp)),
+        contentPadding = PaddingValues(top = screenHeightDp(72.dp), bottom = screenHeightDp(36.dp))
     ) {
-        Spacer(Modifier.heightForScreenPercentage(96.dp))
+        item {
+            Text(
+                text = certData.certificationName,
+                style = CertiTheme.typography.subtitle.bold_20,
+                color = CertiTheme.colors.gray600
+            )
 
-        Text(
-            text = certData.certificationName,
-            style = CertiTheme.typography.subtitle.bold_20,
-            color = CertiTheme.colors.gray600
-        )
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
-
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
-        ) {
-            items(certData.tags.size) { index ->
-                CertDetailTagChip(certData.tags[index])
-            }
-        }
-
-        Spacer(Modifier.heightForScreenPercentage(36.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .roundedBackgroundWithBorder(
-                    cornerRadius = 12.dp,
-                    backgroundColor = CertiTheme.colors.blueWhite,
-                    borderColor = CertiTheme.colors.lightBlue
-                )
-                .padding(top = screenHeightDp(20.dp), start = screenWidthDp(22.dp), end = screenWidthDp(22.dp), bottom = screenHeightDp(12.dp))
-        ) {
-            Column(
+            LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(40.dp)
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
             ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(R.string.cert_detail_average_period_title),
-                        style = CertiTheme.typography.body.semibold_16,
-                        color = CertiTheme.colors.gray600
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = certData.averagePeriod,
-                        style = CertiTheme.typography.body.regular_16,
-                        color = CertiTheme.colors.gray600
-                    )
-                }
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(R.string.cert_detail_charge_title),
-                        style = CertiTheme.typography.body.semibold_16,
-                        color = CertiTheme.colors.gray600
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = stringResource(R.string.cert_detail_charge_content, numberFormatter.format(certData.charge)),
-                        style = CertiTheme.typography.body.regular_16,
-                        color = CertiTheme.colors.gray600
-                    )
-                }
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(R.string.cert_detail_agency_title),
-                        style = CertiTheme.typography.body.semibold_16,
-                        color = CertiTheme.colors.gray600
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = certData.agencyName,
-                        style = CertiTheme.typography.body.regular_16,
-                        color = CertiTheme.colors.gray600
-                    )
+                items(certData.tags.size) { index ->
+                    CertiDefaultChip(certData.tags[index])
                 }
             }
+
+            Spacer(Modifier.heightForScreenPercentage(36.dp))
         }
 
-        Spacer(Modifier.heightForScreenPercentage(48.dp))
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .roundedBackgroundWithBorder(
+                        cornerRadius = 12.dp,
+                        backgroundColor = CertiTheme.colors.blueWhite,
+                        borderColor = CertiTheme.colors.lightBlue
+                    )
+                    .padding(top = screenHeightDp(20.dp), start = screenWidthDp(22.dp), end = screenWidthDp(22.dp), bottom = screenHeightDp(12.dp))
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(40.dp)
+                ) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = stringResource(R.string.cert_detail_average_period_title),
+                            style = CertiTheme.typography.body.semibold_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = certData.averagePeriod,
+                            style = CertiTheme.typography.body.regular_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                    }
 
-        // 자격증 설명
-        Text(
-            text = stringResource(R.string.cert_detail_description_title),
-            style = CertiTheme.typography.body.bold_18,
-            color = CertiTheme.colors.gray600
-        )
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = stringResource(R.string.cert_detail_charge_title),
+                            style = CertiTheme.typography.body.semibold_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = stringResource(R.string.cert_detail_charge_content, numberFormatter.format(certData.charge)),
+                            style = CertiTheme.typography.body.regular_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                    }
 
-        Spacer(Modifier.heightForScreenPercentage(36.dp))
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = stringResource(R.string.cert_detail_agency_title),
+                            style = CertiTheme.typography.body.semibold_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = certData.agencyName,
+                            style = CertiTheme.typography.body.regular_16,
+                            color = CertiTheme.colors.gray600
+                        )
+                    }
+                }
+            }
 
-        Text(
-            text = certData.testType,
-            style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.gray600
-        )
+            Spacer(Modifier.heightForScreenPercentage(48.dp))
+        }
 
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
+        item {
+            Text(
+                text = stringResource(R.string.cert_detail_description_title),
+                style = CertiTheme.typography.body.bold_18,
+                color = CertiTheme.colors.gray600
+            )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .roundedBackgroundWithBorder(
-                    cornerRadius = 12.dp,
-                    backgroundColor = CertiTheme.colors.white,
-                    borderColor = CertiTheme.colors.gray100
+            Spacer(Modifier.heightForScreenPercentage(36.dp))
+
+            Text(
+                text = certData.testType,
+                style = CertiTheme.typography.body.semibold_16,
+                color = CertiTheme.colors.gray600
+            )
+
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .roundedBackgroundWithBorder(
+                        cornerRadius = 12.dp,
+                        backgroundColor = CertiTheme.colors.white,
+                        borderColor = CertiTheme.colors.gray100
+                    )
+                    .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(20.dp))
+            ) {
+                Text(
+                    text = certData.description,
+                    style = CertiTheme.typography.caption.regular_14,
+                    color = CertiTheme.colors.gray600
                 )
-                .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(20.dp))
-        ) {
-            Text(
-                text = certData.description,
-                style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray600
-            )
-        }
+            }
 
-        Spacer(Modifier.heightForScreenPercentage(24.dp))
-
-        Text(
-            text = stringResource(R.string.cert_detail_test_date_title),
-            style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.gray600
-        )
-
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_date_16),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
-
-            Spacer(Modifier.widthForScreenPercentage(6.dp))
+            Spacer(Modifier.heightForScreenPercentage(24.dp))
 
             Text(
-                text = certData.testDateInformation,
-                style = CertiTheme.typography.body.regular_16,
+                text = stringResource(R.string.cert_detail_test_date_title),
+                style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-        }
 
-        Spacer(Modifier.heightForScreenPercentage(24.dp))
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-        Text(
-            text = stringResource(R.string.cert_detail_application_method_title),
-            style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.gray600
-        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_date_16),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
 
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
+                Spacer(Modifier.widthForScreenPercentage(6.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_certification_16),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
+                Text(
+                    text = certData.testDateInformation,
+                    style = CertiTheme.typography.body.regular_16,
+                    color = CertiTheme.colors.gray600
+                )
+            }
 
-            Spacer(Modifier.widthForScreenPercentage(6.dp))
+            Spacer(Modifier.heightForScreenPercentage(24.dp))
 
             Text(
-                text = certData.applicationMethod,
-                style = CertiTheme.typography.body.regular_16,
+                text = stringResource(R.string.cert_detail_application_method_title),
+                style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-        }
 
-        Spacer(Modifier.heightForScreenPercentage(24.dp))
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-        Text(
-            text = stringResource(R.string.cert_detail_expiration_period_title),
-            style = CertiTheme.typography.body.semibold_16,
-            color = CertiTheme.colors.gray600
-        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_certification_16),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
 
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
+                Spacer(Modifier.widthForScreenPercentage(6.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_clock_16),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
+                Text(
+                    text = certData.applicationMethod,
+                    style = CertiTheme.typography.body.regular_16,
+                    color = CertiTheme.colors.gray600
+                )
+            }
 
-            Spacer(Modifier.widthForScreenPercentage(6.dp))
+            Spacer(Modifier.heightForScreenPercentage(24.dp))
 
             Text(
-                text = certData.expirationPeriod,
-                style = CertiTheme.typography.body.regular_16,
+                text = stringResource(R.string.cert_detail_expiration_period_title),
+                style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
+
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_clock_16),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+
+                Spacer(Modifier.widthForScreenPercentage(6.dp))
+
+                Text(
+                    text = certData.expirationPeriod,
+                    style = CertiTheme.typography.body.regular_16,
+                    color = CertiTheme.colors.gray600
+                )
+            }
+
+            Spacer(Modifier.heightForScreenPercentage(24.dp))
         }
 
-        Spacer(Modifier.heightForScreenPercentage(24.dp))
-
-        MoveToWebButton {
-            showWebView()
+        item {
+            MoveToWebButton {
+                showWebView()
+            }
+            Spacer(Modifier.heightForScreenPercentage(76.dp))
         }
 
-        Spacer(Modifier.heightForScreenPercentage(76.dp))
+        item {
+            AcquireButton(
+                acquireButtonType = AcquireButtonType.EXPECTED,
+                onClick = {
+                    onAcquireExpectedBtnClick()
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        AcquireButton(
-            acquireButtonType = AcquireButtonType.EXPECTED,
-            onClick = {
-                // TODO 취득 예정 버튼 클릭
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+            Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-        Spacer(Modifier.heightForScreenPercentage(12.dp))
-
-        AcquireButton(
-            acquireButtonType = AcquireButtonType.FINISH,
-            onClick = {
-                // TODO 취득 완료 버튼 클릭
-
-                showAcquiredDialog()
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.heightForScreenPercentage(32.dp))
+            AcquireButton(
+                acquireButtonType = AcquireButtonType.FINISH,
+                onClick = {
+                    onAcquiredBtnClick()
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -364,8 +371,9 @@ private fun PreviewCertDetailScreen() {
     CERTITheme {
         CertDetailScreen(
             certData = dummyCertData,
-            showAcquiredDialog = {},
-            showWebView = {}
+            showWebView = {},
+            onAcquireExpectedBtnClick = {},
+            onAcquiredBtnClick = {}
         )
     }
 }
