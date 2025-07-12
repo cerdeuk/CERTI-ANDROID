@@ -44,7 +44,7 @@ fun MoveToWebButton(
                     isPressed = it
                 },
                 onClick = {
-                    onClick.invoke()
+                    onClick()
                 }
             ),
         contentAlignment = Alignment.Center

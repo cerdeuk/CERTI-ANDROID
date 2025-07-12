@@ -31,6 +31,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.webview.CertWebView
+import org.sopt.certi.core.util.formatMoney
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
@@ -106,8 +107,6 @@ fun CertDetailScreen(
     onAcquiredBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val numberFormatter = java.text.DecimalFormat("#,###")
-
     LazyColumn(
         modifier = modifier
             .padding(horizontal = screenWidthDp(20.dp)),
@@ -171,7 +170,7 @@ fun CertDetailScreen(
                         )
                         Spacer(Modifier.weight(1f))
                         Text(
-                            text = stringResource(R.string.cert_detail_charge_content, numberFormatter.format(certData.charge)),
+                            text = stringResource(R.string.cert_detail_charge_content, certData.charge.formatMoney()),
                             style = CertiTheme.typography.body.regular_16,
                             color = CertiTheme.colors.gray600
                         )
