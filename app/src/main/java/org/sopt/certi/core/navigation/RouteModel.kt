@@ -68,7 +68,10 @@ sealed interface ResumeRoute : Route {
 
 sealed interface CertRecommendRoute : Route {
     @Serializable
-    data object CertDetail : CertRecommendRoute
+    data object CertDetail : CertRecommendRoute {
+        const val DETAIL_ROUTE = "certDetail/{certId}"
+        fun certDetailRoute(certId: Long) = "certDetail/$certId"
+    }
 }
 
 sealed interface CertListRoute : Route {

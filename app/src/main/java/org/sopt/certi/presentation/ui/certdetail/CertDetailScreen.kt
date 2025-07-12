@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,10 +27,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.webview.CertWebView
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.formatMoney
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
@@ -46,29 +49,40 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CertDetailRoute(
     padding: PaddingValues,
+    certId: Long,
     navigateToResume: () -> Unit,
     viewModel: CertDetailViewModel = hiltViewModel()
 ) {
-    val dummyCertData = CertificationData(
-        certificationId = 0,
-        certificationName = "GTQ 1급 (그래픽기술자격)",
-        averagePeriod = "100일",
-        agencyName = "국가기술자격",
-        testType = "실기형",
-        tags = listOf("aa", "bb", "cc"),
-        charge = 12000,
-        description = "2D 그래픽 툴의 기능을 활용한 사고의 시각화를 통해 이미지 제작, 수정, 편집 및 그래픽 디자인을 창출하는 업무를 수행하고 이를 통해 비지니스 커뮤니케이션을 원활하게 한다. 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이이다.",
-        testDateInformation = "매월 넷째주 토요일 정기시험 시행 (총 12회)",
-        applicationMethod = "온라인(한국생산성본부 홈페이지)",
-        applicationUrl = "www.google.com",
-        expirationPeriod = "1년"
-    )
-
     var showAcquiredDialog by remember { mutableStateOf(false) }
     var showWebView by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        viewModel.getCertDetailInfo(certId)
+    }
+
+    val loadedCertData by viewModel.certDetailInfo.collectAsStateWithLifecycle()
+    var certData by remember {
+        mutableStateOf(
+            CertificationData(
+                certificationId = 0,
+                certificationName = "empty"
+            )
+        )
+    }
+
+    LaunchedEffect(loadedCertData) {
+        when (loadedCertData) {
+            is UiState.Success -> {
+                (loadedCertData as UiState.Success<CertificationData?>).data?.let {
+                    certData = it
+                }
+            }
+            else -> {}
+        }
+    }
+
     CertDetailScreen(
-        certData = dummyCertData,
+        certData = certData,
         showWebView = { showWebView = true },
         onAcquireExpectedBtnClick = {
             // TODO 취득 예정 로직 처리
@@ -82,7 +96,7 @@ fun CertDetailRoute(
 
     if (showAcquiredDialog) {
         CertAcquiredDialog(
-            certName = dummyCertData.certificationName,
+            certName = certData.certificationName,
             onConfirmClick = {
                 navigateToResume()
             },
@@ -92,7 +106,7 @@ fun CertDetailRoute(
 
     if (showWebView) {
         CertWebView(
-            url = dummyCertData.applicationUrl,
+            url = certData.applicationUrl,
             closeWebView = { showWebView = false }
         )
     }

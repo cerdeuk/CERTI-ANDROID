@@ -45,7 +45,7 @@ import java.time.LocalDate
 @Composable
 fun CertRecommendRoute(
     padding: PaddingValues,
-    navigateToCertDetail: () -> Unit,
+    navigateToCertDetail: (certId: Long) -> Unit,
     viewModel: CertRecommendViewModel = hiltViewModel()
 ) {
     /** 필터 바텀시트 **/
@@ -119,7 +119,7 @@ fun CertRecommendScreen(
     selectedCategoryList: List<CategoryType>,
     showFilterBottomSheet: () -> Unit,
     likeOnClick: (Int) -> Unit,
-    navigateToCertDetail: () -> Unit,
+    navigateToCertDetail: (certId: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
@@ -175,7 +175,9 @@ fun CertRecommendScreen(
                         // TODO 즐겨찾기 로직 처리
                         likeOnClick(index)
                     },
-                    onCertificationClick = navigateToCertDetail,
+                    onCertificationClick = {
+                        navigateToCertDetail(recommendCertList[index].certificationId)
+                    },
                     modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(6.dp))
                 )
             }
