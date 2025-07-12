@@ -43,7 +43,7 @@ fun ResumeTextField(
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
         ),
-        singleLine = true,
+        singleLine = false,
         decorationBox = { innerTextField ->
             Column {
                 Box {

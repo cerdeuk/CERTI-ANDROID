@@ -64,6 +64,9 @@ sealed interface ResumeRoute : Route {
 
     @Serializable
     data object Activities : ResumeRoute
+
+    @Serializable
+    data object AddActivities : ResumeRoute
 }
 
 sealed interface CertRecommendRoute : Route {
