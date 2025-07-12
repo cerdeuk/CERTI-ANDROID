@@ -164,7 +164,7 @@ private fun PreviewResumeWorkExperienceScreen() {
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            description = "브랜드 리서치 및 소재 조사, 브랜드 리서치 및 소재 조사"
         ),
         ActivityData(
             startAt = "2021.11",

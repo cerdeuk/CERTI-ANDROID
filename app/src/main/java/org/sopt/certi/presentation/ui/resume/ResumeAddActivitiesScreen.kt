@@ -28,53 +28,53 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ResumeAddWorkExperienceRoute(
+fun ResumeAddActivitiesRoute(
     padding: PaddingValues,
-    onNavigateToResume: () -> Unit,
+    navigateToResume: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var organizationValue by remember { mutableStateOf("") }
-    var roleValue by remember { mutableStateOf("") }
+    var activityValue by remember { mutableStateOf("") }
     var descriptionValue by remember { mutableStateOf("") }
-    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
+    val addButtonEnabled by remember(startDate, endDate, organizationValue, activityValue, descriptionValue) {
         derivedStateOf {
-            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
+            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && activityValue.isNotBlank() && descriptionValue.isNotBlank()
         }
     }
 
-    ResumeAddWorkExperienceScreen(
+    ResumeAddActivitiesScreen(
         startDate = startDate,
         endDate = endDate,
+        organizationValue = organizationValue,
+        activityValue = activityValue,
+        descriptionValue = descriptionValue,
+        addButtonEnabled = addButtonEnabled,
         onStartDateValueChange = { startDate = it },
         onEndDateValueChange = { endDate = it },
-        organizationValue = organizationValue,
         onOrganizationValueChange = { organizationValue = it },
-        roleValue = roleValue,
-        onRoleValueChange = { roleValue = it },
-        descriptionValue = descriptionValue,
-        onDescriptionValueChange = { descriptionValue = it },
-        onNavigateToResume = onNavigateToResume,
-        addButtonEnabled = addButtonEnabled,
+        onActivityValueChange = { activityValue = it },
+        onDescriptionValue = { descriptionValue = it },
+        navigateToResume = navigateToResume,
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
-fun ResumeAddWorkExperienceScreen(
+fun ResumeAddActivitiesScreen(
     startDate: String,
     endDate: String,
+    organizationValue: String,
+    activityValue: String,
+    descriptionValue: String,
+    addButtonEnabled: Boolean,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
-    organizationValue: String,
     onOrganizationValueChange: (String) -> Unit,
-    roleValue: String,
-    onRoleValueChange: (String) -> Unit,
-    descriptionValue: String,
-    onDescriptionValueChange: (String) -> Unit,
-    onNavigateToResume: () -> Unit,
-    addButtonEnabled: Boolean,
+    onActivityValueChange: (String) -> Unit,
+    onDescriptionValue: (String) -> Unit,
+    navigateToResume: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -82,20 +82,25 @@ fun ResumeAddWorkExperienceScreen(
     ) {
         LazyColumn(
             modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp))
+            contentPadding = PaddingValues(
+                horizontal = screenWidthDp(20.dp)
+            )
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.resume_work_experience_add_title),
+                    text = stringResource(R.string.resume_activities_add_title),
                     style = CertiTheme.typography.subtitle.semibold_20,
                     color = CertiTheme.colors.gray600,
-                    modifier = Modifier.padding(top = screenHeightDp(60.dp), bottom = screenHeightDp(24.dp))
+                    modifier = Modifier.padding(
+                        top = screenHeightDp(60.dp),
+                        bottom = screenHeightDp(24.dp)
+                    )
                 )
             }
 
             item {
                 ResumeDateInputSection(
-                    title = stringResource(R.string.resume_work_experience_period),
+                    title = stringResource(R.string.resume_activities_period),
                     startDate = startDate,
                     endDate = endDate,
                     onStartDateValueChange = onStartDateValueChange,
@@ -106,7 +111,7 @@ fun ResumeAddWorkExperienceScreen(
 
             item {
                 ResumeTextInputSection(
-                    title = stringResource(R.string.resume_work_experience_organization),
+                    title = stringResource(R.string.resume_activities_organization),
                     value = organizationValue,
                     onValueChange = onOrganizationValueChange,
                     maxLength = 30,
@@ -116,9 +121,9 @@ fun ResumeAddWorkExperienceScreen(
 
             item {
                 ResumeTextInputSection(
-                    title = stringResource(R.string.resume_work_experience_role),
-                    value = roleValue,
-                    onValueChange = onRoleValueChange,
+                    title = stringResource(R.string.resume_activities_activity),
+                    value = activityValue,
+                    onValueChange = onActivityValueChange,
                     maxLength = 30,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
@@ -126,9 +131,9 @@ fun ResumeAddWorkExperienceScreen(
 
             item {
                 ResumeTextInputSection(
-                    title = stringResource(R.string.resume_work_experience_description),
+                    title = stringResource(R.string.resume_activities_description),
                     value = descriptionValue,
-                    onValueChange = onDescriptionValueChange,
+                    onValueChange = onDescriptionValue,
                     maxLength = 80,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
@@ -136,45 +141,45 @@ fun ResumeAddWorkExperienceScreen(
         }
 
         CertiBasicButton(
-            buttonText = stringResource(R.string.button_add),
-            onClick = onNavigateToResume,
+            buttonText = stringResource(R.string.resume_add_button),
+            onClick = navigateToResume,
+            enabled = addButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = screenHeightDp(24.dp))
-                .padding(horizontal = screenWidthDp(20.dp)),
-            enabled = addButtonEnabled
+                .padding(horizontal = screenWidthDp(20.dp))
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewResumeAddWorkExperienceScreen() {
+private fun PreviewResumeAddActivitiesScreen() {
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var organizationValue by remember { mutableStateOf("") }
-    var roleValue by remember { mutableStateOf("") }
+    var activityValue by remember { mutableStateOf("") }
     var descriptionValue by remember { mutableStateOf("") }
-    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
+    val addButtonEnabled by remember(startDate, endDate, organizationValue, activityValue, descriptionValue) {
         derivedStateOf {
-            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
+            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && activityValue.isNotBlank() && descriptionValue.isNotBlank()
         }
     }
 
     CERTITheme {
-        ResumeAddWorkExperienceScreen(
+        ResumeAddActivitiesScreen(
             startDate = startDate,
             endDate = endDate,
+            organizationValue = organizationValue,
+            activityValue = activityValue,
+            descriptionValue = descriptionValue,
+            addButtonEnabled = addButtonEnabled,
             onStartDateValueChange = { startDate = it },
             onEndDateValueChange = { endDate = it },
-            organizationValue = organizationValue,
             onOrganizationValueChange = { organizationValue = it },
-            roleValue = roleValue,
-            onRoleValueChange = { roleValue = it },
-            descriptionValue = descriptionValue,
-            onDescriptionValueChange = { descriptionValue = it },
-            onNavigateToResume = {},
-            addButtonEnabled = addButtonEnabled
+            onActivityValueChange = { activityValue = it },
+            onDescriptionValue = { descriptionValue = it },
+            navigateToResume = {}
         )
     }
 }

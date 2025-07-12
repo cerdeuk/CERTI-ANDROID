@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -28,7 +29,9 @@ fun ResumeDescriptionSection(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        Column(
+            modifier = Modifier.width(screenWidthDp(104.dp))
+        ) {
             Text(
                 text = stringResource(R.string.resume_list_item_period, resumeListItem.startAt, resumeListItem.endAt),
                 color = CertiTheme.colors.gray500,
@@ -38,7 +41,9 @@ fun ResumeDescriptionSection(
             Text(
                 text = resumeListItem.organization,
                 color = CertiTheme.colors.gray500,
-                style = CertiTheme.typography.caption.regular_12
+                style = CertiTheme.typography.caption.regular_12,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Spacer(modifier = Modifier.width(screenWidthDp(30.dp)))
@@ -47,13 +52,17 @@ fun ResumeDescriptionSection(
             Text(
                 text = resumeListItem.role,
                 color = CertiTheme.colors.gray600,
-                style = CertiTheme.typography.body.semibold_16
+                style = CertiTheme.typography.body.semibold_16,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(screenHeightDp(10.dp)))
             Text(
                 text = resumeListItem.description,
                 color = CertiTheme.colors.gray600,
-                style = CertiTheme.typography.caption.regular_12
+                style = CertiTheme.typography.caption.regular_12,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -67,7 +76,7 @@ private fun ResumeDescriptionSectionPreview() {
             resumeListItem = ActivityData(
                 startAt = "2021.11",
                 endAt = "2022.01",
-                organization = "서티그룹",
+                organization = "서티그룹서티그룹서티그룹",
                 role = "패션디자이너 인턴",
                 description = "브랜드 리서치 및 소재 조사"
             )

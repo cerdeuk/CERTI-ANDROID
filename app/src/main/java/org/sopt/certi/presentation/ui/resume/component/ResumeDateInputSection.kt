@@ -29,12 +29,12 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeDateInputSection(
+    title: String,
     startDate: String,
     endDate: String,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.resume_work_experience_period)
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -127,6 +127,7 @@ private fun ResumeDateInputSectionPreview() {
 
     CERTITheme {
         ResumeDateInputSection(
+            title = stringResource(R.string.resume_activities_period),
             startDate = startDate.value,
             endDate = endDate.value,
             onStartDateValueChange = { startDate.value = it },
