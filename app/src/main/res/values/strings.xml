@@ -109,6 +109,9 @@
 
     <!-- ResumeFlipCard -->
     <string name="resume_flip_card_touch">터치해서 뒷면 보기</string>
+    <string name="resume_certification_flip_card">%s년 %s월 %s일 획득했어요.</string>
+    <string name="resume_acquired_title">%1$s님의 취득일자</string>
+    <string name="resume_acquired_date">%s년 %s월 %s일</string>
 
     <!-- CertDetailScreen -->
     <string name="cert_detail_acquired_button_text">취득 완료</string>

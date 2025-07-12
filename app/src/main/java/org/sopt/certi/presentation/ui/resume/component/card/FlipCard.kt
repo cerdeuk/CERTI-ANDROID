@@ -26,6 +26,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.UserInfoData
 
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -35,6 +36,7 @@ import java.time.LocalDate
 fun FlipCardOverlay(
     showCard: Boolean,
     certificationData: CertificationData,
+    userInfo: UserInfoData,
     onDismiss: () -> Unit
 ) {
     var isFlipped by remember { mutableStateOf(false) }
@@ -70,6 +72,7 @@ fun FlipCardOverlay(
                         }
                     }
                     .clip(RoundedCornerShape(12.dp))
+                    .background(CertiTheme.colors.white)
                     .noRippleClickable { isFlipped = !isFlipped }
             ) {
                 if (rotationY <= 90f) {
@@ -77,10 +80,12 @@ fun FlipCardOverlay(
                         certificationData = certificationData
                     )
                 } else {
-                    CertificationCardBack()
+                    CertificationCardBack(
+                        certificationData = certificationData,
+                        userInfo = userInfo
+                    )
                 }
             }
-
         }
     }
 }
@@ -94,16 +99,23 @@ fun FlipCardInteractivePreview() {
         certificationId = 1,
         certificationName = "GTQ 1급 (그래픽기술자격)",
         createdAt = LocalDate.now(),
-        cardFrontImageUrl = "https://via.placeholder.com/250x376.png?text=Front",
-        tags = listOf("디자인", "컴퓨터")
+        description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+        cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        cardBackImageUrl = "",
+        tags = listOf("디자인", "컴퓨터", "김민지")
+    )
+    val userInfo = UserInfoData(
+        name = "김민지",
+        university = "",
+        major = ""
     )
 
     CERTITheme {
         FlipCardOverlay(
             showCard = showCard,
             certificationData = certificationData,
+            userInfo = userInfo,
             onDismiss = { showCard = false }
         )
     }
 }
-
