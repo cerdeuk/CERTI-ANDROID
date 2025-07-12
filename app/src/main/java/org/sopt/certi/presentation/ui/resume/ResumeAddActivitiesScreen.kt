@@ -1,6 +1,7 @@
 package org.sopt.certi.presentation.ui.resume
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,7 +14,9 @@ fun ResumeAddActivitiesRoute(
     onNavigateToResume: () -> Unit,
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
-
+    ResumeAddActivitiesScreen(
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
