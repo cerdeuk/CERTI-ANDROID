@@ -95,8 +95,8 @@ fun ResumeActivitiesRoute(
 
     if (onDeleteDialogShow) {
         CertiDeleteDialog(
-            onConfirmClick = {onDeleteDialogShow = false},
-            onDismissClick = {onDeleteDialogShow = false}
+            onConfirmClick = { onDeleteDialogShow = false },
+            onDismissClick = { onDeleteDialogShow = false }
         )
     }
 }
@@ -151,7 +151,8 @@ private fun PreviewResumeActivitiesScreen() {
             organization = "sopt",
             role = "동아리 36기 기획",
             description = "서비스 기획 및 아이디어 도출"
-        ),ActivityData(
+        ),
+        ActivityData(
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -173,13 +174,13 @@ private fun PreviewResumeActivitiesScreen() {
         ResumeActivitiesScreen(
             resumeDataList = resumeDataList,
             onNavigateToAdd = {},
-            onDeleteClick = { onDeleteDialogShow = true },
+            onDeleteClick = { onDeleteDialogShow = true }
         )
 
         if (onDeleteDialogShow) {
             CertiDeleteDialog(
-                onConfirmClick = {onDeleteDialogShow = false},
-                onDismissClick = {onDeleteDialogShow = false}
+                onConfirmClick = { onDeleteDialogShow = false },
+                onDismissClick = { onDeleteDialogShow = false }
             )
         }
     }
