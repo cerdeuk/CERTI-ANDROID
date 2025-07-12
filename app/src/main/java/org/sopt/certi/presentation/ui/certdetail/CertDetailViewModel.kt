@@ -27,23 +27,21 @@ class CertDetailViewModel @Inject constructor(
 
     val detailUiState: StateFlow<DetailUiState> =
         combine(
-            _certDetailInfo,
+            _certDetailInfo
         ) { loadState ->
             DetailUiState(
-                detailCertificationLoadState = loadState[0],
+                detailCertificationLoadState = loadState[0]
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = DetailUiState(
-                detailCertificationLoadState = UiState.Init,
+                detailCertificationLoadState = UiState.Init
             )
         )
 
     private val _sideEffect = Channel<DetailSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
-
-
 
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
         // TODO 자격증 상세정보 데이터 받아오는 로직

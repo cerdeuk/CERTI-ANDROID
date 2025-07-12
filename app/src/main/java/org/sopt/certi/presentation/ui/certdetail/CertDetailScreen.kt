@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiDefaultChip
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
@@ -47,7 +46,6 @@ import org.sopt.certi.presentation.type.AcquireButtonType
 import org.sopt.certi.presentation.ui.certdetail.component.button.AcquireButton
 import org.sopt.certi.presentation.ui.certdetail.component.button.MoveToWebButton
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
-import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -78,7 +76,7 @@ fun CertDetailRoute(
         viewModel.getCertDetailInfo(certId)
 
         viewModel.sideEffect.collect {
-            when(it) {
+            when (it) {
                 DetailSideEffect.ShowAcquiredSuccessDialog -> showAcquiredDialog = true
                 DetailSideEffect.ShowAcquiredFailToast -> showAcquiredFailToast = true
                 DetailSideEffect.ShowAcquireExpectFailToast -> showAcquireExpectFailToast = true
@@ -88,7 +86,7 @@ fun CertDetailRoute(
     }
 
     LaunchedEffect(uiState) {
-        when(uiState.loadState) {
+        when (uiState.loadState) {
             is UiState.Success -> {
                 (uiState.detailCertificationLoadState as UiState.Success<CertificationData>).data.let {
                     certData = it
