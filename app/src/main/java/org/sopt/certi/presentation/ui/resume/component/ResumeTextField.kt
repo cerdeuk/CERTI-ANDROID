@@ -32,13 +32,13 @@ fun ResumeTextField(
     placeholder: String = stringResource(R.string.resume_textfield_placeholder)
 ) {
     BasicTextField(
-        value = value.take(maxLength),
+        value = value,
         onValueChange = {
             if (it.length <= maxLength) onValueChange(it)
         },
         modifier = modifier.fillMaxWidth(),
         textStyle = CertiTheme.typography.caption.semibold_14.copy(
-            color = CertiTheme.colors.gray300
+            color = CertiTheme.colors.gray600
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
