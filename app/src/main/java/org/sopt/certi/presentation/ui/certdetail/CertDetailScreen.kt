@@ -207,12 +207,12 @@ fun CertDetailScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(screenHeightDp(20.dp))
                 .roundedBackgroundWithBorder(
                     cornerRadius = 12.dp,
                     backgroundColor = CertiTheme.colors.white,
                     borderColor = CertiTheme.colors.gray100
                 )
+                .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(20.dp))
         ) {
             Text(
                 text = certData.description,
