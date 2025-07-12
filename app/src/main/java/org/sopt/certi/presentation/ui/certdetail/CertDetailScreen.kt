@@ -46,6 +46,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CertDetailRoute(
     padding: PaddingValues,
+    navigateToResume: () -> Unit,
     viewModel: CertDetailViewModel = hiltViewModel()
 ) {
     val dummyCertData = CertificationData(
@@ -78,6 +79,8 @@ fun CertDetailRoute(
             certName = dummyCertData.certificationName,
             onConfirmClick = {
                 // TODO 캐릭터 카드 보러가기 처리
+
+                navigateToResume()
             },
             setShowDialog = { showAcquiredDialog = it }
         )
@@ -294,7 +297,7 @@ fun CertDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_certification_16),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_clock_16),
                 contentDescription = null,
                 tint = Color.Unspecified
             )
@@ -311,8 +314,6 @@ fun CertDetailScreen(
         Spacer(Modifier.heightForScreenPercentage(24.dp))
 
         MoveToWebButton {
-            // TODO 웹으로 이동
-
             showWebView()
         }
 
