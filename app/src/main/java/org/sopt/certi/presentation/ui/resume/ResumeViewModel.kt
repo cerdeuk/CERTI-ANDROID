@@ -25,6 +25,7 @@ class ResumeViewModel @Inject constructor(
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
+    private val _selectedCertificationDetail = MutableStateFlow<UiState<CertificationData>>(UiState.Loading)
     private val _selectedCertificationId = MutableStateFlow<Long?>(null)
 
     val resumeUiState: StateFlow<ResumeUiState> =
@@ -33,14 +34,15 @@ class ResumeViewModel @Inject constructor(
             _acquiredCertificationListLoadState,
             _experienceListLoadState,
             _activityListLoadState,
-            _selectedCertificationId
-        ) { jobCategory, certList, experience, activity, selectedId ->
+            _selectedCertificationDetail
+        ) { jobCategory, certList, experience, activity, selectedDetail ->
             ResumeUiState(
                 jobCategoryLoadState = jobCategory,
                 acquiredCertificationListLoadState = certList,
                 experienceListLoadState = experience,
                 activityListLoadState = activity,
-                selectedCertificationId = selectedId
+                selectedCertificationDetail = selectedDetail,
+                selectedCertificationId = null
             )
         }.stateIn(
             scope = viewModelScope,
@@ -50,6 +52,7 @@ class ResumeViewModel @Inject constructor(
                 acquiredCertificationListLoadState = UiState.Init,
                 experienceListLoadState = UiState.Init,
                 activityListLoadState = UiState.Init,
+                selectedCertificationDetail = UiState.Init,
                 selectedCertificationId = null
             )
         )
@@ -146,10 +149,24 @@ class ResumeViewModel @Inject constructor(
     }
 
     fun onCertificationClick(selectedCertificationId: Long) {
+        val certificationData = {
+            CertificationData(
+                certificationId = 1,
+                certificationName = "GTQ 1급 (그래픽기술자격)",
+                createdAt = LocalDate.now(),
+                description = "1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+                index = 2,
+                cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+                cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
+                tags = listOf("태그", "태그", "태그")
+            )
+        }
+        _selectedCertificationDetail.value = UiState.Success(certificationData())
         _selectedCertificationId.value = selectedCertificationId
     }
 
     fun onCertificationDetailDismiss() {
         _selectedCertificationId.value = null
+        _selectedCertificationDetail.value = UiState.Empty
     }
 }
