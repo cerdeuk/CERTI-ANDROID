@@ -3,7 +3,6 @@ package org.sopt.certi.presentation.ui.resume.component.card
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,9 +24,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.model.UserInfoData
-
 import org.sopt.certi.ui.theme.CERTITheme
-import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 
 @Composable
@@ -43,7 +40,7 @@ fun FlipCardOverlay(
         animationSpec = tween(500, easing = FastOutSlowInEasing),
         label = "rotationY"
     )
-    val cameraDistance = with(LocalDensity.current) { 12.dp.toPx() }
+    val cameraDistance = with(LocalDensity.current) { 8.dp.toPx() }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -64,7 +61,6 @@ fun FlipCardOverlay(
                     }
                 }
                 .clip(RoundedCornerShape(12.dp))
-                .background(CertiTheme.colors.subYellow)
                 .noRippleClickable { isFlipped = !isFlipped }
         ) {
             if (rotationY <= 90f) {
@@ -91,6 +87,7 @@ fun FlipCardInteractivePreview() {
         certificationName = "GTQ 1급 (그래픽기술자격)",
         createdAt = LocalDate.now(),
         description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+        index = 1,
         cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
         cardBackImageUrl = "",
         tags = listOf("디자인", "컴퓨터", "김민지")

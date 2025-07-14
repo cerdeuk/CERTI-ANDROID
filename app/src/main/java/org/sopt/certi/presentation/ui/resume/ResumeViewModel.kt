@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.resume
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.presentation.ui.resume.siddeffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
 import java.time.LocalDate
 import javax.inject.Inject
@@ -25,24 +27,19 @@ class ResumeViewModel @Inject constructor(
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
-    private val _selectedCertificationDetail = MutableStateFlow<UiState<CertificationData>>(UiState.Loading)
-    private val _selectedCertificationId = MutableStateFlow<Long?>(null)
 
     val resumeUiState: StateFlow<ResumeUiState> =
         combine(
             _jobCategoryLoadState,
             _acquiredCertificationListLoadState,
             _experienceListLoadState,
-            _activityListLoadState,
-            _selectedCertificationDetail
-        ) { jobCategory, certList, experience, activity, selectedDetail ->
+            _activityListLoadState
+        ) { jobCategory, certList, experience, activity ->
             ResumeUiState(
                 jobCategoryLoadState = jobCategory,
                 acquiredCertificationListLoadState = certList,
                 experienceListLoadState = experience,
-                activityListLoadState = activity,
-                selectedCertificationDetail = selectedDetail,
-                selectedCertificationId = null
+                activityListLoadState = activity
             )
         }.stateIn(
             scope = viewModelScope,
@@ -51,11 +48,12 @@ class ResumeViewModel @Inject constructor(
                 jobCategoryLoadState = UiState.Init,
                 acquiredCertificationListLoadState = UiState.Init,
                 experienceListLoadState = UiState.Init,
-                activityListLoadState = UiState.Init,
-                selectedCertificationDetail = UiState.Init,
-                selectedCertificationId = null
+                activityListLoadState = UiState.Init
             )
         )
+
+    private val _sideEffect = MutableSharedFlow<ResumeSideEffect>()
+    val sideEffect = _sideEffect
 
     fun getResumeData() {
         getJobCategory()
@@ -64,19 +62,19 @@ class ResumeViewModel @Inject constructor(
         getActivityList()
     }
 
-    private fun getJobCategory() = viewModelScope.launch {
+    private fun getJobCategory() {
         val jobCategory = {
             listOf("IT/인터넷", "IT/인터넷", "IT/인터넷")
         }
         _jobCategoryLoadState.value = UiState.Success(jobCategory())
     }
 
-    private fun getAcquiredCertificationList() = viewModelScope.launch {
+    private fun getAcquiredCertificationList() {
         val acquiredCertificationList = {
             listOf(
                 CertificationData(
                     certificationId = 1,
-                    certificationName = "GTQ 1급 (그래픽기술자격) 1",
+                    certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
                     index = 2,
@@ -86,7 +84,7 @@ class ResumeViewModel @Inject constructor(
                 ),
                 CertificationData(
                     certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽기술자격) 2",
+                    certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
                     index = 3,
@@ -96,7 +94,7 @@ class ResumeViewModel @Inject constructor(
                 ),
                 CertificationData(
                     certificationId = 3,
-                    certificationName = "GTQ 1급 (그래픽기술자격) 3",
+                    certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
                     index = 1,
@@ -106,7 +104,7 @@ class ResumeViewModel @Inject constructor(
                 ),
                 CertificationData(
                     certificationId = 4,
-                    certificationName = "GTQ 1급 (그래픽기술자격) 4",
+                    certificationName = "GTQ 1급 (그래픽기술자격)",
                     createdAt = LocalDate.now(),
                     description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
                     index = 2,
@@ -119,7 +117,7 @@ class ResumeViewModel @Inject constructor(
         _acquiredCertificationListLoadState.value = UiState.Success(acquiredCertificationList())
     }
 
-    private fun getExperienceList() = viewModelScope.launch {
+    private fun getExperienceList() {
         val experienceList = {
             listOf(
                 ActivityData(
@@ -141,7 +139,7 @@ class ResumeViewModel @Inject constructor(
         _experienceListLoadState.value = UiState.Success(experienceList())
     }
 
-    private fun getActivityList() = viewModelScope.launch {
+    private fun getActivityList() {
         val activityList = {
             emptyList<ActivityData>()
         }
@@ -149,24 +147,32 @@ class ResumeViewModel @Inject constructor(
     }
 
     fun onCertificationClick(selectedCertificationId: Long) {
-        val certificationData = {
-            CertificationData(
-                certificationId = 1,
-                certificationName = "GTQ 1급 (그래픽기술자격)",
-                createdAt = LocalDate.now(),
-                description = "1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                index = 2,
-                cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                tags = listOf("태그", "태그", "태그")
-            )
+        viewModelScope.launch {
+            val detail = getCertificationDetail(selectedCertificationId)
+
+            detail?.let {
+                _sideEffect.emit(ResumeSideEffect.ShowCertificationDetailModal(it))
+            }
         }
-        _selectedCertificationDetail.value = UiState.Success(certificationData())
-        _selectedCertificationId.value = selectedCertificationId
+    }
+
+    private fun getCertificationDetail(selectedCertificationId: Long): CertificationData? {
+        val certificationData = CertificationData(
+            certificationId = 1,
+            certificationName = "GTQ 1급 (그래픽기술자격)",
+            createdAt = LocalDate.now(),
+            description = "1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+            index = 2,
+            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+            cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
+            tags = listOf("태그", "태그", "태그")
+        )
+        return certificationData
     }
 
     fun onCertificationDetailDismiss() {
-        _selectedCertificationId.value = null
-        _selectedCertificationDetail.value = UiState.Empty
+        viewModelScope.launch {
+            _sideEffect.emit(ResumeSideEffect.HideCertificationDetailModal)
+        }
     }
 }

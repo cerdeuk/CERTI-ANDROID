@@ -12,6 +12,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +36,7 @@ import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSectio
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
 import org.sopt.certi.presentation.ui.resume.component.card.FlipCardOverlay
+import org.sopt.certi.presentation.ui.resume.siddeffect.ResumeSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 import java.time.LocalDate
 
@@ -45,17 +49,34 @@ fun ResumeRoute(
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
+    var showModal by remember { mutableStateOf(false) }
+    var selectedCert by remember { mutableStateOf<CertificationData?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.getResumeData()
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is ResumeSideEffect.ShowCertificationDetailModal -> {
+                    selectedCert = effect.data
+                    showModal = true
+                }
+                ResumeSideEffect.HideCertificationDetailModal -> {
+                    showModal = false
+                    selectedCert = null
+                }
+            }
+        }
+    }
+
     when (uiState.loadState) {
         is UiState.Success -> ResumeScreen(
             jobCategory = (uiState.jobCategoryLoadState as UiState.Success<List<String>>).data.toImmutableList(),
-            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
-            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
-            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList().take(3),
+            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
+            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
             onCertificationClick = { certificationId ->
                 viewModel.onCertificationClick(certificationId)
             },
@@ -76,17 +97,12 @@ fun ResumeRoute(
         major = ""
     )
 
-    when (uiState.certDetailLoadState) {
-        is UiState.Success -> FlipCardOverlay(
-            certificationData = (uiState.selectedCertificationDetail as UiState.Success<CertificationData?>).data!!,
+    if (showModal && selectedCert != null) {
+        FlipCardOverlay(
+            certificationData = selectedCert!!,
             userInfo = userInfo,
             onDismiss = { viewModel.onCertificationDetailDismiss() }
         )
-
-        is UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Init -> {}
-        is UiState.Loading -> {}
     }
 }
 

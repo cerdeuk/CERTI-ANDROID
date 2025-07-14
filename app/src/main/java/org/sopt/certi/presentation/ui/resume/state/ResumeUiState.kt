@@ -8,9 +8,7 @@ data class ResumeUiState(
     val jobCategoryLoadState: UiState<List<String>>,
     val acquiredCertificationListLoadState: UiState<List<CertificationData>>,
     val experienceListLoadState: UiState<List<ActivityData>>,
-    val activityListLoadState: UiState<List<ActivityData>>,
-    val selectedCertificationDetail: UiState<CertificationData>,
-    val selectedCertificationId: Long?
+    val activityListLoadState: UiState<List<ActivityData>>
 ) {
     val loadState: UiState<Unit>
         get() = when {
@@ -27,11 +25,5 @@ data class ResumeUiState(
                 experienceListLoadState is UiState.Loading &&
                 activityListLoadState is UiState.Loading -> UiState.Loading
             else -> UiState.Empty
-        }
-
-    val certDetailLoadState: UiState<Unit>
-        get() = when {
-            selectedCertificationDetail is UiState.Success -> UiState.Success(Unit)
-            else -> UiState.Failure("fail to load data")
         }
 }
