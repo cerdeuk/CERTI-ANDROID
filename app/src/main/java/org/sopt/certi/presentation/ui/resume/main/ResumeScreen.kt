@@ -74,9 +74,9 @@ fun ResumeRoute(
     when (uiState.loadState) {
         is UiState.Success -> ResumeScreen(
             jobCategory = (uiState.jobCategoryLoadState as UiState.Success<List<String>>).data.toImmutableList(),
-            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList().take(3),
-            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
-            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
+            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
+            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             onCertificationClick = { certificationId ->
                 viewModel.onCertificationClick(certificationId)
             },

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume
+package org.sopt.certi.presentation.ui.resume.myCert
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import okhttp3.internal.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.resume.component.ResumeMyCertiListItem
-import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -31,67 +34,42 @@ import java.time.LocalDate
 @Composable
 fun ResumeMyCertRoute(
     padding: PaddingValues,
-    viewModel: ResumeViewModel = hiltViewModel()
+    viewModel: MyCertViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
 
-    val dummyCertifications = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        )
-    )
+    LaunchedEffect(Unit) {
+        viewModel.getMyCertList()
+    }
 
-    ResumeMyCertScreen(
-        certifications = dummyCertifications,
-        showDialog = showDialog,
-        onDeleteClick = { showDialog = true },
-        onDialogConfirm = { showDialog = false },
-        onDialogDismiss = { showDialog = false },
-        modifier = Modifier.padding(padding)
-    )
+    if (showDialog) {
+        CertiDeleteDialog(
+            onConfirmClick = { showDialog = false },
+            onDismissClick = { showDialog = false }
+        )
+    }
+
+    when (uiState.loadState) {
+        is UiState.Success -> ResumeMyCertScreen(
+            certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
+            onDeleteClick = { showDialog = true },
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Init -> {}
+        is UiState.Loading -> {}
+    }
+
 }
 
 @Composable
 fun ResumeMyCertScreen(
     certifications: List<CertificationData>,
-    showDialog: Boolean,
     onDeleteClick: (Long) -> Unit,
-    onDialogConfirm: () -> Unit,
-    onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (showDialog) {
-        CertiDeleteDialog(
-            onConfirmClick = onDialogConfirm,
-            onDismissClick = onDialogDismiss
-        )
-    }
-
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(
@@ -157,10 +135,7 @@ private fun PreviewResumeMyCertScreen() {
     CERTITheme {
         ResumeMyCertScreen(
             certifications = dummyCertifications,
-            showDialog = showDialog,
             onDeleteClick = { showDialog = true },
-            onDialogConfirm = { showDialog = false },
-            onDialogDismiss = { showDialog = false }
         )
     }
 }
