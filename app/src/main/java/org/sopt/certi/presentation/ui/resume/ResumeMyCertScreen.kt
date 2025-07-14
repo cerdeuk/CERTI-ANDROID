@@ -79,7 +79,7 @@ fun ResumeMyCertRoute(
 fun ResumeMyCertScreen(
     certifications: List<CertificationData>,
     showDialog: Boolean,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onDialogConfirm: () -> Unit,
     onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
