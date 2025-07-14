@@ -14,11 +14,15 @@ data class UserInformationAuth(
 
 data class SignUpResult(
     val userId: Long,
-    val nickName: Long,
-    val university: Long,
+    val nickName: String,
+    val university: String,
     val trackType: String,
     val major: String,
     val jobs: List<String>,
+    val jwtResponse: JwtResponse
+)
+
+data class JwtResponse(
     val accessToken: String,
     val refreshToken: String
 )

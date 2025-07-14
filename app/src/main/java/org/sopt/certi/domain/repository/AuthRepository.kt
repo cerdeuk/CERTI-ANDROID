@@ -8,7 +8,7 @@ interface AuthRepository {
     suspend fun signIn(accessToken: String, socialType: String): Result<UserAuth>
     suspend fun signUp(
         preSignupToken: String,
-        userInformation: UserInformationAuth,
+        userInformation: UserInformationAuth?,
         university: String,
         grade: String,
         track: String,

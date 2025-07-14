@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import org.sopt.certi.presentation.type.SelectableButtonType
 import org.sopt.certi.presentation.ui.onboarding.component.OnBoardingSelectableButtons
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import timber.log.Timber
 
 @Composable
 fun OnBoardingJobCategoryRoute(
@@ -36,14 +38,20 @@ fun OnBoardingJobCategoryRoute(
     viewModel: OnBoardingViewModel
 ) {
     val jobCategory by viewModel.jobCategory.collectAsStateWithLifecycle()
+    val signUpSuccess by viewModel.signUpSuccess.collectAsStateWithLifecycle()
+    val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
+
+    LaunchedEffect(signUpSuccess, userInfo) {
+        Timber.tag("ㅋㅋㅋ").d("$signUpSuccess $userInfo")
+        if (signUpSuccess && userInfo != null) {
+            navigateToOnBoardingInfo()
+        }
+    }
 
     OnBoardingJobCategoryScreen(
         selectedJobCategory = jobCategory,
         onJobCategoryChanged = viewModel::onJobCategoryChanged,
-        onSignUpClick = {
-            viewModel.postSignUp()
-            navigateToOnBoardingInfo()
-        },
+        onSignUpClick = { viewModel.postSignUp() },
         modifier = Modifier.padding(padding)
     )
 }

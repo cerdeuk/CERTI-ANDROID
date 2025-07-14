@@ -10,7 +10,7 @@ data class SignInResponseDto(
     @SerialName("preSignupToken")
     val preSignupToken: String? = null,
     @SerialName("userInformation")
-    val userInformation: UserInformationDto?=null,
+    val userInformation: UserInformationDto? = null,
     @SerialName("userId")
     val userId: Long? = null,
     @SerialName("nickName")

@@ -50,8 +50,11 @@ fun LoginRoute(
                     viewModel.signInWithKakaoToken(
                         token = token,
                         onSuccess = { needSignUp ->
-                            if (needSignUp) navigateToOnBoarding()
-                            else navigateToHome()
+                            if (needSignUp) {
+                                navigateToOnBoarding()
+                            } else {
+                                navigateToHome()
+                            }
                         },
                         onFailure = { error ->
                             Timber.e(error)

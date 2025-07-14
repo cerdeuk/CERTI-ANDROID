@@ -8,9 +8,9 @@ data class SignUpResponseDto(
     @SerialName("userId")
     val userId: Long,
     @SerialName("nickName")
-    val nickName: Long,
+    val nickName: String,
     @SerialName("university")
-    val university: Long,
+    val university: String,
     @SerialName("trackType")
     val trackType: String,
     @SerialName("major")

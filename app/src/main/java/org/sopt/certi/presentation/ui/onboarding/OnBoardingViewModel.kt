@@ -10,16 +10,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.UserInfoData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
@@ -40,6 +42,9 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _userInfo = MutableStateFlow<UserInfoData?>(null)
     val userInfo: StateFlow<UserInfoData?> = _userInfo.asStateFlow()
+
+    private val _signUpSuccess = MutableStateFlow(false)
+    val signUpSuccess: StateFlow<Boolean> = _signUpSuccess.asStateFlow()
 
     val onBoardingUnivUiState: StateFlow<OnBoardingUnivUiState> =
         combine(
@@ -120,9 +125,9 @@ class OnBoardingViewModel @Inject constructor(
         _submittedMajorSearchText.value = majorSearchText
         val majorList = {
             listOf(
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
+                "컴퓨터공학과",
+                "컴퓨터공학부",
+                "교육학",
                 "뿡뿡대학교",
                 "건국대학교",
                 "홍익대학교",
@@ -163,14 +168,34 @@ class OnBoardingViewModel @Inject constructor(
 
     fun postSignUp() {
         viewModelScope.launch {
-            val result = UserInfoData(
-                name = "김서티",
-                university = _univSearchText.value,
-                track = _track.value ?: "",
-                major = _majorSearchText.value,
-                category = _jobCategory.value
+            val preSignUpToken = tokenManager.getPreSignupToken()
+            val userInfo = tokenManager.getUserInformation()
+
+            signUpUseCase(
+                preSignupToken = preSignUpToken,
+                userInformation = userInfo,
+                university = _submittedUnivSearchText.value,
+                grade = grade.value.toString(),
+                track = track.value.toString(),
+                major = _submittedMajorSearchText.value,
+                jobs = jobCategory.value
+            ).fold(
+                onSuccess = { signUpResult ->
+                    _userInfo.value = UserInfoData(
+                        name = signUpResult.nickName,
+                        university = signUpResult.university,
+                        major = signUpResult.major,
+                        category = signUpResult.jobs,
+                        track = signUpResult.trackType
+                    )
+                    tokenManager.saveToken(signUpResult.jwtResponse.accessToken)
+                    tokenManager.saveRefreshToken(signUpResult.jwtResponse.refreshToken)
+                    _signUpSuccess.value = true
+                },
+                onFailure = {
+                    _signUpSuccess.value = false
+                }
             )
-            _userInfo.value = result
         }
     }
 }
