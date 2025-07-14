@@ -1,7 +1,7 @@
 package org.sopt.certi.domain.repository
 
-import org.sopt.certi.domain.model.UserPreAuth
+import org.sopt.certi.domain.model.UserAuth
 
 interface AuthRepository {
-    suspend fun signIn(accessToken: String, socialType: String): Result<UserPreAuth>
+    suspend fun signIn(accessToken: String, socialType: String): Result<UserAuth>
 }

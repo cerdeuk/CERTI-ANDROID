@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.model
 
-data class UserPreAuth(
+data class UserAuth(
     val needSignUp: Boolean,
     val preSignupToken: String,
     val userInformation: UserInformationAuth

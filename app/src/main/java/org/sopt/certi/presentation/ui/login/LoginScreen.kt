@@ -30,21 +30,37 @@ import org.sopt.certi.presentation.ui.login.component.BouncingImage
 import org.sopt.certi.presentation.ui.login.component.SocialLoginButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import timber.log.Timber
 
 @Composable
 fun LoginRoute(
     padding: PaddingValues,
     navigateToOnBoarding: () -> Unit,
     navigateToHome: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    kakaoLoginManager: KakaoLoginManager = KakaoLoginManager()
 ) {
     val context = LocalContext.current
 
     LoginScreen(
         padding = padding,
         onKakaoLoginClick = {
-//            viewModel.loginWithKakao(context) : 추후 카카오 로그인 구현 시 사용
-            navigateToOnBoarding()
+            kakaoLoginManager.login(context) { result ->
+                result.onSuccess { token ->
+                    viewModel.signInWithKakaoToken(
+                        token = token,
+                        onSuccess = { needSignUp ->
+                            if (needSignUp) navigateToOnBoarding()
+                            else navigateToHome()
+                        },
+                        onFailure = { error ->
+                            Timber.e(error)
+                        }
+                    )
+                }.onFailure { error ->
+                    Timber.e(error)
+                }
+            }
         },
         onGoogleLoginClick = { navigateToHome() }
     )

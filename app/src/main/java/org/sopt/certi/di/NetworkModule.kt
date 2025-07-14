@@ -9,10 +9,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.Authenticator
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.certi.BuildConfig
+import org.sopt.certi.core.network.TokenManager
 import retrofit2.Retrofit
 
 @Module
@@ -32,13 +34,15 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providesOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authorizationInterceptor: okhttp3.Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder().apply {
             connectTimeout(10, TimeUnit.SECONDS)
             writeTimeout(10, TimeUnit.SECONDS)
             readTimeout(10, TimeUnit.SECONDS)
             addInterceptor(loggingInterceptor)
+            addInterceptor(authorizationInterceptor)
             addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Accept", "*/*")
@@ -46,6 +50,30 @@ object NetworkModule {
                 chain.proceed(request)
             }
         }.build()
+
+    @Provides
+    @Singleton
+    fun providesAuthorizationInterceptor(
+        tokenManager: TokenManager
+    ): okhttp3.Interceptor = okhttp3.Interceptor { chain ->
+        val request = chain.request()
+        val url = request.url.toString()
+
+        if (!shouldAddAuthorization(url)) {
+            return@Interceptor chain.proceed(request)
+        }
+
+        val token = tokenManager.getToken()
+
+        val newRequest = chain.request().newBuilder()
+            .addHeader("Authorization", token)
+            .build()
+        chain.proceed(newRequest)
+    }
+
+    private fun shouldAddAuthorization(url: String): Boolean {
+        return !url.contains("/api/v1/auth/sign-in") && !url.contains("/api/v1/auth/sign-up")
+    }
 
     @Provides
     @Singleton
