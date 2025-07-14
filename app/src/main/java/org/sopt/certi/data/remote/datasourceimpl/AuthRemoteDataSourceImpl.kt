@@ -1,0 +1,15 @@
+package org.sopt.certi.data.remote.datasourceimpl
+
+import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
+import org.sopt.certi.data.remote.dto.base.ApiResponse
+import org.sopt.certi.data.remote.dto.request.SignInRequestDto
+import org.sopt.certi.data.remote.dto.response.SignInResponseDto
+import org.sopt.certi.data.remote.service.AuthService
+import javax.inject.Inject
+
+class AuthRemoteDataSourceImpl @Inject constructor(
+    private val authService: AuthService
+): AuthRemoteDataSource{
+    override suspend fun signIn(signInRequest: SignInRequestDto): ApiResponse<SignInResponseDto> =
+        authService.signIn(signInRequest = signInRequest)
+}
