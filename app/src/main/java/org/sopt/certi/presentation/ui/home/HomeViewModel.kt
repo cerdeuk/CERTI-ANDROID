@@ -159,7 +159,17 @@ class HomeViewModel @Inject constructor(
         _favoriteListLoadState.value = UiState.Success(favoriteList())
     }
 
-    fun onFavoriteClicked() {
-        _isFavorite.value = !_isFavorite.value
+    fun onFavoriteClicked(certificationId: Long) {
+        val current = _favoriteListLoadState.value
+        if (current is UiState.Success) {
+            val updated = current.data.map {
+                if (it.certificationId == certificationId) {
+                    it.copy(isFavorite = !it.isFavorite)
+                } else {
+                    it
+                }
+            }
+            _favoriteListLoadState.value = UiState.Success(updated)
+        }
     }
 }

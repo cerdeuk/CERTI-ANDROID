@@ -156,7 +156,7 @@ fun HomeScreen(
     recommendedList: List<CertificationData>,
     preCertificationList: List<CertificationData>,
     favoriteCertificationList: List<CertificationData>,
-    onFavoriteClicked: () -> Unit,
+    onFavoriteClicked: (Long) -> Unit,
     onDetailClick: () -> Unit,
     navigateToCertRecommend: () -> Unit,
     navigateToPreCerti: () -> Unit,
@@ -278,7 +278,6 @@ fun HomeScreen(
                         )
                         FavoriteCertificationListSection(
                             favoriteCertificationList = favoriteCertificationList,
-                            isFavorite = homeUiState.isFavorite,
                             onFavoriteClicked = onFavoriteClicked,
                             modifier = modifier
                         )
