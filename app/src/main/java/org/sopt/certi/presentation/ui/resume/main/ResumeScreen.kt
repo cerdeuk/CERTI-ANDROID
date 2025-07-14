@@ -68,7 +68,7 @@ fun ResumeRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                is ResumeSideEffect.ShowCertificationDetailModal -> {
+                ResumeSideEffect.ShowCertificationDetailModal -> {
                     showDialog.value = true
                 }
                 ResumeSideEffect.HideCertificationDetailModal -> {
@@ -78,7 +78,7 @@ fun ResumeRoute(
         }
     }
 
-    if (showDialog.value){
+    if (showDialog.value) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
             userInfo = userInfo,

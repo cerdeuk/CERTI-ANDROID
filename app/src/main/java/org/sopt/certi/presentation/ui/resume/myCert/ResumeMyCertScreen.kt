@@ -18,7 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import okhttp3.internal.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
@@ -27,6 +29,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.resume.component.ResumeMyCertiListItem
+import org.sopt.certi.presentation.ui.resume.myCert.sideEffect.MyCertSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -37,19 +40,30 @@ fun ResumeMyCertRoute(
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getMyCertList()
     }
 
-    if (uiState.showDeleteDialog) {
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                MyCertSideEffect.HideDeleteDialog -> showDialog.value = false
+                MyCertSideEffect.ShowDeleteDialog -> showDialog.value = true
+            }
+        }
+    }
+
+    if (showDialog.value) {
         CertiDeleteDialog(
             onConfirmClick = { viewModel.onConfirmDelete() },
             onDismissClick = { viewModel.onDismissDeleteDialog() }
         )
     }
 
-    when (uiState.loadState) {
+    when (uiState.myCertListLoadState) {
         is UiState.Success -> ResumeMyCertScreen(
             certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
             onDeleteClick = { viewModel.onDeleteClick(it) },
