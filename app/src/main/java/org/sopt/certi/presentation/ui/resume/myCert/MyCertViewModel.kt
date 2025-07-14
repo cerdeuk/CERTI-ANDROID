@@ -3,16 +3,18 @@ package org.sopt.certi.presentation.ui.resume.myCert
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.presentation.ui.resume.myCert.sideEffect.MyCertSideEffect
 import org.sopt.certi.presentation.ui.resume.myCert.state.MyCertUiState
 import java.time.LocalDate
 import javax.inject.Inject
@@ -40,6 +42,9 @@ class MyCertViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = MyCertUiState(UiState.Loading)
     )
+
+    private val _sideEffect = Channel<MyCertSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun getMyCertList() {
         val acquiredCertificationList = {
@@ -89,7 +94,7 @@ class MyCertViewModel @Inject constructor(
         _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
     }
 
-    fun onDeleteClick(certificationId: Long) {
+    fun onDeleteClick(certificationId: Long) = viewModelScope.launch {
         _selectedCertificationId.value = certificationId
         _showDeleteDialog.value = true
     }

@@ -7,11 +7,4 @@ class MyCertUiState(
     val myCertListLoadState: UiState<List<CertificationData>>,
     val showDeleteDialog: Boolean = false,
     val selectedCertificationId: Long? = null
-) {
-    val loadState: UiState<Unit>
-        get() = when (myCertListLoadState) {
-            is UiState.Success -> UiState.Success(Unit)
-            is UiState.Loading -> UiState.Loading
-            else -> UiState.Empty
-        }
-}
+)
