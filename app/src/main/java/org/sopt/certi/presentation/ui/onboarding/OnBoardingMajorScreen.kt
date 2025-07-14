@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,12 +21,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.textfield.CertiBasicTextField
+import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.showIf
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -36,22 +43,26 @@ fun OnBoardingMajorRoute(
     navigateToJobCategory: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
-    var searchText by remember { mutableStateOf("") }
+    val uiState by viewModel.onBoardingMajorUiState.collectAsStateWithLifecycle()
 
     OnBoardingMajorScreen(
-        value = searchText,
-        onValueChange = { searchText = it },
-        onSearchClick = {},
+        onBoardingMajorUiState = uiState,
+        onValueChange = viewModel::onMajorSearchTextChange,
+        onSearchClick = { viewModel.getMajorList(uiState.majorSearchText) },
         navigateToJobCategory = navigateToJobCategory,
+        onMajorSelected = viewModel::selectMajor,
+        majorList = (uiState.majorListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
 fun OnBoardingMajorScreen(
-    value: String,
+    onBoardingMajorUiState: OnBoardingMajorUiState,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
+    onMajorSelected: (String) -> Unit,
+    majorList: ImmutableList<String>,
     navigateToJobCategory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -78,10 +89,46 @@ fun OnBoardingMajorScreen(
             Spacer(modifier = Modifier.padding(top = screenHeightDp(38.dp)))
 
             OnBoardingMajorSection(
-                value = value,
+                value = onBoardingMajorUiState.majorSearchText,
                 onValueChange = onValueChange,
                 onSearchClick = onSearchClick
             )
+
+            when (onBoardingMajorUiState.loadState) {
+                is UiState.Init -> {}
+                is UiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .showIf(
+                                condition = onBoardingMajorUiState.majorListLoadState is UiState.Success
+                            )
+                            .padding(bottom = screenHeightDp(60.dp))
+                    ) {
+                        items(majorList.size) { major ->
+                            Column(
+                                modifier = Modifier.noRippleClickable { onMajorSelected(majorList[major]) }
+                            ) {
+                                Text(
+                                    text = majorList[major],
+                                    style = CertiTheme.typography.body.regular_16,
+                                    color = CertiTheme.colors.black,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(20.dp))
+                                )
+                                HorizontalDivider(
+                                    color = CertiTheme.colors.gray100,
+                                    thickness = screenHeightDp(1.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                is UiState.Empty -> {}
+                is UiState.Failure -> {}
+                is UiState.Loading -> {}
+            }
         }
 
         CertiBasicButton(
@@ -92,7 +139,7 @@ fun OnBoardingMajorScreen(
                 .align(
                     alignment = Alignment.BottomCenter
                 ),
-            enabled = true
+            enabled = (onBoardingMajorUiState.majorSearchText.isNotBlank() && majorList.contains(onBoardingMajorUiState.majorSearchText))
         )
     }
 }
@@ -116,13 +163,5 @@ private fun OnBoardingMajorSection(
 @Composable
 private fun PreviewOnBoardingMajorScreen() {
     CERTITheme {
-        var text by remember { mutableStateOf("") }
-
-        OnBoardingMajorScreen(
-            value = text,
-            onValueChange = { text = it },
-            onSearchClick = {},
-            navigateToJobCategory = {}
-        )
     }
 }

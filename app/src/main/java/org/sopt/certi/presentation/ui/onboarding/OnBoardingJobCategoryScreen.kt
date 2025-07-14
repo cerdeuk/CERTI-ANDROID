@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.util.screenHeightDp
@@ -37,21 +35,24 @@ fun OnBoardingJobCategoryRoute(
     navigateToOnBoardingInfo: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
-    var selectedOptions by remember { mutableStateOf<List<String>>(emptyList()) }
+    val jobCategory by viewModel.jobCategory.collectAsStateWithLifecycle()
 
     OnBoardingJobCategoryScreen(
-        selectedOptions = selectedOptions,
-        onOptionsChanged = { options -> selectedOptions = options },
-        navigateToOnBoardingInfo = navigateToOnBoardingInfo,
+        selectedJobCategory = jobCategory,
+        onJobCategoryChanged = viewModel::onJobCategoryChanged,
+        onSignUpClick = {
+            viewModel.postSignUp()
+            navigateToOnBoardingInfo()
+        },
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
 fun OnBoardingJobCategoryScreen(
-    selectedOptions: List<String>,
-    onOptionsChanged: (List<String>) -> Unit,
-    navigateToOnBoardingInfo: () -> Unit,
+    selectedJobCategory: List<String>,
+    onJobCategoryChanged: (List<String>) -> Unit,
+    onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -85,36 +86,34 @@ fun OnBoardingJobCategoryScreen(
             Spacer(modifier = Modifier.padding(top = screenHeightDp(18.dp)))
 
             OnBoardingJobCategorySection(
-                selectedOptions = selectedOptions,
-                onOptionsChanged = onOptionsChanged
+                selectedJobCategory = selectedJobCategory,
+                onJobCategoryChanged = onJobCategoryChanged
             )
         }
 
         CertiBasicButton(
             buttonText = stringResource(R.string.button_next),
-            onClick = navigateToOnBoardingInfo,
+            onClick = onSignUpClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(
-                    alignment = Alignment.BottomCenter
-                ),
-            enabled = true
+                .align(alignment = Alignment.BottomCenter),
+            enabled = selectedJobCategory.isNotEmpty()
         )
     }
 }
 
 @Composable
 private fun OnBoardingJobCategorySection(
-    selectedOptions: List<String>,
-    onOptionsChanged: (List<String>) -> Unit,
+    selectedJobCategory: List<String>,
+    onJobCategoryChanged: (List<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OnBoardingSelectableButtons(
         selectableButtonType = SelectableButtonType.CATEGORY,
-        selectedOptions = selectedOptions,
+        selectedOptions = selectedJobCategory,
         isMultiple = true,
         maxSelect = 3,
-        onOptionsChanged = onOptionsChanged,
+        onOptionsChanged = onJobCategoryChanged,
         modifier = modifier
     )
 }
@@ -123,10 +122,5 @@ private fun OnBoardingJobCategorySection(
 @Composable
 private fun PreviewOnBoardingJobCategoryScreen() {
     CERTITheme {
-        OnBoardingJobCategoryScreen(
-            selectedOptions = listOf("2"),
-            onOptionsChanged = {},
-            navigateToOnBoardingInfo = {}
-        )
     }
 }
