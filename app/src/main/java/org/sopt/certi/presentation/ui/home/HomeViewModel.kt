@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
             favoriteListLoadState = favorite,
             isFavorite = isFavorite
 
-    )
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -78,7 +78,6 @@ class HomeViewModel @Inject constructor(
             category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
         )
         _userInfoLoadState.value = UiState.Success(userInfo)
-
     }
 
     fun getRecommendedList() {
@@ -106,7 +105,6 @@ class HomeViewModel @Inject constructor(
         }
 
         _recommendedListLoadState.value = UiState.Success(recommendedList())
-
     }
     fun getPreCertList() {
         val preCertList = {
@@ -138,7 +136,6 @@ class HomeViewModel @Inject constructor(
             )
         }
         _preCertificationListLoadState.value = UiState.Success(preCertList())
-
     }
     fun getFavoriteList(isFavorite: Boolean) {
         val favoriteList = {
@@ -160,11 +157,9 @@ class HomeViewModel @Inject constructor(
             )
         }
         _favoriteListLoadState.value = UiState.Success(favoriteList())
-
     }
 
     fun onFavoriteClicked() {
         _isFavorite.value = !_isFavorite.value
     }
-
 }

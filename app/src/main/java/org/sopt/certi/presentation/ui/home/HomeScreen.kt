@@ -16,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,7 +33,6 @@ import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -139,8 +137,8 @@ fun HomeRoute(
             preCertificationList = (uiState.preCertificationListLoadState as UiState.Success).data.toImmutableList(),
             favoriteCertificationList = (uiState.favoriteListLoadState as UiState.Success).data.toImmutableList(),
             onFavoriteClicked = viewModel::onFavoriteClicked,
-            onDetailClick = {  },
-            navigateToCertRecommend = {  },
+            onDetailClick = { },
+            navigateToCertRecommend = { },
             navigateToPreCerti = navigateToPreCerti,
             modifier = Modifier.padding(padding)
         )
@@ -150,8 +148,6 @@ fun HomeRoute(
         is UiState.Init -> {}
     }
 }
-
-
 
 @Composable
 fun HomeScreen(
@@ -296,7 +292,6 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewHomeScreen() {
-
     CERTITheme {
     }
 }
