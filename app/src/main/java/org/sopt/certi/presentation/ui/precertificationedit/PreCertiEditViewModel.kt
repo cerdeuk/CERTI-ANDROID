@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.precertificationedit
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,10 +11,8 @@ import kotlinx.coroutines.flow.stateIn
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
-import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import org.sopt.certi.presentation.ui.precertificationedit.state.PreCertiEditUiState
 import javax.inject.Inject
-
 
 @HiltViewModel
 class PreCertiEditViewModel @Inject constructor(
@@ -95,12 +92,10 @@ class PreCertiEditViewModel @Inject constructor(
 
         _showDialog.value = false
         _selectedDeleteItem.value = null
-
     }
 
     fun onDialogDismiss() {
         _showDialog.value = false
         _selectedDeleteItem.value = null
-
     }
 }

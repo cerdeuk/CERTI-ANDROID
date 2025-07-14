@@ -6,7 +6,7 @@ import org.sopt.certi.domain.model.CertificationData
 data class PreCertiEditUiState(
     val preCertiListLoadState: UiState<List<CertificationData>>,
     val showDialog: Boolean,
-    val selectedDeleteItem: Long? = null,
+    val selectedDeleteItem: Long? = null
 ) {
     val loadState: UiState<Unit>
         get() = when (preCertiListLoadState) {
