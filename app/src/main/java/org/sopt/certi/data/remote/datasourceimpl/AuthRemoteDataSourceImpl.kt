@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class AuthRemoteDataSourceImpl @Inject constructor(
     private val authService: AuthService
-): AuthRemoteDataSource{
-    override suspend fun signIn(signInRequest: SignInRequestDto): ApiResponse<SignInResponseDto> =
-        authService.signIn(signInRequest = signInRequest)
+) : AuthRemoteDataSource {
+    override suspend fun signIn(accessToken: String, socialType: String): ApiResponse<SignInResponseDto> =
+        authService.signIn(signInRequest = SignInRequestDto(accessToken, socialType))
 }
