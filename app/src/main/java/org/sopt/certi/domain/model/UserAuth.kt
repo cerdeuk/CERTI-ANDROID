@@ -11,3 +11,14 @@ data class UserInformationAuth(
     val nickname: String,
     val profileImageUrl: String
 )
+
+data class SignUpResult(
+    val userId: Long,
+    val nickName: Long,
+    val university: Long,
+    val trackType: String,
+    val major: String,
+    val jobs: List<String>,
+    val accessToken: String,
+    val refreshToken: String
+)
