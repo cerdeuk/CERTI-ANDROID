@@ -20,16 +20,12 @@ class HomeViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
-    val userInfoLoadState: StateFlow<UiState<UserInfoData>> = _userInfoLoadState
 
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    val recommendedListLoadState: StateFlow<UiState<List<CertificationData>>> = _recommendedListLoadState
 
     private val _preCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    val preCertListLoadState: StateFlow<UiState<List<CertificationData>>> = _preCertificationListLoadState
 
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    val favoriteListLoadState: StateFlow<UiState<List<CertificationData>>> = _favoriteListLoadState
 
     private val _isFavorite = MutableStateFlow(true)
     val isFavorite: StateFlow<Boolean> = _isFavorite
@@ -51,7 +47,7 @@ class HomeViewModel @Inject constructor(
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
+        started = SharingStarted.WhileSubscribed(5000L),
         initialValue = HomeUiState(
             userInfoLoadState = UiState.Loading,
             recommendedListLoadState = UiState.Loading,
