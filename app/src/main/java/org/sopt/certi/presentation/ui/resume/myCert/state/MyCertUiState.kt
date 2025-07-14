@@ -6,4 +6,12 @@ import org.sopt.certi.domain.model.CertificationData
 data class MyCertUiState(
     val myCertListLoadState: UiState<List<CertificationData>>,
     val selectedCertificationId: Long?
-)
+) {
+    val loadState: UiState<Unit>
+        get() = when (myCertListLoadState) {
+            is UiState.Success -> UiState.Success(Unit)
+            is UiState.Failure -> UiState.Failure("fail to load data")
+            is UiState.Loading -> UiState.Loading
+            else -> UiState.Empty
+        }
+}
