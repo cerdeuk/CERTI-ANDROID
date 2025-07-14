@@ -59,9 +59,10 @@ fun ResumeMyCertRoute(
     when (uiState.loadState) {
         is UiState.Success -> ResumeMyCertScreen(
             certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
-            onDeleteClick = {certificationId ->
+            onDeleteClick = { certificationId ->
                 selectedCertificationId = certificationId
-                showDialog = true },
+                showDialog = true
+            },
             modifier = Modifier.padding(padding)
         )
         is UiState.Empty -> {}
@@ -142,7 +143,7 @@ private fun PreviewResumeMyCertScreen() {
     CERTITheme {
         ResumeMyCertScreen(
             certifications = dummyCertifications,
-            onDeleteClick = { showDialog = true },
+            onDeleteClick = { showDialog = true }
         )
     }
 }

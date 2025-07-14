@@ -7,8 +7,9 @@ class MyCertUiState(
     val myCertListLoadState: UiState<List<CertificationData>>
 ) {
     val loadState: UiState<Unit>
-        get() = when {
-            myCertListLoadState is UiState.Success -> UiState.Success(Unit)
+        get() = when (myCertListLoadState) {
+            is UiState.Success -> UiState.Success(Unit)
+            is UiState.Loading -> UiState.Loading
             else -> UiState.Empty
         }
 }

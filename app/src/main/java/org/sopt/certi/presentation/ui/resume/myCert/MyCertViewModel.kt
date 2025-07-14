@@ -77,5 +77,5 @@ class MyCertViewModel @Inject constructor(
         _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
     }
 
-    fun onDeleteClick(certificationId: Long){}
+    fun onDeleteClick(certificationId: Long) {}
 }
