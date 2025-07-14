@@ -97,12 +97,14 @@ fun ResumeRoute(
         major = ""
     )
 
-    if (showModal && selectedCert != null) {
-        FlipCardOverlay(
-            certificationData = selectedCert!!,
-            userInfo = userInfo,
-            onDismiss = { viewModel.onCertificationDetailDismiss() }
-        )
+    if (showModal) {
+        selectedCert?.let { cert ->
+            FlipCardOverlay(
+                certificationData = cert,
+                userInfo = userInfo,
+                onDismiss = { viewModel.onCertificationDetailDismiss() }
+            )
+        }
     }
 }
 
