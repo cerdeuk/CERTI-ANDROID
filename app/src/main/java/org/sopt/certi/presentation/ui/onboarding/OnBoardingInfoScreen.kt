@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.chip.CertiDefaultChip
@@ -28,6 +29,7 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.UserInfoData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import androidx.compose.runtime.getValue
 
 @Composable
 fun OnBoardingInfoRoute(
@@ -35,19 +37,15 @@ fun OnBoardingInfoRoute(
     navigateToHome: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
-    val userInfo = UserInfoData(
-        name = "김서티",
-        university = "솝트대학교",
-        major = "경영학과",
-        track = "인문계열",
-        category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
-    )
+    val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
 
-    OnBoardingInfoScreen(
-        userInfo = userInfo,
-        navigateToHome = navigateToHome,
-        modifier = Modifier.padding(padding)
-    )
+    userInfo?.let {
+        OnBoardingInfoScreen(
+            userInfo = it,
+            navigateToHome = navigateToHome,
+            modifier = Modifier.padding(padding)
+        )
+    }
 }
 
 @Composable
