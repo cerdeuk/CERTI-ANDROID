@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.home.component
+package org.sopt.certi.presentation.ui.precertificationedit.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -158,7 +158,7 @@ fun PreCertificationItem(
                 .widthForScreenPercentage(36.dp)
                 .heightForScreenPercentage(36.dp)
                 .showIf(onDelete != null)
-                .noRippleClickable { onDelete }
+                .noRippleClickable { onDelete?.invoke() }
         )
     }
 }
