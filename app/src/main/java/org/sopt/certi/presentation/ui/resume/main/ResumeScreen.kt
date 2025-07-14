@@ -78,7 +78,7 @@ fun ResumeRoute(
         }
     }
 
-    if (showDialog.value){
+    if (showDialog.value) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
             userInfo = userInfo,

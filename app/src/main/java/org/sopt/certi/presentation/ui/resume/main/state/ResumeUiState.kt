@@ -13,20 +13,20 @@ data class ResumeUiState(
 ) {
     val loadState: UiState<Unit>
         get() = when {
-            jobCategoryLoadState is UiState.Success
-                    && acquiredCertificationListLoadState is UiState.Success
-                    && experienceListLoadState is UiState.Success
-                    && activityListLoadState is UiState.Success -> UiState.Success(Unit)
+            jobCategoryLoadState is UiState.Success &&
+                acquiredCertificationListLoadState is UiState.Success &&
+                experienceListLoadState is UiState.Success &&
+                activityListLoadState is UiState.Success -> UiState.Success(Unit)
 
-            jobCategoryLoadState is UiState.Failure
-                    || acquiredCertificationListLoadState is UiState.Failure
-                    || experienceListLoadState is UiState.Failure
-                    || activityListLoadState is UiState.Failure -> UiState.Failure("fail to load data")
+            jobCategoryLoadState is UiState.Failure ||
+                acquiredCertificationListLoadState is UiState.Failure ||
+                experienceListLoadState is UiState.Failure ||
+                activityListLoadState is UiState.Failure -> UiState.Failure("fail to load data")
 
-            jobCategoryLoadState is UiState.Loading
-                    || acquiredCertificationListLoadState is UiState.Loading
-                    || experienceListLoadState is UiState.Loading
-                    || activityListLoadState is UiState.Loading -> UiState.Loading
+            jobCategoryLoadState is UiState.Loading ||
+                acquiredCertificationListLoadState is UiState.Loading ||
+                experienceListLoadState is UiState.Loading ||
+                activityListLoadState is UiState.Loading -> UiState.Loading
 
             else -> UiState.Empty
         }
