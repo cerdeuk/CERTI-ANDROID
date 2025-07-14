@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume.siddeffect
+package org.sopt.certi.presentation.ui.resume.main.sideEffect
 
 import org.sopt.certi.domain.model.CertificationData
 

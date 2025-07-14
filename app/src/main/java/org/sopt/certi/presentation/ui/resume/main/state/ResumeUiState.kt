@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume.state
+package org.sopt.certi.presentation.ui.resume.main.state
 
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData

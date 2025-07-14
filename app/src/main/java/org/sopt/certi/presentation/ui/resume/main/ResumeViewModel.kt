@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume
+package org.sopt.certi.presentation.ui.resume.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,8 +14,8 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
-import org.sopt.certi.presentation.ui.resume.siddeffect.ResumeSideEffect
-import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
+import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
+import org.sopt.certi.presentation.ui.resume.main.state.ResumeUiState
 import java.time.LocalDate
 import javax.inject.Inject
 
