@@ -13,10 +13,8 @@ data class SignInResponseDto(
     val userInformation: UserInformationDto?=null,
     @SerialName("userId")
     val userId: Long? = null,
-
     @SerialName("nickName")
     val nickName: String? = null,
-
     @SerialName("tokenResponse")
     val tokenResponse: TokenResponseDto? = null
 )
@@ -29,13 +27,4 @@ data class UserInformationDto(
     val nickname: String,
     @SerialName("profileImageUrl")
     val profileImageUrl: String
-)
-
-
-@Serializable
-data class TokenResponseDto(
-    @SerialName("accessToken")
-    val accessToken: String,
-    @SerialName("refreshToken")
-    val refreshToken: String
 )
