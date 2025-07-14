@@ -6,8 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
@@ -20,9 +22,19 @@ class MyCertViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase
 ) : ViewModel() {
     private val _myCertListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
+    private val _showDeleteDialog = MutableStateFlow(false)
+    private val _selectedCertificationId = MutableStateFlow<Long?>(null)
 
-    val myCertUiState: StateFlow<MyCertUiState> = _myCertListLoadState.map { loadState ->
-        MyCertUiState(myCertListLoadState = loadState)
+    val myCertUiState: StateFlow<MyCertUiState> = combine(
+        _myCertListLoadState,
+        _showDeleteDialog,
+        _selectedCertificationId
+    ) { listState, dialogVisible, selectedId ->
+        MyCertUiState(
+            myCertListLoadState = listState,
+            showDeleteDialog = dialogVisible,
+            selectedCertificationId = selectedId
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -77,5 +89,19 @@ class MyCertViewModel @Inject constructor(
         _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
     }
 
-    fun onDeleteClick(certificationId: Long) {}
+    fun onDeleteClick(certificationId: Long) {
+        _selectedCertificationId.value = certificationId
+        _showDeleteDialog.value = true
+    }
+
+    fun onDismissDeleteDialog() {
+        _showDeleteDialog.value = false
+        _selectedCertificationId.value = null
+    }
+
+    fun onConfirmDelete() {
+        val id = _selectedCertificationId.value ?: return
+        _showDeleteDialog.value = false
+        _selectedCertificationId.value = null
+    }
 }

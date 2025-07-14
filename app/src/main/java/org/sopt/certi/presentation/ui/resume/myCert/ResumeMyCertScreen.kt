@@ -37,32 +37,22 @@ fun ResumeMyCertRoute(
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
-    var showDialog by remember { mutableStateOf(false) }
-    var selectedCertificationId by remember { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.getMyCertList()
     }
 
-    if (showDialog) {
+    if (uiState.showDeleteDialog) {
         CertiDeleteDialog(
-            onConfirmClick = {
-                selectedCertificationId?.let { id ->
-                    viewModel.onDeleteClick(id)
-                }
-                showDialog = false
-            },
-            onDismissClick = { showDialog = false }
+            onConfirmClick = { viewModel.onConfirmDelete() },
+            onDismissClick = { viewModel.onDismissDeleteDialog() }
         )
     }
 
     when (uiState.loadState) {
         is UiState.Success -> ResumeMyCertScreen(
             certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
-            onDeleteClick = { certificationId ->
-                selectedCertificationId = certificationId
-                showDialog = true
-            },
+            onDeleteClick = { viewModel.onDeleteClick(it) },
             modifier = Modifier.padding(padding)
         )
         is UiState.Empty -> {}
