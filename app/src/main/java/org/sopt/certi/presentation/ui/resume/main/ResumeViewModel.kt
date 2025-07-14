@@ -3,11 +3,12 @@ package org.sopt.certi.presentation.ui.resume.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
@@ -27,33 +28,37 @@ class ResumeViewModel @Inject constructor(
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
+    private val _selectedCertDetail = MutableStateFlow<UiState<CertificationData>>(UiState.Loading)
 
     val resumeUiState: StateFlow<ResumeUiState> =
         combine(
             _jobCategoryLoadState,
             _acquiredCertificationListLoadState,
             _experienceListLoadState,
-            _activityListLoadState
-        ) { jobCategory, certList, experience, activity ->
+            _activityListLoadState,
+            _selectedCertDetail
+        ) { jobCategory, certList, experience, activity, certDetail ->
             ResumeUiState(
                 jobCategoryLoadState = jobCategory,
                 acquiredCertificationListLoadState = certList,
                 experienceListLoadState = experience,
-                activityListLoadState = activity
+                activityListLoadState = activity,
+                selectedCertDetail = certDetail
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ResumeUiState(
-                jobCategoryLoadState = UiState.Init,
-                acquiredCertificationListLoadState = UiState.Init,
-                experienceListLoadState = UiState.Init,
-                activityListLoadState = UiState.Init
+                jobCategoryLoadState = UiState.Loading,
+                acquiredCertificationListLoadState = UiState.Loading,
+                experienceListLoadState = UiState.Loading,
+                activityListLoadState = UiState.Loading,
+                selectedCertDetail = UiState.Loading
             )
         )
 
-    private val _sideEffect = MutableSharedFlow<ResumeSideEffect>()
-    val sideEffect = _sideEffect
+    private val _sideEffect = Channel<ResumeSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun getResumeData() {
         getJobCategory()
@@ -189,11 +194,10 @@ class ResumeViewModel @Inject constructor(
         _activityListLoadState.value = UiState.Success(activityList().take(4))
     }
 
-    fun onCertificationClick(selectedCertificationId: Long) {
-        viewModelScope.launch {
-            val detail = getCertificationDetail(selectedCertificationId)
-            _sideEffect.emit(ResumeSideEffect.ShowCertificationDetailModal(detail))
-        }
+    fun onCertificationClick(selectedCertificationId: Long) = viewModelScope.launch {
+        val detail = getCertificationDetail(selectedCertificationId)
+        _selectedCertDetail.value = UiState.Success(detail)
+        _sideEffect.send(ResumeSideEffect.ShowCertificationDetailModal)
     }
 
     private fun getCertificationDetail(selectedCertificationId: Long): CertificationData {
@@ -212,7 +216,7 @@ class ResumeViewModel @Inject constructor(
 
     fun onCertificationDetailDismiss() {
         viewModelScope.launch {
-            _sideEffect.emit(ResumeSideEffect.HideCertificationDetailModal)
+            _sideEffect.send(ResumeSideEffect.HideCertificationDetailModal)
         }
     }
 }
