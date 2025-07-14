@@ -114,7 +114,7 @@ class ResumeViewModel @Inject constructor(
                 )
             )
         }
-        _acquiredCertificationListLoadState.value = UiState.Success(acquiredCertificationList())
+        _acquiredCertificationListLoadState.value = UiState.Success(acquiredCertificationList().take(3))
     }
 
     private fun getExperienceList() {
@@ -136,27 +136,67 @@ class ResumeViewModel @Inject constructor(
                 )
             )
         }
-        _experienceListLoadState.value = UiState.Success(experienceList())
+        _experienceListLoadState.value = UiState.Success(experienceList().take(4))
     }
 
     private fun getActivityList() {
         val activityList = {
-            emptyList<ActivityData>()
+            listOf(
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                ),
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                ),
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                ),
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                ),
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                ),
+                ActivityData(
+                    startAt = "2021.11",
+                    endAt = "2022.01",
+                    organization = "sopt",
+                    role = "동아리 36기 기획",
+                    description = "서비스 기획 및 아이디어 도출"
+                )
+            )
         }
-        _activityListLoadState.value = UiState.Success(activityList())
+        _activityListLoadState.value = UiState.Success(activityList().take(4))
     }
 
     fun onCertificationClick(selectedCertificationId: Long) {
         viewModelScope.launch {
             val detail = getCertificationDetail(selectedCertificationId)
-
-            detail?.let {
-                _sideEffect.emit(ResumeSideEffect.ShowCertificationDetailModal(it))
-            }
+            _sideEffect.emit(ResumeSideEffect.ShowCertificationDetailModal(detail))
         }
     }
 
-    private fun getCertificationDetail(selectedCertificationId: Long): CertificationData? {
+    private fun getCertificationDetail(selectedCertificationId: Long): CertificationData {
         val certificationData = CertificationData(
             certificationId = 1,
             certificationName = "GTQ 1급 (그래픽기술자격)",
