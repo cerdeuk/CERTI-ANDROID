@@ -27,22 +27,17 @@ class HomeViewModel @Inject constructor(
 
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
 
-    private val _isFavorite = MutableStateFlow(true)
-    val isFavorite: StateFlow<Boolean> = _isFavorite
-
     val homeUiState: StateFlow<HomeUiState> = combine(
         _userInfoLoadState,
         _recommendedListLoadState,
         _preCertificationListLoadState,
-        _favoriteListLoadState,
-        _isFavorite
-    ) { userInfo, recommended, preCerti, favorite, isFavorite ->
+        _favoriteListLoadState
+    ) { userInfo, recommended, preCerti, favorite ->
         HomeUiState(
             userInfoLoadState = userInfo,
             recommendedListLoadState = recommended,
             preCertificationListLoadState = preCerti,
-            favoriteListLoadState = favorite,
-            isFavorite = isFavorite
+            favoriteListLoadState = favorite
         )
     }.stateIn(
         scope = viewModelScope,
