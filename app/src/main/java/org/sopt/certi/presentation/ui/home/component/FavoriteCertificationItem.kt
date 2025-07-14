@@ -38,7 +38,6 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun FavoriteCertificationListSection(
     favoriteCertificationList: List<CertificationData>,
-    isFavorite: Boolean,
     onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -51,7 +50,6 @@ fun FavoriteCertificationListSection(
         items(favoriteCertificationList) { item ->
             FavoriteCertificationItem(
                 favoriteCertificationData = item,
-                isFavorite = isFavorite,
                 onFavoriteClicked = onFavoriteClicked
             )
         }
@@ -61,7 +59,6 @@ fun FavoriteCertificationListSection(
 @Composable
 fun FavoriteCertificationItem(
     favoriteCertificationData: CertificationData,
-    isFavorite: Boolean,
     onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -95,7 +92,7 @@ fun FavoriteCertificationItem(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_star_24),
                     contentDescription = null,
-                    tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
+                    tint = if (favoriteCertificationData.isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
                         .width(screenWidthDp(24.dp))
                         .height(screenHeightDp(24.dp))
@@ -174,7 +171,6 @@ fun FavoriteCertificationItemPreview() {
             testType = "실기형",
             agencyName = "한국산업인력공단"
         ),
-        isFavorite = isFavorite,
         onFavoriteClicked = { isFavorite = !isFavorite }
     )
 }
