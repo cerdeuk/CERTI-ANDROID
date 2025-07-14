@@ -38,10 +38,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.presentation.ui.home.state.HomeUiState
 
 @Composable
 fun HomeRoute(
@@ -52,15 +54,15 @@ fun HomeRoute(
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState.isFavorite) {
-        viewModel.getuserInfo()
+    LaunchedEffect(Unit) {
+        viewModel.getUserInfo()
         viewModel.getRecommendedList()
         viewModel.getPreCertList()
-        viewModel.getFavoriteList(uiState.isFavorite)
-
     }
 
-    var isFavorite by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState.isFavorite) {
+        viewModel.getFavoriteList(uiState.isFavorite)
+    }
 
     val userInfo = UserInfoData(
         name = "김서티",
@@ -131,14 +133,14 @@ fun HomeRoute(
     )
     when (uiState.loadState) {
         is UiState.Success -> HomeScreen(
-            userInfo = userInfo,
-            recommendedList = recommendedList,
-            preCertificationList = preCertificationList,
-            favoriteCertificationList = favoriteCertificationList,
-            isFavorite = isFavorite,
-            onFavoriteClicked = { isFavorite = !isFavorite },
-            onDetailClick = { },
-            navigateToCertRecommend = { },
+            homeUiState = uiState,
+            userInfo = (uiState.userInfoLoadState as UiState.Success).data,
+            recommendedList = (uiState.recommendedListLoadState as UiState.Success).data.toImmutableList(),
+            preCertificationList = (uiState.preCertificationListLoadState as UiState.Success).data.toImmutableList(),
+            favoriteCertificationList = (uiState.favoriteListLoadState as UiState.Success).data.toImmutableList(),
+            onFavoriteClicked = viewModel::onFavoriteClicked,
+            onDetailClick = {  },
+            navigateToCertRecommend = {  },
             navigateToPreCerti = navigateToPreCerti,
             modifier = Modifier.padding(padding)
         )
@@ -153,11 +155,11 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
+    homeUiState: HomeUiState,
     userInfo: UserInfoData,
     recommendedList: List<CertificationData>,
     preCertificationList: List<CertificationData>,
     favoriteCertificationList: List<CertificationData>,
-    isFavorite: Boolean = true,
     onFavoriteClicked: () -> Unit,
     onDetailClick: () -> Unit,
     navigateToCertRecommend: () -> Unit,
@@ -207,7 +209,6 @@ fun HomeScreen(
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
                                 .noRippleClickable { navigateToCertRecommend() }
-
                         )
                     }
                     RecommendedCertificationListSection(recommendedList = recommendedList, onCertificationClick = { })
@@ -281,7 +282,7 @@ fun HomeScreen(
                         )
                         FavoriteCertificationListSection(
                             favoriteCertificationList = favoriteCertificationList,
-                            isFavorite = isFavorite,
+                            isFavorite = homeUiState.isFavorite,
                             onFavoriteClicked = onFavoriteClicked,
                             modifier = modifier
                         )
@@ -295,62 +296,7 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewHomeScreen() {
-    var isFavorite by remember { mutableStateOf(true) }
-
-    val favoriteCertificationList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "정보처리기사",
-            testType = "실기형",
-            agencyName = "한국산업인력공단",
-            certificationType = "국가기술자격"
-        ),
-        CertificationData(
-            certificationId = 2,
-            certificationName = "시각디자인산업기사",
-            testType = "실기형",
-            agencyName = "한국산업인력공단",
-            certificationType = "국가기술자격"
-        )
-    )
 
     CERTITheme {
-        HomeScreen(
-            userInfo = UserInfoData(
-                name = "김서티",
-                university = "솝트대학교",
-                major = "경영학과",
-                track = "인문계열",
-                percentage = 57,
-                category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
-            ),
-            recommendedList = listOf(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "OPIc",
-                    recommendScore = 90,
-                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "시각디자인산업기사",
-                    recommendScore = 90,
-                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "정보처리기사",
-                    recommendScore = 90,
-                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-                )
-            ),
-            preCertificationList = listOf(),
-            favoriteCertificationList = favoriteCertificationList,
-            isFavorite = true,
-            onFavoriteClicked = { isFavorite = !isFavorite },
-            onDetailClick = { },
-            navigateToCertRecommend = { },
-            navigateToPreCerti = { }
-        )
     }
 }

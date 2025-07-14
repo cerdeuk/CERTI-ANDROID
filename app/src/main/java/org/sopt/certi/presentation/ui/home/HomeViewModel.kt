@@ -62,18 +62,20 @@ class HomeViewModel @Inject constructor(
     )
 
     init {
-        getuserInfo()
+        getUserInfo()
         getRecommendedList()
         getPreCertList()
         getFavoriteList(isFavorite = true)
     }
 
-    fun getuserInfo() {
+    fun getUserInfo() {
         val userInfo = UserInfoData(
-            name = "",
-            university = "",
-            major = "",
-            percentage = 0
+            name = "김서티",
+            university = "솝트대학교",
+            major = "경영학과",
+            track = "인문계열",
+            percentage = 57,
+            category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
         )
         _userInfoLoadState.value = UiState.Success(userInfo)
 
@@ -82,9 +84,24 @@ class HomeViewModel @Inject constructor(
     fun getRecommendedList() {
         val recommendedList = {
             listOf<CertificationData>(
-                CertificationData(),
-                CertificationData(),
-                CertificationData()
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "OPIc",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "시각디자인산업기사",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                ),
+                CertificationData(
+                    certificationId = 3,
+                    certificationName = "정보처리기사",
+                    recommendScore = 90,
+                    tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+                )
             )
         }
 
@@ -94,9 +111,30 @@ class HomeViewModel @Inject constructor(
     fun getPreCertList() {
         val preCertList = {
             listOf<CertificationData>(
-                CertificationData(),
-                CertificationData(),
-                CertificationData()
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "시각디자인산업기사",
+                    averagePeriod = "3개월",
+                    nearestTestDate = "2025.05.27",
+                    agencyName = "한국산업인력공단",
+                    iconIndex = 0
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "시각디자인산업기사",
+                    averagePeriod = "3개월",
+                    nearestTestDate = "2025.05.27",
+                    agencyName = "한국산업인력공단",
+                    iconIndex = 1
+                ),
+                CertificationData(
+                    certificationId = 3,
+                    certificationName = "시각디자인산업기사",
+                    averagePeriod = "3개월",
+                    nearestTestDate = "2025.05.27",
+                    agencyName = "한국산업인력공단",
+                    iconIndex = 2
+                )
             )
         }
         _preCertificationListLoadState.value = UiState.Success(preCertList())
@@ -105,9 +143,20 @@ class HomeViewModel @Inject constructor(
     fun getFavoriteList(isFavorite: Boolean) {
         val favoriteList = {
             listOf<CertificationData>(
-                CertificationData(),
-                CertificationData(),
-                CertificationData()
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    testType = "실기형",
+                    agencyName = "한국산업인력공단",
+                    certificationType = "국가기술자격"
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "시각디자인산업기사",
+                    testType = "실기형",
+                    agencyName = "한국산업인력공단",
+                    certificationType = "국가기술자격"
+                )
             )
         }
         _favoriteListLoadState.value = UiState.Success(favoriteList())
@@ -117,7 +166,5 @@ class HomeViewModel @Inject constructor(
     fun onFavoriteClicked() {
         _isFavorite.value = !_isFavorite.value
     }
-
-
 
 }
