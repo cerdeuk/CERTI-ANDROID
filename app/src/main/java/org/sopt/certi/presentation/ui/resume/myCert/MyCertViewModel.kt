@@ -74,6 +74,8 @@ class MyCertViewModel @Inject constructor(
                 )
             )
         }
-        _myCertListLoadState.value = UiState.Success(acquiredCertificationList().take(3))
+        _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
     }
+
+    fun onDeleteClick(certificationId: Long){}
 }

@@ -38,6 +38,7 @@ fun ResumeMyCertRoute(
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
+    var selectedCertificationId by remember { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.getMyCertList()
@@ -45,7 +46,12 @@ fun ResumeMyCertRoute(
 
     if (showDialog) {
         CertiDeleteDialog(
-            onConfirmClick = { showDialog = false },
+            onConfirmClick = {
+                selectedCertificationId?.let { id ->
+                    viewModel.onDeleteClick(id)
+                }
+                showDialog = false
+            },
             onDismissClick = { showDialog = false }
         )
     }
@@ -53,7 +59,9 @@ fun ResumeMyCertRoute(
     when (uiState.loadState) {
         is UiState.Success -> ResumeMyCertScreen(
             certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
-            onDeleteClick = { showDialog = true },
+            onDeleteClick = {certificationId ->
+                selectedCertificationId = certificationId
+                showDialog = true },
             modifier = Modifier.padding(padding)
         )
         is UiState.Empty -> {}
@@ -61,7 +69,6 @@ fun ResumeMyCertRoute(
         is UiState.Init -> {}
         is UiState.Loading -> {}
     }
-
 }
 
 @Composable
