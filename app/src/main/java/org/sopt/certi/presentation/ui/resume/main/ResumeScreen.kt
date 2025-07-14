@@ -14,15 +14,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
@@ -49,34 +52,46 @@ fun ResumeRoute(
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
-    var showModal by remember { mutableStateOf(false) }
-    var selectedCert by remember { mutableStateOf<CertificationData?>(null) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showDialog = remember { mutableStateOf(false) }
+
+    val userInfo = UserInfoData(
+        name = "김민지",
+        university = "",
+        major = ""
+    )
 
     LaunchedEffect(Unit) {
         viewModel.getResumeData()
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.sideEffect.collect { effect ->
-            when (effect) {
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
                 is ResumeSideEffect.ShowCertificationDetailModal -> {
-                    selectedCert = effect.data
-                    showModal = true
+                    showDialog.value = true
                 }
                 ResumeSideEffect.HideCertificationDetailModal -> {
-                    showModal = false
-                    selectedCert = null
+                    showDialog.value = false
                 }
             }
         }
     }
 
+    if (showDialog.value){
+        FlipCardOverlay(
+            certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
+            userInfo = userInfo,
+            onDismiss = { viewModel.onCertificationDetailDismiss() }
+        )
+    }
+
     when (uiState.loadState) {
         is UiState.Success -> ResumeScreen(
             jobCategory = (uiState.jobCategoryLoadState as UiState.Success<List<String>>).data.toImmutableList(),
-            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList().take(3),
-            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
-            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList().take(4),
+            acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
+            experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             onCertificationClick = { certificationId ->
                 viewModel.onCertificationClick(certificationId)
             },
@@ -90,30 +105,14 @@ fun ResumeRoute(
         is UiState.Empty -> {}
         is UiState.Init -> {}
     }
-
-    val userInfo = UserInfoData(
-        name = "김민지",
-        university = "",
-        major = ""
-    )
-
-    if (showModal) {
-        selectedCert?.let { cert ->
-            FlipCardOverlay(
-                certificationData = cert,
-                userInfo = userInfo,
-                onDismiss = { viewModel.onCertificationDetailDismiss() }
-            )
-        }
-    }
 }
 
 @Composable
 fun ResumeScreen(
-    jobCategory: List<String>,
-    acquiredCertificationList: List<CertificationData>,
-    experienceList: List<ActivityData>,
-    activityList: List<ActivityData>,
+    jobCategory: ImmutableList<String>,
+    acquiredCertificationList: ImmutableList<CertificationData>,
+    experienceList: ImmutableList<ActivityData>,
+    activityList: ImmutableList<ActivityData>,
     onCertificationClick: (Long) -> Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
@@ -239,10 +238,10 @@ private fun PreviewResumeScreen() {
 
     CERTITheme {
         ResumeScreen(
-            jobCategory = listOf("IT/인터넷", "경영/사무", "경영/사무"),
-            acquiredCertificationList = dummyAcquiredCertificationList,
-            experienceList = dummyExperiences,
-            activityList = listOf(),
+            jobCategory = listOf("IT/인터넷", "경영/사무", "경영/사무").toImmutableList(),
+            acquiredCertificationList = dummyAcquiredCertificationList.toImmutableList(),
+            experienceList = dummyExperiences.toImmutableList(),
+            activityList = persistentListOf(),
             onCertificationClick = {},
             navigateToMyCert = {},
             navigateToWorkExperience = {},
