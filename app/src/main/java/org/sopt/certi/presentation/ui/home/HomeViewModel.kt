@@ -43,7 +43,6 @@ class HomeViewModel @Inject constructor(
             preCertificationListLoadState = preCerti,
             favoriteListLoadState = favorite,
             isFavorite = isFavorite
-
         )
     }.stateIn(
         scope = viewModelScope,
@@ -56,13 +55,6 @@ class HomeViewModel @Inject constructor(
             isFavorite = true
         )
     )
-
-    init {
-        getUserInfo()
-        getRecommendedList()
-        getPreCertList()
-        getFavoriteList(isFavorite = true)
-    }
 
     fun getUserInfo() {
         val userInfo = UserInfoData(

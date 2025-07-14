@@ -12,14 +12,26 @@ data class HomeUiState(
     val isFavorite: Boolean = true
 ) {
     val loadState: UiState<Unit>
-        get() = if (
+        get() = when {
+            userInfoLoadState is UiState.Loading ||
+                recommendedListLoadState is UiState.Loading ||
+                preCertificationListLoadState is UiState.Loading ||
+                favoriteListLoadState is UiState.Loading -> {
+                UiState.Loading
+            }
+
+            userInfoLoadState is UiState.Failure -> userInfoLoadState
+            recommendedListLoadState is UiState.Failure -> recommendedListLoadState
+            preCertificationListLoadState is UiState.Failure -> preCertificationListLoadState
+            favoriteListLoadState is UiState.Failure -> favoriteListLoadState
+
             userInfoLoadState is UiState.Success &&
-            recommendedListLoadState is UiState.Success &&
-            preCertificationListLoadState is UiState.Success &&
-            favoriteListLoadState is UiState.Success
-        ) {
-            UiState.Success(Unit)
-        } else {
-            UiState.Empty
+                recommendedListLoadState is UiState.Success &&
+                preCertificationListLoadState is UiState.Success &&
+                favoriteListLoadState is UiState.Success -> {
+                UiState.Success(Unit)
+            }
+
+            else -> UiState.Empty
         }
 }

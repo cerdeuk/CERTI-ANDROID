@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.state.UiState
@@ -62,73 +63,6 @@ fun HomeRoute(
         viewModel.getFavoriteList(uiState.isFavorite)
     }
 
-    val userInfo = UserInfoData(
-        name = "김서티",
-        university = "솝트대학교",
-        major = "경영학과"
-    )
-    val recommendedList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "OPIc",
-            recommendScore = 90,
-            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-        ),
-        CertificationData(
-            certificationId = 2,
-            certificationName = "시각디자인산업기사",
-            recommendScore = 90,
-            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-        ),
-        CertificationData(
-            certificationId = 3,
-            certificationName = "정보처리기사",
-            recommendScore = 90,
-            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
-        )
-    )
-    val preCertificationList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "시각디자인산업기사",
-            averagePeriod = "3개월",
-            nearestTestDate = "2025.05.27",
-            agencyName = "한국산업인력공단",
-            iconIndex = 0
-        ),
-        CertificationData(
-            certificationId = 2,
-            certificationName = "시각디자인산업기사",
-            averagePeriod = "3개월",
-            nearestTestDate = "2025.05.27",
-            agencyName = "한국산업인력공단",
-            iconIndex = 1
-        ),
-        CertificationData(
-            certificationId = 3,
-            certificationName = "시각디자인산업기사",
-            averagePeriod = "3개월",
-            nearestTestDate = "2025.05.27",
-            agencyName = "한국산업인력공단",
-            iconIndex = 2
-        )
-    )
-    val favoriteCertificationList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "정보처리기사",
-            testType = "실기형",
-            agencyName = "한국산업인력공단",
-            certificationType = "국가기술자격"
-        ),
-        CertificationData(
-            certificationId = 2,
-            certificationName = "시각디자인산업기사",
-            testType = "실기형",
-            agencyName = "한국산업인력공단",
-            certificationType = "국가기술자격"
-        )
-    )
     when (uiState.loadState) {
         is UiState.Success -> HomeScreen(
             homeUiState = uiState,
@@ -153,9 +87,9 @@ fun HomeRoute(
 fun HomeScreen(
     homeUiState: HomeUiState,
     userInfo: UserInfoData,
-    recommendedList: List<CertificationData>,
-    preCertificationList: List<CertificationData>,
-    favoriteCertificationList: List<CertificationData>,
+    recommendedList: ImmutableList<CertificationData>,
+    preCertificationList: ImmutableList<CertificationData>,
+    favoriteCertificationList: ImmutableList<CertificationData>,
     onFavoriteClicked: (Long) -> Unit,
     onDetailClick: () -> Unit,
     navigateToCertRecommend: () -> Unit,
