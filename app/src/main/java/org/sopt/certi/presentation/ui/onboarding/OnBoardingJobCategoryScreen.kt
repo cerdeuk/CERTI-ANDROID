@@ -29,7 +29,6 @@ import org.sopt.certi.presentation.type.SelectableButtonType
 import org.sopt.certi.presentation.ui.onboarding.component.OnBoardingSelectableButtons
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
-import timber.log.Timber
 
 @Composable
 fun OnBoardingJobCategoryRoute(
@@ -42,7 +41,6 @@ fun OnBoardingJobCategoryRoute(
     val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
 
     LaunchedEffect(signUpSuccess, userInfo) {
-        Timber.tag("ㅋㅋㅋ").d("$signUpSuccess $userInfo")
         if (signUpSuccess && userInfo != null) {
             navigateToOnBoardingInfo()
         }
