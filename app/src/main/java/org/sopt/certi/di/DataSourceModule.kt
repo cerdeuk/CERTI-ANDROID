@@ -4,8 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
+import org.sopt.certi.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.DummyRemoteDataSourceImpl
 
 @Module
@@ -14,4 +16,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsDummyDataSource(dummyRemoteDataSourceImpl: DummyRemoteDataSourceImpl): DummyRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsAuthDataSource(authRemoteDataSourceImpl: AuthRemoteDataSourceImpl): AuthRemoteDataSource
 }
