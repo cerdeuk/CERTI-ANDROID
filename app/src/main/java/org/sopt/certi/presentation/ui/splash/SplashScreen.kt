@@ -27,15 +27,20 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun SplashRoute(
     padding: PaddingValues,
     navigateToLogin: () -> Unit,
+    navigateToHome: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     val navigateToLoginState by viewModel.navigateToLogin.collectAsState()
+    val navigateToHomeState by viewModel.navigateToHome.collectAsState()
 
     LaunchedEffect(navigateToLoginState) {
-        if (navigateToLoginState) {
-            navigateToLogin()
-        }
+        if (navigateToLoginState) navigateToLogin()
     }
+
+    LaunchedEffect(navigateToHomeState) {
+        if (navigateToHomeState) navigateToHome()
+    }
+
     SplashScreen(padding = padding)
 }
 

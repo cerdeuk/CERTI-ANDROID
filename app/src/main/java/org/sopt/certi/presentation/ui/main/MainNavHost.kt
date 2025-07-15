@@ -39,7 +39,8 @@ fun MainNavHost(
         ) {
             splashNavGraph(
                 padding = padding,
-                onNavigateToLogin = navigator::navigateToLogin
+                onNavigateToLogin = navigator::navigateToLogin,
+                onNavigateToHome = navigator::navigateToHome
             )
 
             loginNavGraph(
