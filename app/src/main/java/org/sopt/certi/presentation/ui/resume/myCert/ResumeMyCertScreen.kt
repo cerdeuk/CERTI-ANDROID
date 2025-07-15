@@ -21,7 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.state.UiState
@@ -41,7 +42,7 @@ fun ResumeMyCertRoute(
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-    val showDialog = remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getMyCertList()
@@ -50,16 +51,18 @@ fun ResumeMyCertRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                MyCertSideEffect.HideDeleteDialog -> showDialog.value = false
-                MyCertSideEffect.ShowDeleteDialog -> showDialog.value = true
+                MyCertSideEffect.ShowDeleteDialog -> showDialog = true
             }
         }
     }
 
-    if (showDialog.value) {
+    if (showDialog) {
         CertiDeleteDialog(
-            onConfirmClick = { viewModel.onConfirmDelete() },
-            onDismissClick = { viewModel.onDismissDeleteDialog() }
+            onConfirmClick = {
+                showDialog = false
+                viewModel.onConfirmDelete()
+            },
+            onDismissClick = { showDialog = false }
         )
     }
 
@@ -78,7 +81,7 @@ fun ResumeMyCertRoute(
 
 @Composable
 fun ResumeMyCertScreen(
-    certifications: List<CertificationData>,
+    certifications: ImmutableList<CertificationData>,
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -99,7 +102,7 @@ fun ResumeMyCertScreen(
             )
         }
 
-        items(certifications) { certification ->
+        items<CertificationData>(certifications) { certification ->
             ResumeMyCertiListItem(
                 certification = certification,
                 onDeleteClick = onDeleteClick
@@ -146,7 +149,7 @@ private fun PreviewResumeMyCertScreen() {
 
     CERTITheme {
         ResumeMyCertScreen(
-            certifications = dummyCertifications,
+            certifications = dummyCertifications.toImmutableList(),
             onDeleteClick = { showDialog = true }
         )
     }
