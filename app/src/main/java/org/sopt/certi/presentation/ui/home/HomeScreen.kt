@@ -27,7 +27,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
-import org.sopt.certi.presentation.ui.home.component.PreCertificationListSection
+import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.ui.theme.CERTITheme
