@@ -5,11 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.domain.repository.AuthRepository
-import javax.inject.Singleton
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,4 +33,10 @@ object UseCaseModule {
     fun provideSignUpUseCase(
         authRepository: AuthRepository
     ): SignUpUseCase = SignUpUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetInterestedJobListUseCase(
+        userRepository: UserRepository
+    ): GetInterestedJobListUseCase = GetInterestedJobListUseCase(userRepository)
 }

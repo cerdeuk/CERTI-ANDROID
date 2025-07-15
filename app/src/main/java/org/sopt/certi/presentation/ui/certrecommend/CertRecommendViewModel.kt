@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.certrecommend.sideeffect.RecommendSideEffect
 import org.sopt.certi.presentation.ui.certrecommend.state.RecommendUiState
 import java.time.LocalDate
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CertRecommendViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val dummyUseCase: DummyUseCase,
+    private val getInterestedJobListUseCase: GetInterestedJobListUseCase
 ) : ViewModel() {
 
     private val _jobList = MutableStateFlow<UiState<List<String>>>(UiState.Init)
@@ -48,13 +50,18 @@ class CertRecommendViewModel @Inject constructor(
     private val _sideEffect = Channel<RecommendSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun getJobList(dummyCertList: List<String>) = viewModelScope.launch {
-        // TODO 초기 희망직무 리스트 받아오는 로직
+    fun getJobList() = viewModelScope.launch {
+        getInterestedJobListUseCase.invoke().fold(
+            onSuccess = {
+                val categoryList = it.jobList
 
-        // 정상적으로 response 받았다는 가정하에
-        getRecommendCertList(dummyCertList)
-
-        _jobList.emit(UiState.Success(dummyCertList))
+                getRecommendCertList(categoryList)
+                _jobList.emit(UiState.Success(categoryList))
+            },
+            onFailure = {
+                _jobList.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     private fun getRecommendCertList(dummyCertList: List<String>) = viewModelScope.launch {
@@ -81,7 +88,7 @@ class CertRecommendViewModel @Inject constructor(
         // TODO 희망직무 수정 로직
 
         // 정상적으로 response 받았다는 가정하에
-        getJobList(jobNameList)
+//        getJobList(jobNameList)
     }
 
     fun onLikeClick(certId: Long) {

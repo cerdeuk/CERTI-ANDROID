@@ -7,8 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.repositoryimpl.AuthRepositoryImpl
 import javax.inject.Singleton
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.UserRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -20,4 +22,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUerRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 }

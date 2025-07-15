@@ -65,13 +65,7 @@ fun CertRecommendRoute(
     val recommendUiState by viewModel.recommendUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        // FIXME 더미 데이터
-        val dummyCertList = listOf<String>(
-            CategoryType.DESIGN.description,
-            CategoryType.PROFESSIONAL.description,
-            CategoryType.TRADE.description
-        )
-        viewModel.getJobList(dummyCertList)
+        viewModel.getJobList()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
