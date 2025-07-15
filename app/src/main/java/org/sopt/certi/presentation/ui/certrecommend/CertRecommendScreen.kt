@@ -27,8 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
@@ -41,7 +44,6 @@ import org.sopt.certi.presentation.ui.certrecommend.component.bottomsheet.Recomm
 import org.sopt.certi.presentation.ui.certrecommend.component.chip.RecommendCategoryChip
 import org.sopt.certi.presentation.ui.certrecommend.component.chip.ReselectInterestedChip
 import org.sopt.certi.presentation.ui.certrecommend.sideeffect.RecommendSideEffect
-import org.sopt.certi.presentation.ui.certrecommend.state.RecommendUiState
 import org.sopt.certi.ui.theme.CertiTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +53,8 @@ fun CertRecommendRoute(
     navigateToCertDetail: (certId: Long) -> Unit,
     viewModel: CertRecommendViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     /** 필터 바텀시트 **/
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -68,43 +72,34 @@ fun CertRecommendRoute(
             CategoryType.TRADE.description
         )
         viewModel.getJobList(dummyCertList)
+    }
 
-        launch {
-            viewModel.sideEffect.collect {
-                when (it) {
-                    is RecommendSideEffect.ShowFilterBottomSheer -> showFilterBottomSheet = true
-                }
-            }
-        }
-
-        launch {
-            viewModel.recommendUiState.collect {
-                when (it.jobListLoadState) {
-                    is UiState.Success -> {
-                        val jobList = (recommendUiState.jobListLoadState as UiState.Success).data
-                        val categoryList = mutableListOf<CategoryType>()
-                        jobList.forEach { item ->
-                            categoryList.add(CategoryType.getByDescription(item) ?: return@forEach)
-                        }
-
-                        selectedCategoryList.clear()
-                        selectedCategoryList.addAll(categoryList)
-                    }
-                    else -> {}
-                }
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                is RecommendSideEffect.ShowFilterBottomSheer -> showFilterBottomSheet = true
             }
         }
     }
 
-    CertRecommendScreen(
-        recommendUiState = recommendUiState,
-        showFilterBottomSheet = { viewModel.showFilterBottomSheet() },
-        likeOnClick = { certId ->
-            viewModel.onLikeClick(certId)
-        },
-        navigateToCertDetail = navigateToCertDetail,
-        modifier = Modifier.padding(padding)
-    )
+    when (recommendUiState.loadState) {
+        is UiState.Success -> {
+            selectedCategoryList.clear()
+            selectedCategoryList.addAll(stringListToCategoryList((recommendUiState.jobListLoadState as UiState.Success).data))
+
+            CertRecommendScreen(
+                recommendCertList = (recommendUiState.recommendCertListLoadState as UiState.Success).data.toImmutableList(),
+                selectedCategoryList = stringListToCategoryList((recommendUiState.jobListLoadState as UiState.Success).data.toImmutableList()).toImmutableList(),
+                showFilterBottomSheet = { viewModel.showFilterBottomSheet() },
+                likeOnClick = { certId ->
+                    viewModel.onLikeClick(certId)
+                },
+                navigateToCertDetail = navigateToCertDetail,
+                modifier = Modifier.padding(padding)
+            )
+        }
+        else -> {}
+    }
 
     if (showFilterBottomSheet) {
         RecommendFilterBottomSheet(
@@ -136,31 +131,29 @@ fun CertRecommendRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CertRecommendScreen(
-    recommendUiState: RecommendUiState,
+    recommendCertList: ImmutableList<CertificationData>,
+    selectedCategoryList: ImmutableList<CategoryType>,
     showFilterBottomSheet: () -> Unit,
     likeOnClick: (Long) -> Unit,
     navigateToCertDetail: (certId: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val recommendCertList = remember { mutableStateListOf<CertificationData>() }
-    val selectedCategoryList = remember { mutableStateListOf<CategoryType>() }
-
-    when (recommendUiState.loadState) {
-        is UiState.Success -> {
-            recommendCertList.clear()
-            recommendCertList.addAll((recommendUiState.recommendCertListLoadState as UiState.Success).data)
-
-            val jobList = (recommendUiState.jobListLoadState as UiState.Success).data
-            val categoryList = mutableListOf<CategoryType>()
-            jobList.forEach { item ->
-                categoryList.add(CategoryType.getByDescription(item) ?: return@forEach)
-            }
-
-            selectedCategoryList.clear()
-            selectedCategoryList.addAll(categoryList)
-        }
-        else -> {}
-    }
+//    when (recommendUiState.loadState) {
+//        is UiState.Success -> {
+//            recommendCertList.clear()
+//            recommendCertList.addAll((recommendUiState.recommendCertListLoadState as UiState.Success).data)
+//
+//            val jobList = (recommendUiState.jobListLoadState as UiState.Success).data
+//            val categoryList = mutableListOf<CategoryType>()
+//            jobList.forEach { item ->
+//                categoryList.add(CategoryType.getByDescription(item) ?: return@forEach)
+//            }
+//
+//            selectedCategoryList.clear()
+//            selectedCategoryList.addAll(categoryList)
+//        }
+//        else -> {}
+//    }
 
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
         LazyColumn(
@@ -222,4 +215,13 @@ fun CertRecommendScreen(
             }
         }
     }
+}
+
+private fun stringListToCategoryList(stringCategoryList: List<String>): List<CategoryType> {
+    val categoryList = mutableListOf<CategoryType>()
+    stringCategoryList.forEach { item ->
+        categoryList.add(CategoryType.getByDescription(item) ?: return@forEach)
+    }
+
+    return categoryList
 }
