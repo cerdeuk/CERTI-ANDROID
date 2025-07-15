@@ -4,12 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.sopt.certi.ui.theme.CertiTheme
@@ -17,17 +19,16 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.presentation.type.CertCardColorType
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
@@ -41,21 +42,20 @@ fun CertificationCardFront(
             .clip(RoundedCornerShape(12.dp))
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(certificationData.cardFrontImageUrl)
-                .build(),
+            model = certificationData.cardFrontImageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
         Column(
             modifier = Modifier
-                .padding(start = 20.dp, top = 40.dp)
+                .padding(horizontal = 20.dp)
+                .padding(top = 40.dp)
         ) {
             Text(
                 text = certificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certificationData.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
             Text(
@@ -66,14 +66,15 @@ fun CertificationCardFront(
                     certificationData.createdAt.dayOfWeek
                 ),
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray600
+                color = CertCardColorType.fromIndex(certificationData.index).textColor
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
             CertiChipList(
-                categories = certificationData.tags
+                categories = certificationData.tags,
+                textStyle = CertiTheme.typography.caption.semibold_12,
+                backgroundColor = CertCardColorType.fromIndex(certificationData.index).chipBackgroundColor,
+                textColor = CertCardColorType.fromIndex(certificationData.index).chipTextColor
             )
-            Spacer(modifier = Modifier.height(screenHeightDp(224.dp)))
-            Spacer(modifier = Modifier.width(screenWidthDp(16.dp)))
         }
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -81,21 +82,19 @@ fun CertificationCardFront(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(end = screenWidthDp(16.dp), bottom = screenHeightDp(16.dp)),
+                    .padding(end = screenWidthDp(16.dp), bottom = screenHeightDp(16.dp))
+                    .width(IntrinsicSize.Max),
                 verticalArrangement = Arrangement.spacedBy(screenHeightDp(4.dp))
             ) {
                 Text(
                     text = stringResource(id = R.string.resume_flip_card_touch),
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.mainBlue
+                    color = CertCardColorType.fromIndex(certificationData.index).textColor
                 )
-                Box(
-                    modifier = Modifier
-                        .height(screenHeightDp(1.dp))
-                        .width(screenWidthDp(90.dp))
-                        .background(CertiTheme.colors.mainBlue)
-                ) {
-                }
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = CertCardColorType.fromIndex(certificationData.index).textColor
+                )
             }
         }
     }

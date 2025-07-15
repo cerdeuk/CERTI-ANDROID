@@ -3,38 +3,32 @@ package org.sopt.certi.presentation.ui.resume.component.card
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.model.UserInfoData
-
 import org.sopt.certi.ui.theme.CERTITheme
-import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 
 @Composable
 fun FlipCardOverlay(
-    showCard: Boolean,
     certificationData: CertificationData,
     userInfo: UserInfoData,
     onDismiss: () -> Unit
@@ -46,45 +40,38 @@ fun FlipCardOverlay(
         animationSpec = tween(500, easing = FastOutSlowInEasing),
         label = "rotationY"
     )
-    val cameraDistance = with(LocalDensity.current) { 12.dp.toPx() }
+    val cameraDistance = with(LocalDensity.current) { 8.dp.toPx() }
 
-    if (showCard) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(CertiTheme.colors.black.copy(alpha = 0.4f))
-                .noRippleClickable { onDismiss() }
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true,
+            usePlatformDefaultWidth = false
         )
-
+    ) {
         Box(
             modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(width = screenWidthDp(250.dp), height = screenHeightDp(376.dp))
-                    .graphicsLayer {
-                        this.rotationY = rotationY
-                        this.cameraDistance = cameraDistance
-                        if (rotationY > 90f) {
-                            scaleX = -1f
-                        }
+                .size(width = screenWidthDp(250.dp), height = screenHeightDp(376.dp))
+                .graphicsLayer {
+                    this.rotationY = rotationY
+                    this.cameraDistance = cameraDistance
+                    if (rotationY > 90f) {
+                        scaleX = -1f
                     }
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(CertiTheme.colors.subYellow)
-                    .noRippleClickable { isFlipped = !isFlipped }
-            ) {
-                if (rotationY <= 90f) {
-                    CertificationCardFront(
-                        certificationData = certificationData
-                    )
-                } else {
-                    CertificationCardBack(
-                        certificationData = certificationData,
-                        userInfo = userInfo
-                    )
                 }
+                .clip(RoundedCornerShape(12.dp))
+                .noRippleClickable { isFlipped = !isFlipped }
+        ) {
+            if (rotationY <= 90f) {
+                CertificationCardFront(
+                    certificationData = certificationData
+                )
+            } else {
+                CertificationCardBack(
+                    certificationData = certificationData,
+                    userInfo = userInfo
+                )
             }
         }
     }
@@ -100,6 +87,7 @@ fun FlipCardInteractivePreview() {
         certificationName = "GTQ 1급 (그래픽기술자격)",
         createdAt = LocalDate.now(),
         description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
+        index = 1,
         cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
         cardBackImageUrl = "",
         tags = listOf("디자인", "컴퓨터", "김민지")
@@ -111,11 +99,12 @@ fun FlipCardInteractivePreview() {
     )
 
     CERTITheme {
-        FlipCardOverlay(
-            showCard = showCard,
-            certificationData = certificationData,
-            userInfo = userInfo,
-            onDismiss = { showCard = false }
-        )
+        if (showCard) {
+            FlipCardOverlay(
+                certificationData = certificationData,
+                userInfo = userInfo,
+                onDismiss = { showCard = false }
+            )
+        }
     }
 }

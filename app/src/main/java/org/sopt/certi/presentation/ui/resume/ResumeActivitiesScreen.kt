@@ -23,6 +23,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
+import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 

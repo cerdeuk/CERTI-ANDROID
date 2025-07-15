@@ -23,6 +23,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.presentation.ui.resume.component.ResumeMyCertiListItem
+import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -79,7 +80,7 @@ fun ResumeMyCertRoute(
 fun ResumeMyCertScreen(
     certifications: List<CertificationData>,
     showDialog: Boolean,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onDialogConfirm: () -> Unit,
     onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
