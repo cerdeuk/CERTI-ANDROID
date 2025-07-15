@@ -157,5 +157,4 @@ fun FavoriteCertificationItem(
 @Preview(showBackground = true)
 @Composable
 fun FavoriteCertificationItemPreview() {
-
 }
