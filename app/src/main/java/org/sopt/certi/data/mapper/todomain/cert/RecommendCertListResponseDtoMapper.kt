@@ -1,10 +1,10 @@
-package org.sopt.certi.data.mapper.todomain
+package org.sopt.certi.data.mapper.todomain.cert
 
 import org.sopt.certi.data.remote.dto.response.GetRecommendCertResponseDto
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.CertificationListData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationListData
 
-fun GetRecommendCertResponseDto.toDomain() = CertificationListData (
+fun GetRecommendCertResponseDto.toDomain() = CertificationListData(
     certificationList = recommendationList.map {
         CertificationData(
             certificationId = it.certificationId,
@@ -13,7 +13,7 @@ fun GetRecommendCertResponseDto.toDomain() = CertificationListData (
             testType = it.testType,
             tags = it.tags,
             recommendScore = it.recommendationScore,
-            isFavorite = it.isFavorite,
+            isFavorite = it.isFavorite
         )
     }
 )

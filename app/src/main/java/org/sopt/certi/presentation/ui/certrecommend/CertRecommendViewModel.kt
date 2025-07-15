@@ -12,20 +12,21 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.certrecommend.sideeffect.RecommendSideEffect
 import org.sopt.certi.presentation.ui.certrecommend.state.RecommendUiState
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class CertRecommendViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase,
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
-    private val getRecommendCertListUseCase: GetRecommendCertListUseCase
+    private val getRecommendCertListUseCase: GetRecommendCertListUseCase,
+    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase
 ) : ViewModel() {
 
     private val _jobList = MutableStateFlow<UiState<List<String>>>(UiState.Init)
@@ -78,10 +79,14 @@ class CertRecommendViewModel @Inject constructor(
     }
 
     fun editJob(jobNameList: List<String>) = viewModelScope.launch {
-        // TODO 희망직무 수정 로직
-
-        // 정상적으로 response 받았다는 가정하에
-//        getJobList(jobNameList)
+        modifyInterestedJobListUseCase.invoke(jobNameList).fold(
+            onSuccess = {
+                getJobList()
+            },
+            onFailure = {
+                _jobList.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun onLikeClick(certId: Long) {

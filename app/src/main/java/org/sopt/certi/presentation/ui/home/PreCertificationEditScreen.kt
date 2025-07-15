@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.home.component.PreCertificationItem
 import org.sopt.certi.ui.theme.CERTITheme
 

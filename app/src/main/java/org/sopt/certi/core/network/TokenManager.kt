@@ -2,7 +2,7 @@ package org.sopt.certi.core.network
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import org.sopt.certi.domain.model.UserInformationAuth
+import org.sopt.certi.domain.model.user.UserInformationAuth
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.jvm.java

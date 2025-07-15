@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.usecase.user
 
-import org.sopt.certi.domain.model.InterestedJobListData
+import org.sopt.certi.domain.model.user.InterestedJobListData
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Inject
 

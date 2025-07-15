@@ -13,6 +13,7 @@ import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
+import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
 import javax.inject.Singleton
 
 @Module
@@ -47,4 +48,10 @@ object UseCaseModule {
     fun provideGetRecommendCertListUseCase(
         certRepository: CertRepository
     ): GetRecommendCertListUseCase = GetRecommendCertListUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideModifyRecommendCertListUseCase(
+        userRepository: UserRepository
+    ): ModifyInterestedJobListUseCase = ModifyInterestedJobListUseCase(userRepository)
 }

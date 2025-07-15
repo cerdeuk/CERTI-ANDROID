@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
