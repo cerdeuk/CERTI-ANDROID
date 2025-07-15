@@ -63,7 +63,7 @@ fun ResumeMyCertRoute(
         )
     }
 
-    when (uiState.myCertListLoadState) {
+    when (uiState.loadState) {
         is UiState.Success -> ResumeMyCertScreen(
             certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
             onDeleteClick = { viewModel.onDeleteClick(it) },

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume
+package org.sopt.certi.presentation.ui.resume.workExperience
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

@@ -74,6 +74,7 @@ private fun ResumeDescriptionSectionPreview() {
     CERTITheme {
         ResumeDescriptionSection(
             resumeListItem = ActivityData(
+                activityId = 1,
                 startAt = "2021.11",
                 endAt = "2022.01",
                 organization = "서티그룹서티그룹서티그룹",

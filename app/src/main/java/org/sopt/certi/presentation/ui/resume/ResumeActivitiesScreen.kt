@@ -37,6 +37,7 @@ fun ResumeActivitiesRoute(
 
     val resumeDataList = listOf(
         ActivityData(
+            activityId = 1,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -44,6 +45,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 2,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -51,6 +53,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 3,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -58,6 +61,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 4,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -65,6 +69,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 5,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -72,6 +77,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 6,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -79,6 +85,7 @@ fun ResumeActivitiesRoute(
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 7,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -147,6 +154,7 @@ fun ResumeActivitiesScreen(
 private fun PreviewResumeActivitiesScreen() {
     val resumeDataList = listOf(
         ActivityData(
+            activityId = 1,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -154,6 +162,7 @@ private fun PreviewResumeActivitiesScreen() {
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 2,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",
@@ -161,6 +170,7 @@ private fun PreviewResumeActivitiesScreen() {
             description = "서비스 기획 및 아이디어 도출"
         ),
         ActivityData(
+            activityId = 3,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "sopt",

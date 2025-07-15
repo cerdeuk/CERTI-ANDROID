@@ -51,6 +51,7 @@ private fun ResumeEditListItemPreview() {
     CERTITheme {
         ResumeEditListItem(
             resumeListItem = ActivityData(
+                activityId = 1,
                 startAt = "2021.11",
                 endAt = "2022.01",
                 organization = "서티그룹",
