@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetRecommendCertResponseDto (
+data class GetRecommendCertResponseDto(
     @SerializedName("recommendationList")
     val recommendationList: List<RecommendCertInfoDto>
 )
 
 @Serializable
-data class RecommendCertInfoDto (
+data class RecommendCertInfoDto(
     @SerializedName("certificationId")
     val certificationId: Long,
     @SerializedName("certificationName")
