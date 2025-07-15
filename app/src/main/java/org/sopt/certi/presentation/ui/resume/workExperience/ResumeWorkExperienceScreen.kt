@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,7 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.state.UiState
@@ -38,11 +40,18 @@ fun ResumeWorkExperienceRoute(
     val uiState by viewModel.workExperienceUiState.collectAsStateWithLifecycle()
     var onDeleteDialogShow by remember { mutableStateOf(false) }
 
-    when(uiState.loadState){
+    LaunchedEffect(Unit) {
+        viewModel.getWorkExperienceList()
+    }
+
+    when (uiState.loadState) {
         is UiState.Success -> ResumeWorkExperienceScreen(
             onNavigateToAddWordExperience = onNavigateToAddWordExperience,
             resumeDataList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
-            onDeleteClick = { onDeleteDialogShow = true },
+            onDeleteClick = {
+                onDeleteDialogShow = true
+                viewModel.onDeleteClick(it)
+            },
             modifier = Modifier.padding(padding)
         )
 
@@ -54,7 +63,10 @@ fun ResumeWorkExperienceRoute(
 
     if (onDeleteDialogShow) {
         CertiDeleteDialog(
-            onConfirmClick = { onDeleteDialogShow = false },
+            onConfirmClick = {
+                onDeleteDialogShow = false
+                viewModel.onDeleteConfirmclick()
+            },
             onDismissClick = { onDeleteDialogShow = false }
         )
     }
@@ -63,8 +75,8 @@ fun ResumeWorkExperienceRoute(
 @Composable
 fun ResumeWorkExperienceScreen(
     onNavigateToAddWordExperience: () -> Unit,
-    resumeDataList: List<ActivityData>,
-    onDeleteClick: () -> Unit,
+    resumeDataList: ImmutableList<ActivityData>,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -134,7 +146,7 @@ private fun PreviewResumeWorkExperienceScreen() {
 
     CERTITheme {
         ResumeWorkExperienceScreen(
-            resumeDataList = resumeDataList,
+            resumeDataList = resumeDataList.toImmutableList(),
             onNavigateToAddWordExperience = {},
             onDeleteClick = { onDeleteDialogShow = true }
         )

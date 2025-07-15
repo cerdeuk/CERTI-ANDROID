@@ -113,7 +113,7 @@ fun ResumeActivitiesRoute(
 fun ResumeActivitiesScreen(
     onNavigateToAdd: () -> Unit,
     resumeDataList: List<ActivityData>,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(

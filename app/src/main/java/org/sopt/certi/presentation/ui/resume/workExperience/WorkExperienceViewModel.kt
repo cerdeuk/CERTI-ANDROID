@@ -25,7 +25,7 @@ class WorkExperienceViewModel @Inject constructor(
         combine(
             _experienceListLoadState,
             _selectedId
-        ){ experienceList, selectedId ->
+        ) { experienceList, selectedId ->
             WorkExperienceUiState(
                 experienceListLoadState = experienceList,
                 selectedId = selectedId
@@ -39,7 +39,7 @@ class WorkExperienceViewModel @Inject constructor(
             )
         )
 
-    fun getWorkExperienceList(){
+    fun getWorkExperienceList() {
         val resumeDataList = {
             listOf(
                 ActivityData(
@@ -81,9 +81,21 @@ class WorkExperienceViewModel @Inject constructor(
                     organization = "서티그룹",
                     role = "패션디자이너 인턴",
                     description = "브랜드 리서치 및 소재 조사"
-                ),
+                )
+            )
+        }
+        _experienceListLoadState.value = UiState.Success(resumeDataList())
+    }
+
+    fun onDeleteClick(selectedId: Long) {
+        _selectedId.value = selectedId
+    }
+
+    fun onDeleteConfirmclick() {
+        val resumeDataList = {
+            listOf(
                 ActivityData(
-                    activityId = 6,
+                    activityId = 2,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -91,7 +103,7 @@ class WorkExperienceViewModel @Inject constructor(
                     description = "브랜드 리서치 및 소재 조사"
                 ),
                 ActivityData(
-                    activityId = 7,
+                    activityId = 3,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -99,7 +111,7 @@ class WorkExperienceViewModel @Inject constructor(
                     description = "브랜드 리서치 및 소재 조사"
                 ),
                 ActivityData(
-                    activityId = 8,
+                    activityId = 4,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -107,7 +119,7 @@ class WorkExperienceViewModel @Inject constructor(
                     description = "브랜드 리서치 및 소재 조사"
                 ),
                 ActivityData(
-                    activityId = 9,
+                    activityId = 5,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -116,10 +128,7 @@ class WorkExperienceViewModel @Inject constructor(
                 )
             )
         }
+        _selectedId.value = null
         _experienceListLoadState.value = UiState.Success(resumeDataList())
-    }
-
-    fun onDeleteClick(selectedId: Long){
-
     }
 }

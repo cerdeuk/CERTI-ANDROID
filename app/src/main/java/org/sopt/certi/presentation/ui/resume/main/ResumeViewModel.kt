@@ -221,10 +221,4 @@ class ResumeViewModel @Inject constructor(
         )
         return certificationData
     }
-
-    fun onCertificationDetailDismiss() {
-        viewModelScope.launch {
-            _sideEffect.send(ResumeSideEffect.HideCertificationDetailModal)
-        }
-    }
 }

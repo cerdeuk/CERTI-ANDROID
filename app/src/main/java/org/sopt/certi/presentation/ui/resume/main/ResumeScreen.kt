@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,7 +54,7 @@ fun ResumeRoute(
 ) {
     val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-    val showDialog = remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     val userInfo = UserInfoData(
         name = "김민지",
@@ -68,21 +69,16 @@ fun ResumeRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                ResumeSideEffect.ShowCertificationDetailModal -> {
-                    showDialog.value = true
-                }
-                ResumeSideEffect.HideCertificationDetailModal -> {
-                    showDialog.value = false
-                }
+                ResumeSideEffect.ShowCertificationDetailModal -> showDialog = true
             }
         }
     }
 
-    if (showDialog.value) {
+    if (showDialog) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
             userInfo = userInfo,
-            onDismiss = { viewModel.onCertificationDetailDismiss() }
+            onDismiss = { showDialog = false }
         )
     }
 
