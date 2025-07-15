@@ -16,10 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -38,7 +34,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun FavoriteCertificationListSection(
     favoriteCertificationList: List<CertificationData>,
-    onFavoriteClicked: () -> Unit,
+    onFavoriteClicked: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -59,7 +55,7 @@ fun FavoriteCertificationListSection(
 @Composable
 fun FavoriteCertificationItem(
     favoriteCertificationData: CertificationData,
-    onFavoriteClicked: () -> Unit,
+    onFavoriteClicked: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -96,7 +92,7 @@ fun FavoriteCertificationItem(
                     modifier = Modifier
                         .width(screenWidthDp(24.dp))
                         .height(screenHeightDp(24.dp))
-                        .noRippleClickable { onFavoriteClicked() }
+                        .noRippleClickable { onFavoriteClicked(favoriteCertificationData.certificationId) }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -161,16 +157,5 @@ fun FavoriteCertificationItem(
 @Preview(showBackground = true)
 @Composable
 fun FavoriteCertificationItemPreview() {
-    var isFavorite by remember { mutableStateOf(true) }
 
-    FavoriteCertificationItem(
-        favoriteCertificationData = CertificationData(
-            certificationId = 1,
-            certificationName = "시각디자인산업기사안녕",
-            certificationType = "국가기술자격",
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        ),
-        onFavoriteClicked = { isFavorite = !isFavorite }
-    )
 }

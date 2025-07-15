@@ -28,7 +28,7 @@ import java.time.LocalDate
 @Composable
 fun ResumeMyCertiListItem(
     certification: CertificationData,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -49,7 +49,7 @@ fun ResumeMyCertiListItem(
             modifier = Modifier
                 .size(screenWidthDp(36.dp))
                 .noRippleClickable {
-                    onDeleteClick()
+                    onDeleteClick(certification.certificationId)
                 }
         )
     }
