@@ -1,0 +1,14 @@
+package org.sopt.certi.domain.usecase
+
+import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.repository.HomeRepository
+import javax.inject.Inject
+
+class UserInfoUseCase @Inject constructor(
+private val homeRepository: HomeRepository
+) {
+    suspend operator fun invoke(): Result<UserInfoData> {
+        return homeRepository.getUserInfo()
+    }
+}
