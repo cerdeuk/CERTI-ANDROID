@@ -9,15 +9,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import org.sopt.certi.core.state.UiState
 import kotlinx.coroutines.flow.stateIn
+import org.sopt.certi.data.remote.dto.response.PreCertificationResponseDto
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.model.UserInfoData
 import javax.inject.Inject
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertUseCase
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val userInfoUseCase: UserInfoUseCase,
+    private val preCertUseCase: PreCertUseCase,
+    private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
 
