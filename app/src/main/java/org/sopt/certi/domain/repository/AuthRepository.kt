@@ -15,4 +15,5 @@ interface AuthRepository {
         major: String,
         jobs: List<String>
     ): Result<SignUpResult>
+    suspend fun searchUniv(keyword: String): Result<List<String>>
 }
