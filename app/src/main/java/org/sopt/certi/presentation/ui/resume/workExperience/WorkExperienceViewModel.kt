@@ -39,7 +39,6 @@ class WorkExperienceViewModel @Inject constructor(
             )
         )
 
-
     fun getWorkExperienceList(){
         val resumeDataList = {
             listOf(
@@ -118,5 +117,9 @@ class WorkExperienceViewModel @Inject constructor(
             )
         }
         _experienceListLoadState.value = UiState.Success(resumeDataList())
+    }
+
+    fun onDeleteClick(selectedId: Long){
+
     }
 }
