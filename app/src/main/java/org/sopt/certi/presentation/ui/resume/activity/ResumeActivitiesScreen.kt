@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume
+package org.sopt.certi.presentation.ui.resume.activity
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,14 +17,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
+import org.sopt.certi.presentation.ui.resume.activity.sideEffect.ActivitySideEffect
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
-import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -31,79 +38,43 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeActivitiesRoute(
     padding: PaddingValues,
     onNavigateToAddActivities: () -> Unit,
-    viewModel: ResumeViewModel = hiltViewModel()
+    viewModel: ActivityViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.activityUiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
     var onDeleteDialogShow by remember { mutableStateOf(false) }
 
-    val resumeDataList = listOf(
-        ActivityData(
-            activityId = 1,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획, 동아리 36기 기획, 동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 2,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 3,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 4,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 5,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 6,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        ),
-        ActivityData(
-            activityId = 7,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "sopt",
-            role = "동아리 36기 기획",
-            description = "서비스 기획 및 아이디어 도출"
-        )
-    )
+    LaunchedEffect(Unit) {
+        viewModel.getActivityList()
+    }
 
-    ResumeActivitiesScreen(
-        onNavigateToAdd = onNavigateToAddActivities,
-        resumeDataList = resumeDataList,
-        onDeleteClick = { onDeleteDialogShow = true },
-        modifier = Modifier.padding(padding)
-    )
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                ActivitySideEffect.showDeleteDialog -> onDeleteDialogShow = true
+            }
+        }
+    }
+
+    when (uiState.loadState) {
+        is UiState.Success -> ResumeActivitiesScreen(
+            onNavigateToAdd = onNavigateToAddActivities,
+            resumeDataList = (uiState.activityListLoadState as UiState.Success).data.toImmutableList(),
+            onDeleteClick = { viewModel.onDeleteClick(it) },
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Init -> {}
+        is UiState.Loading -> {}
+    }
 
     if (onDeleteDialogShow) {
         CertiDeleteDialog(
-            onConfirmClick = { onDeleteDialogShow = false },
+            onConfirmClick = {
+                onDeleteDialogShow = false
+                viewModel.onDeleteConfirmclick()
+            },
             onDismissClick = { onDeleteDialogShow = false }
         )
     }
@@ -112,7 +83,7 @@ fun ResumeActivitiesRoute(
 @Composable
 fun ResumeActivitiesScreen(
     onNavigateToAdd: () -> Unit,
-    resumeDataList: List<ActivityData>,
+    resumeDataList: ImmutableList<ActivityData>,
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -183,7 +154,7 @@ private fun PreviewResumeActivitiesScreen() {
 
     CERTITheme {
         ResumeActivitiesScreen(
-            resumeDataList = resumeDataList,
+            resumeDataList = resumeDataList.toImmutableList(),
             onNavigateToAdd = {},
             onDeleteClick = { onDeleteDialogShow = true }
         )
