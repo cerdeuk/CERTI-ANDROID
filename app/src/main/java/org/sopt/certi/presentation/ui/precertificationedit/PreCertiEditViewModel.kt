@@ -35,13 +35,9 @@ class PreCertiEditViewModel @Inject constructor(
             initialValue = PreCertiEditUiState(
                 preCertiListLoadState = UiState.Loading,
                 showDialog = false,
-                selectedDeleteItem = 1
+                selectedDeleteItem = 0
             )
         )
-
-    init {
-        getPreCertiEditList()
-    }
 
     fun getPreCertiEditList() {
         val preCertiEditList = {

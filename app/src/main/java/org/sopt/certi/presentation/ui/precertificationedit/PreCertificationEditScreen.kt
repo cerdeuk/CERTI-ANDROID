@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
@@ -36,7 +37,7 @@ fun PreCertificationEditRoute(
 ) {
     val uiState by viewModel.preCertiEditUiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(uiState.preCertiListLoadState) {
         viewModel.getPreCertiEditList()
     }
 
@@ -59,7 +60,7 @@ fun PreCertificationEditRoute(
 @Composable
 fun PreCertificationEditScreen(
     preCertiEditState: PreCertiEditUiState,
-    preCertificationList: List<CertificationData>,
+    preCertificationList: ImmutableList<CertificationData>,
     onDelete: (Long) -> Unit,
     onDialogConfirm: () -> Unit = {},
     onDialogDismiss: () -> Unit = {},

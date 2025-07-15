@@ -261,7 +261,6 @@ fun HomeScreen(
                         )
                         FavoriteCertificationListSection(
                             favoriteCertificationList = favoriteCertificationList,
-                            isFavorite = isFavorite,
                             onFavoriteClicked = onFavoriteClicked,
                             modifier = modifier
                         )
