@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,16 +24,16 @@ class SplashViewModel @Inject constructor(
         autoLogin()
     }
 
-    private fun autoLogin(){
+    private fun autoLogin() {
         val accessToken = tokenManager.getToken()
         val refreshToken = tokenManager.getRefreshToken()
 
-        if(accessToken.isNotEmpty() && refreshToken.isNotEmpty()) {
+        if (accessToken.isNotEmpty() && refreshToken.isNotEmpty()) {
             viewModelScope.launch {
                 delay(3000)
                 _navigateToHome.value = true
             }
-        }else{
+        } else {
             viewModelScope.launch {
                 delay(3000)
                 _navigateToLogin.value = true
