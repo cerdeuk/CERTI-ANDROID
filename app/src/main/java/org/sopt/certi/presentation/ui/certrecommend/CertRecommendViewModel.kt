@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
-import org.sopt.certi.domain.usecase.GetInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
+import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.certrecommend.sideeffect.RecommendSideEffect
 import org.sopt.certi.presentation.ui.certrecommend.state.RecommendUiState
 import java.time.LocalDate
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CertRecommendViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase,
-    private val getInterestedJobListUseCase: GetInterestedJobListUseCase
+    private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
+    private val getRecommendCertListUseCase: GetRecommendCertListUseCase
 ) : ViewModel() {
 
     private val _jobList = MutableStateFlow<UiState<List<String>>>(UiState.Init)
@@ -55,7 +57,7 @@ class CertRecommendViewModel @Inject constructor(
             onSuccess = {
                 val categoryList = it.jobList
 
-                getRecommendCertList(categoryList)
+                getRecommendCertList()
                 _jobList.emit(UiState.Success(categoryList))
             },
             onFailure = {
@@ -64,24 +66,15 @@ class CertRecommendViewModel @Inject constructor(
         )
     }
 
-    private fun getRecommendCertList(dummyCertList: List<String>) = viewModelScope.launch {
-        // TODO 추천 자격증 리스트 받아오는 로직
-
-        val dummyRecommendList = mutableListOf<CertificationData>()
-        for (i in 0L..11L) {
-            dummyRecommendList.add(
-                CertificationData(
-                    certificationId = i,
-                    certificationName = dummyCertList[0],
-                    agencyName = "국가기술자격",
-                    createdAt = LocalDate.now(),
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                    tags = listOf("태그", "태그", "태그")
-                )
-            )
-        }
-
-        _recommendCertList.emit(UiState.Success(dummyRecommendList))
+    private fun getRecommendCertList() = viewModelScope.launch {
+        getRecommendCertListUseCase.invoke().fold(
+            onSuccess = {
+                _recommendCertList.emit(UiState.Success(it.certificationList))
+            },
+            onFailure = {
+                _recommendCertList.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun editJob(jobNameList: List<String>) = viewModelScope.launch {

@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.usecase
+package org.sopt.certi.domain.usecase.user
 
 import org.sopt.certi.domain.model.InterestedJobListData
 import org.sopt.certi.domain.repository.UserRepository

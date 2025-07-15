@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.remote.service.AuthService
+import org.sopt.certi.data.remote.service.CertService
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.service.DummyService
 import org.sopt.certi.data.remote.service.UserService
@@ -27,4 +28,9 @@ object ServiceModule {
     @Singleton
     fun providesUserService(retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesCertService(retrofit: Retrofit): CertService =
+        retrofit.create(CertService::class.java)
 }
