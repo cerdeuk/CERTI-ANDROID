@@ -38,5 +38,16 @@ enum class CategoryType(
     ),
     PROFESSIONAL(
         description = "전문/특수직"
-    )
+    );
+
+    companion object {
+        fun getByDescription(description: String): CategoryType? {
+            for (enum in CategoryType.entries) {
+                if (enum.description == description) {
+                    return enum
+                }
+            }
+            return null
+        }
+    }
 }
