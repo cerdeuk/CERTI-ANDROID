@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.HomeRoute
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.presentation.ui.home.HomeRoute
-import org.sopt.certi.presentation.ui.home.PreCertificationEditRoute
+import org.sopt.certi.presentation.ui.precertificationedit.PreCertificationEditRoute
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
     navigate(MainTabRoute.Home, navOptions)
