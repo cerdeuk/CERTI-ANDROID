@@ -8,74 +8,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.resume.component.ResumeDateInputSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeTextInputSection
-import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
-import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.presentation.ui.resume.workExperience.state.AddWorkExperienceUiState
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ResumeAddWorkExperienceRoute(
     padding: PaddingValues,
     onNavigateToResume: () -> Unit,
-    viewModel: ResumeViewModel = hiltViewModel()
+    viewModel: AddWorkExperienceViewModel = hiltViewModel()
 ) {
-    var startDate by remember { mutableStateOf("") }
-    var endDate by remember { mutableStateOf("") }
-    var organizationValue by remember { mutableStateOf("") }
-    var roleValue by remember { mutableStateOf("") }
-    var descriptionValue by remember { mutableStateOf("") }
-    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
-        derivedStateOf {
-            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
-        }
-    }
+    val uiState by viewModel.addWorkExperienceUiState.collectAsStateWithLifecycle()
 
     ResumeAddWorkExperienceScreen(
-        startDate = startDate,
-        endDate = endDate,
-        onStartDateValueChange = { startDate = it },
-        onEndDateValueChange = { endDate = it },
-        organizationValue = organizationValue,
-        onOrganizationValueChange = { organizationValue = it },
-        roleValue = roleValue,
-        onRoleValueChange = { roleValue = it },
-        descriptionValue = descriptionValue,
-        onDescriptionValueChange = { descriptionValue = it },
+        uiState = uiState,
+        onStartDateValueChange = { viewModel.onStartDateChanged(it) },
+        onEndDateValueChange = { viewModel.onEndDateChanged(it) },
+        onOrganizationValueChange = { viewModel.onOrganizationChanged(it) },
+        onRoleValueChange = { viewModel.onRoleChanged(it) },
+        onDescriptionValueChange = { viewModel.onDescriptionChanged(it) },
         onNavigateToResume = onNavigateToResume,
-        addButtonEnabled = addButtonEnabled,
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
 fun ResumeAddWorkExperienceScreen(
-    startDate: String,
-    endDate: String,
+    uiState: AddWorkExperienceUiState,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
-    organizationValue: String,
     onOrganizationValueChange: (String) -> Unit,
-    roleValue: String,
     onRoleValueChange: (String) -> Unit,
-    descriptionValue: String,
     onDescriptionValueChange: (String) -> Unit,
     onNavigateToResume: () -> Unit,
-    addButtonEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -97,8 +73,8 @@ fun ResumeAddWorkExperienceScreen(
             item {
                 ResumeDateInputSection(
                     title = stringResource(R.string.resume_work_experience_period),
-                    startDate = startDate,
-                    endDate = endDate,
+                    startDate = uiState.startDate,
+                    endDate = uiState.endDate,
                     onStartDateValueChange = onStartDateValueChange,
                     onEndDateValueChange = onEndDateValueChange,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
@@ -108,9 +84,9 @@ fun ResumeAddWorkExperienceScreen(
             item {
                 ResumeTextInputSection(
                     title = stringResource(R.string.resume_work_experience_organization),
-                    value = organizationValue,
+                    value = uiState.organizationValue,
                     onValueChange = onOrganizationValueChange,
-                    maxLength = 30,
+                    maxLength = 10,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
@@ -118,9 +94,9 @@ fun ResumeAddWorkExperienceScreen(
             item {
                 ResumeTextInputSection(
                     title = stringResource(R.string.resume_work_experience_role),
-                    value = roleValue,
+                    value = uiState.roleValue,
                     onValueChange = onRoleValueChange,
-                    maxLength = 30,
+                    maxLength = 10,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
@@ -128,9 +104,9 @@ fun ResumeAddWorkExperienceScreen(
             item {
                 ResumeTextInputSection(
                     title = stringResource(R.string.resume_work_experience_description),
-                    value = descriptionValue,
+                    value = uiState.descriptionValue,
                     onValueChange = onDescriptionValueChange,
-                    maxLength = 80,
+                    maxLength = 16,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
@@ -143,39 +119,7 @@ fun ResumeAddWorkExperienceScreen(
                 .fillMaxWidth()
                 .padding(bottom = screenHeightDp(24.dp))
                 .padding(horizontal = screenWidthDp(20.dp)),
-            enabled = addButtonEnabled
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PreviewResumeAddWorkExperienceScreen() {
-    var startDate by remember { mutableStateOf("") }
-    var endDate by remember { mutableStateOf("") }
-    var organizationValue by remember { mutableStateOf("") }
-    var roleValue by remember { mutableStateOf("") }
-    var descriptionValue by remember { mutableStateOf("") }
-    val addButtonEnabled by remember(startDate, endDate, organizationValue, roleValue, descriptionValue) {
-        derivedStateOf {
-            startDate.isNotBlank() && endDate.isNotBlank() && organizationValue.isNotBlank() && roleValue.isNotBlank() && descriptionValue.isNotBlank()
-        }
-    }
-
-    CERTITheme {
-        ResumeAddWorkExperienceScreen(
-            startDate = startDate,
-            endDate = endDate,
-            onStartDateValueChange = { startDate = it },
-            onEndDateValueChange = { endDate = it },
-            organizationValue = organizationValue,
-            onOrganizationValueChange = { organizationValue = it },
-            roleValue = roleValue,
-            onRoleValueChange = { roleValue = it },
-            descriptionValue = descriptionValue,
-            onDescriptionValueChange = { descriptionValue = it },
-            onNavigateToResume = {},
-            addButtonEnabled = addButtonEnabled
+            enabled = uiState.addButtonEnabled
         )
     }
 }
