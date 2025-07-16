@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume.component
+package org.sopt.certi.presentation.ui.myCert.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +21,7 @@ import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSmallCard
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
