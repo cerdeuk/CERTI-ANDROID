@@ -1,6 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
-import org.sopt.certi.data.mapper.todomain.toDomain
+import org.sopt.certi.data.mapper.todomain.auth.toDomain
 import javax.inject.Inject
 import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource

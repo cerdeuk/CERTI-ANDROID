@@ -1,4 +1,4 @@
-package org.sopt.certi.data.mapper.todomain
+package org.sopt.certi.data.mapper.todomain.auth
 
 import org.sopt.certi.data.remote.dto.response.SignUpResponseDto
 import org.sopt.certi.domain.model.user.JwtResponse
