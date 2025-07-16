@@ -1,8 +1,6 @@
 package org.sopt.certi.data.remote.datasourceimpl
 
 import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
-import org.sopt.certi.data.remote.dto.base.ApiResponse
-import org.sopt.certi.data.remote.dto.response.GetRecommendCertResponseDto
 import org.sopt.certi.data.remote.service.HomeService
 import javax.inject.Inject
 

@@ -102,7 +102,6 @@ class HomeViewModel @Inject constructor(
             favoriteUseCase()
                 .onSuccess { result ->
                     _favoriteListLoadState.value = UiState.Success(result)
-
                 }.onFailure { e ->
                     _favoriteListLoadState.value = UiState.Failure(e.toString())
                 }
@@ -117,11 +116,12 @@ class HomeViewModel @Inject constructor(
                 val updated = current.data.map {
                     if (it.certificationId == certificationId) {
                         it.copy(isFavorite = !it.isFavorite)
-                    } else it
+                    } else {
+                        it
+                    }
                 }
                 _favoriteListLoadState.value = UiState.Success(updated)
             }
         }
     }
 }
-

@@ -24,7 +24,6 @@ import org.sopt.certi.data.remote.datasourceimpl.HomeRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.PreCertRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.UserRemoteDataSourceImpl
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {

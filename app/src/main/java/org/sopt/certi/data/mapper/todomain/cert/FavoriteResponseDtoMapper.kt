@@ -13,4 +13,3 @@ fun FavoriteListResponseDto.toDomain(): List<CertificationData> =
             isFavorite = cert.isFavorite
         )
     }
-

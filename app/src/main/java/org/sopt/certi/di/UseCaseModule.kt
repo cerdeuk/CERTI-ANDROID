@@ -1,6 +1,5 @@
 package org.sopt.certi.di
 
-import com.kakao.sdk.user.model.User
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -5,7 +5,7 @@ import org.sopt.certi.domain.repository.HomeRepository
 import javax.inject.Inject
 
 class UserInfoUseCase @Inject constructor(
-private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository
 ) {
     suspend operator fun invoke(): Result<UserInfoData> {
         return homeRepository.getUserInfo()

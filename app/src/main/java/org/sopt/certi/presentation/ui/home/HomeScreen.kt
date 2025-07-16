@@ -43,7 +43,6 @@ import org.sopt.certi.presentation.ui.home.state.HomeUiState
 import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
-import timber.log.Timber
 
 @Composable
 fun HomeRoute(
@@ -143,7 +142,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable {  }
+                                .noRippleClickable { }
                         )
                     }
                     RecommendedCertificationListSection(

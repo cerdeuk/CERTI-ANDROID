@@ -3,7 +3,6 @@ package org.sopt.certi.data.mapper.todomain.cert
 import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.domain.model.certification.CertificationData
 
-
 fun PreCertListResponseDto.toDomain(): List<CertificationData> =
     data.map { cert ->
         CertificationData(
