@@ -48,7 +48,7 @@ fun ResumeDescriptionSection(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Spacer(modifier = Modifier.width(screenWidthDp(30.dp)))
+        Spacer(modifier = Modifier.width(screenWidthDp(24.dp)))
 
         Column {
             Text(
