@@ -4,7 +4,7 @@ import org.sopt.certi.data.mapper.todomain.toDomain
 import org.sopt.certi.data.remote.datasource.AcquisitionRemoteDataSource
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.repository.AcquisitionRepository
 import javax.inject.Inject
 

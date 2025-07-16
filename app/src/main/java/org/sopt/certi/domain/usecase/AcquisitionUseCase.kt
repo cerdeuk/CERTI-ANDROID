@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.usecase
 
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.repository.AcquisitionRepository
 
 class AcquisitionUseCase(

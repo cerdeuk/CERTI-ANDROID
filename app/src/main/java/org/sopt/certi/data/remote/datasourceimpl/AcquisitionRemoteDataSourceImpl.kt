@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class AcquisitionRemoteDataSourceImpl @Inject constructor(
     private val acquisitionService: AcquisitionService
-): AcquisitionRemoteDataSource {
+) : AcquisitionRemoteDataSource {
     override suspend fun getAcquisitionList(): ApiResponse<AcquisitionListWrapperDto> =
         acquisitionService.getAcquisitionList()
 }
