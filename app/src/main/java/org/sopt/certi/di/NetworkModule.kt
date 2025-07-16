@@ -71,8 +71,8 @@ object NetworkModule {
     }
 
     private fun shouldAddAuthorization(url: String): Boolean {
-        return !url.contains("/api/v1/auth/sign-in") && !url.contains("/api/v1/auth/sign-up")
-                && !url.contains("/api/v1/university/search")
+        return !url.contains("/api/v1/auth/sign-in") && !url.contains("/api/v1/auth/sign-up") &&
+            !url.contains("/api/v1/university/search")
     }
 
     @Provides
