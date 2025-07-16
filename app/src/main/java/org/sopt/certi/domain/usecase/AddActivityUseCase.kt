@@ -4,7 +4,7 @@ import org.sopt.certi.domain.repository.ActivityRepository
 
 class AddActivityUseCase(
     private val activityRepository: ActivityRepository
-){
+) {
     suspend operator fun invoke(
         startAt: String,
         endAt: String,
