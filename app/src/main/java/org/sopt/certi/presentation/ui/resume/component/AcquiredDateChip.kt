@@ -12,7 +12,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate

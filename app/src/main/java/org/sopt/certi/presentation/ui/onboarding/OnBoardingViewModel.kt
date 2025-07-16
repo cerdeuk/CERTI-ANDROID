@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState

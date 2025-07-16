@@ -2,7 +2,7 @@ package org.sopt.certi.presentation.ui.resume.main.state
 
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 
 data class ResumeUiState(
     val jobCategoryLoadState: UiState<List<String>>,

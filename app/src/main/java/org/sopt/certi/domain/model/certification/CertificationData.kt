@@ -1,6 +1,10 @@
-package org.sopt.certi.domain.model
+package org.sopt.certi.domain.model.certification
 
 import java.time.LocalDate
+
+data class CertificationListData(
+    val certificationList: List<CertificationData>
+)
 
 data class CertificationData(
     val certificationId: Long,

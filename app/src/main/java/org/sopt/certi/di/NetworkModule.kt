@@ -65,7 +65,7 @@ object NetworkModule {
         val token = tokenManager.getToken()
 
         val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", token)
+            .addHeader("Authorization", "Bearer $token")
             .build()
         chain.proceed(newRequest)
     }
