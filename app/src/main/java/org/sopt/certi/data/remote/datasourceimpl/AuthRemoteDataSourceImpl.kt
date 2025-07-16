@@ -4,6 +4,7 @@ import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.request.SignInRequestDto
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
+import org.sopt.certi.data.remote.dto.response.SearchMajorResponseDto
 import org.sopt.certi.data.remote.dto.response.SearchUnivResponseDto
 import org.sopt.certi.data.remote.dto.response.SignInResponseDto
 import org.sopt.certi.data.remote.dto.response.SignUpResponseDto
@@ -21,4 +22,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun searchUniv(keyword: String): ApiResponse<SearchUnivResponseDto> =
         authService.searchUniv(keyword)
+
+    override suspend fun searchMajor(keyword: String): ApiResponse<SearchMajorResponseDto> =
+        authService.searchMajor(keyword)
 }
