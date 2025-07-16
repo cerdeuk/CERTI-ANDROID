@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
+    private val searchUnivUseCase: SearchUnivUseCase
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
@@ -89,24 +91,20 @@ class OnBoardingViewModel @Inject constructor(
         )
 
     fun getUnivList(univSearchText: String) {
-        _submittedUnivSearchText.value = univSearchText
-        val univList = {
-            listOf(
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
-                "뿡뿡대학교",
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
-                "뿡뿡대학교",
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
-                "뿡뿡대학교"
-            )
+        viewModelScope.launch {
+            _onBoardingUnivLoadState.value = UiState.Loading
+            searchUnivUseCase(univSearchText)
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _onBoardingUnivLoadState.value = UiState.Empty
+                    } else {
+                        _onBoardingUnivLoadState.value = UiState.Success(result)
+                    }
+                }.onFailure {
+                    _onBoardingUnivLoadState.value = UiState.Failure(it.toString())
+                }
         }
-        _onBoardingUnivLoadState.value = UiState.Success(univList())
+        _submittedUnivSearchText.value = univSearchText
     }
 
     fun onUnivSearchTextChange(univSearchText: String) {
