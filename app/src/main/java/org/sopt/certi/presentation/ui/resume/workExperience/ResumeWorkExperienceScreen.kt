@@ -17,7 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
@@ -28,6 +30,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
+import org.sopt.certi.presentation.ui.resume.workExperience.sideEffect.WorkExperienceSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -38,20 +41,26 @@ fun ResumeWorkExperienceRoute(
     viewModel: WorkExperienceViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.workExperienceUiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
     var onDeleteDialogShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getWorkExperienceList()
     }
 
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                WorkExperienceSideEffect.showDeleteDialog -> onDeleteDialogShow = true
+            }
+        }
+    }
+
     when (uiState.loadState) {
         is UiState.Success -> ResumeWorkExperienceScreen(
             onNavigateToAddWordExperience = onNavigateToAddWordExperience,
             resumeDataList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
-            onDeleteClick = {
-                onDeleteDialogShow = true
-                viewModel.onDeleteClick(it)
-            },
+            onDeleteClick = { viewModel.onDeleteClick(it) },
             modifier = Modifier.padding(padding)
         )
 
