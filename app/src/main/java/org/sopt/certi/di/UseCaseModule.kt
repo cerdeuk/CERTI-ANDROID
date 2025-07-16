@@ -5,11 +5,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.sopt.certi.domain.repository.ActivityRepository
+import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.domain.repository.AuthRepository
+import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.HomeRepository
+import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
+import org.sopt.certi.domain.usecase.AddActivityUseCase
+import org.sopt.certi.domain.usecase.AddCareerUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
@@ -19,9 +25,12 @@ import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
+import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
+import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
+import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
 import javax.inject.Singleton
@@ -108,4 +117,34 @@ object UseCaseModule {
     fun provideToggleFavoriteUseCase(
         homeRepository: HomeRepository
     ): ToggleFavoriteUseCase = ToggleFavoriteUseCase(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideAcquiredCertUseCase(
+        acquisitionRepository: AcquisitionRepository
+    ): AcquiredCertUseCase = AcquiredCertUseCase(acquisitionRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetCertInfoUseCase(
+        certRepository: CertRepository
+    ): GetCertInfoUseCase = GetCertInfoUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideAcquireExpectCertUseCase(
+        preCertRepository: PreCertRepository
+    ): AcquireExpectCertUseCase = AcquireExpectCertUseCase(preCertRepository)
+
+    @Provides
+    @Singleton
+    fun provideAddActivityUseCase(
+        activityRepository: ActivityRepository
+    ): AddActivityUseCase = AddActivityUseCase(activityRepository)
+
+    @Provides
+    @Singleton
+    fun provideAddCareerUseCase(
+        careerRepository: CareerRepository
+    ): AddCareerUseCase = AddCareerUseCase(careerRepository)
 }
