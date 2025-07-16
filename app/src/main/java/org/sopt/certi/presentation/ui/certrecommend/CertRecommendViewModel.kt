@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -11,9 +12,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
@@ -23,10 +24,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CertRecommendViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase,
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
     private val getRecommendCertListUseCase: GetRecommendCertListUseCase,
-    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase
+    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _jobList = MutableStateFlow<UiState<List<String>>>(UiState.Init)
@@ -79,6 +80,10 @@ class CertRecommendViewModel @Inject constructor(
     }
 
     fun editJob(jobNameList: List<String>) = viewModelScope.launch {
+        _jobList.emit(UiState.Loading)
+        // 최소 로딩화면 표출시간 보장
+        delay(2000)
+
         modifyInterestedJobListUseCase.invoke(jobNameList).fold(
             onSuccess = {
                 getJobList()
@@ -104,6 +109,8 @@ class CertRecommendViewModel @Inject constructor(
     }
 
     fun showFilterBottomSheet() = viewModelScope.launch {
-        _sideEffect.send(RecommendSideEffect.ShowFilterBottomSheer)
+        _sideEffect.send(RecommendSideEffect.ShowFilterBottomSheet)
     }
+
+    fun getUserName() = tokenManager.getUserInformation()?.nickname
 }
