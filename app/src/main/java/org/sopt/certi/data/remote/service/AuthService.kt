@@ -3,6 +3,7 @@ package org.sopt.certi.data.remote.service
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.request.SignInRequestDto
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
+import org.sopt.certi.data.remote.dto.response.SearchMajorResponseDto
 import org.sopt.certi.data.remote.dto.response.SearchUnivResponseDto
 import org.sopt.certi.data.remote.dto.response.SignInResponseDto
 import org.sopt.certi.data.remote.dto.response.SignUpResponseDto
@@ -28,4 +29,9 @@ interface AuthService {
     suspend fun searchUniv(
         @Query("keyword") keyword: String
     ): ApiResponse<SearchUnivResponseDto>
+
+    @GET("/api/v1/major/search")
+    suspend fun searchMajor(
+        @Query("keyword") keyword: String
+    ): ApiResponse<SearchMajorResponseDto>
 }
