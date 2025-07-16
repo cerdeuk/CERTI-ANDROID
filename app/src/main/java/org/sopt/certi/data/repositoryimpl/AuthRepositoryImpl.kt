@@ -1,7 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
-import org.sopt.certi.data.mapper.todomain.toDomain
-import org.sopt.certi.data.mapper.todomain.user.toDomain
+import org.sopt.certi.data.mapper.todomain.auth.toDomain
 import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.UserInformationDto
@@ -51,5 +50,19 @@ class AuthRepositoryImpl @Inject constructor(
         ).handleApiResponse()
             .getOrThrow()
             .toDomain()
+    }
+
+    override suspend fun searchUniv(keyword: String): Result<List<String>> = safeApiCall {
+        authRemoteDataSource.searchUniv(keyword = keyword)
+            .handleApiResponse()
+            .getOrThrow()
+            .universityNameList
+    }
+
+    override suspend fun searchMajor(keyword: String): Result<List<String>> = safeApiCall {
+        authRemoteDataSource.searchMajor(keyword = keyword)
+            .handleApiResponse()
+            .getOrThrow()
+            .majorNameList
     }
 }
