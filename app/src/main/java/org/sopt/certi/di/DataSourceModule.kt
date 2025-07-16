@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.remote.datasource.AcquisitionRemoteDataSource
+import org.sopt.certi.data.remote.datasource.ActivityRemoteDataSource
 import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.datasource.CareerRemoteDataSource
 import org.sopt.certi.data.remote.datasource.CertRemoteDataSource
@@ -12,6 +13,7 @@ import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.datasourceimpl.AcquisitionRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
+import org.sopt.certi.data.remote.datasourceimpl.ActivityRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CareerRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CertRemoteDataSourceImpl
@@ -44,4 +46,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsCareerDataSource(careerDataSourceImpl: CareerRemoteDataSourceImpl): CareerRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsActivityDataSource(activityDataSourceImpl: ActivityRemoteDataSourceImpl): ActivityRemoteDataSource
 }

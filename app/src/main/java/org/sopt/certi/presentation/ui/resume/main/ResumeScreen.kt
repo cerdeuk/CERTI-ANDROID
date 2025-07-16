@@ -39,8 +39,6 @@ import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
 import org.sopt.certi.presentation.ui.resume.component.card.FlipCardOverlay
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
-import org.sopt.certi.ui.theme.CERTITheme
-import java.time.LocalDate
 
 @Composable
 fun ResumeRoute(
@@ -179,4 +177,3 @@ fun ResumeScreen(
         }
     }
 }
-

@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.remote.service.AcquisitionService
+import org.sopt.certi.data.remote.service.ActivityService
 import org.sopt.certi.data.remote.service.AuthService
 import org.sopt.certi.data.remote.service.CareerService
 import org.sopt.certi.data.remote.service.CertService
@@ -45,4 +46,9 @@ object ServiceModule {
     @Singleton
     fun provideCareerService(retrofit: Retrofit): CareerService =
         retrofit.create(CareerService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideActivityService(retrofit: Retrofit): ActivityService =
+        retrofit.create(ActivityService::class.java)
 }

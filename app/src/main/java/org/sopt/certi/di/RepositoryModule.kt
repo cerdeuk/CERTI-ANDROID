@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.repositoryimpl.AcquisitionRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.ActivityRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.AuthRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CareerRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CertRepositoryImpl
@@ -12,6 +13,7 @@ import javax.inject.Singleton
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
 import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
+import org.sopt.certi.domain.repository.ActivityRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
@@ -44,4 +46,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindCareerRepository(careerRepositoryImpl: CareerRepositoryImpl): CareerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindActivityRepository(activityRepositoryImpl: ActivityRepositoryImpl): ActivityRepository
 }

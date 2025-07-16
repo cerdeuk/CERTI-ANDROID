@@ -15,6 +15,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.AcquisitionUseCase
+import org.sopt.certi.domain.usecase.ActivityUseCase
 import org.sopt.certi.domain.usecase.CareerUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class ResumeViewModel @Inject constructor(
     private val acquisitionUseCase: AcquisitionUseCase,
     private val getInterestJobListUseCase: GetInterestedJobListUseCase,
-    private val careerUseCase: CareerUseCase
+    private val careerUseCase: CareerUseCase,
+    private val activityUseCase: ActivityUseCase
 ) : ViewModel() {
     private val _jobCategoryLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
@@ -110,11 +112,17 @@ class ResumeViewModel @Inject constructor(
         )
     }
 
-    private fun getActivityList() {
-        val activityList = {
-            emptyList<ActivityData>()
-        }
-        _activityListLoadState.value = UiState.Success(activityList().take(4))
+    private fun getActivityList() = viewModelScope.launch {
+        _activityListLoadState.value = UiState.Loading
+        activityUseCase.invoke().fold(
+            onSuccess = {
+                val activityList = it
+                _activityListLoadState.emit(UiState.Success(activityList))
+            },
+            onFailure = {
+                _activityListLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun onCertificationClick(selectedCertificationId: Long) = viewModelScope.launch {

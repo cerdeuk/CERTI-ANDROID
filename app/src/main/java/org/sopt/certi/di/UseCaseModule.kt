@@ -5,12 +5,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.domain.repository.AcquisitionRepository
+import org.sopt.certi.domain.repository.ActivityRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.AcquisitionUseCase
+import org.sopt.certi.domain.usecase.ActivityUseCase
 import org.sopt.certi.domain.usecase.CareerUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
@@ -98,4 +100,10 @@ object UseCaseModule {
     fun provideCareerUseCase(
         repository: CareerRepository
     ): CareerUseCase = CareerUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideActivityUseCase(
+        repository: ActivityRepository
+    ): ActivityUseCase = ActivityUseCase(repository)
 }

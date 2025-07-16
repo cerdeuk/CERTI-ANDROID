@@ -63,4 +63,3 @@ private fun ResumeListItem(
         ResumeDescriptionSection(resumeListItem = resumeListItem)
     }
 }
-
