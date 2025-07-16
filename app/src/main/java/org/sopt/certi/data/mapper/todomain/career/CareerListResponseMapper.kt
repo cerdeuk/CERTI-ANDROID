@@ -7,23 +7,17 @@ import java.time.format.DateTimeFormatter
 
 fun GetCareersResponseDto.toDomain(): List<ActivityData> {
     return careerDetailResponseList.map {
-        val startAt = try {
-            LocalDate.parse(it.startAt, DateTimeFormatter.ISO_LOCAL_DATE)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            LocalDate.MIN
-        }
-        val endAt = try {
-            LocalDate.parse(it.endAt, DateTimeFormatter.ISO_LOCAL_DATE)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            LocalDate.MIN
-        }
+        fun parseDate(dateString: String): LocalDate =
+            runCatching { LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE) }
+                .getOrElse {
+                    it.printStackTrace()
+                    LocalDate.MIN
+                }
 
         ActivityData(
             activityId = it.careerId,
-            startAt = startAt,
-            endAt = endAt,
+            startAt = parseDate(it.startAt),
+            endAt = parseDate(it.endAt),
             organization = it.place,
             role = it.name,
             description = it.description
