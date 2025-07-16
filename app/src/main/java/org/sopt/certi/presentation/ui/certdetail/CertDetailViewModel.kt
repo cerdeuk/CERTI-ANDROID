@@ -14,15 +14,18 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CertDetailViewModel @Inject constructor(
     private val dummyUseCase: DummyUseCase,
-    private val getCertInfoUseCase: GetCertInfoUseCase
+    private val getCertInfoUseCase: GetCertInfoUseCase,
+    private val acquiredCertUseCase: AcquiredCertUseCase
 ) : ViewModel() {
 
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)
@@ -64,9 +67,15 @@ class CertDetailViewModel @Inject constructor(
     }
 
     fun acquiredCert(certId: Long) = viewModelScope.launch {
-        // TODO 취득 완료 로직
-
-        _sideEffect.send(DetailSideEffect.ShowAcquiredSuccessDialog)
-        _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)
+        acquiredCertUseCase.invoke(certId).fold(
+            onSuccess = {
+                if(it) {
+                    _sideEffect.send(DetailSideEffect.ShowAcquiredSuccessDialog)
+                } else {
+                    _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)
+                }
+            },
+            onFailure = {}
+        )
     }
 }
