@@ -81,6 +81,12 @@
 ## 🗂️ Project Structure
 ```Text
 📂 org.sopt.certi
+┣ 📂 core
+┃ ┣ 📂 component
+┃ ┣ 📂 navigation
+┃ ┣ 📂 network
+┃ ┣ 📂 state
+┃ ┣ 📂 util
 ┣ 📂 data
 ┃ ┣ 📂 local
 ┃ ┃ ┣ 📂 datasource
@@ -106,8 +112,17 @@
 ┃ ┣ 📂 usecase
 ┣ 📂 presentation
 ┃ ┣ 📂 ui
-┃ ┃ ┣ 📂 splash // 스플래쉬
-┃ ┃ ┣ 📂 home // 홈
+┃ ┃ ┣ 📂 splash
+┃ ┃ ┣ 📂 home
+┃ ┃ ┣ 📂 certDetail
+┃ ┃ ┣ 📂 certList
+┃ ┃ ┣ 📂 certrecommend
+┃ ┃ ┣ 📂 login
+┃ ┃ ┣ 📂 main
+┃ ┃ ┣ 📂 onboarding
+┃ ┃ ┣ 📂 precertificationedit
+┃ ┃ ┣ 📂 resume
+┃ ┃ ┣ 📂 search
 ...
 ┃ ┣ 📂 util
 ┣ 📂 ui.theme
