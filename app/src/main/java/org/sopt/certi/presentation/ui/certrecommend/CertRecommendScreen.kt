@@ -38,7 +38,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.certrecommend.component.bottomsheet.RecommendFilterBottomSheet
 import org.sopt.certi.presentation.ui.certrecommend.component.chip.RecommendCategoryChip
@@ -65,13 +65,7 @@ fun CertRecommendRoute(
     val recommendUiState by viewModel.recommendUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        // FIXME 더미 데이터
-        val dummyCertList = listOf<String>(
-            CategoryType.DESIGN.description,
-            CategoryType.PROFESSIONAL.description,
-            CategoryType.TRADE.description
-        )
-        viewModel.getJobList(dummyCertList)
+        viewModel.getJobList()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {

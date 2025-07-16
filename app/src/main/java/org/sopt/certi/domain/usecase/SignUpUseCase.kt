@@ -1,7 +1,7 @@
 package org.sopt.certi.domain.usecase
 
-import org.sopt.certi.domain.model.SignUpResult
-import org.sopt.certi.domain.model.UserInformationAuth
+import org.sopt.certi.domain.model.user.SignUpResult
+import org.sopt.certi.domain.model.user.UserInformationAuth
 import org.sopt.certi.domain.repository.AuthRepository
 
 class SignUpUseCase(
