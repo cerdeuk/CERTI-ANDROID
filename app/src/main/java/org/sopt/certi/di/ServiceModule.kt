@@ -9,6 +9,7 @@ import org.sopt.certi.data.remote.service.AuthService
 import org.sopt.certi.data.remote.service.CertService
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.service.DummyService
+import org.sopt.certi.data.remote.service.PreCertService
 import org.sopt.certi.data.remote.service.UserService
 import retrofit2.Retrofit
 
@@ -39,4 +40,9 @@ object ServiceModule {
     @Singleton
     fun providesAcquisitionService(retrofit: Retrofit): AcquisitionService =
         retrofit.create(AcquisitionService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesPreCertService(retrofit: Retrofit): PreCertService =
+        retrofit.create(PreCertService::class.java)
 }

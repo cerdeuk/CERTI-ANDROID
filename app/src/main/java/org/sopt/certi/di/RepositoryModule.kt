@@ -9,11 +9,13 @@ import org.sopt.certi.data.repositoryimpl.AuthRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CertRepositoryImpl
 import javax.inject.Singleton
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.PreCertRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
 import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
 
 @Module
@@ -38,4 +40,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAcquisitionRepository(acquisitionRepositoryImpl: AcquisitionRepositoryImpl): AcquisitionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPreCertRepository(certRepositoryImpl: PreCertRepositoryImpl): PreCertRepository
 }

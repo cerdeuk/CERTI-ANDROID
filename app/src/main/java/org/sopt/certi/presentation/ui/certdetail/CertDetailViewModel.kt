@@ -16,6 +16,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
+import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
 import timber.log.Timber
@@ -23,9 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CertDetailViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase,
     private val getCertInfoUseCase: GetCertInfoUseCase,
-    private val acquiredCertUseCase: AcquiredCertUseCase
+    private val acquiredCertUseCase: AcquiredCertUseCase,
+    private val acquireExpectCertUseCase: AcquireExpectCertUseCase
 ) : ViewModel() {
 
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)
@@ -60,10 +61,16 @@ class CertDetailViewModel @Inject constructor(
     }
 
     fun acquireExpectCert(certId: Long) = viewModelScope.launch {
-        // TODO 취득 예정 로직
-
-        _sideEffect.send(DetailSideEffect.ShowAcquireExpectSuccessToast)
-        _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
+        acquireExpectCertUseCase.invoke(certId).fold(
+            onSuccess = {
+                if(it) {
+                    _sideEffect.send(DetailSideEffect.ShowAcquireExpectSuccessToast)
+                } else {
+                    _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
+                }
+            },
+            onFailure = {}
+        )
     }
 
     fun acquiredCert(certId: Long) = viewModelScope.launch {
