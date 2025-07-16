@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 class ActivityRemoteDataSourceImpl @Inject constructor(
     private val activityService: ActivityService
-): ActivityRemoteDataSource {
+) : ActivityRemoteDataSource {
     override suspend fun addActivity(startAt: String, endAt: String, place: String, name: String, description: String): NullableApiResponse<Unit> =
         activityService.addActivity(addActivityRequest = AddActivityRequestDto(startAt, endAt, place, name, description))
-
 }
