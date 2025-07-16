@@ -31,7 +31,11 @@ fun ResumeDescriptionSection(
             modifier = Modifier.width(screenWidthDp(104.dp))
         ) {
             Text(
-                text = stringResource(R.string.resume_list_item_period, resumeListItem.startAt, resumeListItem.endAt),
+                text = stringResource(
+                    R.string.resume_list_item_period,
+                    resumeListItem.startAt,
+                    resumeListItem.endAt
+                ),
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )

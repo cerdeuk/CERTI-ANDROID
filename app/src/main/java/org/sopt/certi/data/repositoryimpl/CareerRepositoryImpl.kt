@@ -16,6 +16,7 @@ class CareerRepositoryImpl @Inject constructor(
         careerRemoteDataSource.addCareer(startAt, endAt, place, name, description)
             .handleNullableApiResponse()
             .getOrThrow()
+    }
 
     override suspend fun getCareerList(): Result<List<ActivityData>> = safeApiCall {
         careerRemoteDataSource.getCareerList()

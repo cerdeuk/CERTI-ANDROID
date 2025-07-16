@@ -6,8 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.data.remote.service.ActivityService
 import org.sopt.certi.data.remote.service.AcquisitionService
-import org.sopt.certi.data.remote.service.AcquisitionService
-import org.sopt.certi.data.remote.service.ActivityService
 import org.sopt.certi.data.remote.service.AuthService
 import org.sopt.certi.data.remote.service.CareerService
 import org.sopt.certi.data.remote.service.CertService

@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.domain.usecase.AddActivityUseCase
-import org.sopt.certi.presentation.ui.resume.activity.state.AddActivityUiState
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.activity.state.AddActivityUiState
 import javax.inject.Inject
 

@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.domain.usecase.AddCareerUseCase
-import org.sopt.certi.presentation.ui.resume.workExperience.state.AddWorkExperienceUiState
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.workExperience.state.AddWorkExperienceUiState
 import javax.inject.Inject
 

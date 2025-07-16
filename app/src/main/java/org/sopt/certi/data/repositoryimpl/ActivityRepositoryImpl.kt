@@ -16,6 +16,7 @@ class ActivityRepositoryImpl @Inject constructor(
         activityRemoteDataSource.addActivity(startAt, endAt, place, name, description)
             .handleNullableApiResponse()
             .getOrThrow()
+    }
 
     override suspend fun getActivityList(): Result<List<ActivityData>> = safeApiCall {
         activityRemoteDataSource.getActivityList()

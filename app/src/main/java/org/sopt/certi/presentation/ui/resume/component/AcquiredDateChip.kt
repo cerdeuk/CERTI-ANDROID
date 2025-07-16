@@ -35,8 +35,8 @@ fun AcquiredDateChip(
             text = stringResource(
                 R.string.resume_acquired_date,
                 certificationData.createdAt.year,
-                certificationData.createdAt.month,
-                certificationData.createdAt.dayOfWeek
+                certificationData.createdAt.monthValue,
+                certificationData.createdAt.dayOfMonth
             ),
             style = CertiTheme.typography.caption.semibold_14,
             color = CertiTheme.colors.mainBlue
