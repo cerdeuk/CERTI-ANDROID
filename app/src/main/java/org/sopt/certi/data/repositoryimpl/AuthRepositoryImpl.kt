@@ -52,4 +52,18 @@ class AuthRepositoryImpl @Inject constructor(
             .getOrThrow()
             .toDomain()
     }
+
+    override suspend fun searchUniv(keyword: String): Result<List<String>> = safeApiCall {
+        authRemoteDataSource.searchUniv(keyword = keyword)
+            .handleApiResponse()
+            .getOrThrow()
+            .universityNameList
+    }
+
+    override suspend fun searchMajor(keyword: String): Result<List<String>> = safeApiCall {
+        authRemoteDataSource.searchMajor(keyword = keyword)
+            .handleApiResponse()
+            .getOrThrow()
+            .majorNameList
+    }
 }
