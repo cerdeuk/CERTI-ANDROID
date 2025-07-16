@@ -11,6 +11,7 @@ import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
@@ -61,4 +62,10 @@ object UseCaseModule {
     fun provideSearchCerListUseCase(
         certRepository: CertRepository
     ): SearchCertListUseCase = SearchCertListUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetCategoryCertListUseCase(
+        certRepository: CertRepository
+    ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
 }
