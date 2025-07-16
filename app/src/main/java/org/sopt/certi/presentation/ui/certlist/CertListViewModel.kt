@@ -8,15 +8,17 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.type.CategoryType
+import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class CertListViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val getCategoryCertListUseCase: GetCategoryCertListUseCase
 ) : ViewModel() {
     private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCategory = MutableStateFlow(0)
@@ -39,80 +41,16 @@ class CertListViewModel @Inject constructor(
             )
         )
 
-    init {
-        getCertificationList(isFavorite = false, category = 0)
-    }
-
     fun getCertificationList(isFavorite: Boolean, category: Int) {
-        val certificationList = {
-            listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 4,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 5,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 6,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 7,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 8,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                )
-            )
+        viewModelScope.launch {
+            _certListLoadState.value = UiState.Loading
+            val jobs = CategoryType.entries.getOrNull(category)?.description ?: ""
+            getCategoryCertListUseCase(isFavorite, jobs)
+                .onSuccess { list ->
+                    _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list)
+                }
+                .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
         }
-        _certListLoadState.value = UiState.Success(certificationList())
     }
 
     fun onCategorySelected(index: Int) {

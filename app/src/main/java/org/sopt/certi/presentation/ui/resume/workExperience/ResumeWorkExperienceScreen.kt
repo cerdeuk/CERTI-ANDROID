@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.resume
+package org.sopt.certi.presentation.ui.resume.workExperience
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,14 +17,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
-import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
+import org.sopt.certi.presentation.ui.resume.workExperience.sideEffect.WorkExperienceSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -31,86 +38,44 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeWorkExperienceRoute(
     padding: PaddingValues,
     onNavigateToAddWordExperience: () -> Unit,
-    viewModel: ResumeViewModel = hiltViewModel()
+    viewModel: WorkExperienceViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.workExperienceUiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
     var onDeleteDialogShow by remember { mutableStateOf(false) }
 
-    val resumeDataList = listOf(
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
-        )
-    )
+    LaunchedEffect(Unit) {
+        viewModel.getWorkExperienceList()
+    }
 
-    ResumeWorkExperienceScreen(
-        onNavigateToAddWordExperience = onNavigateToAddWordExperience,
-        resumeDataList = resumeDataList,
-        onDeleteClick = { onDeleteDialogShow = true },
-        modifier = Modifier.padding(padding)
-    )
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                WorkExperienceSideEffect.showDeleteDialog -> onDeleteDialogShow = true
+            }
+        }
+    }
+
+    when (uiState.loadState) {
+        is UiState.Success -> ResumeWorkExperienceScreen(
+            onNavigateToAddWordExperience = onNavigateToAddWordExperience,
+            resumeDataList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
+            onDeleteClick = { viewModel.onDeleteClick(it) },
+            modifier = Modifier.padding(padding)
+        )
+
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Init -> {}
+        is UiState.Loading -> {}
+    }
 
     if (onDeleteDialogShow) {
         CertiDeleteDialog(
-            onConfirmClick = { onDeleteDialogShow = false },
+            onConfirmClick = {
+                onDeleteDialogShow = false
+                viewModel.onDeleteConfirmclick()
+            },
             onDismissClick = { onDeleteDialogShow = false }
         )
     }
@@ -119,8 +84,8 @@ fun ResumeWorkExperienceRoute(
 @Composable
 fun ResumeWorkExperienceScreen(
     onNavigateToAddWordExperience: () -> Unit,
-    resumeDataList: List<ActivityData>,
-    onDeleteClick: () -> Unit,
+    resumeDataList: ImmutableList<ActivityData>,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -161,6 +126,7 @@ fun ResumeWorkExperienceScreen(
 private fun PreviewResumeWorkExperienceScreen() {
     val resumeDataList = listOf(
         ActivityData(
+            activityId = 1,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
@@ -168,6 +134,7 @@ private fun PreviewResumeWorkExperienceScreen() {
             description = "브랜드 리서치 및 소재 조사, 브랜드 리서치 및 소재 조사"
         ),
         ActivityData(
+            activityId = 2,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
@@ -175,6 +142,7 @@ private fun PreviewResumeWorkExperienceScreen() {
             description = "브랜드 리서치 및 소재 조사"
         ),
         ActivityData(
+            activityId = 3,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",
@@ -187,7 +155,7 @@ private fun PreviewResumeWorkExperienceScreen() {
 
     CERTITheme {
         ResumeWorkExperienceScreen(
-            resumeDataList = resumeDataList,
+            resumeDataList = resumeDataList.toImmutableList(),
             onNavigateToAddWordExperience = {},
             onDeleteClick = { onDeleteDialogShow = true }
         )
