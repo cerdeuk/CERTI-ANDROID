@@ -100,14 +100,8 @@ class MyCertViewModel @Inject constructor(
         _sideEffect.send(MyCertSideEffect.ShowDeleteDialog)
     }
 
-    fun onDismissDeleteDialog() = viewModelScope.launch {
-        _selectedCertificationId.value = null
-        _sideEffect.send(MyCertSideEffect.HideDeleteDialog)
-    }
-
     fun onConfirmDelete() = viewModelScope.launch {
         _selectedCertificationId.value = null
-        _sideEffect.send(MyCertSideEffect.HideDeleteDialog)
 
         val acquiredCertificationList = {
             listOf(
