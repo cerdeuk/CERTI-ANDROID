@@ -13,14 +13,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.ActivityUseCase
 import org.sopt.certi.presentation.ui.activity.sideEffect.ActivitySideEffect
 import org.sopt.certi.presentation.ui.activity.state.ActivityUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel@Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val activityUseCase: ActivityUseCase
 ) : ViewModel() {
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _selectedId = MutableStateFlow<Long?>(null)
@@ -46,11 +46,17 @@ class ActivityViewModel@Inject constructor(
     private val _sideEffect = Channel<ActivitySideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun getActivityList() {
-        val resumeDataList = {
-            emptyList<ActivityData>()
-        }
-        _activityListLoadState.value = UiState.Success(resumeDataList())
+    fun getActivityList() = viewModelScope.launch {
+        _activityListLoadState.value = UiState.Loading
+        activityUseCase.invoke().fold(
+            onSuccess = {
+                val activityList = it
+                _activityListLoadState.emit(UiState.Success(activityList))
+            },
+            onFailure = {
+                _activityListLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun onDeleteClick(selectedId: Long) = viewModelScope.launch {
@@ -58,11 +64,21 @@ class ActivityViewModel@Inject constructor(
         _sideEffect.send(ActivitySideEffect.showDeleteDialog)
     }
 
-    fun onDeleteConfirmclick() {
-        val resumeDataList = {
-            emptyList<ActivityData>()
+    fun onDeleteConfirmClick() = viewModelScope.launch {
+        _selectedId.value?.let {
+            activityUseCase.deleteActivity(it).fold(
+                onSuccess = {
+                    _selectedId.value = null
+                    getActivityList()
+                },
+                onFailure = {
+                    _selectedId.value = null
+                }
+            )
         }
+    }
+
+    fun onDeleteDismissClick() {
         _selectedId.value = null
-        _activityListLoadState.value = UiState.Success(resumeDataList())
     }
 }

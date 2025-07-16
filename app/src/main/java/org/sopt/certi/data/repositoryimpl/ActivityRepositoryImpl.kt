@@ -3,6 +3,7 @@ package org.sopt.certi.data.repositoryimpl
 import org.sopt.certi.data.mapper.todomain.activity.toDomain
 import org.sopt.certi.data.remote.datasource.ActivityRemoteDataSource
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
+import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.repository.ActivityRepository
@@ -16,5 +17,11 @@ class ActivityRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .toDomain()
+    }
+
+    override suspend fun deleteActivity(activityId: Long): Result<Unit> = safeApiCall {
+        activityRemoteDataSource.deleteActivity(activityId)
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }
