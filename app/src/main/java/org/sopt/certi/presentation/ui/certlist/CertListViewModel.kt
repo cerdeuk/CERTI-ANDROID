@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
