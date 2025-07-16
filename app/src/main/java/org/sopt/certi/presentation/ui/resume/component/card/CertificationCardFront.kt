@@ -27,7 +27,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.CertCardColorType
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -49,8 +49,8 @@ fun CertificationCardFront(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(top = 40.dp)
+                .padding(horizontal = screenWidthDp(20.dp))
+                .padding(top = screenHeightDp(40.dp))
         ) {
             Text(
                 text = certificationData.certificationName,
