@@ -17,4 +17,11 @@ class AcquisitionRepositoryImpl @Inject constructor(
             .getOrThrow()
             .toDomain()
     }
+
+    override suspend fun getAcquisitionDetail(acquisitionId: Long): Result<CertificationData> = safeApiCall {
+        acquisitionRemoteDataSource.getAcquisitionDetail(acquisitionId)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
+    }
 }

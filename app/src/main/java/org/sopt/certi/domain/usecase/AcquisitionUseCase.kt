@@ -8,4 +8,7 @@ class AcquisitionUseCase(
 ) {
     suspend operator fun invoke(): Result<List<CertificationData>> =
         acquisitionRepository.getAcquisitionList()
+
+    suspend fun getAcquisitionDetail(acquisitionId: Long): Result<CertificationData> =
+        acquisitionRepository.getAcquisitionDetail(acquisitionId)
 }

@@ -20,7 +20,6 @@ import org.sopt.certi.domain.usecase.CareerUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.main.state.ResumeUiState
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -126,22 +125,16 @@ class ResumeViewModel @Inject constructor(
     }
 
     fun onCertificationClick(selectedCertificationId: Long) = viewModelScope.launch {
-        val detail = getCertificationDetail(selectedCertificationId)
-        _selectedCertDetail.value = UiState.Success(detail)
-        _sideEffect.send(ResumeSideEffect.ShowCertificationDetailModal)
-    }
-
-    private fun getCertificationDetail(selectedCertificationId: Long): CertificationData {
-        val certificationData = CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            description = "1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-            index = 2,
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-            tags = listOf("태그", "태그", "태그")
+        _selectedCertDetail.value = UiState.Loading
+        acquisitionUseCase.getAcquisitionDetail(selectedCertificationId).fold(
+            onSuccess = {
+                val acquisitionDetail = it
+                _selectedCertDetail.emit(UiState.Success(acquisitionDetail))
+                _sideEffect.send(ResumeSideEffect.ShowCertificationDetailModal)
+            },
+            onFailure = {
+                _selectedCertDetail.emit(UiState.Failure(it.message.toString()))
+            }
         )
-        return certificationData
     }
 }

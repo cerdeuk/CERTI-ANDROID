@@ -9,7 +9,7 @@ fun GetAcquisitionListResponseDto.toDomain(): List<CertificationData> {
     return getAcquisitionResponses
         .take(3)
         .map {
-            val parsedDate = try {
+            val createdAt = try {
                 LocalDate.parse(it.createdAt, DateTimeFormatter.ISO_LOCAL_DATE)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -20,7 +20,7 @@ fun GetAcquisitionListResponseDto.toDomain(): List<CertificationData> {
                 certificationId = it.acquisitionId,
                 index = it.index,
                 certificationName = it.name,
-                createdAt = parsedDate,
+                createdAt = createdAt,
                 cardFrontImageUrl = it.cardFrontImageUrl,
                 cardBackImageUrl = it.cardBackImageUrl,
                 tags = it.tags
