@@ -16,4 +16,5 @@ interface AuthRepository {
         jobs: List<String>
     ): Result<SignUpResult>
     suspend fun searchUniv(keyword: String): Result<List<String>>
+    suspend fun searchMajor(keyword: String): Result<List<String>>
 }
