@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetCertInfoResponseDto (
+data class GetCertInfoResponseDto(
     @SerialName("certificationId")
     val certificationId: Long,
     @SerialName("certificationName")
@@ -28,5 +28,5 @@ data class GetCertInfoResponseDto (
     @SerialName("applicationUrl")
     val applicationUrl: String,
     @SerialName("expirationPeriod")
-    val expirationPeriod: String,
+    val expirationPeriod: String
 )

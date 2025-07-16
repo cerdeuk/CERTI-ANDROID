@@ -13,13 +13,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,7 +61,7 @@ class CertDetailViewModel @Inject constructor(
     fun acquireExpectCert(certId: Long) = viewModelScope.launch {
         acquireExpectCertUseCase.invoke(certId).fold(
             onSuccess = {
-                if(it) {
+                if (it) {
                     _sideEffect.send(DetailSideEffect.ShowAcquireExpectSuccessToast)
                 } else {
                     _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
@@ -76,7 +74,7 @@ class CertDetailViewModel @Inject constructor(
     fun acquiredCert(certId: Long) = viewModelScope.launch {
         acquiredCertUseCase.invoke(certId).fold(
             onSuccess = {
-                if(it) {
+                if (it) {
                     _sideEffect.send(DetailSideEffect.ShowAcquiredSuccessDialog)
                 } else {
                     _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)

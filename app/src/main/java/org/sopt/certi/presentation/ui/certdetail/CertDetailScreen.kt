@@ -34,7 +34,6 @@ import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.toast.ShowToastRoute
 import org.sopt.certi.core.component.webview.CertWebView
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.core.util.formatMoney
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
