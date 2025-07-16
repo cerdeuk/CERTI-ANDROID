@@ -15,7 +15,9 @@
 
 ## 👤 Contributors
 
-| <img src="https://avatars.githubusercontent.com/MinseoSONG" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/Jyunee54" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/mjth1s1s" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> | <img src="https://avatars.githubusercontent.com/kimjw2003" style="width:120px; aspect-ratio:1 / 1; object-fit:cover; border-radius:10px;"> |
+
+
+| <img width="2160" height="3400" alt="KakaoTalk_Photo_2025-07-17-04-47-37 004" src="https://github.com/user-attachments/assets/6f121f7c-82d4-4c97-ae8a-b534a2abe706" /> | <img width="2160" height="3400" alt="KakaoTalk_Photo_2025-07-17-04-47-35 001" src="https://github.com/user-attachments/assets/83273399-1707-4dee-afc2-07a43b2d5490" /> | <img width="2160" height="3400" alt="KakaoTalk_Photo_2025-07-17-04-47-36 003" src="https://github.com/user-attachments/assets/776f0de4-f09e-489f-9ee6-e392110eeaec" /> | <img width="2160" height="3400" alt="KakaoTalk_Photo_2025-07-17-04-47-36 002" src="https://github.com/user-attachments/assets/b301e7ef-5a36-4f0e-9e63-bd53c64ff096" /> |
 |:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | [송민서](https://github.com/MinseoSONG) | [이지현](https://github.com/Jyunee54) | [김민지](https://github.com/mjth1s1s) | [김종우](https://github.com/kimjw2003) |
 | `소셜로그인`<br>`온보딩`<br>`검색` | `이력서` | `홈` | `자격증` |
