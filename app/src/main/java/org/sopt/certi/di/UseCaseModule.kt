@@ -8,6 +8,7 @@ import org.sopt.certi.domain.repository.AuthRepository
 import javax.inject.Singleton
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
 
@@ -31,4 +32,10 @@ object UseCaseModule {
     fun provideSignUpUseCase(
         authRepository: AuthRepository
     ): SignUpUseCase = SignUpUseCase(authRepository)
+
+    @Provides
+    @Singleton
+    fun provideSearchUnivUseCase(
+        authRepository: AuthRepository
+    ): SearchUnivUseCase = SearchUnivUseCase(authRepository)
 }
