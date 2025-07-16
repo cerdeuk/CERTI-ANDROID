@@ -8,9 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
-import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
+import org.sopt.certi.presentation.ui.resume.activity.ResumeActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.workExperience.ResumeAddWorkExperienceRoute
-import org.sopt.certi.presentation.ui.resume.ResumeAddActivitiesRoute
+import org.sopt.certi.presentation.ui.resume.activity.ResumeAddActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.myCert.ResumeMyCertRoute
 import org.sopt.certi.presentation.ui.resume.main.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.workExperience.ResumeWorkExperienceRoute
