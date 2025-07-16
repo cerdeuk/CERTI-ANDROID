@@ -1,8 +1,10 @@
 package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
+import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.response.GetAcquisitionDetailResponseDto
 import org.sopt.certi.data.remote.dto.response.GetAcquisitionListResponseDto
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,4 +16,9 @@ interface AcquisitionService {
     suspend fun getAcquisitionDetail(
         @Path("acquisitionId") acquisitionId: Long
     ): ApiResponse<GetAcquisitionDetailResponseDto>
+
+    @DELETE("/api/v1/acquisition/{acquisitionId}")
+    suspend fun deleteAcquisition(
+        @Path("acquisitionId") acquisitionId: Long
+    ): NullableApiResponse<Unit>
 }

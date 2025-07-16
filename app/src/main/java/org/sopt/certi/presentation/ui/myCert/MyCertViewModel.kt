@@ -65,7 +65,20 @@ class MyCertViewModel @Inject constructor(
     }
 
     fun onConfirmDelete() = viewModelScope.launch {
+        _selectedCertificationId.value?.let {
+            acquisitionUseCase.deleteAcquisition(it).fold(
+                onSuccess = {
+                    _selectedCertificationId.value = null
+                    getMyCertList()
+                },
+                onFailure = {
+                    _selectedCertificationId.value = null
+                }
+            )
+        }
+    }
+
+    fun onDismissDelete() {
         _selectedCertificationId.value = null
-        getMyCertList()
     }
 }

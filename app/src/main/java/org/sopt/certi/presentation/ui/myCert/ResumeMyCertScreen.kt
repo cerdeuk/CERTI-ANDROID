@@ -62,7 +62,10 @@ fun ResumeMyCertRoute(
                 showDialog = false
                 viewModel.onConfirmDelete()
             },
-            onDismissClick = { showDialog = false }
+            onDismissClick = {
+                showDialog = false
+                viewModel.onDismissDelete()
+            }
         )
     }
 

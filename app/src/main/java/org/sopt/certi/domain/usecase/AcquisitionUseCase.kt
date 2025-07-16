@@ -11,4 +11,7 @@ class AcquisitionUseCase(
 
     suspend fun getAcquisitionDetail(acquisitionId: Long): Result<CertificationData> =
         acquisitionRepository.getAcquisitionDetail(acquisitionId)
+
+    suspend fun deleteAcquisition(acquisitionId: Long): Result<Unit> =
+        acquisitionRepository.deleteAcquisition(acquisitionId)
 }
