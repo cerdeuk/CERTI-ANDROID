@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val tokenManager: TokenManager,
-    private val searchUnivUseCase: SearchUnivUseCase
+    private val searchUnivUseCase: SearchUnivUseCase,
+    private val searchMajorUseCase: SearchMajorUseCase
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
@@ -120,24 +122,20 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun getMajorList(majorSearchText: String) {
-        _submittedMajorSearchText.value = majorSearchText
-        val majorList = {
-            listOf(
-                "컴퓨터공학과",
-                "컴퓨터공학부",
-                "교육학",
-                "뿡뿡대학교",
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
-                "뿡뿡대학교",
-                "건국대학교",
-                "홍익대학교",
-                "응가대학교",
-                "뿡뿡대학교"
-            )
+        viewModelScope.launch {
+            _onBoardingMajorLoadState.value = UiState.Loading
+            searchMajorUseCase(majorSearchText)
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _onBoardingMajorLoadState.value = UiState.Empty
+                    } else {
+                        _onBoardingMajorLoadState.value = UiState.Success(result)
+                    }
+                }.onFailure {
+                    _onBoardingMajorLoadState.value = UiState.Failure(it.toString())
+                }
         }
-        _onBoardingMajorLoadState.value = UiState.Success(majorList())
+        _submittedMajorSearchText.value = majorSearchText
     }
 
     fun onMajorSearchTextChange(majorSearchText: String) {
