@@ -1,0 +1,79 @@
+package org.sopt.certi.presentation.ui.resume.workExperience
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.presentation.ui.resume.workExperience.state.AddWorkExperienceUiState
+import javax.inject.Inject
+
+@HiltViewModel
+class AddWorkExperienceViewModel @Inject constructor(
+    private val dummyUseCase: DummyUseCase
+) : ViewModel() {
+    private val _startDate = MutableStateFlow("")
+    private val _endDate = MutableStateFlow("")
+    private val _organizationValue = MutableStateFlow("")
+    private val _roleValue = MutableStateFlow("")
+    private val _descriptionValue = MutableStateFlow("")
+
+    val addWorkExperienceUiState: StateFlow<AddWorkExperienceUiState> =
+        combine(
+            _startDate,
+            _endDate,
+            _organizationValue,
+            _roleValue,
+            _descriptionValue
+        ) { startDate, endDate, organization, role, description ->
+            AddWorkExperienceUiState(
+                startDate = startDate,
+                endDate = endDate,
+                organizationValue = organization,
+                roleValue = role,
+                descriptionValue = description,
+                addButtonEnabled = listOf(
+                    startDate,
+                    endDate,
+                    organization,
+                    role,
+                    description
+                ).all { it.isNotBlank() }
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = AddWorkExperienceUiState(
+                startDate = "",
+                endDate = "",
+                organizationValue = "",
+                roleValue = "",
+                descriptionValue = "",
+                addButtonEnabled = false
+            )
+        )
+
+    fun onStartDateChanged(value: String) {
+        _startDate.value = value
+    }
+
+    fun onEndDateChanged(value: String) {
+        _endDate.value = value
+    }
+
+    fun onOrganizationChanged(value: String) {
+        _organizationValue.value = value
+    }
+
+    fun onRoleChanged(value: String) {
+        _roleValue.value = value
+    }
+
+    fun onDescriptionChanged(value: String) {
+        _descriptionValue.value = value
+    }
+}

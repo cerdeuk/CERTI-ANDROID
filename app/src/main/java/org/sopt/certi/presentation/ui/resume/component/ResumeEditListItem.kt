@@ -21,7 +21,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun ResumeEditListItem(
     resumeListItem: ActivityData,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -40,7 +40,7 @@ fun ResumeEditListItem(
             contentDescription = null,
             tint = CertiTheme.colors.gray300,
             modifier = Modifier
-                .noRippleClickable { onDeleteClick() }
+                .noRippleClickable { onDeleteClick(resumeListItem.activityId) }
         )
     }
 }
@@ -51,6 +51,7 @@ private fun ResumeEditListItemPreview() {
     CERTITheme {
         ResumeEditListItem(
             resumeListItem = ActivityData(
+                activityId = 1,
                 startAt = "2021.11",
                 endAt = "2022.01",
                 organization = "서티그룹",
