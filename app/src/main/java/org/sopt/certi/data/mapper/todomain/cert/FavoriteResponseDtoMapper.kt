@@ -4,7 +4,7 @@ import org.sopt.certi.data.remote.dto.response.FavoriteListResponseDto
 import org.sopt.certi.domain.model.certification.CertificationData
 
 fun FavoriteListResponseDto.toDomain(): List<CertificationData> =
-    favoriteCertificationList.map { cert ->
+    data.map { cert ->
         CertificationData(
             certificationId = cert.certificationId,
             certificationName = cert.certificationName,

@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FavoriteListResponseDto(
-    @SerialName("favoriteCertificationList")
-    val favoriteCertificationList: List<FavoriteCertSimple>
+    @SerialName("data")
+    val data: List<FavoriteCertSimple>
 )
 
 @Serializable

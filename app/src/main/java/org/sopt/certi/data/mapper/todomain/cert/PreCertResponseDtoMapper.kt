@@ -5,7 +5,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 
 
 fun PreCertListResponseDto.toDomain(): List<CertificationData> =
-    preCertificationList.map { cert ->
+    data.map { cert ->
         CertificationData(
             certificationId = cert.certificationId,
             certificationName = cert.certificationName,

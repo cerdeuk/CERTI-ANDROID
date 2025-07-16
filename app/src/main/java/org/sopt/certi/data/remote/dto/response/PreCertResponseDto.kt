@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PreCertListResponseDto(
-    @SerialName("preCertificationList")
-    val preCertificationList: List<PreCertificationSimple>
+    @SerialName("data")
+    val data: List<PreCertificationSimple>
 )
 
 @Serializable

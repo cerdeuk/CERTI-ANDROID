@@ -16,37 +16,39 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.sopt.certi.R
-import org.sopt.certi.core.component.topbar.CertiTopBar
-import org.sopt.certi.core.util.screenHeightDp
-import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.user.UserInfoData
-import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
-import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
-import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
-import org.sopt.certi.presentation.ui.home.component.UserInfoSection
-import org.sopt.certi.ui.theme.CERTITheme
-import org.sopt.certi.ui.theme.CertiTheme
-import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
+import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
+import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
+import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
+import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
+import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
+import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
+import timber.log.Timber
 
 @Composable
 fun HomeRoute(
     padding: PaddingValues,
-    navigateToCertRecommend: () -> Unit,
+    navigateToCertDetail: (certId: Long) -> Unit,
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -56,29 +58,34 @@ fun HomeRoute(
         viewModel.getUserInfo()
         viewModel.getRecommendedList()
         viewModel.getPreCertList()
-    }
-
-    LaunchedEffect(uiState.isFavorite) {
-        viewModel.getFavoriteList(uiState.isFavorite)
+        viewModel.getFavoriteList()
     }
 
     when (uiState.loadState) {
-        is UiState.Success -> HomeScreen(
-            homeUiState = uiState,
-            userInfo = (uiState.userInfoLoadState as UiState.Success).data,
-            recommendedList = (uiState.recommendedListLoadState as UiState.Success).data.toImmutableList(),
-            preCertificationList = (uiState.preCertificationListLoadState as UiState.Success).data.toImmutableList(),
-            favoriteCertificationList = (uiState.favoriteListLoadState as UiState.Success).data.toImmutableList(),
-            onFavoriteClicked = viewModel::onFavoriteClicked,
-            onDetailClick = { },
-            navigateToCertRecommend = { },
-            navigateToPreCerti = navigateToPreCerti,
-            modifier = Modifier.padding(padding)
-        )
+        is UiState.Success -> {
+            val userInfo = (uiState.userInfoLoadState as? UiState.Success)?.data
+            val recommendedList = (uiState.recommendedListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
+            val preCertList = (uiState.preCertificationListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
+            val favoriteList = (uiState.favoriteListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
+
+            if (userInfo != null) {
+                HomeScreen(
+                    homeUiState = uiState,
+                    userInfo = userInfo,
+                    recommendedList = recommendedList,
+                    preCertificationList = preCertList,
+                    favoriteCertificationList = favoriteList,
+                    onFavoriteClicked = viewModel::onFavoriteClicked,
+                    navigateToCertDetail = navigateToCertDetail,
+                    navigateToPreCerti = navigateToPreCerti,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+        }
         is UiState.Failure -> {}
         is UiState.Loading -> {}
         is UiState.Empty -> {}
-        is UiState.Init -> {}
+        else -> {}
     }
 }
 
@@ -90,8 +97,7 @@ fun HomeScreen(
     preCertificationList: ImmutableList<CertificationData>,
     favoriteCertificationList: ImmutableList<CertificationData>,
     onFavoriteClicked: (Long) -> Unit,
-    onDetailClick: () -> Unit,
-    navigateToCertRecommend: () -> Unit,
+    navigateToCertDetail: (Long) -> Unit,
     navigateToPreCerti: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -137,10 +143,15 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { navigateToCertRecommend() }
+                                .noRippleClickable {  }
                         )
                     }
-                    RecommendedCertificationListSection(recommendedList = recommendedList, onCertificationClick = { })
+                    RecommendedCertificationListSection(
+                        recommendedList = recommendedList,
+                        onDetailClick = { certId ->
+                            navigateToCertDetail(certId)
+                        }
+                    )
                     Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
                 }
             }
@@ -180,7 +191,9 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
                         PreCertificationListSection(
                             preCertificationList = preCertificationList,
-                            onDetailClick = onDetailClick
+                            onDetailClick = { certId ->
+                                navigateToCertDetail(certId)
+                            }
                         )
                         Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
                     }
@@ -211,6 +224,9 @@ fun HomeScreen(
                         )
                         FavoriteCertificationListSection(
                             favoriteCertificationList = favoriteCertificationList,
+                            onDetailClick = { certId ->
+                                navigateToCertDetail(certId)
+                            },
                             onFavoriteClicked = onFavoriteClicked,
                             modifier = modifier
                         )
