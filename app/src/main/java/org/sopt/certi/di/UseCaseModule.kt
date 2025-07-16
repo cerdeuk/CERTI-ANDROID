@@ -10,6 +10,7 @@ import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.HomeRepository
 import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.activity.AddActivityUseCase
@@ -18,10 +19,14 @@ import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
@@ -98,6 +103,26 @@ object UseCaseModule {
     fun provideGetCategoryCertListUseCase(
         certRepository: CertRepository
     ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
+
+    @Provides
+    fun provideGetUserInfoUseCase(
+        homeRepository: HomeRepository
+    ): UserInfoUseCase = UserInfoUseCase(homeRepository)
+
+    @Provides
+    fun provideGetPreCertListUseCase(
+        homeRepository: HomeRepository
+    ): PreCertUseCase = PreCertUseCase(homeRepository)
+
+    @Provides
+    fun provideGetFavoriteListUseCase(
+        homeRepository: HomeRepository
+    ): FavoriteUseCase = FavoriteUseCase(homeRepository)
+
+    @Provides
+    fun provideToggleFavoriteUseCase(
+        homeRepository: HomeRepository
+    ): ToggleFavoriteUseCase = ToggleFavoriteUseCase(homeRepository)
 
     @Provides
     @Singleton

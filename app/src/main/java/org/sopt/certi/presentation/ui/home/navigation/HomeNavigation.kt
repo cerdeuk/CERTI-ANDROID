@@ -7,6 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.HomeRoute
 import org.sopt.certi.core.navigation.MainTabRoute
+import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
 import org.sopt.certi.presentation.ui.home.HomeRoute
 import org.sopt.certi.presentation.ui.precertificationedit.PreCertificationEditRoute
 
@@ -25,7 +26,9 @@ fun NavGraphBuilder.homeNavGraph(
     composable<MainTabRoute.Home> {
         HomeRoute(
             padding = padding,
-            navigateToCertRecommend = { },
+            navigateToCertDetail = { certId ->
+                navController.navigateToCertDetail(certId = certId)
+            },
             navigateToPreCerti = { navController.navigateToPreCerti() }
         )
     }

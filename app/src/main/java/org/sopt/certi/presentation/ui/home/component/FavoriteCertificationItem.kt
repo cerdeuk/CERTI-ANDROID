@@ -34,6 +34,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun FavoriteCertificationListSection(
     favoriteCertificationList: List<CertificationData>,
+    onDetailClick: (Long) -> Unit,
     onFavoriteClicked: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,6 +47,7 @@ fun FavoriteCertificationListSection(
         items(favoriteCertificationList) { item ->
             FavoriteCertificationItem(
                 favoriteCertificationData = item,
+                onDetailClick = { onDetailClick(item.certificationId) },
                 onFavoriteClicked = onFavoriteClicked
             )
         }
@@ -55,6 +57,7 @@ fun FavoriteCertificationListSection(
 @Composable
 fun FavoriteCertificationItem(
     favoriteCertificationData: CertificationData,
+    onDetailClick: () -> Unit,
     onFavoriteClicked: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -68,6 +71,7 @@ fun FavoriteCertificationItem(
                 borderColor = CertiTheme.colors.gray100,
                 borderWidth = 1.dp
             )
+            .noRippleClickable { onDetailClick() }
     ) {
         Column(
             modifier = Modifier
