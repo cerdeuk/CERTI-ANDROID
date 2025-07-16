@@ -1,7 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
-import org.sopt.certi.data.mapper.todomain.toDomain
-import org.sopt.certi.data.mapper.todomain.user.toDomain
+import org.sopt.certi.data.mapper.todomain.auth.toDomain
 import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.UserInformationDto

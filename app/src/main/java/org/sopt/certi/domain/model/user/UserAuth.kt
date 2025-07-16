@@ -3,7 +3,8 @@ package org.sopt.certi.domain.model.user
 data class UserAuth(
     val needSignUp: Boolean,
     val preSignupToken: String,
-    val userInformation: UserInformationAuth
+    val userInformation: UserInformationAuth,
+    val jwtResponse: JwtResponse? = null
 )
 
 data class UserInformationAuth(

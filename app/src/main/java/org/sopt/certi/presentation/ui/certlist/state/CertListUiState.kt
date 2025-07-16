@@ -11,6 +11,8 @@ data class CertListUiState(
     val loadState: UiState<Unit>
         get() = when (certificationListLoadState) {
             is UiState.Success -> UiState.Success(Unit)
+            is UiState.Loading -> UiState.Loading
+            is UiState.Empty -> UiState.Empty
             else -> UiState.Empty
         }
 }
