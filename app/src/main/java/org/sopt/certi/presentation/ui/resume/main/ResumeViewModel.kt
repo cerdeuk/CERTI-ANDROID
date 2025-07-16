@@ -15,7 +15,6 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.CertificationData
 import org.sopt.certi.domain.usecase.AcquisitionUseCase
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.main.state.ResumeUiState
 import java.time.LocalDate
