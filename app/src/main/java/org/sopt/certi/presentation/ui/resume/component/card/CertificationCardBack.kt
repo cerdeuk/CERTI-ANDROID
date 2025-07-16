@@ -30,8 +30,8 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.resume.component.AcquiredDateChip
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -65,7 +65,7 @@ fun CertificationCardBack(
             Text(
                 text = certificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertiTheme.colors.white
             )
             Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
 

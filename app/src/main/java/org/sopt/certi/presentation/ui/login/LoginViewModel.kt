@@ -1,49 +1,46 @@
 package org.sopt.certi.presentation.ui.login
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.core.network.TokenManager
+import org.sopt.certi.domain.usecase.SignInUseCase
+import org.sopt.certi.presentation.type.SocialLoginType
+import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val signInUseCase: SignInUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
-    fun loginWithKakao(context: Context) {
+    fun signInWithKakaoToken(
+        token: OAuthToken,
+        onSuccess: (needSignUp: Boolean) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
         viewModelScope.launch {
-            runCatching {
-                suspendCancellableCoroutine { continuation ->
-                    performKakaoLogin(context) { token, error ->
-                        when {
-                            error != null -> continuation.resumeWithException(error)
-                            token != null -> continuation.resume(token)
+            signInUseCase(token.accessToken, SocialLoginType.KAKAO.name.lowercase(Locale.ROOT)).fold(
+                onSuccess = { result ->
+                    onSuccess(result.needSignUp)
+                    if (result.needSignUp) {
+                        tokenManager.savePreSignupToken(result.preSignupToken)
+                        tokenManager.saveUserInformation(result.userInformation)
+                    } else {
+                        result.jwtResponse?.let {
+                            tokenManager.saveToken(it.accessToken)
+                            tokenManager.saveRefreshToken(it.refreshToken)
                         }
                     }
+                },
+                onFailure = {
+                    Timber.e(it)
+                    onFailure(it)
                 }
-            }.onSuccess {
-            }.onFailure {
-            }
-        }
-    }
-
-    fun performKakaoLogin(context: Context, callback: (OAuthToken?, Throwable?) -> Unit) {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) return@loginWithKakaoTalk
-                if (token != null) callback(token, null) else UserApiClient.instance.loginWithKakaoAccount(context = context, callback = callback)
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(context = context, callback = callback)
+            )
         }
     }
 }

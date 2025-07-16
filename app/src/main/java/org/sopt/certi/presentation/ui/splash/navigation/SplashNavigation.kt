@@ -8,12 +8,14 @@ import org.sopt.certi.presentation.ui.splash.SplashRoute
 
 fun NavGraphBuilder.splashNavGraph(
     padding: PaddingValues,
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
     composable<Splash> {
         SplashRoute(
             padding = padding,
-            navigateToLogin = onNavigateToLogin
+            navigateToLogin = onNavigateToLogin,
+            navigateToHome = onNavigateToHome
         )
     }
 }

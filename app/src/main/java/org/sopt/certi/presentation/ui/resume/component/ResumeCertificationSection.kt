@@ -24,7 +24,7 @@ import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -33,7 +33,7 @@ import java.time.LocalDate
 fun ResumeCertificationSection(
     title: String,
     onClick: () -> Unit,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     acquiredCertificationList: List<CertificationData>,
     modifier: Modifier = Modifier
 ) {
@@ -76,7 +76,7 @@ fun ResumeCertificationSection(
 @Composable
 private fun ResumeCertificationContent(
     acquiredCertificationList: List<CertificationData>,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -94,7 +94,7 @@ private fun ResumeCertificationContent(
             }
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = onCertificationClick
+                onClick = { onCertificationClick(certification.certificationId) }
             )
             if (index == acquiredCertificationList.lastIndex) {
                 Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))

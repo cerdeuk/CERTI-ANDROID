@@ -26,10 +26,13 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun OnBoardingInfoRoute(
@@ -64,9 +67,21 @@ fun OnBoardingInfoScreen(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Text(
-                    text = stringResource(R.string.onboarding_info_nickname, userInfo.name),
+                    text = buildAnnotatedString {
+                        append(stringResource(R.string.onboarding_info_nickname, userInfo.name))
+
+                        addStyle(
+                            style = SpanStyle(
+                                color = CertiTheme.colors.purpleBlue,
+                                fontSize = CertiTheme.typography.subtitle.bold_20.fontSize,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            start = 0,
+                            end = userInfo.name.length.coerceAtMost(userInfo.name.length)
+                        )
+                    },
                     style = CertiTheme.typography.subtitle.bold_20,
-                    color = CertiTheme.colors.gray600
+                    color = CertiTheme.colors.black
                 )
 
                 Image(

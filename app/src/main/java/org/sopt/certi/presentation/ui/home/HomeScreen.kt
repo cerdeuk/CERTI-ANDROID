@@ -25,15 +25,14 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
-import org.sopt.certi.presentation.ui.home.component.PreCertificationListSection
+import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
@@ -41,7 +40,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
 
 @Composable

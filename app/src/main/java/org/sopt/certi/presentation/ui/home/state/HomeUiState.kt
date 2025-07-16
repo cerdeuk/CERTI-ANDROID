@@ -1,8 +1,8 @@
 package org.sopt.certi.presentation.ui.home.state
 
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 
 data class HomeUiState(
     val userInfoLoadState: UiState<UserInfoData> = UiState.Loading,

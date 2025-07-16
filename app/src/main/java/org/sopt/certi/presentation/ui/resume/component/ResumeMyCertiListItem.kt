@@ -20,7 +20,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -28,7 +28,7 @@ import java.time.LocalDate
 @Composable
 fun ResumeMyCertiListItem(
     certification: CertificationData,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -49,7 +49,7 @@ fun ResumeMyCertiListItem(
             modifier = Modifier
                 .size(screenWidthDp(36.dp))
                 .noRippleClickable {
-                    onDeleteClick()
+                    onDeleteClick(certification.certificationId)
                 }
         )
     }

@@ -47,6 +47,7 @@ lifecycleRuntimeComposeAndroid = "2.8.7"
 
 # Kakao SDK
 kakao = "2.21.0"
+firebaseCrashlyticsBuildtools = "3.0.4"
 
 [libraries]
 # Core
@@ -98,6 +99,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 
 # --- Kakao SDK ---
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
