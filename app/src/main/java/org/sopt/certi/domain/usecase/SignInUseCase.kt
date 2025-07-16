@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.usecase
 
-import org.sopt.certi.domain.model.UserAuth
+import org.sopt.certi.domain.model.user.UserAuth
 import org.sopt.certi.domain.repository.AuthRepository
 
 class SignInUseCase(
