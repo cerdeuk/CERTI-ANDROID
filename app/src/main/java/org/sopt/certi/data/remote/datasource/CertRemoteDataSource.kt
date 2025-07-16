@@ -7,5 +7,5 @@ import org.sopt.certi.data.remote.dto.response.CertListResponseDto
 interface CertRemoteDataSource {
     suspend fun getRecommendCertList(): ApiResponse<GetRecommendCertResponseDto>
     suspend fun searchCertList(keyword: String): ApiResponse<CertListResponseDto>
-    suspend fun getCategoryCertList(isFavorite: Boolean, jobs: List<String>): ApiResponse<CertListResponseDto>
+    suspend fun getCategoryCertList(isFavorite: Boolean, jobs: String): ApiResponse<CertListResponseDto>
 }

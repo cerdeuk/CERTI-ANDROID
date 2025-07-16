@@ -18,6 +18,6 @@ interface CertService {
     @GET("/api/v1/certification")
     suspend fun getCategoryCertList(
         @Query("isFavorite") isFavorite: Boolean,
-        @Query("jobs") jobs: List<String>
+        @Query("jobs") jobs: String
     ): ApiResponse<CertListResponseDto>
 }

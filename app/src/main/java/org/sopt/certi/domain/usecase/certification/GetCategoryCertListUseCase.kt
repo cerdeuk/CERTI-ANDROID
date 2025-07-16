@@ -6,6 +6,6 @@ import javax.inject.Inject
 class GetCategoryCertListUseCase @Inject constructor(
     private val certRepository: CertRepository
 ) {
-    suspend operator fun invoke(isFavorite: Boolean, jobs: List<String>) =
+    suspend operator fun invoke(isFavorite: Boolean, jobs: String) =
         certRepository.getCategoryCertList(isFavorite, jobs)
 }
