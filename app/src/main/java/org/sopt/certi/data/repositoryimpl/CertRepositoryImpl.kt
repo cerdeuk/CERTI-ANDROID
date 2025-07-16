@@ -20,6 +20,13 @@ class CertRepositoryImpl @Inject constructor(
             .toDomain()
     }
 
+    override suspend fun getCertInfo(certificationId: Long): Result<CertificationData> = safeApiCall {
+        certRemoteDataSource.getCertInfo(certificationId)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
+    }
+
     override suspend fun searchCertList(keyword: String): Result<List<CertificationData>> = safeApiCall {
         certRemoteDataSource.searchCertList(keyword)
             .handleApiResponse()

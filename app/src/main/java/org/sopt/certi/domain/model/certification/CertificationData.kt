@@ -18,7 +18,7 @@ data class CertificationData(
     val testType: String = "",
     val tags: List<String> = listOf(),
     val isFavorite: Boolean = false,
-    val charge: Int = 0,
+    val charge: String = "0",
     val index: Int = 0,
     val applicationUrl: String = "",
     val description: String = "",
