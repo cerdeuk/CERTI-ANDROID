@@ -28,7 +28,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun RecommendedCertificationListSection(
     recommendedList: List<CertificationData>,
-    onCertificationClick: (Long) -> Unit,
+    onDetailClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -38,7 +38,7 @@ fun RecommendedCertificationListSection(
         recommendedList.forEach { item ->
             RecommendedCertificationItem(
                 recommendedCertificationData = item,
-                onClick = { onCertificationClick(item.certificationId) }
+                onClick = { onDetailClick(item.certificationId) }
             )
         }
     }
