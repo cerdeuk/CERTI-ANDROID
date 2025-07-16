@@ -11,12 +11,14 @@ import kotlinx.coroutines.flow.stateIn
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.PreCertEditUseCase
 import org.sopt.certi.presentation.ui.precertificationedit.state.PreCertiEditUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class PreCertiEditViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val
+    private val preCertiEditUseCase: PreCertEditUseCase
 ) : ViewModel() {
     private val _preCertiEditListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _showDialog = MutableStateFlow(false)
