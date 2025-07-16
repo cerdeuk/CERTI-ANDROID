@@ -24,10 +24,17 @@ class LoginViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             signInUseCase(token.accessToken, SocialLoginType.KAKAO.name.lowercase(Locale.ROOT)).fold(
-                onSuccess = {
-                    onSuccess(it.needSignUp)
-                    tokenManager.savePreSignupToken(it.preSignupToken)
-                    tokenManager.saveUserInformation(it.userInformation)
+                onSuccess = { result ->
+                    onSuccess(result.needSignUp)
+                    if (result.needSignUp) {
+                        tokenManager.savePreSignupToken(result.preSignupToken)
+                        tokenManager.saveUserInformation(result.userInformation)
+                    } else {
+                        result.jwtResponse?.let {
+                            tokenManager.saveToken(it.accessToken)
+                            tokenManager.saveRefreshToken(it.refreshToken)
+                        }
+                    }
                 },
                 onFailure = {
                     Timber.e(it)

@@ -9,9 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import org.sopt.certi.core.state.UiState
 import kotlinx.coroutines.flow.stateIn
-import org.sopt.certi.data.remote.dto.response.PreCertificationResponseDto
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import javax.inject.Inject
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.FavoriteUseCase

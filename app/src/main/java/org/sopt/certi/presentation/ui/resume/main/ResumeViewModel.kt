@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.main.state.ResumeUiState
@@ -126,6 +126,7 @@ class ResumeViewModel @Inject constructor(
         val experienceList = {
             listOf(
                 ActivityData(
+                    activityId = 1,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -133,6 +134,7 @@ class ResumeViewModel @Inject constructor(
                     description = "트렌드 리서치 및 소재 조사, 트렌드 리서치 및 소재 조사"
                 ),
                 ActivityData(
+                    activityId = 2,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "서티그룹",
@@ -148,6 +150,7 @@ class ResumeViewModel @Inject constructor(
         val activityList = {
             listOf(
                 ActivityData(
+                    activityId = 1,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -155,6 +158,7 @@ class ResumeViewModel @Inject constructor(
                     description = "서비스 기획 및 아이디어 도출"
                 ),
                 ActivityData(
+                    activityId = 2,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -162,6 +166,7 @@ class ResumeViewModel @Inject constructor(
                     description = "서비스 기획 및 아이디어 도출"
                 ),
                 ActivityData(
+                    activityId = 3,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -169,6 +174,7 @@ class ResumeViewModel @Inject constructor(
                     description = "서비스 기획 및 아이디어 도출"
                 ),
                 ActivityData(
+                    activityId = 4,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -176,6 +182,7 @@ class ResumeViewModel @Inject constructor(
                     description = "서비스 기획 및 아이디어 도출"
                 ),
                 ActivityData(
+                    activityId = 5,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -183,6 +190,7 @@ class ResumeViewModel @Inject constructor(
                     description = "서비스 기획 및 아이디어 도출"
                 ),
                 ActivityData(
+                    activityId = 6,
                     startAt = "2021.11",
                     endAt = "2022.01",
                     organization = "sopt",
@@ -212,11 +220,5 @@ class ResumeViewModel @Inject constructor(
             tags = listOf("태그", "태그", "태그")
         )
         return certificationData
-    }
-
-    fun onCertificationDetailDismiss() {
-        viewModelScope.launch {
-            _sideEffect.send(ResumeSideEffect.HideCertificationDetailModal)
-        }
     }
 }

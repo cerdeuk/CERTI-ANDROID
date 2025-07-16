@@ -65,13 +65,14 @@ object NetworkModule {
         val token = tokenManager.getToken()
 
         val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", token)
+            .addHeader("Authorization", "Bearer $token")
             .build()
         chain.proceed(newRequest)
     }
 
     private fun shouldAddAuthorization(url: String): Boolean {
-        return !url.contains("/api/v1/auth/sign-in") && !url.contains("/api/v1/auth/sign-up")
+        return !url.contains("/api/v1/auth/sign-in") && !url.contains("/api/v1/auth/sign-up") &&
+            !url.contains("/api/v1/university/search") && !url.contains("/api/v1/major/search")
     }
 
     @Provides

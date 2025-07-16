@@ -1,7 +1,7 @@
 package org.sopt.certi.domain.repository
 
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 
 interface HomeRepository {
     suspend fun getUserInfo(): Result<UserInfoData>

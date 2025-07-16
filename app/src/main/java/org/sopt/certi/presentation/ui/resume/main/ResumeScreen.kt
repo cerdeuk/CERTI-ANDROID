@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,8 +34,8 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
@@ -53,7 +54,7 @@ fun ResumeRoute(
 ) {
     val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-    val showDialog = remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     val userInfo = UserInfoData(
         name = "김민지",
@@ -68,21 +69,16 @@ fun ResumeRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                is ResumeSideEffect.ShowCertificationDetailModal -> {
-                    showDialog.value = true
-                }
-                ResumeSideEffect.HideCertificationDetailModal -> {
-                    showDialog.value = false
-                }
+                ResumeSideEffect.ShowCertificationDetailModal -> showDialog = true
             }
         }
     }
 
-    if (showDialog.value) {
+    if (showDialog) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
             userInfo = userInfo,
-            onDismiss = { viewModel.onCertificationDetailDismiss() }
+            onDismiss = { showDialog = false }
         )
     }
 
@@ -221,6 +217,7 @@ private fun PreviewResumeScreen() {
     )
     val dummyExperiences = listOf(
         ActivityData(
+            activityId = 1,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹, 서티그룹, 서티그룹, 서티그룹",
@@ -228,6 +225,7 @@ private fun PreviewResumeScreen() {
             description = "트렌드 리서치 및 소재 조사"
         ),
         ActivityData(
+            activityId = 2,
             startAt = "2021.11",
             endAt = "2022.01",
             organization = "서티그룹",

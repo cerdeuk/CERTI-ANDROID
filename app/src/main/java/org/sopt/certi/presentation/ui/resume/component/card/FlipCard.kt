@@ -22,8 +22,8 @@ import androidx.compose.ui.window.DialogProperties
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.ui.theme.CERTITheme
 import java.time.LocalDate
 

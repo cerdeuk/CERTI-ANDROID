@@ -1,7 +1,7 @@
 package org.sopt.certi.presentation.ui.search.state
 
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 
 data class SearchUiState(
     val searchCertificationListLoadState: UiState<List<CertificationData>>,

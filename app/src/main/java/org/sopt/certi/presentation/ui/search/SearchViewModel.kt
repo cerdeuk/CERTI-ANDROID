@@ -8,15 +8,16 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
 import org.sopt.certi.presentation.ui.search.state.SearchUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val searchCertListUseCase: SearchCertListUseCase
 ) : ViewModel() {
     private val _searchLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Init)
     private val _keyword = MutableStateFlow("")
@@ -45,76 +46,26 @@ class SearchViewModel @Inject constructor(
 
     fun getSearchCertificationList(keyword: String) {
         _submittedKeyword.value = keyword
-        val searchCertificationList = {
-            listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 4,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 5,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 6,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 7,
-                    isFavorite = false,
-                    certificationName = "정보처리기사",
-                    tags = listOf("컴퓨터공학", "시각디자인", "경영"),
-                    agencyName = "국가기술자격",
-                    applicationMethod = "실기형"
-                ),
-                CertificationData(
-                    certificationId = 8,
-                    isFavorite = false,
-                    certificationName = "정보처리",
-                    tags = listOf("뿡뿡", "빵빵", "IT"),
-                    agencyName = "한국정보처리기관",
-                    applicationMethod = "실기형"
-                )
-            )
+        if (keyword.isBlank()) {
+            _searchLoadState.value = UiState.Empty
+            return
         }
-//        _searchLoadState.value = UiState.Success(searchCertificationList())
-        _searchLoadState.value = UiState.Empty
+
+        _searchLoadState.value = UiState.Loading
+
+        viewModelScope.launch {
+            searchCertListUseCase(keyword)
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _searchLoadState.value = UiState.Empty
+                    } else {
+                        _searchLoadState.value = UiState.Success(result)
+                    }
+                }
+                .onFailure { e ->
+                    _searchLoadState.value = UiState.Failure(e.toString())
+                }
+        }
     }
 
     fun onKeywordChange(keyword: String) {

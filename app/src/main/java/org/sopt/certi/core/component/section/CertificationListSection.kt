@@ -28,7 +28,7 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -98,7 +98,7 @@ fun CertificationListSection(
             )
 
             Text(
-                text = certificationListData.applicationMethod,
+                text = certificationListData.testType,
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray500,
                 modifier = Modifier.padding(start = screenWidthDp(4.dp))
