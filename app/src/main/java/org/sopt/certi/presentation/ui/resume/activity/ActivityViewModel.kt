@@ -48,48 +48,7 @@ class ActivityViewModel@Inject constructor(
 
     fun getActivityList() {
         val resumeDataList = {
-            listOf(
-                ActivityData(
-                    activityId = 1,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획, 동아리 36기 기획, 동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출, 서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 3,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 4,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 5,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                )
-            )
+            emptyList<ActivityData>()
         }
         _activityListLoadState.value = UiState.Success(resumeDataList())
     }
@@ -101,40 +60,7 @@ class ActivityViewModel@Inject constructor(
 
     fun onDeleteConfirmclick() {
         val resumeDataList = {
-            listOf(
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 3,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 4,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 5,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                )
-            )
+            emptyList<ActivityData>()
         }
         _selectedId.value = null
         _activityListLoadState.value = UiState.Success(resumeDataList())

@@ -1,6 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
-import org.sopt.certi.data.mapper.todomain.toDomain
+import org.sopt.certi.data.mapper.todomain.acquisition.toDomain
 import org.sopt.certi.data.remote.datasource.AcquisitionRemoteDataSource
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
@@ -15,7 +15,6 @@ class AcquisitionRepositoryImpl @Inject constructor(
         acquisitionRemoteDataSource.getAcquisitionList()
             .handleApiResponse()
             .getOrThrow()
-            .getAcquisitionResponses
-            .map { it.toDomain() }
+            .toDomain()
     }
 }

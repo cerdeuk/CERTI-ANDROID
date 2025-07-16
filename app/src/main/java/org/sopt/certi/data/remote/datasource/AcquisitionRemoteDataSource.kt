@@ -1,8 +1,8 @@
 package org.sopt.certi.data.remote.datasource
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
-import org.sopt.certi.data.remote.dto.response.AcquisitionListWrapperDto
+import org.sopt.certi.data.remote.dto.response.GetAcquisitionListResponseDto
 
 interface AcquisitionRemoteDataSource {
-    suspend fun getAcquisitionList(): ApiResponse<AcquisitionListWrapperDto>
+    suspend fun getAcquisitionList(): ApiResponse<GetAcquisitionListResponseDto>
 }

@@ -18,14 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
@@ -182,68 +180,3 @@ fun ResumeScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun PreviewResumeScreen() {
-    val dummyAcquiredCertificationList = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
-            tags = listOf("태그", "태그", "태그")
-        ),
-        CertificationData(
-            certificationId = 1,
-            certificationName = "GTQ 1급 (그래픽기술자격)",
-            createdAt = LocalDate.now(),
-            cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-            tags = listOf("태그", "태그", "태그")
-        )
-    )
-    val dummyExperiences = listOf(
-        ActivityData(
-            activityId = 1,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹, 서티그룹, 서티그룹, 서티그룹",
-            role = "패션디자이너 인턴, 패션디자이너 인턴",
-            description = "트렌드 리서치 및 소재 조사"
-        ),
-        ActivityData(
-            activityId = 2,
-            startAt = "2021.11",
-            endAt = "2022.01",
-            organization = "서티그룹",
-            role = "패션디자이너 인턴",
-            description = "트렌드 리서치 및 소재 조사"
-        )
-    )
-
-    CERTITheme {
-        ResumeScreen(
-            jobCategory = listOf("IT/인터넷", "경영/사무", "경영/사무").toImmutableList(),
-            acquiredCertificationList = dummyAcquiredCertificationList.toImmutableList(),
-            experienceList = dummyExperiences.toImmutableList(),
-            activityList = persistentListOf(),
-            onCertificationClick = {},
-            navigateToMyCert = {},
-            navigateToWorkExperience = {},
-            navigateToActivities = {}
-        )
-    }
-}

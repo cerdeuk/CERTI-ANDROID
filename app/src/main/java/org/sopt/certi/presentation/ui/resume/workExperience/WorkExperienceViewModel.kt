@@ -48,48 +48,7 @@ class WorkExperienceViewModel @Inject constructor(
 
     fun getWorkExperienceList() {
         val resumeDataList = {
-            listOf(
-                ActivityData(
-                    activityId = 1,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 3,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 4,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 5,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                )
-            )
+            emptyList<ActivityData>()
         }
         _experienceListLoadState.value = UiState.Success(resumeDataList())
     }
@@ -101,40 +60,7 @@ class WorkExperienceViewModel @Inject constructor(
 
     fun onDeleteConfirmclick() {
         val resumeDataList = {
-            listOf(
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 3,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 4,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 5,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "브랜드 리서치 및 소재 조사"
-                )
-            )
+            emptyList<ActivityData>()
         }
         _selectedId.value = null
         _experienceListLoadState.value = UiState.Success(resumeDataList())

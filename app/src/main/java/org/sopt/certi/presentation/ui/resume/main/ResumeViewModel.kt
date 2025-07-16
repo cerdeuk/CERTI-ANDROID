@@ -15,6 +15,8 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.AcquisitionUseCase
+import org.sopt.certi.domain.usecase.CareerUseCase
+import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.main.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.main.state.ResumeUiState
 import java.time.LocalDate
@@ -22,7 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResumeViewModel @Inject constructor(
-    private val acquisitionUseCase: AcquisitionUseCase
+    private val acquisitionUseCase: AcquisitionUseCase,
+    private val getInterestJobListUseCase: GetInterestedJobListUseCase,
+    private val careerUseCase: CareerUseCase
 ) : ViewModel() {
     private val _jobCategoryLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
@@ -67,11 +71,17 @@ class ResumeViewModel @Inject constructor(
         getActivityList()
     }
 
-    private fun getJobCategory() {
-        val jobCategory = {
-            listOf("IT/인터넷", "IT/인터넷", "IT/인터넷")
-        }
-        _jobCategoryLoadState.value = UiState.Success(jobCategory())
+    private fun getJobCategory() = viewModelScope.launch {
+        _jobCategoryLoadState.value = UiState.Loading
+        getInterestJobListUseCase.invoke().fold(
+            onSuccess = {
+                val jobCategory = it.jobList
+                _jobCategoryLoadState.emit(UiState.Success(jobCategory))
+            },
+            onFailure = {
+                _jobCategoryLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     private fun getAcquiredCertificationList() = viewModelScope.launch {
@@ -87,82 +97,22 @@ class ResumeViewModel @Inject constructor(
         )
     }
 
-    private fun getExperienceList() {
-        val experienceList = {
-            listOf(
-                ActivityData(
-                    activityId = 1,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "트렌드 리서치 및 소재 조사, 트렌드 리서치 및 소재 조사"
-                ),
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "서티그룹",
-                    role = "패션디자이너 인턴",
-                    description = "트렌드 리서치 및 소재 조사"
-                )
-            )
-        }
-        _experienceListLoadState.value = UiState.Success(experienceList().take(4))
+    private fun getExperienceList() = viewModelScope.launch {
+        _experienceListLoadState.value = UiState.Loading
+        careerUseCase.invoke().fold(
+            onSuccess = {
+                val experienceList = it
+                _experienceListLoadState.emit(UiState.Success(experienceList))
+            },
+            onFailure = {
+                _experienceListLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     private fun getActivityList() {
         val activityList = {
-            listOf(
-                ActivityData(
-                    activityId = 1,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 2,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 3,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 4,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 5,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                ),
-                ActivityData(
-                    activityId = 6,
-                    startAt = "2021.11",
-                    endAt = "2022.01",
-                    organization = "sopt",
-                    role = "동아리 36기 기획",
-                    description = "서비스 기획 및 아이디어 도출"
-                )
-            )
+            emptyList<ActivityData>()
         }
         _activityListLoadState.value = UiState.Success(activityList().take(4))
     }
