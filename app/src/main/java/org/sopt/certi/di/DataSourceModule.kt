@@ -8,10 +8,12 @@ import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.datasource.CertRemoteDataSource
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
+import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CertRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.DummyRemoteDataSourceImpl
+import org.sopt.certi.data.remote.datasourceimpl.HomeRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.UserRemoteDataSourceImpl
 
 @Module
@@ -32,4 +34,7 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsCertDataSource(certRemoteDataSourceImpl: CertRemoteDataSourceImpl): CertRemoteDataSource
+
+    @Binds
+    abstract fun bindHomeRemoteDataSource(homeRemoteDataSource: HomeRemoteDataSourceImpl): HomeRemoteDataSource
 }

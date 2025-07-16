@@ -8,6 +8,7 @@ import org.sopt.certi.data.remote.service.AuthService
 import org.sopt.certi.data.remote.service.CertService
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.service.DummyService
+import org.sopt.certi.data.remote.service.HomeService
 import org.sopt.certi.data.remote.service.UserService
 import retrofit2.Retrofit
 
@@ -28,6 +29,11 @@ object ServiceModule {
     @Singleton
     fun providesUserService(retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesHomeService(retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 
     @Provides
     @Singleton

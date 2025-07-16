@@ -1,8 +1,10 @@
 package org.sopt.certi.data.repositoryimpl
-
+import org.sopt.certi.data.mapper.todomain.user.toDomain
+import org.sopt.certi.data.mapper.todomain.cert.toDomain
 import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
+import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.repository.HomeRepository
 import javax.inject.Inject
 
@@ -12,22 +14,45 @@ class HomeRepositoryImpl @Inject constructor(
 
     override suspend fun getUserInfo(): Result<UserInfoData> {
         return runCatching {
-            val response = homeRemoteDataSource.getUserInfo()
-            response.data.toDomain()
+            homeRemoteDataSource.getUserInfo()
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
+        }
+    }
+
+    override suspend fun getRecommendedCertList(): Result<List<CertificationData>> {
+        return runCatching {
+            homeRemoteDataSource.getRecommendedCertList()
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
+                .certificationList
         }
     }
 
     override suspend fun getPreCertificationList(): Result<List<CertificationData>> {
         return runCatching {
-            val response = homeRemoteDataSource.getPreCertificationList()
-            response.data.data.map { it.toDomain() }
+            homeRemoteDataSource.getPreCertificationList()
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
         }
     }
 
     override suspend fun getFavoriteList(): Result<List<CertificationData>> {
         return runCatching {
-            val response = homeRemoteDataSource.getFavoriteList()
-            response.data.data.map { it.toDomain() }
+            homeRemoteDataSource.getFavoriteList()
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
+        }
+    }
+
+    override suspend fun toggleFavorite(certificationId: Long): Result<Unit> {
+        return runCatching {
+            homeRemoteDataSource.toggleFavorite(certificationId)
+            Unit
         }
     }
 }

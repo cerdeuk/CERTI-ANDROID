@@ -1,5 +1,6 @@
 package org.sopt.certi.di
 
+import com.kakao.sdk.user.model.User
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,12 +8,17 @@ import dagger.hilt.components.SingletonComponent
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.HomeRepository
 import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
@@ -82,4 +88,24 @@ object UseCaseModule {
     fun provideGetCategoryCertListUseCase(
         certRepository: CertRepository
     ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
+
+    @Provides
+    fun provideGetUserInfoUseCase(
+        homeRepository: HomeRepository
+    ): UserInfoUseCase = UserInfoUseCase(homeRepository)
+
+    @Provides
+    fun provideGetPreCertListUseCase(
+        homeRepository: HomeRepository
+    ): PreCertUseCase = PreCertUseCase(homeRepository)
+
+    @Provides
+    fun provideGetFavoriteListUseCase(
+        homeRepository: HomeRepository
+    ): FavoriteUseCase = FavoriteUseCase(homeRepository)
+
+    @Provides
+    fun provideToggleFavoriteUseCase(
+        homeRepository: HomeRepository
+    ): ToggleFavoriteUseCase = ToggleFavoriteUseCase(homeRepository)
 }

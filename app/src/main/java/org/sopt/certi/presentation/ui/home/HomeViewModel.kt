@@ -9,27 +9,28 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import org.sopt.certi.core.state.UiState
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
 import javax.inject.Inject
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
+import kotlin.onSuccess
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userInfoUseCase: UserInfoUseCase,
     private val preCertUseCase: PreCertUseCase,
-    private val favoriteUseCase: FavoriteUseCase
+    private val favoriteUseCase: FavoriteUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
-
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-
     private val _preCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
 
     val homeUiState: StateFlow<HomeUiState> = combine(
@@ -57,16 +58,18 @@ class HomeViewModel @Inject constructor(
     )
 
     fun getUserInfo() {
-        val userInfo = UserInfoData(
-            name = "김서티",
-            university = "솝트대학교",
-            major = "경영학과",
-            track = "인문계열",
-            percentage = 57,
-            category = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
-        )
-        _userInfoLoadState.value = UiState.Success(userInfo)
+        viewModelScope.launch {
+            _userInfoLoadState.value = UiState.Loading
+            userInfoUseCase()
+                .onSuccess { result ->
+                    _userInfoLoadState.value = UiState.Success(result)
+                }
+                .onFailure {
+                    _userInfoLoadState.value = UiState.Failure(it.toString())
+                }
+        }
     }
+
 
     fun getRecommendedList() {
         val recommendedList = {
@@ -94,70 +97,51 @@ class HomeViewModel @Inject constructor(
 
         _recommendedListLoadState.value = UiState.Success(recommendedList())
     }
+
     fun getPreCertList() {
-        val preCertList = {
-            listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "시각디자인산업기사",
-                    averagePeriod = "3개월",
-                    nearestTestDate = "2025.05.27",
-                    agencyName = "한국산업인력공단",
-                    iconIndex = 0
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "시각디자인산업기사",
-                    averagePeriod = "3개월",
-                    nearestTestDate = "2025.05.27",
-                    agencyName = "한국산업인력공단",
-                    iconIndex = 1
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "시각디자인산업기사",
-                    averagePeriod = "3개월",
-                    nearestTestDate = "2025.05.27",
-                    agencyName = "한국산업인력공단",
-                    iconIndex = 2
-                )
-            )
+        viewModelScope.launch {
+            _preCertificationListLoadState.value = UiState.Loading
+            preCertUseCase()
+                .onSuccess { result ->
+                    _preCertificationListLoadState.value = UiState.Success(result)
+                }
+                .onFailure {
+                    _preCertificationListLoadState.value = UiState.Failure(it.toString())
+                }
         }
-        _preCertificationListLoadState.value = UiState.Success(preCertList())
+
     }
+
     fun getFavoriteList(isFavorite: Boolean) {
-        val favoriteList = {
-            listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    testType = "실기형",
-                    agencyName = "한국산업인력공단",
-                    certificationType = "국가기술자격"
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "시각디자인산업기사",
-                    testType = "실기형",
-                    agencyName = "한국산업인력공단",
-                    certificationType = "국가기술자격"
-                )
-            )
+        viewModelScope.launch {
+            _favoriteListLoadState.value = UiState.Loading
+            favoriteUseCase()
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _favoriteListLoadState.value = UiState.Empty
+                    } else {
+                        _favoriteListLoadState.value = UiState.Success(result)
+                    }
+                }.onFailure {
+                    _favoriteListLoadState.value = UiState.Failure(it.toString())
+                }
         }
-        _favoriteListLoadState.value = UiState.Success(favoriteList())
     }
 
     fun onFavoriteClicked(certificationId: Long) {
-        val current = _favoriteListLoadState.value
-        if (current is UiState.Success) {
-            val updated = current.data.map {
-                if (it.certificationId == certificationId) {
-                    it.copy(isFavorite = !it.isFavorite)
-                } else {
-                    it
+        viewModelScope.launch {
+            toggleFavoriteUseCase(certificationId)
+            val current = _favoriteListLoadState.value
+            if (current is UiState.Success) {
+                val updated = current.data.map {
+                    if (it.certificationId == certificationId) {
+                        it.copy(isFavorite = !it.isFavorite)
+                    } else it
                 }
+                _favoriteListLoadState.value = UiState.Success(updated)
             }
-            _favoriteListLoadState.value = UiState.Success(updated)
         }
     }
+
 }
+

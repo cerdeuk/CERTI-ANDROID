@@ -1,6 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
-import org.sopt.certi.data.mapper.todomain.toDomain
+import org.sopt.certi.data.mapper.todomain.cert.toDomain
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.domain.model.DummyData
 import org.sopt.certi.domain.repository.DummyRepository

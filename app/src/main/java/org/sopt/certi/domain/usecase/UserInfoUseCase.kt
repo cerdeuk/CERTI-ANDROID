@@ -1,7 +1,6 @@
 package org.sopt.certi.domain.usecase
 
-import org.sopt.certi.domain.model.CertificationData
-import org.sopt.certi.domain.model.UserInfoData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.repository.HomeRepository
 import javax.inject.Inject
 
