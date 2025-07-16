@@ -13,14 +13,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.AcquisitionUseCase
+import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.presentation.ui.myCert.sideEffect.MyCertSideEffect
 import org.sopt.certi.presentation.ui.myCert.state.MyCertUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class MyCertViewModel @Inject constructor(
-    private val acquisitionUseCase: AcquisitionUseCase
+    private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
+    private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
 ) : ViewModel() {
     private val _myCertListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCertificationId = MutableStateFlow<Long?>(null)
@@ -48,7 +50,7 @@ class MyCertViewModel @Inject constructor(
 
     fun getMyCertList() = viewModelScope.launch {
         _myCertListLoadState.value = UiState.Loading
-        acquisitionUseCase.invoke().fold(
+        getAcquisitionListUseCase.invoke().fold(
             onSuccess = {
                 val acquiredCertificationList = it
                 _myCertListLoadState.emit(UiState.Success(acquiredCertificationList))
@@ -66,7 +68,7 @@ class MyCertViewModel @Inject constructor(
 
     fun onConfirmDelete() = viewModelScope.launch {
         _selectedCertificationId.value?.let {
-            acquisitionUseCase.deleteAcquisition(it).fold(
+            deleteAcquisitionUseCase.invoke(it).fold(
                 onSuccess = {
                     _selectedCertificationId.value = null
                     getMyCertList()

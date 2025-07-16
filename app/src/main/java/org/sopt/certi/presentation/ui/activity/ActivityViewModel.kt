@@ -13,14 +13,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.usecase.ActivityUseCase
+import org.sopt.certi.domain.usecase.activity.DeleteActivityUseCase
+import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.presentation.ui.activity.sideEffect.ActivitySideEffect
 import org.sopt.certi.presentation.ui.activity.state.ActivityUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel@Inject constructor(
-    private val activityUseCase: ActivityUseCase
+    private val getActivityListUseCase: GetActivityListUseCase,
+    private val deleteActivityUseCase: DeleteActivityUseCase
 ) : ViewModel() {
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _selectedId = MutableStateFlow<Long?>(null)
@@ -48,7 +50,7 @@ class ActivityViewModel@Inject constructor(
 
     fun getActivityList() = viewModelScope.launch {
         _activityListLoadState.value = UiState.Loading
-        activityUseCase.invoke().fold(
+        getActivityListUseCase.invoke().fold(
             onSuccess = {
                 val activityList = it
                 _activityListLoadState.emit(UiState.Success(activityList))
@@ -66,7 +68,7 @@ class ActivityViewModel@Inject constructor(
 
     fun onDeleteConfirmClick() = viewModelScope.launch {
         _selectedId.value?.let {
-            activityUseCase.deleteActivity(it).fold(
+            deleteActivityUseCase.invoke(it).fold(
                 onSuccess = {
                     _selectedId.value = null
                     getActivityList()

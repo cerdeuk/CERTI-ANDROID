@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.usecase
+package org.sopt.certi.domain.usecase.activity
 
 import org.sopt.certi.domain.repository.ActivityRepository
 

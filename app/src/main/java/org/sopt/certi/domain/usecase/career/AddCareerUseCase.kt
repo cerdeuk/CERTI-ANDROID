@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.usecase
+package org.sopt.certi.domain.usecase.career
 
 import org.sopt.certi.domain.repository.CareerRepository
 

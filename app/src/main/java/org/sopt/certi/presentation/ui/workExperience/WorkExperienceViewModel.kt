@@ -13,14 +13,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.usecase.CareerUseCase
+import org.sopt.certi.domain.usecase.career.DeleteCareerUseCase
+import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
 import org.sopt.certi.presentation.ui.workExperience.sideEffect.WorkExperienceSideEffect
 import org.sopt.certi.presentation.ui.workExperience.state.WorkExperienceUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class WorkExperienceViewModel @Inject constructor(
-    private val careerUseCase: CareerUseCase
+    private val getCareerListUseCase: GetCareerListUseCase,
+    private val deleteCareerUseCase: DeleteCareerUseCase
 ) : ViewModel() {
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _selectedId = MutableStateFlow<Long?>(null)
@@ -48,7 +50,7 @@ class WorkExperienceViewModel @Inject constructor(
 
     fun getWorkExperienceList() = viewModelScope.launch {
         _experienceListLoadState.value = UiState.Loading
-        careerUseCase.invoke().fold(
+        getCareerListUseCase.invoke().fold(
             onSuccess = {
                 val experienceList = it
                 _experienceListLoadState.emit(UiState.Success(experienceList))
@@ -66,7 +68,7 @@ class WorkExperienceViewModel @Inject constructor(
 
     fun onDeleteConfirmClick() = viewModelScope.launch {
         _selectedId.value?.let {
-            careerUseCase.deleteCareer(it).fold(
+            deleteCareerUseCase.invoke(it).fold(
                 onSuccess = {
                     _selectedId.value = null
                     getWorkExperienceList()

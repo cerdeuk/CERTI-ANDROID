@@ -15,9 +15,10 @@ import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.AcquisitionUseCase
-import org.sopt.certi.domain.usecase.ActivityUseCase
-import org.sopt.certi.domain.usecase.CareerUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
+import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
+import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
@@ -25,10 +26,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResumeViewModel @Inject constructor(
-    private val acquisitionUseCase: AcquisitionUseCase,
+    private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
     private val getInterestJobListUseCase: GetInterestedJobListUseCase,
-    private val careerUseCase: CareerUseCase,
-    private val activityUseCase: ActivityUseCase,
+    private val getCareerListUseCase: GetCareerListUseCase,
+    private val getActivityListUseCase: GetActivityListUseCase,
+    private val getAcquisitionDetailUseCase: GetAcquisitionDetailUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _jobCategoryLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
@@ -89,7 +91,7 @@ class ResumeViewModel @Inject constructor(
 
     private fun getAcquiredCertificationList() = viewModelScope.launch {
         _acquiredCertificationListLoadState.value = UiState.Loading
-        acquisitionUseCase.invoke().fold(
+        getAcquisitionListUseCase.invoke().fold(
             onSuccess = {
                 val acquiredCertificationList = it.take(3)
                 _acquiredCertificationListLoadState.emit(UiState.Success(acquiredCertificationList))
@@ -102,7 +104,7 @@ class ResumeViewModel @Inject constructor(
 
     private fun getExperienceList() = viewModelScope.launch {
         _experienceListLoadState.value = UiState.Loading
-        careerUseCase.invoke().fold(
+        getCareerListUseCase.invoke().fold(
             onSuccess = {
                 val experienceList = it.take(4)
                 _experienceListLoadState.emit(UiState.Success(experienceList))
@@ -115,7 +117,7 @@ class ResumeViewModel @Inject constructor(
 
     private fun getActivityList() = viewModelScope.launch {
         _activityListLoadState.value = UiState.Loading
-        activityUseCase.invoke().fold(
+        getActivityListUseCase.invoke().fold(
             onSuccess = {
                 val activityList = it.take(4)
                 _activityListLoadState.emit(UiState.Success(activityList))
@@ -128,7 +130,7 @@ class ResumeViewModel @Inject constructor(
 
     fun onCertificationClick(selectedCertificationId: Long) = viewModelScope.launch {
         _selectedCertDetail.value = UiState.Loading
-        acquisitionUseCase.getAcquisitionDetail(selectedCertificationId).fold(
+        getAcquisitionDetailUseCase.invoke(selectedCertificationId).fold(
             onSuccess = {
                 val acquisitionDetail = it
                 _selectedCertDetail.emit(UiState.Success(acquisitionDetail))
