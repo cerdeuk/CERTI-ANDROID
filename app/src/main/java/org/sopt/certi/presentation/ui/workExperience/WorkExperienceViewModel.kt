@@ -13,14 +13,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.CareerUseCase
 import org.sopt.certi.presentation.ui.workExperience.sideEffect.WorkExperienceSideEffect
 import org.sopt.certi.presentation.ui.workExperience.state.WorkExperienceUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class WorkExperienceViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val careerUseCase: CareerUseCase
 ) : ViewModel() {
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _selectedId = MutableStateFlow<Long?>(null)
@@ -46,11 +46,17 @@ class WorkExperienceViewModel @Inject constructor(
     private val _sideEffect = Channel<WorkExperienceSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun getWorkExperienceList() {
-        val resumeDataList = {
-            emptyList<ActivityData>()
-        }
-        _experienceListLoadState.value = UiState.Success(resumeDataList())
+    fun getWorkExperienceList() = viewModelScope.launch {
+        _experienceListLoadState.value = UiState.Loading
+        careerUseCase.invoke().fold(
+            onSuccess = {
+                val experienceList = it
+                _experienceListLoadState.emit(UiState.Success(experienceList))
+            },
+            onFailure = {
+                _experienceListLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun onDeleteClick(selectedId: Long) = viewModelScope.launch {
@@ -58,11 +64,21 @@ class WorkExperienceViewModel @Inject constructor(
         _sideEffect.send(WorkExperienceSideEffect.showDeleteDialog)
     }
 
-    fun onDeleteConfirmclick() {
-        val resumeDataList = {
-            emptyList<ActivityData>()
+    fun onDeleteConfirmClick() = viewModelScope.launch {
+        _selectedId.value?.let {
+            careerUseCase.deleteCareer(it).fold(
+                onSuccess = {
+                    _selectedId.value = null
+                    getWorkExperienceList()
+                },
+                onFailure = {
+                    _selectedId.value = null
+                }
+            )
         }
+    }
+
+    fun onDeleteDismissClick() {
         _selectedId.value = null
-        _experienceListLoadState.value = UiState.Success(resumeDataList())
     }
 }

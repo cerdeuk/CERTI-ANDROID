@@ -72,9 +72,12 @@ fun ResumeWorkExperienceRoute(
         CertiDeleteDialog(
             onConfirmClick = {
                 onDeleteDialogShow = false
-                viewModel.onDeleteConfirmclick()
+                viewModel.onDeleteConfirmClick()
             },
-            onDismissClick = { onDeleteDialogShow = false }
+            onDismissClick = {
+                onDeleteDialogShow = false
+                viewModel.onDeleteDismissClick()
+            }
         )
     }
 }

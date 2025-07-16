@@ -8,4 +8,7 @@ class CareerUseCase(
 ) {
     suspend operator fun invoke(): Result<List<ActivityData>> =
         careerRepository.getCareerList()
+
+    suspend fun deleteCareer(careerId: Long): Result<Unit> =
+        careerRepository.deleteCareer(careerId)
 }
