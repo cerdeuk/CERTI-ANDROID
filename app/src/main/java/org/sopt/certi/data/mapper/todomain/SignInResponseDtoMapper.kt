@@ -1,8 +1,8 @@
 package org.sopt.certi.data.mapper.todomain
 
 import org.sopt.certi.data.remote.dto.response.SignInResponseDto
-import org.sopt.certi.domain.model.UserInformationAuth
-import org.sopt.certi.domain.model.UserAuth
+import org.sopt.certi.domain.model.user.UserInformationAuth
+import org.sopt.certi.domain.model.user.UserAuth
 
 fun SignInResponseDto.toDomain() = UserAuth(
     needSignUp = needSignUp,

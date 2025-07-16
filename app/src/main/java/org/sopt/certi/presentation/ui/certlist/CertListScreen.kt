@@ -21,7 +21,7 @@ import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.model.CertificationData
+import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
 import org.sopt.certi.presentation.ui.certlist.component.CategoryFavoriteButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar

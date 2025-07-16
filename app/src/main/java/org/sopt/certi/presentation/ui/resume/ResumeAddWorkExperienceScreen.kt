@@ -24,6 +24,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.resume.component.ResumeDateInputSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeTextInputSection
+import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -81,7 +82,7 @@ fun ResumeAddWorkExperienceScreen(
         modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
-            modifier = Modifier.weight(1f, fill = true),
+            modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp))
         ) {
             item {
@@ -95,6 +96,7 @@ fun ResumeAddWorkExperienceScreen(
 
             item {
                 ResumeDateInputSection(
+                    title = stringResource(R.string.resume_work_experience_period),
                     startDate = startDate,
                     endDate = endDate,
                     onStartDateValueChange = onStartDateValueChange,
@@ -108,7 +110,7 @@ fun ResumeAddWorkExperienceScreen(
                     title = stringResource(R.string.resume_work_experience_organization),
                     value = organizationValue,
                     onValueChange = onOrganizationValueChange,
-                    maxLength = 10,
+                    maxLength = 30,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
@@ -118,7 +120,7 @@ fun ResumeAddWorkExperienceScreen(
                     title = stringResource(R.string.resume_work_experience_role),
                     value = roleValue,
                     onValueChange = onRoleValueChange,
-                    maxLength = 10,
+                    maxLength = 30,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
@@ -128,22 +130,21 @@ fun ResumeAddWorkExperienceScreen(
                     title = stringResource(R.string.resume_work_experience_description),
                     value = descriptionValue,
                     onValueChange = onDescriptionValueChange,
-                    maxLength = 16,
+                    maxLength = 80,
                     modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
                 )
             }
-
-            item {
-                CertiBasicButton(
-                    buttonText = stringResource(R.string.button_add),
-                    onClick = onNavigateToResume,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = screenHeightDp(24.dp)),
-                    enabled = addButtonEnabled
-                )
-            }
         }
+
+        CertiBasicButton(
+            buttonText = stringResource(R.string.button_add),
+            onClick = onNavigateToResume,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = screenHeightDp(24.dp))
+                .padding(horizontal = screenWidthDp(20.dp)),
+            enabled = addButtonEnabled
+        )
     }
 }
 

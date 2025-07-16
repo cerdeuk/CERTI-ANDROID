@@ -23,6 +23,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.presentation.ui.resume.component.ResumeAddButton
 import org.sopt.certi.presentation.ui.resume.component.ResumeEditListItem
+import org.sopt.certi.presentation.ui.resume.main.ResumeViewModel
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -164,7 +165,7 @@ private fun PreviewResumeWorkExperienceScreen() {
             endAt = "2022.01",
             organization = "서티그룹",
             role = "패션디자이너 인턴",
-            description = "브랜드 리서치 및 소재 조사"
+            description = "브랜드 리서치 및 소재 조사, 브랜드 리서치 및 소재 조사"
         ),
         ActivityData(
             startAt = "2021.11",

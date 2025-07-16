@@ -10,8 +10,9 @@ import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.ResumeActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.ResumeAddWorkExperienceRoute
-import org.sopt.certi.presentation.ui.resume.ResumeMyCertRoute
-import org.sopt.certi.presentation.ui.resume.ResumeRoute
+import org.sopt.certi.presentation.ui.resume.ResumeAddActivitiesRoute
+import org.sopt.certi.presentation.ui.resume.myCert.ResumeMyCertRoute
+import org.sopt.certi.presentation.ui.resume.main.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.ResumeWorkExperienceRoute
 
 fun NavController.navigateToResume(navOptions: NavOptions) {
@@ -32,6 +33,10 @@ fun NavController.navigateToAddWorkExperience() {
 
 fun NavController.navigateToActivities() {
     navigate(ResumeRoute.Activities)
+}
+
+fun NavController.navigateToAddActivities() {
+    navigate(ResumeRoute.AddActivities)
 }
 
 fun NavGraphBuilder.resumeNavGraph(
@@ -72,6 +77,22 @@ fun NavGraphBuilder.resumeNavGraph(
     }
 
     composable<ResumeRoute.Activities> {
-        ResumeActivitiesRoute(padding = padding)
+        ResumeActivitiesRoute(
+            padding = padding,
+            onNavigateToAddActivities = navController::navigateToAddActivities
+        )
+    }
+
+    composable<ResumeRoute.AddActivities> {
+        ResumeAddActivitiesRoute(
+            padding = padding,
+            navigateToResume = {
+                navController.navigateToResume(
+                    navOptions {
+                        popUpTo(MainTabRoute.Resume) { inclusive = true }
+                    }
+                )
+            }
+        )
     }
 }

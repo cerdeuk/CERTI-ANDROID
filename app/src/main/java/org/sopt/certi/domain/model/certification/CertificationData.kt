@@ -1,6 +1,10 @@
-package org.sopt.certi.domain.model
+package org.sopt.certi.domain.model.certification
 
 import java.time.LocalDate
+
+data class CertificationListData(
+    val certificationList: List<CertificationData>
+)
 
 data class CertificationData(
     val certificationId: Long,
@@ -15,6 +19,7 @@ data class CertificationData(
     val tags: List<String> = listOf(),
     val isFavorite: Boolean = false,
     val charge: Int = 0,
+    val index: Int = 0,
     val applicationUrl: String = "",
     val description: String = "",
     val applicationMethod: String = "",

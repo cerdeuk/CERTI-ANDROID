@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.model
+package org.sopt.certi.domain.model.user
 
 data class UserInfoData(
     val name: String,

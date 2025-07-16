@@ -57,7 +57,8 @@ fun MainNavHost(
             )
 
             homeNavGraph(
-                padding = padding
+                padding = padding,
+                navController = navigator.navController
             )
 
             certListNavGraph(

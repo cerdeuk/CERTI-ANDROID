@@ -22,14 +22,22 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CertiChipList(
     categories: List<String>,
     modifier: Modifier = Modifier,
-    spacing: Dp = screenWidthDp(6.dp) // 기본값
+    spacing: Dp = screenWidthDp(6.dp),
+    textStyle: TextStyle = CertiTheme.typography.caption.semibold_12,
+    backgroundColor: Color = CertiTheme.colors.lightPurple,
+    textColor: Color = CertiTheme.colors.mainBlue
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(spacing)
     ) {
         categories.forEach { text ->
-            CertiDefaultChip(text = text)
+            CertiDefaultChip(
+                text = text,
+                textStyle = textStyle,
+                backgroundColor = backgroundColor,
+                textColor = textColor
+            )
         }
     }
 }
@@ -39,7 +47,8 @@ fun CertiDefaultChip(
     text: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = CertiTheme.typography.caption.semibold_12,
-    backgroundColor: Color = CertiTheme.colors.lightPurple
+    backgroundColor: Color = CertiTheme.colors.lightPurple,
+    textColor: Color = CertiTheme.colors.mainBlue
 ) {
     Box(
         modifier = modifier
@@ -52,7 +61,7 @@ fun CertiDefaultChip(
         Text(
             text = text,
             style = textStyle,
-            color = CertiTheme.colors.mainBlue
+            color = textColor
         )
     }
 }
