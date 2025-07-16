@@ -41,21 +41,14 @@ fun CertListRoute(
         viewModel.getCertificationList(uiState.isFavorite, uiState.selectedCategory)
     }
 
-    when (uiState.loadState) {
-        is UiState.Success -> CertListScreen(
-            certListState = uiState,
-            navigateToSearch = navigateToSearch,
-            onCategorySelected = viewModel::onCategorySelected,
-            onFavoriteButtonClick = viewModel::onFavoriteClick,
-            certificationList = (uiState.certificationListLoadState as UiState.Success).data.toImmutableList(),
-            onLikeClick = viewModel::onLikeClick,
-            modifier = Modifier.padding(padding)
-        )
-        is UiState.Failure -> {}
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Init -> {}
-    }
+    CertListScreen(
+        certListState = uiState,
+        navigateToSearch = navigateToSearch,
+        onCategorySelected = viewModel::onCategorySelected,
+        onFavoriteButtonClick = viewModel::onFavoriteClick,
+        onLikeClick = viewModel::onLikeClick,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
@@ -64,7 +57,6 @@ private fun CertListScreen(
     navigateToSearch: () -> Unit,
     onCategorySelected: (Int) -> Unit,
     onFavoriteButtonClick: () -> Unit,
-    certificationList: ImmutableList<CertificationData>,
     onLikeClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -91,24 +83,32 @@ private fun CertListScreen(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = screenWidthDp(20.dp))
-                .fillMaxSize()
-        ) {
-            items(
-                items = certificationList,
-                key = { it.certificationId }
-            ) { item ->
-                CertificationListSection(
-                    certificationListData = item,
-                    onLikeClick = { onLikeClick(item.certificationId) },
-                    onCertificationClick = {
-                        // 상세페이지로 화면 전환
-                    },
-                    modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
-                )
-            }
+        when (certListState.certificationListLoadState) {
+            is UiState.Success ->
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(horizontal = screenWidthDp(20.dp))
+                        .fillMaxSize()
+                ) {
+                    items(
+                        items = certListState.certificationListLoadState.data,
+                        key = { it.certificationId }
+                    ) { item ->
+                        CertificationListSection(
+                            certificationListData = item,
+                            onLikeClick = { onLikeClick(item.certificationId) },
+                            onCertificationClick = {
+                                // 상세페이지로 화면 전환
+                            },
+                            modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
+                        )
+                    }
+                }
+
+            is UiState.Failure -> {}
+            is UiState.Loading -> {}
+            is UiState.Empty -> {}
+            is UiState.Init -> {}
         }
     }
 }
