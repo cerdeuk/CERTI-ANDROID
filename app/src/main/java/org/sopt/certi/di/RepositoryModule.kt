@@ -11,9 +11,9 @@ import org.sopt.certi.data.repositoryimpl.CareerRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CertRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.PreCertRepositoryImpl
+import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
 import org.sopt.certi.domain.repository.ActivityRepository
-import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository

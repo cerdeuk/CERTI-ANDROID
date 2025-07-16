@@ -23,14 +23,13 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.ui.theme.CERTITheme
 import java.time.LocalDate
 
 @Composable
 fun FlipCardOverlay(
     certificationData: CertificationData,
-    userInfo: UserInfoData,
+    nickname: String,
     onDismiss: () -> Unit
 ) {
     var isFlipped by remember { mutableStateOf(false) }
@@ -70,7 +69,7 @@ fun FlipCardOverlay(
             } else {
                 CertificationCardBack(
                     certificationData = certificationData,
-                    userInfo = userInfo
+                    nickname = nickname
                 )
             }
         }
@@ -92,17 +91,12 @@ fun FlipCardInteractivePreview() {
         cardBackImageUrl = "",
         tags = listOf("디자인", "컴퓨터", "김민지")
     )
-    val userInfo = UserInfoData(
-        name = "김민지",
-        university = "",
-        major = ""
-    )
 
     CERTITheme {
         if (showCard) {
             FlipCardOverlay(
                 certificationData = certificationData,
-                userInfo = userInfo,
+                nickname = "김서티",
                 onDismiss = { showCard = false }
             )
         }

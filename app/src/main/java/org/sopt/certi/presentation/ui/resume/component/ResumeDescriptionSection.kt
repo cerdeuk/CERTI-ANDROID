@@ -11,13 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.ActivityData
-import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -33,7 +31,11 @@ fun ResumeDescriptionSection(
             modifier = Modifier.width(screenWidthDp(104.dp))
         ) {
             Text(
-                text = stringResource(R.string.resume_list_item_period, resumeListItem.startAt, resumeListItem.endAt),
+                text = stringResource(
+                    R.string.resume_list_item_period,
+                    resumeListItem.startAt,
+                    resumeListItem.endAt
+                ),
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
             )
@@ -46,7 +48,7 @@ fun ResumeDescriptionSection(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Spacer(modifier = Modifier.width(screenWidthDp(30.dp)))
+        Spacer(modifier = Modifier.width(screenWidthDp(24.dp)))
 
         Column {
             Text(
@@ -65,22 +67,5 @@ fun ResumeDescriptionSection(
                 overflow = TextOverflow.Ellipsis
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ResumeDescriptionSectionPreview() {
-    CERTITheme {
-        ResumeDescriptionSection(
-            resumeListItem = ActivityData(
-                activityId = 1,
-                startAt = "2021.11",
-                endAt = "2022.01",
-                organization = "서티그룹서티그룹서티그룹",
-                role = "패션디자이너 인턴",
-                description = "브랜드 리서치 및 소재 조사"
-            )
-        )
     }
 }

@@ -31,8 +31,6 @@ import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.model.user.UserInfoData
-import org.sopt.certi.presentation.ui.resume.component.AcquiredDateChip
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -40,7 +38,7 @@ import java.time.LocalDate
 @Composable
 fun CertificationCardBack(
     certificationData: CertificationData,
-    userInfo: UserInfoData,
+    nickname: String,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -97,7 +95,7 @@ fun CertificationCardBack(
                     modifier = Modifier.size(screenWidthDp(24.dp))
                 )
                 Text(
-                    text = stringResource(R.string.resume_acquired_title, userInfo.name.drop(1)),
+                    text = stringResource(R.string.resume_acquired_title, nickname),
                     style = CertiTheme.typography.caption.semibold_14,
                     color = CertiTheme.colors.white
                 )
@@ -119,16 +117,11 @@ fun CertificationCardBackPreview() {
         createdAt = LocalDate.of(2024, 5, 12),
         cardBackImageUrl = ""
     )
-    val dummyUserInfo = UserInfoData(
-        name = "김서티",
-        university = "",
-        major = ""
-    )
 
     CERTITheme {
         CertificationCardBack(
             certificationData = dummyCertification,
-            userInfo = dummyUserInfo,
+            nickname = "김서티",
             modifier = Modifier
                 .width(250.dp)
                 .height(376.dp)

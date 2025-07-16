@@ -12,8 +12,8 @@ import org.sopt.certi.data.remote.datasource.CertRemoteDataSource
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.datasource.PreCertRemoteDataSource
-import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.datasourceimpl.AcquisitionRemoteDataSourceImpl
+import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.datasourceimpl.ActivityRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CareerRemoteDataSourceImpl
