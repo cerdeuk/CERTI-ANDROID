@@ -13,15 +13,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.AcquisitionUseCase
 import org.sopt.certi.presentation.ui.myCert.sideEffect.MyCertSideEffect
 import org.sopt.certi.presentation.ui.myCert.state.MyCertUiState
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MyCertViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val acquisitionUseCase: AcquisitionUseCase
 ) : ViewModel() {
     private val _myCertListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCertificationId = MutableStateFlow<Long?>(null)
@@ -47,52 +46,17 @@ class MyCertViewModel @Inject constructor(
     private val _sideEffect = Channel<MyCertSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun getMyCertList() {
-        val acquiredCertificationList = {
-            listOf(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 2,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 3,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 1,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                CertificationData(
-                    certificationId = 4,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 2,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                )
-            )
-        }
-        _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
+    fun getMyCertList() = viewModelScope.launch {
+        _myCertListLoadState.value = UiState.Loading
+        acquisitionUseCase.invoke().fold(
+            onSuccess = {
+                val acquiredCertificationList = it
+                _myCertListLoadState.emit(UiState.Success(acquiredCertificationList))
+            },
+            onFailure = {
+                _myCertListLoadState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
     }
 
     fun onDeleteClick(certificationId: Long) = viewModelScope.launch {
@@ -102,41 +66,6 @@ class MyCertViewModel @Inject constructor(
 
     fun onConfirmDelete() = viewModelScope.launch {
         _selectedCertificationId.value = null
-
-        val acquiredCertificationList = {
-            listOf(
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 3,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dwhite.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 1,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dyellow.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                ),
-                CertificationData(
-                    certificationId = 4,
-                    certificationName = "GTQ 1급 (그래픽기술자격)",
-                    createdAt = LocalDate.now(),
-                    description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
-                    index = 2,
-                    cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
-                    cardBackImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/Property+1%3D3.png",
-                    tags = listOf("태그", "태그", "태그")
-                )
-            )
-        }
-        _myCertListLoadState.value = UiState.Success(acquiredCertificationList())
+        getMyCertList()
     }
 }

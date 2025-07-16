@@ -89,7 +89,7 @@ class ResumeViewModel @Inject constructor(
         _acquiredCertificationListLoadState.value = UiState.Loading
         acquisitionUseCase.invoke().fold(
             onSuccess = {
-                val acquiredCertificationList = it
+                val acquiredCertificationList = it.take(3)
                 _acquiredCertificationListLoadState.emit(UiState.Success(acquiredCertificationList))
             },
             onFailure = {
@@ -102,7 +102,7 @@ class ResumeViewModel @Inject constructor(
         _experienceListLoadState.value = UiState.Loading
         careerUseCase.invoke().fold(
             onSuccess = {
-                val experienceList = it
+                val experienceList = it.take(4)
                 _experienceListLoadState.emit(UiState.Success(experienceList))
             },
             onFailure = {
@@ -115,7 +115,7 @@ class ResumeViewModel @Inject constructor(
         _activityListLoadState.value = UiState.Loading
         activityUseCase.invoke().fold(
             onSuccess = {
-                val activityList = it
+                val activityList = it.take(4)
                 _activityListLoadState.emit(UiState.Success(activityList))
             },
             onFailure = {
