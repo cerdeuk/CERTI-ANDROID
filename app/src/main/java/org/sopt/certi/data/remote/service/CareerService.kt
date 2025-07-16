@@ -5,9 +5,9 @@ import org.sopt.certi.data.remote.dto.request.AddActivityCareerRequestDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface ActivityService {
-    @POST("/api/v1/activity")
-    suspend fun addActivity(
-        @Body addActivityRequest: AddActivityCareerRequestDto
+interface CareerService {
+    @POST("/api/v1/careers")
+    suspend fun addCareers(
+        @Body addCareerRequest: AddActivityCareerRequestDto
     ): NullableApiResponse<Unit>
 }

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AddActivityRequestDto(
+data class AddActivityCareerRequestDto(
     @SerialName("startAt")
     val startAt: String,
     @SerialName("endAt")
