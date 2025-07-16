@@ -33,7 +33,6 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
@@ -52,12 +51,6 @@ fun ResumeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     var showDialog by remember { mutableStateOf(false) }
 
-    val userInfo = UserInfoData(
-        name = "김민지",
-        university = "",
-        major = ""
-    )
-
     LaunchedEffect(Unit) {
         viewModel.getResumeData()
     }
@@ -73,7 +66,7 @@ fun ResumeRoute(
     if (showDialog) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
-            userInfo = userInfo,
+            nickname = viewModel.getUserName() ?: stringResource(R.string.resume_certification_card_nickname),
             onDismiss = { showDialog = false }
         )
     }

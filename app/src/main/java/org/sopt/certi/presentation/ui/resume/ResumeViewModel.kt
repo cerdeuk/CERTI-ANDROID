@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
@@ -27,7 +28,8 @@ class ResumeViewModel @Inject constructor(
     private val acquisitionUseCase: AcquisitionUseCase,
     private val getInterestJobListUseCase: GetInterestedJobListUseCase,
     private val careerUseCase: CareerUseCase,
-    private val activityUseCase: ActivityUseCase
+    private val activityUseCase: ActivityUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _jobCategoryLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
@@ -136,5 +138,9 @@ class ResumeViewModel @Inject constructor(
                 _selectedCertDetail.emit(UiState.Failure(it.message.toString()))
             }
         )
+    }
+
+    fun getUserName(): String? {
+        return tokenManager.getUserInformation()?.nickname
     }
 }
