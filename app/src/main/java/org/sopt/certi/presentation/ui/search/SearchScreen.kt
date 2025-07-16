@@ -42,6 +42,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun SearchRoute(
     padding: PaddingValues,
+    navigateToCertDetail: (certId: Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.searchListUiState.collectAsStateWithLifecycle()
@@ -52,6 +53,7 @@ fun SearchRoute(
         onSearchClick = { viewModel.getSearchCertificationList(uiState.keyword) },
         certificationList = (uiState.searchCertificationListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
         onLikeClick = viewModel::onLikeClick,
+        navigateToCertDetail = navigateToCertDetail,
         modifier = Modifier.padding(padding)
     )
 }
@@ -63,6 +65,7 @@ private fun SearchScreen(
     onSearchClick: () -> Unit,
     certificationList: ImmutableList<CertificationData>,
     onLikeClick: (Long) -> Unit,
+    navigateToCertDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -82,7 +85,8 @@ private fun SearchScreen(
             is UiState.Success -> {
                 SearchSuccessScreen(
                     certificationList = certificationList,
-                    onLikeClick = onLikeClick
+                    onLikeClick = onLikeClick,
+                    navigateToCertDetail = navigateToCertDetail
                 )
             }
 
@@ -158,6 +162,7 @@ private fun SearchScreen(
 private fun SearchSuccessScreen(
     certificationList: ImmutableList<CertificationData>,
     onLikeClick: (Long) -> Unit,
+    navigateToCertDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -179,7 +184,7 @@ private fun SearchSuccessScreen(
                 certificationListData = item,
                 onLikeClick = { onLikeClick(item.certificationId) },
                 onCertificationClick = {
-                    // 상세페이지로 화면 전환
+                    navigateToCertDetail(item.certificationId)
                 },
                 modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
             )

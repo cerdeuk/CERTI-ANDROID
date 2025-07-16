@@ -8,19 +8,25 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import org.sopt.certi.domain.usecase.AddCareerUseCase
+import org.sopt.certi.presentation.ui.resume.workExperience.state.AddWorkExperienceUiState
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.workExperience.state.AddWorkExperienceUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class AddWorkExperienceViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val addCareerUseCase: AddCareerUseCase
 ) : ViewModel() {
     private val _startDate = MutableStateFlow("")
     private val _endDate = MutableStateFlow("")
     private val _organizationValue = MutableStateFlow("")
     private val _roleValue = MutableStateFlow("")
     private val _descriptionValue = MutableStateFlow("")
+
+    private val _addCareerSuccess = MutableStateFlow<Boolean>(false)
+    val addCareerSuccess: StateFlow<Boolean> = _addCareerSuccess
 
     val addWorkExperienceUiState: StateFlow<AddWorkExperienceUiState> =
         combine(
@@ -75,5 +81,28 @@ class AddWorkExperienceViewModel @Inject constructor(
 
     fun onDescriptionChanged(value: String) {
         _descriptionValue.value = value
+    }
+
+    fun addCareer() {
+        viewModelScope.launch {
+            addCareerUseCase(
+                startAt = _startDate.value,
+                endAt = _endDate.value,
+                place = _organizationValue.value,
+                name = _roleValue.value,
+                description = _descriptionValue.value
+            ).fold(
+                onSuccess = {
+                    _addCareerSuccess.value = true
+                },
+                onFailure = {
+                    _addCareerSuccess.value = false
+                }
+            )
+        }
+    }
+
+    fun resetAddCareerSuccess() {
+        _addCareerSuccess.value = false
     }
 }

@@ -2,12 +2,20 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.AddActivityCareerRequestDto
+import retrofit2.http.Body
+import retrofit2.http.POST
 import org.sopt.certi.data.remote.dto.response.GetCareersResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface CareerService {
+    @POST("/api/v1/careers")
+    suspend fun addCareers(
+        @Body addCareerRequest: AddActivityCareerRequestDto
+    ): NullableApiResponse<Unit>
+
     @GET("/api/v1/careers")
     suspend fun getCareerList(): ApiResponse<GetCareersResponseDto>
 

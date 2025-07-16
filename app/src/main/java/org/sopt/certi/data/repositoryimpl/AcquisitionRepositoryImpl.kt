@@ -12,6 +12,12 @@ import javax.inject.Inject
 class AcquisitionRepositoryImpl @Inject constructor(
     private val acquisitionRemoteDataSource: AcquisitionRemoteDataSource
 ) : AcquisitionRepository {
+    override suspend fun acquiredCert(certificationId: Long): Result<Boolean> = safeApiCall {
+        acquisitionRemoteDataSource.acquiredCert(certificationId)
+            .handleNullableApiResponse()
+            .getOrThrow() == true
+    }
+
     override suspend fun getAcquisitionList(): Result<List<CertificationData>> = safeApiCall {
         acquisitionRemoteDataSource.getAcquisitionList()
             .handleApiResponse()

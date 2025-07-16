@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,6 +31,14 @@ fun ResumeAddActivitiesRoute(
     viewModel: AddActivityViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.addActivityUiState.collectAsStateWithLifecycle()
+    val addActivitySuccess by viewModel.addActivitySuccess.collectAsStateWithLifecycle()
+
+    LaunchedEffect(addActivitySuccess) {
+        if (addActivitySuccess) {
+            navigateToResume()
+            viewModel.resetAddActivitySuccess()
+        }
+    }
 
     ResumeAddActivitiesScreen(
         uiState = uiState,
@@ -38,7 +47,7 @@ fun ResumeAddActivitiesRoute(
         onOrganizationValueChange = { viewModel.onOrganizationChanged(it) },
         onActivityValueChange = { viewModel.onActivityChanged(it) },
         onDescriptionValue = { viewModel.onDescriptionChanged(it) },
-        navigateToResume = navigateToResume,
+        onAddClick = { viewModel.addActivity() },
         modifier = Modifier.padding(padding)
     )
 }
@@ -51,7 +60,7 @@ fun ResumeAddActivitiesScreen(
     onOrganizationValueChange: (String) -> Unit,
     onActivityValueChange: (String) -> Unit,
     onDescriptionValue: (String) -> Unit,
-    navigateToResume: () -> Unit,
+    onAddClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -119,7 +128,7 @@ fun ResumeAddActivitiesScreen(
 
         CertiBasicButton(
             buttonText = stringResource(R.string.resume_add_button),
-            onClick = navigateToResume,
+            onClick = onAddClick,
             enabled = uiState.addButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()

@@ -30,6 +30,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CertListRoute(
     padding: PaddingValues,
     navigateToSearch: () -> Unit,
+    navigateToCertDetail: (certId: Long) -> Unit,
     viewModel: CertListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
@@ -41,6 +42,7 @@ fun CertListRoute(
     CertListScreen(
         certListState = uiState,
         navigateToSearch = navigateToSearch,
+        navigateToCertDetail = navigateToCertDetail,
         onCategorySelected = viewModel::onCategorySelected,
         onFavoriteButtonClick = viewModel::onFavoriteClick,
         onLikeClick = viewModel::onLikeClick,
@@ -52,6 +54,7 @@ fun CertListRoute(
 private fun CertListScreen(
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
+    navigateToCertDetail: (Long) -> Unit,
     onCategorySelected: (Int) -> Unit,
     onFavoriteButtonClick: () -> Unit,
     onLikeClick: (Long) -> Unit,
@@ -95,7 +98,7 @@ private fun CertListScreen(
                             certificationListData = item,
                             onLikeClick = { onLikeClick(item.certificationId) },
                             onCertificationClick = {
-                                // 상세페이지로 화면 전환
+                                navigateToCertDetail(item.certificationId)
                             },
                             modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
                         )

@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.CertListRoute
+import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
 import org.sopt.certi.presentation.ui.search.SearchRoute
 
 fun NavController.navigateToSearch() {
@@ -17,7 +18,10 @@ fun NavGraphBuilder.searchNavGraph(
 ) {
     composable<CertListRoute.Search> {
         SearchRoute(
-            padding = padding
+            padding = padding,
+            navigateToCertDetail = { certId ->
+                navController.navigateToCertDetail(certId)
+            }
         )
     }
 }

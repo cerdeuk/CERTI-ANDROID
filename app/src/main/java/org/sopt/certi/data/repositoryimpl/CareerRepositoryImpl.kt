@@ -12,6 +12,11 @@ import javax.inject.Inject
 class CareerRepositoryImpl @Inject constructor(
     private val careerRemoteDataSource: CareerRemoteDataSource
 ) : CareerRepository {
+    override suspend fun addCareer(startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit> = safeApiCall {
+        careerRemoteDataSource.addCareer(startAt, endAt, place, name, description)
+            .handleNullableApiResponse()
+            .getOrThrow()
+
     override suspend fun getCareerList(): Result<List<ActivityData>> = safeApiCall {
         careerRemoteDataSource.getCareerList()
             .handleApiResponse()

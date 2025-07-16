@@ -11,6 +11,9 @@ import javax.inject.Inject
 class AcquisitionRemoteDataSourceImpl @Inject constructor(
     private val acquisitionService: AcquisitionService
 ) : AcquisitionRemoteDataSource {
+    override suspend fun acquiredCert(certificationId: Long): NullableApiResponse<Boolean> =
+        acquisitionService.acquiredCert(certificationId)
+
     override suspend fun getAcquisitionList(): ApiResponse<GetAcquisitionListResponseDto> =
         acquisitionService.getAcquisitionList()
 

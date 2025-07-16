@@ -8,19 +8,25 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import org.sopt.certi.domain.usecase.AddActivityUseCase
+import org.sopt.certi.presentation.ui.resume.activity.state.AddActivityUiState
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.presentation.ui.activity.state.AddActivityUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class AddActivityViewModel @Inject constructor(
-    private val dummyUseCase: DummyUseCase
+    private val addActivityUseCase: AddActivityUseCase
 ) : ViewModel() {
     private val _startDate = MutableStateFlow("")
     private val _endDate = MutableStateFlow("")
     private val _organizationValue = MutableStateFlow("")
     private val _activityValue = MutableStateFlow("")
     private val _descriptionValue = MutableStateFlow("")
+
+    private val _addActivitySuccess = MutableStateFlow<Boolean>(false)
+    val addActivitySuccess: StateFlow<Boolean> = _addActivitySuccess
 
     val addActivityUiState: StateFlow<AddActivityUiState> =
         combine(
@@ -75,5 +81,28 @@ class AddActivityViewModel @Inject constructor(
 
     fun onDescriptionChanged(value: String) {
         _descriptionValue.value = value
+    }
+
+    fun addActivity() {
+        viewModelScope.launch {
+            addActivityUseCase(
+                startAt = _startDate.value,
+                endAt = _endDate.value,
+                place = _organizationValue.value,
+                name = _activityValue.value,
+                description = _descriptionValue.value
+            ).fold(
+                onSuccess = {
+                    _addActivitySuccess.value = true
+                },
+                onFailure = {
+                    _addActivitySuccess.value = false
+                }
+            )
+        }
+    }
+
+    fun resetAddActivitySuccess() {
+        _addActivitySuccess.value = false
     }
 }

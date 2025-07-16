@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,6 +31,14 @@ fun ResumeAddWorkExperienceRoute(
     viewModel: AddWorkExperienceViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.addWorkExperienceUiState.collectAsStateWithLifecycle()
+    val addCareerSuccess by viewModel.addCareerSuccess.collectAsStateWithLifecycle()
+
+    LaunchedEffect(addCareerSuccess) {
+        if (addCareerSuccess) {
+            onNavigateToResume()
+            viewModel.resetAddCareerSuccess()
+        }
+    }
 
     ResumeAddWorkExperienceScreen(
         uiState = uiState,
@@ -38,7 +47,7 @@ fun ResumeAddWorkExperienceRoute(
         onOrganizationValueChange = { viewModel.onOrganizationChanged(it) },
         onRoleValueChange = { viewModel.onRoleChanged(it) },
         onDescriptionValueChange = { viewModel.onDescriptionChanged(it) },
-        onNavigateToResume = onNavigateToResume,
+        onAddClick = { viewModel.addCareer() },
         modifier = Modifier.padding(padding)
     )
 }
@@ -51,7 +60,7 @@ fun ResumeAddWorkExperienceScreen(
     onOrganizationValueChange: (String) -> Unit,
     onRoleValueChange: (String) -> Unit,
     onDescriptionValueChange: (String) -> Unit,
-    onNavigateToResume: () -> Unit,
+    onAddClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -114,7 +123,7 @@ fun ResumeAddWorkExperienceScreen(
 
         CertiBasicButton(
             buttonText = stringResource(R.string.button_add),
-            onClick = onNavigateToResume,
+            onClick = onAddClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = screenHeightDp(24.dp))

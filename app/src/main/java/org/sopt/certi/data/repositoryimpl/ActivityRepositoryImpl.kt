@@ -12,6 +12,11 @@ import javax.inject.Inject
 class ActivityRepositoryImpl @Inject constructor(
     private val activityRemoteDataSource: ActivityRemoteDataSource
 ) : ActivityRepository {
+    override suspend fun addActivity(startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit> = safeApiCall {
+        activityRemoteDataSource.addActivity(startAt, endAt, place, name, description)
+            .handleNullableApiResponse()
+            .getOrThrow()
+
     override suspend fun getActivityList(): Result<List<ActivityData>> = safeApiCall {
         activityRemoteDataSource.getActivityList()
             .handleApiResponse()

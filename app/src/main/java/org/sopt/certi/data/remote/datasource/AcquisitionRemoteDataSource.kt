@@ -6,6 +6,7 @@ import org.sopt.certi.data.remote.dto.response.GetAcquisitionDetailResponseDto
 import org.sopt.certi.data.remote.dto.response.GetAcquisitionListResponseDto
 
 interface AcquisitionRemoteDataSource {
+    suspend fun acquiredCert(certificationId: Long): NullableApiResponse<Boolean>
     suspend fun getAcquisitionList(): ApiResponse<GetAcquisitionListResponseDto>
     suspend fun getAcquisitionDetail(acquisitionId: Long): ApiResponse<GetAcquisitionDetailResponseDto>
     suspend fun deleteAcquisition(acquisitionId: Long): NullableApiResponse<Unit>
