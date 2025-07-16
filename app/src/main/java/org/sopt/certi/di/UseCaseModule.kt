@@ -4,10 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.sopt.certi.domain.repository.ActivityRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.UserRepository
+import org.sopt.certi.domain.usecase.AddActivityUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
@@ -82,4 +84,10 @@ object UseCaseModule {
     fun provideGetCategoryCertListUseCase(
         certRepository: CertRepository
     ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideAddActivityUseCase(
+        activityUseCase: ActivityRepository
+    ): AddActivityUseCase = AddActivityUseCase(activityUseCase)
 }
