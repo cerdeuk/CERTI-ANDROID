@@ -49,8 +49,8 @@ fun CertificationCardFront(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(top = 40.dp)
+                .padding(horizontal = screenWidthDp(20.dp))
+                .padding(top = screenHeightDp(40.dp))
         ) {
             Text(
                 text = certificationData.certificationName,
