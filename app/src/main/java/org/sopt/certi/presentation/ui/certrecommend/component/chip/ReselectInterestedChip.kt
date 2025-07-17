@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -43,7 +45,10 @@ fun ReselectInterestedChip(
             text = stringResource(R.string.reselect_interested_chip_text),
             style = CertiTheme.typography.caption.semibold_12,
             color = CertiTheme.colors.mainBlue,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+            modifier = Modifier
+                .padding(horizontal = 12.dp, vertical = 6.dp)
+                .heightForScreenPercentage(18.dp)
+                .wrapContentHeight()
         )
     }
 }

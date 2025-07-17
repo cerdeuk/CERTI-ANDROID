@@ -1,7 +1,6 @@
 package org.sopt.certi.presentation.ui.search
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -77,7 +77,8 @@ private fun SearchScreen(
             value = searchUiState.keyword,
             onValueChange = onValueChange,
             onSearchClick = onSearchClick,
-            modifier = Modifier.padding(vertical = screenHeightDp(12.dp))
+            modifier = Modifier.padding(vertical = screenHeightDp(12.dp)),
+            maxLength = 20
         )
 
         when (searchUiState.loadState) {
@@ -92,16 +93,34 @@ private fun SearchScreen(
 
             is UiState.Empty -> {
                 Column {
+                    val resultText = stringResource(id = R.string.search_result_title, 0)
+                    val countString = "0"
+                    val startIndex = resultText.indexOf(countString)
+                    val endIndex = startIndex + countString.length
+
                     Text(
-                        text = stringResource(id = R.string.search_result_title, 0),
+                        text = buildAnnotatedString {
+                            append(resultText)
+                            if (startIndex >= 0) {
+                                addStyle(
+                                    style = SpanStyle(
+                                        color = CertiTheme.colors.purpleBlue,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    start = startIndex,
+                                    end = endIndex
+                                )
+                            }
+                        },
                         style = CertiTheme.typography.caption.regular_14,
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(16.dp))
                     )
+                    Spacer(modifier = Modifier.padding(screenHeightDp(90.dp)))
+
                     Column(
                         modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
                             painter = painterResource(R.drawable.img_empty),
@@ -146,7 +165,8 @@ private fun SearchScreen(
                             },
                             style = CertiTheme.typography.caption.regular_14,
                             color = CertiTheme.colors.gray400,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -169,13 +189,31 @@ private fun SearchSuccessScreen(
         modifier = modifier.fillMaxSize()
     ) {
         item {
+            val resultText = stringResource(id = R.string.search_result_title, certificationList.size)
+            val countString = certificationList.size.toString()
+            val startIndex = resultText.indexOf(countString)
+            val endIndex = startIndex + countString.length
+
             Text(
-                text = stringResource(id = R.string.search_result_title, certificationList.size),
+                text = buildAnnotatedString {
+                    append(resultText)
+                    if (startIndex >= 0) {
+                        addStyle(
+                            style = SpanStyle(
+                                color = CertiTheme.colors.purpleBlue,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            start = startIndex,
+                            end = endIndex
+                        )
+                    }
+                },
                 style = CertiTheme.typography.caption.regular_14,
                 color = CertiTheme.colors.gray600,
                 modifier = Modifier.padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(16.dp))
             )
         }
+
         items(
             items = certificationList,
             key = { it.certificationId }
@@ -196,5 +234,17 @@ private fun SearchSuccessScreen(
 @Composable
 private fun PreviewSearchScreen() {
     CERTITheme {
+        SearchScreen(
+            searchUiState = SearchUiState(
+                keyword = "",
+                submittedKeyword = "",
+                searchCertificationListLoadState = UiState.Empty
+            ),
+            onValueChange = {},
+            onSearchClick = {},
+            certificationList = emptyList<CertificationData>().toImmutableList(),
+            onLikeClick = {},
+            navigateToCertDetail = {}
+        )
     }
 }

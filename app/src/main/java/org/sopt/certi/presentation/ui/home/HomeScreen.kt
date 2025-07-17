@@ -1,5 +1,7 @@
 package org.sopt.certi.presentation.ui.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,20 +19,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.findActivity
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -39,6 +47,7 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
+import org.sopt.certi.presentation.ui.main.MainActivity
 import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -51,6 +60,10 @@ fun HomeRoute(
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val activity = context.findActivity() as MainActivity
+    val coroutineScope = rememberCoroutineScope()
+
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -77,6 +90,14 @@ fun HomeRoute(
                     navigateToCertRecommend = navigateToCertRecommend,
                     navigateToCertDetail = navigateToCertDetail,
                     navigateToPreCerti = navigateToPreCerti,
+                    navigateToLogin = {
+                        coroutineScope.launch {
+                            viewModel.clearSharedPreference()
+                            viewModel.withDraw()
+                            delay(300)
+                            finishAndRestart(activity, context)
+                        }
+                    },
                     modifier = Modifier.padding(padding)
                 )
             }
@@ -98,6 +119,7 @@ fun HomeScreen(
     navigateToCertRecommend: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     navigateToPreCerti: () -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -105,7 +127,11 @@ fun HomeScreen(
             .fillMaxSize()
             .background(CertiTheme.colors.white)
     ) {
-        CertiTopBar(modifier = modifier.fillMaxWidth())
+
+        CertiTopBar(logoutOnClick = {
+            navigateToLogin()
+        },
+        modifier = modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(screenHeightDp(6.dp)))
 
         LazyColumn(
@@ -235,6 +261,13 @@ fun HomeScreen(
             }
         }
     }
+}
+
+private fun finishAndRestart(activity: MainActivity, context: Context) {
+    val intent = Intent(context, MainActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    activity.startActivity(intent)
+    activity.finish()
 }
 
 @Preview(showBackground = true)

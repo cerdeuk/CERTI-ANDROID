@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -101,7 +102,8 @@ fun ResumeAddActivitiesScreen(
                     value = uiState.organizationValue,
                     onValueChange = onOrganizationValueChange,
                     maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Next
                 )
             }
 
@@ -111,7 +113,8 @@ fun ResumeAddActivitiesScreen(
                     value = uiState.activityValue,
                     onValueChange = onActivityValueChange,
                     maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Next
                 )
             }
 
@@ -121,13 +124,14 @@ fun ResumeAddActivitiesScreen(
                     value = uiState.descriptionValue,
                     onValueChange = onDescriptionValue,
                     maxLength = 16,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Done
                 )
             }
         }
 
         CertiBasicButton(
-            buttonText = stringResource(R.string.resume_add_button),
+            buttonText = stringResource(R.string.button_add),
             onClick = onAddClick,
             enabled = uiState.addButtonEnabled,
             modifier = Modifier

@@ -186,7 +186,7 @@ fun CertDetailScreen(
                         backgroundColor = CertiTheme.colors.blueWhite,
                         borderColor = CertiTheme.colors.lightBlue
                     )
-                    .padding(top = screenHeightDp(20.dp), start = screenWidthDp(22.dp), end = screenWidthDp(22.dp), bottom = screenHeightDp(12.dp))
+                    .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(22.dp))
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),

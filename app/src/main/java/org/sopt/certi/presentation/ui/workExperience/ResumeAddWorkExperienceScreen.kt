@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -96,7 +97,8 @@ fun ResumeAddWorkExperienceScreen(
                     value = uiState.organizationValue,
                     onValueChange = onOrganizationValueChange,
                     maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Next
                 )
             }
 
@@ -106,7 +108,8 @@ fun ResumeAddWorkExperienceScreen(
                     value = uiState.roleValue,
                     onValueChange = onRoleValueChange,
                     maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Next
                 )
             }
 
@@ -116,7 +119,8 @@ fun ResumeAddWorkExperienceScreen(
                     value = uiState.descriptionValue,
                     onValueChange = onDescriptionValueChange,
                     maxLength = 16,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+                    imeAction = ImeAction.Done
                 )
             }
         }

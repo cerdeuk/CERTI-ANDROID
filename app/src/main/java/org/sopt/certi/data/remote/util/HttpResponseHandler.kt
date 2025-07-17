@@ -27,8 +27,10 @@ object HttpResponseHandler {
         return if (e is HttpException) {
             try {
                 val errorBody = e.response()?.errorBody()?.string()
-                val errorResponse = errorBody?.let { json.decodeFromString<NullableApiResponse<Unit>>(it) }
-                    ?: NullableApiResponse(status = e.code(), code = e.message(), message = e.message(), data = null)
+                val errorResponse = errorBody?.let {
+                    json.decodeFromString<NullableApiResponse<Unit>>(it)
+                } ?: NullableApiResponse(status = e.code(), code = e.message(), message = e.message(), data = null)
+
                 when (errorResponse.status) {
                     400 -> HttpResponseException(400, "Bad Request : ${errorResponse.message}")
                     401 -> HttpResponseException(401, "Unauthorized : ${errorResponse.message}")

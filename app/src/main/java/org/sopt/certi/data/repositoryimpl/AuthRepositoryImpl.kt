@@ -5,6 +5,7 @@ import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.UserInformationDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
+import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.user.SignUpResult
 import org.sopt.certi.domain.model.user.UserAuth
@@ -64,5 +65,11 @@ class AuthRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .majorNameList
+    }
+
+    override suspend fun withDraw(): Result<Unit> = safeApiCall {
+        authRemoteDataSource.withDraw()
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }

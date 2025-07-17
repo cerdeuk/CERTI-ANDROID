@@ -62,7 +62,7 @@ fun ResumeCertificationSection(
         }
         if (acquiredCertificationList.isEmpty()) {
             CertiEmptySection(
-                text = stringResource(R.string.resume_empty_experience_message)
+                text = stringResource(R.string.resume_empty_certification_message)
             )
         } else {
             ResumeCertificationContent(
@@ -110,6 +110,7 @@ private fun ResumeEmptyCertificationSectionPreview() {
         ResumeListSection(
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
+            emptyText = stringResource(R.string.resume_empty_certification_message),
             resumeListItems = listOf()
         )
     }

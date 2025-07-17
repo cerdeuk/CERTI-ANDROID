@@ -1,6 +1,7 @@
 package org.sopt.certi.data.remote.datasource
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
+import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.SearchMajorResponseDto
 import org.sopt.certi.data.remote.dto.response.SearchUnivResponseDto
@@ -12,4 +13,5 @@ interface AuthRemoteDataSource {
     suspend fun signUp(accessToken: String, signUpRequest: SignUpRequestDto): ApiResponse<SignUpResponseDto>
     suspend fun searchUniv(keyword: String): ApiResponse<SearchUnivResponseDto>
     suspend fun searchMajor(keyword: String): ApiResponse<SearchMajorResponseDto>
+    suspend fun withDraw(): NullableApiResponse<Unit>
 }
