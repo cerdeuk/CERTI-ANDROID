@@ -90,7 +90,7 @@ private fun ResumeDateTextField(
             color = CertiTheme.colors.gray600
         ),
         modifier = modifier
-            .widthForScreenPercentage(108.dp)
+            .widthForScreenPercentage(120.dp)
             .roundedBackgroundWithBorder(
                 cornerRadius = 4.dp,
                 backgroundColor = CertiTheme.colors.white,
