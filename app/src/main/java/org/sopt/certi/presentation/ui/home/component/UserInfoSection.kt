@@ -45,8 +45,6 @@ fun UserInfoSection(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         Text(
             text = stringResource(id = R.string.home_user_info_name, displayName),
@@ -66,7 +64,6 @@ fun UserInfoSection(
                 contentDescription = null,
                 modifier = Modifier
                     .width(screenWidthDp(80.dp))
-                    .height(screenHeightDp(80.dp))
             )
             Spacer(modifier = Modifier.width(screenWidthDp(8.dp)))
 
@@ -157,6 +154,9 @@ fun PreviewUserInfoSection() {
     )
 
     CERTITheme {
-        UserInfoSection(userInfoData = dummyUserInfo)
+        UserInfoSection(
+            userInfoData = dummyUserInfo,
+            modifier = Modifier.padding(horizontal =  screenWidthDp(20.dp))
+        )
     }
 }

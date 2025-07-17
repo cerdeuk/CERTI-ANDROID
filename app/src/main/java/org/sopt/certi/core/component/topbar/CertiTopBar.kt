@@ -31,7 +31,6 @@ fun CertiTopBar(
             painter = painterResource(R.drawable.img_logo_black),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(24.dp)
                 .widthForScreenPercentage(76.dp)
                 .noRippleClickable {
                     logoutOnClick()
