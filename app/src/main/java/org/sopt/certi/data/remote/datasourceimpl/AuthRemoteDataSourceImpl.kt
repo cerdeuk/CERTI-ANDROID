@@ -2,6 +2,7 @@ package org.sopt.certi.data.remote.datasourceimpl
 
 import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
+import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.SignInRequestDto
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.SearchMajorResponseDto
@@ -25,4 +26,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun searchMajor(keyword: String): ApiResponse<SearchMajorResponseDto> =
         authService.searchMajor(keyword)
+
+    override suspend fun withDraw(): NullableApiResponse<Unit> =
+        authService.withdraw()
 }

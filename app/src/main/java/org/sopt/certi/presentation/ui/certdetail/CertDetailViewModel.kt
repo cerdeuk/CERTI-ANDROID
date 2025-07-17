@@ -67,7 +67,11 @@ class CertDetailViewModel @Inject constructor(
                     _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
                 }
             },
-            onFailure = {}
+            onFailure = {
+                if (it.message?.contains("Conflict") == true) {
+                    _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)
+                }
+            }
         )
     }
 
