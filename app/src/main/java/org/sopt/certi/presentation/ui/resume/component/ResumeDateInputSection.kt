@@ -99,7 +99,7 @@ private fun ResumeDateTextField(
             ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Next
         ),
         decorationBox = { innerTextField ->
             Box(
