@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetAcquisitionListResponseDto(
-    @SerialName("getAcquisitionResponses")
-    val getAcquisitionResponses: List<AcquisitionResponseDto>
+    @SerialName("acquisitionListDetailResponses")
+    val acquisitionListDetailResponses: List<AcquisitionResponseDto>
 )
 
 @Serializable
@@ -21,8 +21,6 @@ data class AcquisitionResponseDto(
     val createdAt: String,
     @SerialName("cardFrontImageUrl")
     val cardFrontImageUrl: String,
-    @SerialName("cardBackImageUrl")
-    val cardBackImageUrl: String,
     @SerialName("tags")
     val tags: List<String>
 )

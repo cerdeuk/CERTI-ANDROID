@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.resume.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,15 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
-import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -42,13 +40,11 @@ fun ResumeCertificationSmallCard(
             .noRippleClickable { onClick() }
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(certification.cardFrontImageUrl)
-                .build(),
+            model = certification.cardFrontImageUrl,
             contentDescription = null,
             modifier = Modifier
                 .widthForScreenPercentage(200.dp)
-                .heightForScreenPercentage(300.dp),
+                .aspectRatio(2f / 3f),
             contentScale = ContentScale.Crop
         )
 

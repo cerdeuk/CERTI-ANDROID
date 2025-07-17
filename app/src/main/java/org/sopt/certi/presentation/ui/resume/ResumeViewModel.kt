@@ -93,7 +93,7 @@ class ResumeViewModel @Inject constructor(
         _acquiredCertificationListLoadState.value = UiState.Loading
         getAcquisitionListUseCase.invoke().fold(
             onSuccess = {
-                val acquiredCertificationList = it.take(3)
+                val acquiredCertificationList = it
                 _acquiredCertificationListLoadState.emit(UiState.Success(acquiredCertificationList))
             },
             onFailure = {

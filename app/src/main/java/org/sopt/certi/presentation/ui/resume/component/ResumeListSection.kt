@@ -27,6 +27,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeListSection(
     title: String,
     onClick: () -> Unit,
+    emptyText: String,
     resumeListItems: List<ActivityData>,
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +55,7 @@ fun ResumeListSection(
         }
         if (resumeListItems.isEmpty()) {
             CertiEmptySection(
-                text = stringResource(R.string.resume_empty_experience_message)
+                text = emptyText
             )
         } else {
             ResumeListContent(resumeListItems = resumeListItems)
@@ -69,6 +70,7 @@ private fun ResumeEmptyListSectionPreview() {
         ResumeListSection(
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
+            emptyText = stringResource(R.string.resume_empty_experience_message),
             resumeListItems = listOf()
         )
     }

@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
@@ -41,15 +41,15 @@ fun CertificationCardBack(
     nickname: String,
     modifier: Modifier = Modifier
 ) {
+    val scrollState = rememberScrollState()
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(12.dp))
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(certificationData.cardBackImageUrl)
-                .build(),
+            model = certificationData.cardBackImageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
@@ -57,7 +57,7 @@ fun CertificationCardBack(
 
         Column(
             modifier = Modifier
-                .padding(start = screenWidthDp(24.dp), end = screenWidthDp(24.dp), top = screenHeightDp(36.dp)),
+                .padding(horizontal = screenWidthDp(24.dp), vertical = screenHeightDp(36.dp)),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -71,19 +71,20 @@ fun CertificationCardBack(
                 categories = certificationData.tags
             )
             Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
-            Text(
-                text = certificationData.description,
-                style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.white
-            )
-        }
 
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = screenWidthDp(24.dp), bottom = screenHeightDp(34.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(4.dp))
-        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(scrollState)
+            ) {
+                Text(
+                    text = certificationData.description,
+                    style = CertiTheme.typography.caption.regular_12,
+                    color = CertiTheme.colors.white
+                )
+            }
+            Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
@@ -100,6 +101,7 @@ fun CertificationCardBack(
                     color = CertiTheme.colors.white
                 )
             }
+            Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
 
             AcquiredDateChip(certificationData = certificationData)
         }

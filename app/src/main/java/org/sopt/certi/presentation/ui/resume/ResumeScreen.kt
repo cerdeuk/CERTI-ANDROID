@@ -140,6 +140,7 @@ fun ResumeScreen(
                 ResumeListSection(
                     title = stringResource(R.string.resume_section_experience_title),
                     onClick = navigateToWorkExperience,
+                    emptyText = stringResource(R.string.resume_empty_experience_message),
                     resumeListItems = experienceList
                 )
             }
@@ -156,6 +157,7 @@ fun ResumeScreen(
                 ResumeListSection(
                     title = stringResource(R.string.resume_section_activity_title),
                     onClick = navigateToActivities,
+                    emptyText = stringResource(R.string.resume_empty_activity_message),
                     resumeListItems = activityList
                 )
             }

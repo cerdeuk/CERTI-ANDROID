@@ -29,6 +29,7 @@ fun ResumeTextField(
     onValueChange: (String) -> Unit,
     maxLength: Int,
     modifier: Modifier = Modifier,
+    imeAction: ImeAction = ImeAction.Done,
     placeholder: String = stringResource(R.string.resume_textfield_placeholder)
 ) {
     BasicTextField(
@@ -41,7 +42,7 @@ fun ResumeTextField(
             color = CertiTheme.colors.gray600
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
         singleLine = false,
         decorationBox = { innerTextField ->

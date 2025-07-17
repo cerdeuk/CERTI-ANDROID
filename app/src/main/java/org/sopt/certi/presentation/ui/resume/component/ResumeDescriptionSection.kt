@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,7 @@ fun ResumeDescriptionSection(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = Modifier.width(screenWidthDp(104.dp))
+            modifier = Modifier.widthIn(max = screenWidthDp(120.dp))
         ) {
             Text(
                 text = stringResource(
