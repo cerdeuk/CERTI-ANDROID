@@ -22,11 +22,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -36,10 +38,16 @@ fun CertAcquiredDialog(
     onConfirmClick: () -> Unit,
     setShowDialog: (Boolean) -> Unit = { }
 ) {
-    Dialog(onDismissRequest = { setShowDialog(false) }) {
+    Dialog(
+        onDismissRequest = { setShowDialog(false) },
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
         Surface(
             color = CertiTheme.colors.white,
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier.padding(horizontal = screenWidthDp(55.dp))
         ) {
             Column(
                 modifier = Modifier
@@ -82,7 +90,7 @@ fun CertAcquiredDialog(
                         style = CertiTheme.typography.caption.semibold_14,
                         color = CertiTheme.colors.white,
                         modifier = Modifier
-                            .padding(vertical = screenHeightDp(12.dp))
+                            .padding(vertical = screenHeightDp(14.dp))
                             .noRippleClickable {
                                 setShowDialog(false)
                                 onConfirmClick()

@@ -83,7 +83,7 @@ private fun CustomToastLayout(
             Spacer(Modifier.widthForScreenPercentage(16.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
             ) {
                 Text(
                     text = toastConfig.titleMessage,

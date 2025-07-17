@@ -5,6 +5,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.BaselineShift
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import org.sopt.certi.R
 
@@ -147,6 +149,7 @@ val defaultCertiTypography = CertiTypography(
             fontFamily = PretendardFont.Regular,
             fontSize = 12.sp,
             lineHeight = 18.sp,
+            baselineShift = BaselineShift(1f),
             letterSpacing = 0.8.sp
         ),
         semibold_10 = TextStyle(
