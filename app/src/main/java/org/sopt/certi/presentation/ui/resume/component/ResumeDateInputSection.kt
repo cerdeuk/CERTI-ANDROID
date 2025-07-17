@@ -103,7 +103,7 @@ private fun ResumeDateTextField(
         ),
         decorationBox = { innerTextField ->
             Box(
-                modifier = Modifier.padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
+                modifier = Modifier.padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(12.dp)),
                 contentAlignment = Alignment.CenterStart
             ) {
                 if (value.isEmpty()) {
