@@ -127,11 +127,12 @@ fun HomeScreen(
             .fillMaxSize()
             .background(CertiTheme.colors.white)
     ) {
-
-        CertiTopBar(logoutOnClick = {
-            navigateToLogin()
-        },
-        modifier = modifier.fillMaxWidth())
+        CertiTopBar(
+            logoutOnClick = {
+                navigateToLogin()
+            },
+            modifier = modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.height(screenHeightDp(6.dp)))
 
         LazyColumn(
