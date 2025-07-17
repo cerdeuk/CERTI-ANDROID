@@ -27,6 +27,7 @@ import org.sopt.certi.presentation.ui.precertificationedit.state.PreCertiEditUiS
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -40,21 +41,18 @@ fun PreCertificationEditRoute(
         viewModel.getPreCertiEditList()
     }
 
-    when (uiState.loadState) {
-        is UiState.Success -> PreCertificationEditScreen(
-            preCertiEditState = uiState,
-            preCertificationList = (uiState.preCertiListLoadState as UiState.Success).data.toImmutableList(),
-            onDelete = viewModel::onDeleteClick,
-            onDialogConfirm = viewModel::onDialogConfirm,
-            onDialogDismiss = viewModel::onDialogDismiss,
-            modifier = Modifier.padding(padding)
-        )
-        is UiState.Failure -> {}
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Init -> {}
-    }
+    PreCertificationEditScreen(
+        preCertiEditState = uiState,
+        preCertificationList = (uiState.preCertiListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
+        onDelete = viewModel::onDeleteClick,
+        onDialogConfirm = viewModel::onDialogConfirm,
+        onDialogDismiss = viewModel::onDialogDismiss,
+        modifier = Modifier.padding(padding)
+    )
+
+
 }
+
 
 @Composable
 fun PreCertificationEditScreen(
@@ -82,16 +80,21 @@ fun PreCertificationEditScreen(
             color = CertiTheme.colors.gray600
         )
 
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = screenHeightDp(36.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(36.dp))
-        ) {
-            items(preCertificationList) { item ->
-                PreCertificationItem(
-                    preCertificationData = item,
-                    onDelete = { onDelete(item.certificationId) }
-                )
+        when (preCertiEditState.preCertiListLoadState) {
+            is UiState.Success -> {
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = screenHeightDp(36.dp)),
+                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(36.dp))
+                ) {
+                    items(preCertificationList) { item ->
+                        PreCertificationItem(
+                            preCertificationData = item,
+                            onDelete = { onDelete(item.certificationId) }
+                        )
+                    }
+                }
             }
+            else -> { }
         }
     }
 }
