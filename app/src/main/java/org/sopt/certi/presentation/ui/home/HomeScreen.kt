@@ -56,6 +56,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun HomeRoute(
     padding: PaddingValues,
     navigateToCertDetail: (certId: Long) -> Unit,
+    navigateToCertRecommend: () -> Unit,
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -86,6 +87,7 @@ fun HomeRoute(
                     preCertificationList = preCertList,
                     favoriteCertificationList = favoriteList,
                     onFavoriteClicked = viewModel::onFavoriteClicked,
+                    navigateToCertRecommend = navigateToCertRecommend,
                     navigateToCertDetail = navigateToCertDetail,
                     navigateToPreCerti = navigateToPreCerti,
                     navigateToLogin = {
@@ -114,6 +116,7 @@ fun HomeScreen(
     preCertificationList: ImmutableList<CertificationData>,
     favoriteCertificationList: ImmutableList<CertificationData>,
     onFavoriteClicked: (Long) -> Unit,
+    navigateToCertRecommend: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     navigateToPreCerti: () -> Unit,
     navigateToLogin: () -> Unit,
@@ -124,9 +127,13 @@ fun HomeScreen(
             .fillMaxSize()
             .background(CertiTheme.colors.white)
     ) {
-        CertiTopBar(logoutOnClick = {
-            navigateToLogin()
-        })
+        CertiTopBar(
+            logoutOnClick = {
+                navigateToLogin()
+            },
+            modifier = modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(screenHeightDp(6.dp)))
 
         LazyColumn(
             modifier = Modifier
@@ -163,7 +170,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { }
+                                .noRippleClickable { navigateToCertRecommend() }
                         )
                     }
                     RecommendedCertificationListSection(

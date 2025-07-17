@@ -25,6 +25,7 @@ import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -67,6 +68,14 @@ fun PreCertificationItem(
     ) {
         Card(
             modifier = modifier
+                .dropShadow(
+                    shape = RoundedCornerShape(12.dp),
+                    color = CertiTheme.colors.black.copy(alpha = 0.08f),
+                    blur = 20.dp,
+                    offsetX = 4.dp,
+                    offsetY = 4.dp,
+                    spread = 0.dp
+                )
                 .then(if (onDetailClick != null) Modifier.noRippleClickable { onDetailClick() } else Modifier),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
