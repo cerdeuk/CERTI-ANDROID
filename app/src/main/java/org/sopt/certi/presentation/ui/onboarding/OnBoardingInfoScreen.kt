@@ -68,7 +68,7 @@ fun OnBoardingInfoRoute(
         )
     }
 
-    if(showLoadingLayout) {
+    if (showLoadingLayout) {
         LoadingLayout(
             userName = userInfo?.name ?: ""
         )
