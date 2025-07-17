@@ -11,13 +11,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
 import org.sopt.certi.presentation.ui.search.state.SearchUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchCertListUseCase: SearchCertListUseCase
+    private val searchCertListUseCase: SearchCertListUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
     private val _searchLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Init)
     private val _keyword = MutableStateFlow("")
@@ -76,16 +78,24 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onLikeClick(certificationId: Long) {
-        val currentState = _searchLoadState.value
-        if (currentState is UiState.Success) {
-            val updated = currentState.data.map {
-                if (it.certificationId == certificationId) {
-                    it.copy(isFavorite = !it.isFavorite)
-                } else {
-                    it
+        viewModelScope.launch {
+            toggleFavoriteUseCase(certificationId)
+                .onSuccess {
+                    val currentState = _searchLoadState.value
+                    if (currentState is UiState.Success) {
+                        val updated = currentState.data.map {
+                            if (it.certificationId == certificationId) {
+                                it.copy(isFavorite = !it.isFavorite)
+                            } else {
+                                it
+                            }
+                        }
+                        _searchLoadState.value = UiState.Success(updated)
+                    }
                 }
-            }
-            _searchLoadState.value = UiState.Success(updated)
+                .onFailure {
+                    _searchLoadState.value = UiState.Failure(it.toString())
+                }
         }
     }
 }
