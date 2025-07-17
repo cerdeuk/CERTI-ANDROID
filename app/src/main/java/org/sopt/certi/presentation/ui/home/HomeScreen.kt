@@ -224,7 +224,7 @@ fun HomeScreen(
                                 navigateToCertDetail(certId)
                             },
                             onFavoriteClicked = onFavoriteClicked,
-                            modifier = modifier
+                            modifier = Modifier.padding(bottom = screenHeightDp(40.dp))
                         )
                     }
                 }
