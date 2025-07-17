@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
@@ -27,7 +28,8 @@ class CertRecommendViewModel @Inject constructor(
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
     private val getRecommendCertListUseCase: GetRecommendCertListUseCase,
     private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     private val _jobList = MutableStateFlow<UiState<List<String>>>(UiState.Init)
@@ -95,16 +97,24 @@ class CertRecommendViewModel @Inject constructor(
     }
 
     fun onLikeClick(certId: Long) {
-        val currentState = _recommendCertList.value
-        if (currentState is UiState.Success) {
-            val updated = currentState.data.map {
-                if (it.certificationId == certId) {
-                    it.copy(isFavorite = !it.isFavorite)
-                } else {
-                    it
+        viewModelScope.launch {
+            toggleFavoriteUseCase(certId)
+                .onSuccess {
+                    val currentState = _recommendCertList.value
+                    if (currentState is UiState.Success) {
+                        val updated = currentState.data.map {
+                            if (it.certificationId == certId) {
+                                it.copy(isFavorite = !it.isFavorite)
+                            } else {
+                                it
+                            }
+                        }
+                        _recommendCertList.value = UiState.Success(updated)
+                    }
                 }
-            }
-            _recommendCertList.value = UiState.Success(updated)
+                .onFailure {
+                    _recommendCertList.value = UiState.Failure(it.toString())
+                }
         }
     }
 
