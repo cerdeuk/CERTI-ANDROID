@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
@@ -94,6 +95,7 @@ fun CertRecommendRoute(
                     viewModel.onLikeClick(certId)
                 },
                 navigateToCertDetail = navigateToCertDetail,
+                nickname = viewModel.getUserName(),
                 modifier = Modifier.padding(padding)
             )
         }
@@ -144,6 +146,7 @@ fun CertRecommendScreen(
     showFilterBottomSheet: () -> Unit,
     likeOnClick: (Long) -> Unit,
     navigateToCertDetail: (certId: Long) -> Unit,
+    nickname: String,
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
@@ -161,7 +164,7 @@ fun CertRecommendScreen(
                 ) {
                     Spacer(Modifier.heightForScreenPercentage(34.dp))
                     Text(
-                        text = stringResource(R.string.cert_recommend_title),
+                        text = stringResource(R.string.cert_recommend_title, nickname),
                         style = CertiTheme.typography.subtitle.bold_20,
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
