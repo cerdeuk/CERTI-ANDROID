@@ -93,12 +93,30 @@ private fun SearchScreen(
 
             is UiState.Empty -> {
                 Column {
+                    val resultText = stringResource(id = R.string.search_result_title, 0)
+                    val countString = "0"
+                    val startIndex = resultText.indexOf(countString)
+                    val endIndex = startIndex + countString.length
+
                     Text(
-                        text = stringResource(id = R.string.search_result_title, 0),
+                        text = buildAnnotatedString {
+                            append(resultText)
+                            if (startIndex >= 0) {
+                                addStyle(
+                                    style = SpanStyle(
+                                        color = CertiTheme.colors.purpleBlue,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    start = startIndex,
+                                    end = endIndex
+                                )
+                            }
+                        },
                         style = CertiTheme.typography.caption.regular_14,
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(16.dp))
                     )
+
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -170,13 +188,31 @@ private fun SearchSuccessScreen(
         modifier = modifier.fillMaxSize()
     ) {
         item {
+            val resultText = stringResource(id = R.string.search_result_title, certificationList.size)
+            val countString = certificationList.size.toString()
+            val startIndex = resultText.indexOf(countString)
+            val endIndex = startIndex + countString.length
+
             Text(
-                text = stringResource(id = R.string.search_result_title, certificationList.size),
+                text = buildAnnotatedString {
+                    append(resultText)
+                    if (startIndex >= 0) {
+                        addStyle(
+                            style = SpanStyle(
+                                color = CertiTheme.colors.purpleBlue,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            start = startIndex,
+                            end = endIndex
+                        )
+                    }
+                },
                 style = CertiTheme.typography.caption.regular_14,
                 color = CertiTheme.colors.gray600,
                 modifier = Modifier.padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(16.dp))
             )
         }
+
         items(
             items = certificationList,
             key = { it.certificationId }
