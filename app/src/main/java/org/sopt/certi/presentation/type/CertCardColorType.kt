@@ -11,28 +11,28 @@ enum class CertCardColorType(
     val chipTextColor: Color
 ) {
     BLUE(
-        certificationIndex = 0,
+        certificationIndex = 2,
         textColor = defaultCertiColors.white,
         subTextColor = defaultCertiColors.white,
         chipBackgroundColor = defaultCertiColors.lightPurple,
         chipTextColor = defaultCertiColors.mainBlue
     ),
     SKYBLUE(
-        certificationIndex = 1,
+        certificationIndex = 0,
         textColor = defaultCertiColors.gray600,
         subTextColor = defaultCertiColors.mainBlue,
         chipBackgroundColor = defaultCertiColors.lightPurple,
         chipTextColor = defaultCertiColors.mainBlue
     ),
     WHITE(
-        certificationIndex = 2,
+        certificationIndex = 3,
         textColor = defaultCertiColors.gray600,
         subTextColor = defaultCertiColors.mainBlue,
         chipBackgroundColor = defaultCertiColors.skyBlue,
         chipTextColor = defaultCertiColors.purpleWhite
     ),
     YELLOW(
-        certificationIndex = 3,
+        certificationIndex = 1,
         textColor = defaultCertiColors.gray600,
         subTextColor = defaultCertiColors.mainBlue,
         chipBackgroundColor = defaultCertiColors.lightPurple,

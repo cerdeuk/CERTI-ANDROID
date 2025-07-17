@@ -47,9 +47,7 @@ fun CertificationCardBack(
             .clip(RoundedCornerShape(12.dp))
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(certificationData.cardBackImageUrl)
-                .build(),
+            model = certificationData.cardBackImageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()

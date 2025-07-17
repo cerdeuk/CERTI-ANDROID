@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.resume.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,13 +43,11 @@ fun ResumeCertificationSmallCard(
             .noRippleClickable { onClick() }
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(certification.cardFrontImageUrl)
-                .build(),
+            model = certification.cardFrontImageUrl,
             contentDescription = null,
             modifier = Modifier
                 .widthForScreenPercentage(200.dp)
-                .heightForScreenPercentage(300.dp),
+                .aspectRatio(2f/3f),
             contentScale = ContentScale.Crop
         )
 
