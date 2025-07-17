@@ -58,9 +58,9 @@ fun PreCertificationListSection(
 @Composable
 fun PreCertificationItem(
     preCertificationData: CertificationData,
+    modifier: Modifier = Modifier,
     onDetailClick: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -80,8 +80,7 @@ fun PreCertificationItem(
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = CertiTheme.colors.white
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            )
         ) {
             Column(
                 modifier = Modifier
