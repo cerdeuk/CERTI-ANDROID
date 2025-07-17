@@ -110,7 +110,7 @@ fun FavoriteCertificationItem(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = screenWidthDp(14.dp),end = screenWidthDp(14.dp), top = screenHeightDp(22.dp), bottom = screenHeightDp(20.dp)),
+                .padding(start = screenWidthDp(14.dp), end = screenWidthDp(14.dp), top = screenHeightDp(22.dp), bottom = screenHeightDp(20.dp)),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
