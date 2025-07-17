@@ -49,10 +49,7 @@ fun PreCertificationEditRoute(
         onDialogDismiss = viewModel::onDialogDismiss,
         modifier = Modifier.padding(padding)
     )
-
-
 }
-
 
 @Composable
 fun PreCertificationEditScreen(
