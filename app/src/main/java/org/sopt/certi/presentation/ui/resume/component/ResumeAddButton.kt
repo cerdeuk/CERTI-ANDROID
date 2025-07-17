@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -18,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -29,21 +34,25 @@ fun ResumeAddButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isPressed by remember { mutableStateOf(false) }
+
     Row(
         modifier = modifier
+            .pressedClickable(
+                changePressed = { isPressed = it },
+                onClick = onClick
+            )
             .roundedBackgroundWithBorder(
                 cornerRadius = 8.dp,
-                backgroundColor = CertiTheme.colors.purpleWhite
+                backgroundColor =(if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.purpleWhite)
             )
-            .padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(20.dp))
-            .noRippleClickable { onClick() },
+            .padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(20.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_resume_add_24),
             contentDescription = null,
             tint = CertiTheme.colors.mainBlue,
-            modifier = Modifier.size(min(screenHeightDp(24.dp), screenWidthDp(24.dp)))
         )
 
         Spacer(modifier = Modifier.width(screenWidthDp(2.dp)))
