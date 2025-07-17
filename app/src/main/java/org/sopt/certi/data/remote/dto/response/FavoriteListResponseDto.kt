@@ -17,6 +17,8 @@ data class FavoriteCertSimple(
     val isFavorite: Boolean,
     @SerialName("certificationName")
     val certificationName: String,
+    @SerialName("certificationType")
+    val certificationType: String,
     @SerialName("testType")
     val testType: String,
     @SerialName("agencyName")

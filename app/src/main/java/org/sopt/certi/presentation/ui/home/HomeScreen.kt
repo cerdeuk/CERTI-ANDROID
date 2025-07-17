@@ -69,7 +69,6 @@ fun HomeRoute(
 
             if (userInfo != null) {
                 HomeScreen(
-                    homeUiState = uiState,
                     userInfo = userInfo,
                     recommendedList = recommendedList,
                     preCertificationList = preCertList,
@@ -90,7 +89,6 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
-    homeUiState: HomeUiState,
     userInfo: UserInfoData,
     recommendedList: ImmutableList<CertificationData>,
     preCertificationList: ImmutableList<CertificationData>,
