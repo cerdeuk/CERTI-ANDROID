@@ -30,9 +30,16 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.sopt.certi.core.component.loading.LoadingLayout
 
 @Composable
 fun OnBoardingInfoRoute(
@@ -40,13 +47,30 @@ fun OnBoardingInfoRoute(
     navigateToHome: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
+
+    var showLoadingLayout by remember { mutableStateOf(false) }
 
     userInfo?.let {
         OnBoardingInfoScreen(
             userInfo = it,
-            navigateToHome = navigateToHome,
+            navigateToHome = {
+                coroutineScope.launch {
+                    showLoadingLayout = true
+                    delay(2000)
+                    navigateToHome()
+                    delay(500)
+                    showLoadingLayout = false
+                }
+            },
             modifier = Modifier.padding(padding)
+        )
+    }
+
+    if (showLoadingLayout) {
+        LoadingLayout(
+            userName = userInfo?.name ?: ""
         )
     }
 }
