@@ -119,6 +119,9 @@ dependencies {
 
     // Kakao
     implementation(libs.kakao.user)
+
+    // lottie
+    implementation(libs.lottie.compose)
 }
 
 ktlint {

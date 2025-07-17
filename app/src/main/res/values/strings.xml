@@ -148,4 +148,7 @@
     <string name="acquired_dialog_title">자격증 취득 완료</string>
     <string name="acquired_dialog_confirm">캐릭터 카드 보러가기</string>
 
+    <!-- LoadingLayout -->
+    <string name="loading_title">%s님에게 딱 맞는\n자격증을 고르고 있어요.</string>
+    
 </resources>

@@ -33,6 +33,7 @@ import androidx.lifecycle.flowWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.component.loading.LoadingLayout
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -64,6 +65,8 @@ fun CertRecommendRoute(
 
     val recommendUiState by viewModel.recommendUiState.collectAsStateWithLifecycle()
 
+    var showLoadingLayout by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.getJobList()
     }
@@ -71,13 +74,15 @@ fun CertRecommendRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                is RecommendSideEffect.ShowFilterBottomSheer -> showFilterBottomSheet = true
+                is RecommendSideEffect.ShowFilterBottomSheet -> showFilterBottomSheet = true
             }
         }
     }
 
     when (recommendUiState.loadState) {
         is UiState.Success -> {
+            showLoadingLayout = false
+
             selectedCategoryList.clear()
             selectedCategoryList.addAll(stringListToCategoryList((recommendUiState.jobListLoadState as UiState.Success).data))
 
@@ -91,6 +96,9 @@ fun CertRecommendRoute(
                 navigateToCertDetail = navigateToCertDetail,
                 modifier = Modifier.padding(padding)
             )
+        }
+        is UiState.Loading -> {
+            showLoadingLayout = true
         }
         else -> {}
     }
@@ -120,6 +128,12 @@ fun CertRecommendRoute(
             }
         )
     }
+
+    if (showLoadingLayout) {
+        LoadingLayout(
+            userName = viewModel.getUserName() ?: ""
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -132,23 +146,6 @@ fun CertRecommendScreen(
     navigateToCertDetail: (certId: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-//    when (recommendUiState.loadState) {
-//        is UiState.Success -> {
-//            recommendCertList.clear()
-//            recommendCertList.addAll((recommendUiState.recommendCertListLoadState as UiState.Success).data)
-//
-//            val jobList = (recommendUiState.jobListLoadState as UiState.Success).data
-//            val categoryList = mutableListOf<CategoryType>()
-//            jobList.forEach { item ->
-//                categoryList.add(CategoryType.getByDescription(item) ?: return@forEach)
-//            }
-//
-//            selectedCategoryList.clear()
-//            selectedCategoryList.addAll(categoryList)
-//        }
-//        else -> {}
-//    }
-
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
