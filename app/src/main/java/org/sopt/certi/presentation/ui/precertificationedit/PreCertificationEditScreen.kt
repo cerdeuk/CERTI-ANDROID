@@ -36,7 +36,7 @@ fun PreCertificationEditRoute(
 ) {
     val uiState by viewModel.preCertiEditUiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState.preCertiListLoadState) {
+    LaunchedEffect(Unit) {
         viewModel.getPreCertiEditList()
     }
 
