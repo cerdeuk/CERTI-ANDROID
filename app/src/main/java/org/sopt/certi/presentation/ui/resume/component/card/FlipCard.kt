@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.screenHeightDp
-import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -54,7 +51,7 @@ fun FlipCardOverlay(
         Box(
             modifier = Modifier
                 .widthForScreenPercentage(250.dp)
-                .aspectRatio(2f/3f)
+                .aspectRatio(2f / 3f)
                 .graphicsLayer {
                     this.rotationY = rotationY
                     this.cameraDistance = cameraDistance

@@ -3,7 +3,6 @@ package org.sopt.certi.presentation.ui.resume.component
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -19,9 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import org.sopt.certi.R
-import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
@@ -44,7 +41,7 @@ fun ResumeAddButton(
             )
             .roundedBackgroundWithBorder(
                 cornerRadius = 8.dp,
-                backgroundColor =(if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.purpleWhite)
+                backgroundColor = (if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.purpleWhite)
             )
             .padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(20.dp)),
         verticalAlignment = Alignment.CenterVertically
@@ -52,7 +49,7 @@ fun ResumeAddButton(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_resume_add_24),
             contentDescription = null,
-            tint = CertiTheme.colors.mainBlue,
+            tint = CertiTheme.colors.mainBlue
         )
 
         Spacer(modifier = Modifier.width(screenWidthDp(2.dp)))
