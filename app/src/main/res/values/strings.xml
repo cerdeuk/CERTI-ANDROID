@@ -101,8 +101,8 @@
     <string name="resume_work_experience_description">직무 관련 내용</string>
 
     <!-- ResumeActivitiesScreen -->
-    <string name="resume_activities_edit_title">대내외활동 수정</string>
-    <string name="resume_activities_add_title">대내외활동 추가</string>
+    <string name="resume_activities_edit_title">대내외 활동 수정</string>
+    <string name="resume_activities_add_title">대내외 활동 추가</string>
     <string name="resume_activities_period">기간</string>
     <string name="resume_activities_organization">소속</string>
     <string name="resume_activities_activity">활동</string>
