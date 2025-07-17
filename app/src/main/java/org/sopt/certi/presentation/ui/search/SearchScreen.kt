@@ -1,7 +1,6 @@
 package org.sopt.certi.presentation.ui.search
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -117,11 +116,11 @@ private fun SearchScreen(
                         color = CertiTheme.colors.gray600,
                         modifier = Modifier.padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(16.dp))
                     )
+                    Spacer(modifier = Modifier.padding(screenHeightDp(90.dp)))
 
                     Column(
                         modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
                             painter = painterResource(R.drawable.img_empty),
@@ -235,5 +234,17 @@ private fun SearchSuccessScreen(
 @Composable
 private fun PreviewSearchScreen() {
     CERTITheme {
+        SearchScreen(
+            searchUiState = SearchUiState(
+                keyword = "",
+                submittedKeyword = "",
+                searchCertificationListLoadState = UiState.Empty
+            ),
+            onValueChange = {},
+            onSearchClick = {},
+            certificationList = emptyList<CertificationData>().toImmutableList(),
+            onLikeClick = {},
+            navigateToCertDetail = {}
+        )
     }
 }
