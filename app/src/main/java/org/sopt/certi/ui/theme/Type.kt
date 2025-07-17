@@ -148,7 +148,6 @@ val defaultCertiTypography = CertiTypography(
             fontFamily = PretendardFont.Regular,
             fontSize = 12.sp,
             lineHeight = 18.sp,
-            baselineShift = BaselineShift(1f),
             letterSpacing = 0.8.sp
         ),
         semibold_10 = TextStyle(

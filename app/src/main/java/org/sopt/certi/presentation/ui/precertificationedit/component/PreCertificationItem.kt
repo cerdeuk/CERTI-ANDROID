@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -116,15 +119,13 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_date_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(16.dp)
-                                    .heightForScreenPercentage(16.dp)
-
+                                modifier = Modifier.size(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.nearestTestDate,
                                 style = CertiTheme.typography.caption.regular_12,
-                                color = CertiTheme.colors.gray500
+                                color = CertiTheme.colors.gray500,
+                                modifier = Modifier.align(Alignment.CenterVertically)
                             )
                         }
                         Row(
@@ -135,9 +136,7 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_certification_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(16.dp)
-                                    .heightForScreenPercentage(16.dp)
+                                modifier = Modifier.widthForScreenPercentage(16.dp)
                             )
                             Text(
                                 text = preCertificationData.agencyName,
