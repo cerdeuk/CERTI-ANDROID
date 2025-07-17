@@ -131,7 +131,7 @@ fun ResumeAddActivitiesScreen(
         }
 
         CertiBasicButton(
-            buttonText = stringResource(R.string.resume_add_button),
+            buttonText = stringResource(R.string.button_add),
             onClick = onAddClick,
             enabled = uiState.addButtonEnabled,
             modifier = Modifier
