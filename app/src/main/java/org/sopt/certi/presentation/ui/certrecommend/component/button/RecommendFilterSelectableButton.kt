@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -24,9 +26,9 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun RecommendFilterSelectableButton(
     categoryType: CategoryType,
     isSelected: Boolean,
-    clickable: Boolean = true,
     onClick: (CategoryType) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    clickable: Boolean = true
 ) {
     Box(
         modifier = modifier
@@ -49,7 +51,7 @@ fun RecommendFilterSelectableButton(
             textAlign = TextAlign.Center,
             color = CertiTheme.colors.purpleBlue,
             modifier = Modifier
-                .padding(vertical = 12.dp, horizontal = 10.dp)
+                .padding(vertical = screenHeightDp(14.dp), horizontal = screenWidthDp(10.dp))
                 .heightForScreenPercentage(18.dp)
                 .wrapContentHeight()
         )
