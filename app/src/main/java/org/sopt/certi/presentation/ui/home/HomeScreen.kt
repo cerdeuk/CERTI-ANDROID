@@ -102,7 +102,8 @@ fun HomeScreen(
             .fillMaxSize()
             .background(CertiTheme.colors.white)
     ) {
-        CertiTopBar()
+        CertiTopBar(modifier = modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(screenHeightDp(6.dp)))
 
         LazyColumn(
             modifier = Modifier
