@@ -77,7 +77,8 @@ private fun SearchScreen(
             value = searchUiState.keyword,
             onValueChange = onValueChange,
             onSearchClick = onSearchClick,
-            modifier = Modifier.padding(vertical = screenHeightDp(12.dp))
+            modifier = Modifier.padding(vertical = screenHeightDp(12.dp)),
+            maxLength = 20
         )
 
         when (searchUiState.loadState) {
