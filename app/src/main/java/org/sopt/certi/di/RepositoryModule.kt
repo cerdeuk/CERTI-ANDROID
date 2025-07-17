@@ -10,14 +10,18 @@ import org.sopt.certi.data.repositoryimpl.AuthRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CareerRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CertRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.HomeRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.PreCertEditRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.PreCertRepositoryImpl
+import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
 import org.sopt.certi.domain.repository.ActivityRepository
-import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.HomeRepository
+import org.sopt.certi.domain.repository.PreCertEditRepository
 import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Singleton
@@ -38,6 +42,9 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
     @Binds
+    abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
+
+    @Binds
     @Singleton
     abstract fun bindCertRepository(certRepositoryImpl: CertRepositoryImpl): CertRepository
 
@@ -56,4 +63,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindPreCertRepository(certRepositoryImpl: PreCertRepositoryImpl): PreCertRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPreCertEditRepository(PreCertEditRepositoryImpl: PreCertEditRepositoryImpl): PreCertEditRepository
 }

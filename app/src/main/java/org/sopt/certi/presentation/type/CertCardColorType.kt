@@ -6,32 +6,37 @@ import org.sopt.certi.ui.theme.defaultCertiColors
 enum class CertCardColorType(
     val certificationIndex: Int,
     val textColor: Color,
+    val subTextColor: Color,
     val chipBackgroundColor: Color,
     val chipTextColor: Color
 ) {
-    SKYBLUE(
+    BLUE(
         certificationIndex = 0,
-        textColor = defaultCertiColors.gray600,
+        textColor = defaultCertiColors.white,
+        subTextColor = defaultCertiColors.white,
         chipBackgroundColor = defaultCertiColors.lightPurple,
         chipTextColor = defaultCertiColors.mainBlue
     ),
-    YELLOW(
+    SKYBLUE(
         certificationIndex = 1,
         textColor = defaultCertiColors.gray600,
-        chipBackgroundColor = defaultCertiColors.lightPurple,
-        chipTextColor = defaultCertiColors.mainBlue
-    ),
-    BLUE(
-        certificationIndex = 2,
-        textColor = defaultCertiColors.white,
+        subTextColor = defaultCertiColors.mainBlue,
         chipBackgroundColor = defaultCertiColors.lightPurple,
         chipTextColor = defaultCertiColors.mainBlue
     ),
     WHITE(
-        certificationIndex = 3,
+        certificationIndex = 2,
         textColor = defaultCertiColors.gray600,
+        subTextColor = defaultCertiColors.mainBlue,
         chipBackgroundColor = defaultCertiColors.skyBlue,
         chipTextColor = defaultCertiColors.purpleWhite
+    ),
+    YELLOW(
+        certificationIndex = 3,
+        textColor = defaultCertiColors.gray600,
+        subTextColor = defaultCertiColors.mainBlue,
+        chipBackgroundColor = defaultCertiColors.lightPurple,
+        chipTextColor = defaultCertiColors.mainBlue
     );
 
     companion object {

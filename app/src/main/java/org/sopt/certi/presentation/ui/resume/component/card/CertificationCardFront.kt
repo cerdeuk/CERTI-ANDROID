@@ -62,8 +62,8 @@ fun CertificationCardFront(
                 text = stringResource(
                     R.string.resume_certification_flip_card,
                     certificationData.createdAt.year,
-                    certificationData.createdAt.month,
-                    certificationData.createdAt.dayOfWeek
+                    certificationData.createdAt.monthValue,
+                    certificationData.createdAt.dayOfMonth
                 ),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertCardColorType.fromIndex(certificationData.index).textColor
@@ -89,11 +89,11 @@ fun CertificationCardFront(
                 Text(
                     text = stringResource(id = R.string.resume_flip_card_touch),
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertCardColorType.fromIndex(certificationData.index).textColor
+                    color = CertCardColorType.fromIndex(certificationData.index).subTextColor
                 )
                 HorizontalDivider(
                     thickness = 1.dp,
-                    color = CertCardColorType.fromIndex(certificationData.index).textColor
+                    color = CertCardColorType.fromIndex(certificationData.index).subTextColor
                 )
             }
         }

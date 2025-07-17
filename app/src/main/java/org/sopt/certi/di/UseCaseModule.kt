@@ -10,16 +10,30 @@ import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
+import org.sopt.certi.domain.repository.HomeRepository
+import org.sopt.certi.domain.repository.PreCertEditRepository
 import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
-import org.sopt.certi.domain.usecase.AddActivityUseCase
-import org.sopt.certi.domain.usecase.AddCareerUseCase
+import org.sopt.certi.domain.usecase.activity.AddActivityUseCase
+import org.sopt.certi.domain.usecase.career.AddCareerUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
+import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
+import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
+import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertEditUseCase
+import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignInUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
+import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
+import org.sopt.certi.domain.usecase.activity.DeleteActivityUseCase
+import org.sopt.certi.domain.usecase.career.DeleteCareerUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
@@ -93,6 +107,26 @@ object UseCaseModule {
     ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
 
     @Provides
+    fun provideGetUserInfoUseCase(
+        homeRepository: HomeRepository
+    ): UserInfoUseCase = UserInfoUseCase(homeRepository)
+
+    @Provides
+    fun provideGetPreCertListUseCase(
+        homeRepository: HomeRepository
+    ): PreCertUseCase = PreCertUseCase(homeRepository)
+
+    @Provides
+    fun provideGetFavoriteListUseCase(
+        homeRepository: HomeRepository
+    ): FavoriteUseCase = FavoriteUseCase(homeRepository)
+
+    @Provides
+    fun provideToggleFavoriteUseCase(
+        homeRepository: HomeRepository
+    ): ToggleFavoriteUseCase = ToggleFavoriteUseCase(homeRepository)
+
+    @Provides
     @Singleton
     fun provideAcquiredCertUseCase(
         acquisitionRepository: AcquisitionRepository
@@ -112,13 +146,61 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideAddActivityUseCase(
-        activityRepository: ActivityRepository
-    ): AddActivityUseCase = AddActivityUseCase(activityRepository)
+    fun provideGetCareerListUseCase(
+        repository: CareerRepository
+    ): GetCareerListUseCase = GetCareerListUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteCareerUseCase(
+        repository: CareerRepository
+    ): DeleteCareerUseCase = DeleteCareerUseCase(repository)
 
     @Provides
     @Singleton
     fun provideAddCareerUseCase(
         careerRepository: CareerRepository
     ): AddCareerUseCase = AddCareerUseCase(careerRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetAcquisitionListUseCase(
+        repository: AcquisitionRepository
+    ): GetAcquisitionListUseCase = GetAcquisitionListUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteAcquisitionUseCase(
+        repository: AcquisitionRepository
+    ): DeleteAcquisitionUseCase = DeleteAcquisitionUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetAcquisitionDetailUseCase(
+        repository: AcquisitionRepository
+    ): GetAcquisitionDetailUseCase = GetAcquisitionDetailUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetActivityListUseCase(
+        repository: ActivityRepository
+    ): GetActivityListUseCase = GetActivityListUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteActivityUseCase(
+        repository: ActivityRepository
+    ): DeleteActivityUseCase = DeleteActivityUseCase((repository))
+
+    @Provides
+    @Singleton
+    fun provideAddActivityUseCase(
+        activityRepository: ActivityRepository
+    ): AddActivityUseCase = AddActivityUseCase(activityRepository)
+
+    @Provides
+    @Singleton
+    fun providePreCertEditUseCase(
+        preCertEditRepository: PreCertEditRepository
+    ): PreCertEditUseCase = PreCertEditUseCase(preCertEditRepository)
 }

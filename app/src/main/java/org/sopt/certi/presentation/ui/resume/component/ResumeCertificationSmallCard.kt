@@ -70,8 +70,8 @@ fun ResumeCertificationSmallCard(
                 text = stringResource(
                     id = R.string.resume_certification_card_small,
                     certification.createdAt.year,
-                    certification.createdAt.month,
-                    certification.createdAt.dayOfWeek
+                    certification.createdAt.monthValue,
+                    certification.createdAt.dayOfMonth
                 ),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertCardColorType.fromIndex(certification.index).textColor
