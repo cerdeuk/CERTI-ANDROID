@@ -101,6 +101,7 @@ fun CertificationCardBack(
                     color = CertiTheme.colors.white
                 )
             }
+            Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
 
             AcquiredDateChip(certificationData = certificationData)
         }
