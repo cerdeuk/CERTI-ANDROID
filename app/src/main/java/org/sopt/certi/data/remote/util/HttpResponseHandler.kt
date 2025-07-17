@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import retrofit2.HttpException
-import timber.log.Timber
 
 object HttpResponseHandler {
     private val json = Json { ignoreUnknownKeys = true }

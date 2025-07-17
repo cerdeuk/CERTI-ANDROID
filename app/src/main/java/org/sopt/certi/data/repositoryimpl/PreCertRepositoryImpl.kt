@@ -1,7 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
 import org.sopt.certi.data.remote.datasource.PreCertRemoteDataSource
-import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.repository.PreCertRepository

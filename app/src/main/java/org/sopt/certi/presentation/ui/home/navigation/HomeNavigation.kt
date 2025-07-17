@@ -9,7 +9,6 @@ import org.sopt.certi.core.navigation.HomeRoute
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
 import org.sopt.certi.presentation.ui.home.HomeRoute
-import org.sopt.certi.presentation.ui.login.LoginRoute
 import org.sopt.certi.presentation.ui.precertificationedit.PreCertificationEditRoute
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
@@ -30,7 +29,7 @@ fun NavGraphBuilder.homeNavGraph(
             navigateToCertDetail = { certId ->
                 navController.navigateToCertDetail(certId = certId)
             },
-            navigateToPreCerti = { navController.navigateToPreCerti() },
+            navigateToPreCerti = { navController.navigateToPreCerti() }
         )
     }
 

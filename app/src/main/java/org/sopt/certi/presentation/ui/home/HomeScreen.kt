@@ -59,7 +59,7 @@ fun HomeRoute(
     navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val context =  LocalContext.current
+    val context = LocalContext.current
     val activity = context.findActivity() as MainActivity
     val coroutineScope = rememberCoroutineScope()
 

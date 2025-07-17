@@ -45,7 +45,6 @@ fun CertiTopBar(
 private fun CertiTopBarPreview() {
     CERTITheme {
         CertiTopBar() {
-
         }
     }
 }
