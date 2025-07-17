@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -165,7 +166,8 @@ private fun SearchScreen(
                             },
                             style = CertiTheme.typography.caption.regular_14,
                             color = CertiTheme.colors.gray400,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
