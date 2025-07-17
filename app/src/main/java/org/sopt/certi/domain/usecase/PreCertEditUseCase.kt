@@ -1,8 +1,5 @@
 package org.sopt.certi.domain.usecase
 
-import org.sopt.certi.data.remote.dto.base.ApiResponse
-import org.sopt.certi.data.remote.dto.base.NullableApiResponse
-import org.sopt.certi.data.remote.service.PreCertEditService
 import org.sopt.certi.domain.repository.PreCertEditRepository
 
 class PreCertEditUseCase(

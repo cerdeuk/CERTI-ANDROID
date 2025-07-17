@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.PreCertEditUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.presentation.ui.precertificationedit.state.PreCertiEditUiState
@@ -76,8 +75,11 @@ class PreCertiEditViewModel @Inject constructor(
                     if (currentState is UiState.Success) {
                         val updatedList = currentState.data.filterNot { it.certificationId == deleteId }
                         _preCertiEditListLoadState.value =
-                            if (updatedList.isEmpty()) UiState.Empty
-                            else UiState.Success(updatedList)
+                            if (updatedList.isEmpty()) {
+                                UiState.Empty
+                            } else {
+                                UiState.Success(updatedList)
+                            }
                     }
                 }
                 .onFailure {
