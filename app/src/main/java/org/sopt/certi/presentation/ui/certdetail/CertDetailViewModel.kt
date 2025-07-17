@@ -18,6 +18,7 @@ import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,7 +68,11 @@ class CertDetailViewModel @Inject constructor(
                     _sideEffect.send(DetailSideEffect.ShowAcquireExpectFailToast)
                 }
             },
-            onFailure = {}
+            onFailure = {
+                if(it.message?.contains("Conflict") == true) {
+                    _sideEffect.send(DetailSideEffect.ShowAcquiredFailToast)
+                }
+            }
         )
     }
 
