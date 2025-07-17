@@ -1,5 +1,6 @@
 package org.sopt.certi.core.component.loading
 
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +53,18 @@ fun LoadingLayout(
         label = "scroll_offset"
     )
 
+    val bounceAnim by rememberInfiniteTransition().animateFloat(
+        initialValue = 0f,
+        targetValue = 10f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 500,
+                easing = FastOutLinearInEasing
+            ),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
     val totalContentWidth = screenWidthDp(166.dp)
 
     Box(
@@ -64,8 +78,7 @@ fun LoadingLayout(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clipToBounds(),
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 Row(
@@ -113,7 +126,8 @@ fun LoadingLayout(
                     contentDescription = null,
                     modifier = Modifier
                         .widthForScreenPercentage(118.dp)
-                        .heightForScreenPercentage(110.dp)
+                        .wrapContentHeight()
+                        .offset(y = bounceAnim.dp)
                 )
             }
 
@@ -139,7 +153,7 @@ private fun ColorBoxRow() {
     Spacer(Modifier.widthForScreenPercentage(24.dp))
     ColorBox(CertiTheme.colors.lightBlue)
     Spacer(Modifier.widthForScreenPercentage(24.dp))
-    ColorBox(CertiTheme.colors.black)
+    ColorBox(CertiTheme.colors.lightPurple)
 }
 
 @Composable
