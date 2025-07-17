@@ -82,7 +82,11 @@ fun CertAcquiredDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .roundedBackgroundWithBorder(backgroundColor = CertiTheme.colors.gray500, cornerRadius = 12.dp),
+                        .roundedBackgroundWithBorder(backgroundColor = CertiTheme.colors.gray500, cornerRadius = 12.dp)
+                        .noRippleClickable {
+                            setShowDialog(false)
+                            onConfirmClick()
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -91,10 +95,6 @@ fun CertAcquiredDialog(
                         color = CertiTheme.colors.white,
                         modifier = Modifier
                             .padding(vertical = screenHeightDp(14.dp))
-                            .noRippleClickable {
-                                setShowDialog(false)
-                                onConfirmClick()
-                            }
                     )
                 }
             }
