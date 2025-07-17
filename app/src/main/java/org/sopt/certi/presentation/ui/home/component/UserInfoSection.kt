@@ -156,7 +156,7 @@ fun PreviewUserInfoSection() {
     CERTITheme {
         UserInfoSection(
             userInfoData = dummyUserInfo,
-            modifier = Modifier.padding(horizontal =  screenWidthDp(20.dp))
+            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
         )
     }
 }

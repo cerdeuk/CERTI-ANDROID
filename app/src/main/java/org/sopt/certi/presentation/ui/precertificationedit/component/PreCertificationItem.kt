@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -26,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -63,7 +61,7 @@ fun PreCertificationItem(
     preCertificationData: CertificationData,
     modifier: Modifier = Modifier,
     onDetailClick: (() -> Unit)? = null,
-    onDelete: (() -> Unit)? = null,
+    onDelete: (() -> Unit)? = null
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

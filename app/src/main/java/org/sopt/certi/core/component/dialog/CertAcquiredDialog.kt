@@ -51,7 +51,7 @@ fun CertAcquiredDialog(
             modifier = Modifier
                 .padding(horizontal = screenWidthDp(55.dp))
                 .widthForScreenPercentage(250.dp)
-                .aspectRatio(250f/360f)
+                .aspectRatio(250f / 360f)
         ) {
             Column(
                 modifier = Modifier
