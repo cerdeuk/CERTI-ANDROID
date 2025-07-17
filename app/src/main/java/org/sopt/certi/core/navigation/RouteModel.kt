@@ -49,6 +49,9 @@ sealed interface HomeRoute : Route {
     data object CertPlanned : HomeRoute
 
     @Serializable
+    data object CertRecommended : HomeRoute
+
+    @Serializable
     data object CertSaved : HomeRoute
 }
 
