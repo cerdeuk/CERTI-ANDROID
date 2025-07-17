@@ -17,4 +17,5 @@ interface AuthRepository {
     ): Result<SignUpResult>
     suspend fun searchUniv(keyword: String): Result<List<String>>
     suspend fun searchMajor(keyword: String): Result<List<String>>
+    suspend fun withDraw(): Result<Unit>
 }

@@ -1,6 +1,7 @@
 package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
+import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.SignInRequestDto
 import org.sopt.certi.data.remote.dto.request.SignUpRequestDto
 import org.sopt.certi.data.remote.dto.response.SearchMajorResponseDto
@@ -8,6 +9,7 @@ import org.sopt.certi.data.remote.dto.response.SearchUnivResponseDto
 import org.sopt.certi.data.remote.dto.response.SignInResponseDto
 import org.sopt.certi.data.remote.dto.response.SignUpResponseDto
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -34,4 +36,7 @@ interface AuthService {
     suspend fun searchMajor(
         @Query("keyword") keyword: String
     ): ApiResponse<SearchMajorResponseDto>
+
+    @DELETE("api/v1/auth/withdraw")
+    suspend fun withdraw(): NullableApiResponse<Unit>
 }

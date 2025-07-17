@@ -19,6 +19,7 @@ import org.sopt.certi.domain.usecase.HomeRecommendUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
+import org.sopt.certi.domain.usecase.WithDrawUseCase
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
 import javax.inject.Inject
 
@@ -29,6 +30,7 @@ class HomeViewModel @Inject constructor(
     private val preCertUseCase: PreCertUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val withDrawUseCase: WithDrawUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
@@ -126,5 +128,13 @@ class HomeViewModel @Inject constructor(
                 _favoriteListLoadState.value = UiState.Success(updated)
             }
         }
+    }
+
+    fun withDraw() = viewModelScope.launch {
+        withDrawUseCase.invoke()
+    }
+
+    fun clearSharedPreference() {
+        tokenManager.clear()
     }
 }

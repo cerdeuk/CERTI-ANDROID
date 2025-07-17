@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -18,7 +19,8 @@ import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
 fun CertiTopBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    logoutOnClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -31,6 +33,9 @@ fun CertiTopBar(
             modifier = Modifier
                 .heightForScreenPercentage(24.dp)
                 .widthForScreenPercentage(76.dp)
+                .noRippleClickable {
+                    logoutOnClick()
+                }
         )
     }
 }
@@ -39,6 +44,8 @@ fun CertiTopBar(
 @Composable
 private fun CertiTopBarPreview() {
     CERTITheme {
-        CertiTopBar()
+        CertiTopBar() {
+
+        }
     }
 }
