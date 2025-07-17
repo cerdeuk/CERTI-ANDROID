@@ -15,10 +15,10 @@ import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
-import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
@@ -142,7 +142,5 @@ class ResumeViewModel @Inject constructor(
         )
     }
 
-    fun getUserName(): String? {
-        return tokenManager.getUserInformation()?.nickname
-    }
+    fun getUserName(): String? = tokenManager.getNickName()
 }

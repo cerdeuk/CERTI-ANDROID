@@ -11,7 +11,7 @@ import org.sopt.certi.ui.theme.defaultCertiColors
 enum class MainTab(
     @DrawableRes val defaultIconResId: Int,
     @StringRes val label: Int,
-    val defaultIconColor: Color = defaultCertiColors.gray600,
+    val defaultIconColor: Color = defaultCertiColors.gray400,
     val selectedIconColor: Color = defaultCertiColors.mainBlue,
     val route: MainTabRoute
 ) {

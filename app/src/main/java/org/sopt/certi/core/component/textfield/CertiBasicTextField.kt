@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -39,6 +41,7 @@ fun CertiBasicTextField(
     placeholder: String = stringResource(id = R.string.textfield_placeholder),
     maxLength: Int = 30
 ) {
+    val focusRequester = remember { FocusRequester() }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -51,7 +54,13 @@ fun CertiBasicTextField(
                 color = CertiTheme.colors.gray300,
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(16.dp)),
+            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(16.dp))
+            .noRippleClickable {
+                if (value.isNotEmpty()) {
+                    onValueChange("")
+                }
+                focusRequester.requestFocus()
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -80,7 +89,8 @@ fun CertiBasicTextField(
                     )
                 }
                 innerTextField()
-            }
+            },
+            modifier = Modifier.focusRequester(focusRequester)
         )
 
         Icon(

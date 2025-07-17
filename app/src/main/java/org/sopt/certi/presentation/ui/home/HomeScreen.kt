@@ -39,7 +39,6 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
-import org.sopt.certi.presentation.ui.home.state.HomeUiState
 import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -69,7 +68,6 @@ fun HomeRoute(
 
             if (userInfo != null) {
                 HomeScreen(
-                    homeUiState = uiState,
                     userInfo = userInfo,
                     recommendedList = recommendedList,
                     preCertificationList = preCertList,
@@ -90,7 +88,6 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
-    homeUiState: HomeUiState,
     userInfo: UserInfoData,
     recommendedList: ImmutableList<CertificationData>,
     preCertificationList: ImmutableList<CertificationData>,
@@ -227,7 +224,7 @@ fun HomeScreen(
                                 navigateToCertDetail(certId)
                             },
                             onFavoriteClicked = onFavoriteClicked,
-                            modifier = modifier
+                            modifier = Modifier.padding(bottom = screenHeightDp(40.dp))
                         )
                     }
                 }

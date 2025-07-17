@@ -8,6 +8,7 @@ fun FavoriteListResponseDto.toDomain(): List<CertificationData> =
         CertificationData(
             certificationId = cert.certificationId,
             certificationName = cert.certificationName,
+            certificationType = cert.certificationType,
             testType = cert.testType,
             agencyName = cert.agencyName,
             isFavorite = cert.isFavorite

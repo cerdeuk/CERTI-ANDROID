@@ -41,8 +41,7 @@ fun FavoriteCertificationListSection(
     LazyRow(
         contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp)),
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         items(favoriteCertificationList) { item ->
             FavoriteCertificationItem(

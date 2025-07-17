@@ -12,13 +12,15 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.type.CategoryType
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class CertListViewModel @Inject constructor(
-    private val getCategoryCertListUseCase: GetCategoryCertListUseCase
+    private val getCategoryCertListUseCase: GetCategoryCertListUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
     private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCategory = MutableStateFlow(0)
@@ -62,16 +64,24 @@ class CertListViewModel @Inject constructor(
     }
 
     fun onLikeClick(certificationId: Long) {
-        val currentState = _certListLoadState.value
-        if (currentState is UiState.Success) {
-            val updatedList = currentState.data.map {
-                if (it.certificationId == certificationId) {
-                    it.copy(isFavorite = !it.isFavorite)
-                } else {
-                    it
+        viewModelScope.launch {
+            toggleFavoriteUseCase(certificationId)
+                .onSuccess {
+                    val currentState = _certListLoadState.value
+                    if (currentState is UiState.Success) {
+                        val updatedList = currentState.data.map {
+                            if (it.certificationId == certificationId) {
+                                it.copy(isFavorite = !it.isFavorite)
+                            } else {
+                                it
+                            }
+                        }
+                        _certListLoadState.value = UiState.Success(updatedList)
+                    }
                 }
-            }
-            _certListLoadState.value = UiState.Success(updatedList)
+                .onFailure {
+                    _certListLoadState.value = UiState.Failure(it.toString())
+                }
         }
     }
 }

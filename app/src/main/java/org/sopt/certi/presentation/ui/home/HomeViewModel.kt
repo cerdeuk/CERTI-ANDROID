@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
@@ -27,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val homeRecommendUseCase: HomeRecommendUseCase,
     private val preCertUseCase: PreCertUseCase,
     private val favoriteUseCase: FavoriteUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
@@ -63,6 +65,7 @@ class HomeViewModel @Inject constructor(
             userInfoUseCase()
                 .onSuccess { result ->
                     _userInfoLoadState.value = UiState.Success(result)
+                    tokenManager.saveNickName(result.name)
                 }
                 .onFailure {
                     _userInfoLoadState.value = UiState.Failure(it.toString())

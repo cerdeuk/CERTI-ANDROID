@@ -63,4 +63,12 @@ class TokenManager @Inject constructor(
         val json = sharedPreferences.getString("USER_INFORMATION", null)
         return if (json != null) Gson().fromJson(json, UserInformationAuth::class.java) else null
     }
+
+    fun saveNickName(nickname: String) {
+        sharedPreferences.edit().putString("NICKNAME", nickname).apply()
+    }
+
+    fun getNickName(): String {
+        return sharedPreferences.getString("NICKNAME", "").orEmpty()
+    }
 }
