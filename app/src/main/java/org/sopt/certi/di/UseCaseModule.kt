@@ -11,6 +11,7 @@ import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.HomeRepository
+import org.sopt.certi.domain.repository.PreCertEditRepository
 import org.sopt.certi.domain.repository.PreCertRepository
 import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.activity.AddActivityUseCase
@@ -20,6 +21,7 @@ import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
 import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertEditUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
@@ -195,4 +197,10 @@ object UseCaseModule {
     fun provideAddActivityUseCase(
         activityRepository: ActivityRepository
     ): AddActivityUseCase = AddActivityUseCase(activityRepository)
+
+    @Provides
+    @Singleton
+    fun providePreCertEditUseCase(
+        preCertEditRepository: PreCertEditRepository
+    ): PreCertEditUseCase = PreCertEditUseCase(preCertEditRepository)
 }
