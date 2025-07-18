@@ -120,7 +120,6 @@
     <string name="cert_detail_average_period_title">평균 취득 기간</string>
     <string name="cert_detail_charge_title">수수료</string>
     <string name="cert_detail_agency_title">기관명</string>
-    <string name="cert_detail_charge_content">%s원</string>
     <string name="cert_detail_description_title">자격증 설명</string>
     <string name="cert_detail_test_date_title">시험일자</string>
     <string name="cert_detail_application_method_title">신청방법</string>

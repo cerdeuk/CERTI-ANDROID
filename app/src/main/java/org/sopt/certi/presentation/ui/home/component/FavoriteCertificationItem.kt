@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -94,7 +95,6 @@ fun FavoriteCertificationItem(
                     tint = if (favoriteCertificationData.isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
                         .width(screenWidthDp(24.dp))
-                        .height(screenHeightDp(24.dp))
                         .noRippleClickable { onFavoriteClicked(favoriteCertificationData.certificationId) }
                 )
             }
@@ -104,7 +104,8 @@ fun FavoriteCertificationItem(
                 text = favoriteCertificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
                 color = CertiTheme.colors.gray600,
-                maxLines = 2
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Column(
@@ -123,14 +124,14 @@ fun FavoriteCertificationItem(
                     painter = painterResource(id = R.drawable.ic_paper_16),
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
-                    modifier = Modifier
-                        .width(screenWidthDp(16.dp))
-                        .height(screenHeightDp(16.dp))
+                    modifier = Modifier.width(screenWidthDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.testType,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray500
+                    color = CertiTheme.colors.gray500,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Row(
@@ -143,14 +144,14 @@ fun FavoriteCertificationItem(
                     painter = painterResource(id = R.drawable.ic_certification_16),
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
-                    modifier = Modifier
-                        .width(screenWidthDp(16.dp))
-                        .height(screenHeightDp(16.dp))
+                    modifier = Modifier.width(screenWidthDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.agencyName,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray500
+                    color = CertiTheme.colors.gray500,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

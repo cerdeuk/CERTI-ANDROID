@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -85,7 +86,10 @@ fun PreCertificationItem(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(14.dp))
+                    .widthForScreenPercentage(200.dp)
+                    .heightForScreenPercentage(132.dp)
+                    .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(14.dp)),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = preCertificationData.certificationName,
@@ -106,6 +110,7 @@ fun PreCertificationItem(
                 ) {
                     Column(
                         modifier = Modifier
+                            .weight(1f)
                             .padding(vertical = screenHeightDp(6.dp)),
                         verticalArrangement = Arrangement.spacedBy(screenHeightDp(6.dp))
                     ) {
@@ -117,7 +122,7 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_date_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier.size(screenWidthDp(16.dp))
+                                modifier = Modifier.width(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.nearestTestDate,
@@ -134,12 +139,14 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_certification_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier.widthForScreenPercentage(16.dp)
+                                modifier = Modifier.width(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.agencyName,
                                 style = CertiTheme.typography.caption.regular_12,
-                                color = CertiTheme.colors.gray500
+                                color = CertiTheme.colors.gray500,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
