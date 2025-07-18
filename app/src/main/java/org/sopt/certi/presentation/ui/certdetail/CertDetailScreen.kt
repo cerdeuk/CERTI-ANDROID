@@ -214,7 +214,7 @@ fun CertDetailScreen(
                         )
                         Spacer(Modifier.weight(1f))
                         Text(
-                            text = stringResource(R.string.cert_detail_charge_content, certData.charge),
+                            text = certData.charge,
                             style = CertiTheme.typography.body.regular_16,
                             color = CertiTheme.colors.gray600
                         )
