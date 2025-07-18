@@ -91,9 +91,9 @@ fun HomeRoute(
                     navigateToPreCerti = navigateToPreCerti,
                     navigateToLogin = {
                         coroutineScope.launch {
-                            viewModel.clearSharedPreference()
                             viewModel.withDraw()
                             delay(300)
+                            viewModel.clearSharedPreference()
                             finishAndRestart(activity, context)
                         }
                     },
