@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -103,7 +104,8 @@ fun FavoriteCertificationItem(
                 text = favoriteCertificationData.certificationName,
                 style = CertiTheme.typography.body.bold_18,
                 color = CertiTheme.colors.gray600,
-                maxLines = 2
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Column(
@@ -127,7 +129,9 @@ fun FavoriteCertificationItem(
                 Text(
                     text = favoriteCertificationData.testType,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray500
+                    color = CertiTheme.colors.gray500,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Row(
@@ -145,7 +149,9 @@ fun FavoriteCertificationItem(
                 Text(
                     text = favoriteCertificationData.agencyName,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray500
+                    color = CertiTheme.colors.gray500,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
