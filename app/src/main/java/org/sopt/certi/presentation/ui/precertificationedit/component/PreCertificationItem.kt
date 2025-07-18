@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
@@ -117,7 +117,7 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_date_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier.size(screenWidthDp(16.dp))
+                                modifier = Modifier.width(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.nearestTestDate,
@@ -134,7 +134,7 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_certification_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier.widthForScreenPercentage(16.dp)
+                                modifier = Modifier.width(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.agencyName,

@@ -94,7 +94,6 @@ fun FavoriteCertificationItem(
                     tint = if (favoriteCertificationData.isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
                     modifier = Modifier
                         .width(screenWidthDp(24.dp))
-                        .height(screenHeightDp(24.dp))
                         .noRippleClickable { onFavoriteClicked(favoriteCertificationData.certificationId) }
                 )
             }
@@ -123,9 +122,7 @@ fun FavoriteCertificationItem(
                     painter = painterResource(id = R.drawable.ic_paper_16),
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
-                    modifier = Modifier
-                        .width(screenWidthDp(16.dp))
-                        .height(screenHeightDp(16.dp))
+                    modifier = Modifier.width(screenWidthDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.testType,
@@ -143,9 +140,7 @@ fun FavoriteCertificationItem(
                     painter = painterResource(id = R.drawable.ic_certification_16),
                     contentDescription = null,
                     tint = CertiTheme.colors.gray400,
-                    modifier = Modifier
-                        .width(screenWidthDp(16.dp))
-                        .height(screenHeightDp(16.dp))
+                    modifier = Modifier.width(screenWidthDp(16.dp))
                 )
                 Text(
                     text = favoriteCertificationData.agencyName,
