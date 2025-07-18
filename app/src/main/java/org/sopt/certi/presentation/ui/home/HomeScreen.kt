@@ -131,17 +131,20 @@ fun HomeScreen(
             logoutOnClick = {
                 navigateToLogin()
             },
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(screenHeightDp(6.dp)))
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentPadding = PaddingValues(top = screenHeightDp(12.dp))
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(top = screenHeightDp(32.dp))
         ) {
             item {
-                UserInfoSection(userInfoData = userInfo)
+                UserInfoSection(
+                    userInfoData = userInfo,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = screenWidthDp(20.dp))
+                )
                 Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
             }
 

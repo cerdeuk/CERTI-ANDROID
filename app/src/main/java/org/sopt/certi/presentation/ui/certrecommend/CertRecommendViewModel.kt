@@ -122,5 +122,5 @@ class CertRecommendViewModel @Inject constructor(
         _sideEffect.send(RecommendSideEffect.ShowFilterBottomSheet)
     }
 
-    fun getUserName() = tokenManager.getUserInformation()?.nickname
+    fun getUserName() = tokenManager.getNickName()
 }

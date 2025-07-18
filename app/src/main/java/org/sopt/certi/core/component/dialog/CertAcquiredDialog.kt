@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,15 +48,18 @@ fun CertAcquiredDialog(
         Surface(
             color = CertiTheme.colors.white,
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.padding(horizontal = screenWidthDp(55.dp))
+            modifier = Modifier
+                .padding(horizontal = screenWidthDp(55.dp))
+                .widthForScreenPercentage(250.dp)
+                .aspectRatio(250f / 360f)
         ) {
             Column(
                 modifier = Modifier
                     .padding(
                         top = screenHeightDp(40.dp),
                         bottom = screenHeightDp(26.dp),
-                        start = screenHeightDp(28.dp),
-                        end = screenHeightDp(28.dp)
+                        start = screenWidthDp(20.dp),
+                        end = screenWidthDp(20.dp)
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -74,9 +78,7 @@ fun CertAcquiredDialog(
                 Image(
                     painter = painterResource(id = R.drawable.img_certification_card_get),
                     contentDescription = null,
-                    modifier = Modifier
-                        .widthForScreenPercentage(120.dp)
-                        .heightForScreenPercentage(184.dp)
+                    modifier = Modifier.weight(1f)
                 )
                 Spacer(Modifier.heightForScreenPercentage(8.dp))
                 Box(
@@ -93,8 +95,7 @@ fun CertAcquiredDialog(
                         text = stringResource(R.string.acquired_dialog_confirm),
                         style = CertiTheme.typography.caption.semibold_14,
                         color = CertiTheme.colors.white,
-                        modifier = Modifier
-                            .padding(vertical = screenHeightDp(14.dp))
+                        modifier = Modifier.padding(vertical = screenHeightDp(14.dp))
                     )
                 }
             }

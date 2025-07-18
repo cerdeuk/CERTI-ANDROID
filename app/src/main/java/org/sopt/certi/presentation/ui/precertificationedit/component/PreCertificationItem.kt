@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
@@ -58,9 +59,9 @@ fun PreCertificationListSection(
 @Composable
 fun PreCertificationItem(
     preCertificationData: CertificationData,
+    modifier: Modifier = Modifier,
     onDetailClick: (() -> Unit)? = null,
-    onDelete: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onDelete: (() -> Unit)? = null
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -80,8 +81,7 @@ fun PreCertificationItem(
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = CertiTheme.colors.white
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            )
         ) {
             Column(
                 modifier = Modifier
@@ -117,15 +117,13 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_date_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(16.dp)
-                                    .heightForScreenPercentage(16.dp)
-
+                                modifier = Modifier.size(screenWidthDp(16.dp))
                             )
                             Text(
                                 text = preCertificationData.nearestTestDate,
                                 style = CertiTheme.typography.caption.regular_12,
-                                color = CertiTheme.colors.gray500
+                                color = CertiTheme.colors.gray500,
+                                modifier = Modifier.align(Alignment.CenterVertically)
                             )
                         }
                         Row(
@@ -136,9 +134,7 @@ fun PreCertificationItem(
                                 painter = painterResource(R.drawable.ic_certification_16),
                                 contentDescription = null,
                                 tint = CertiTheme.colors.gray400,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(16.dp)
-                                    .heightForScreenPercentage(16.dp)
+                                modifier = Modifier.widthForScreenPercentage(16.dp)
                             )
                             Text(
                                 text = preCertificationData.agencyName,

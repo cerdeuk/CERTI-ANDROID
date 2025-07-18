@@ -10,7 +10,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -31,7 +30,6 @@ fun CertiTopBar(
             painter = painterResource(R.drawable.img_logo_black),
             contentDescription = null,
             modifier = Modifier
-                .heightForScreenPercentage(24.dp)
                 .widthForScreenPercentage(76.dp)
                 .noRippleClickable {
                     logoutOnClick()
