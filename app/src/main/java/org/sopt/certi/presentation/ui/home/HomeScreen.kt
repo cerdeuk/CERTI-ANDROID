@@ -51,7 +51,6 @@ import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationLis
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.main.MainActivity
 import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
-import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable

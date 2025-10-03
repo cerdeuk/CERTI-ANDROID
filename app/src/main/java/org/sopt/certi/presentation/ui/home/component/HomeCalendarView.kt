@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,11 +32,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import org.sopt.certi.R
@@ -65,7 +62,6 @@ fun HomeCalendarView(
         firstDayOfWeek = firstDayOfWeek
     )
 
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +85,7 @@ fun HomeCalendarView(
                         day = day,
                         isSelected = day == selectedDate,
                         today = today,
-                        isScheduleExist = false,
+                        isScheduleExist = false
                     ) { newSelectedDate ->
                         selectedDate = newSelectedDate
                     }
@@ -105,15 +101,15 @@ private fun MonthHeader(
     onPrevMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit
 ) {
-    Row (
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp),
+            .padding(bottom = 12.dp)
     ) {
         Text(
             textAlign = TextAlign.Center,
             text = calendarMonth.year.toString() + "년 " + calendarMonth.monthValue.toString() + "월",
-            style = CertiTheme.typography.body.semibold_16,
+            style = CertiTheme.typography.body.semibold_16
         )
 
         Spacer(Modifier.weight(1f))
@@ -157,22 +153,23 @@ private fun Day(
             .clip(CircleShape)
             .background(
                 color =
-                    if (day.date == today) CertiTheme.colors.mainBlue
-                    else {
-                        if (isSelected) CertiTheme.colors.gray100 else Color.Transparent
-                    }
+                if (day.date == today) {
+                    CertiTheme.colors.mainBlue
+                } else {
+                    if (isSelected) CertiTheme.colors.gray100 else Color.Transparent
+                }
             )
             .clickable(
-                onClick = { onClick(day) },
+                onClick = { onClick(day) }
             ),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         val textColor = when (day.position) {
-            DayPosition.MonthDate -> if(day.date == today) CertiTheme.colors.white else CertiTheme.colors.black
+            DayPosition.MonthDate -> if (day.date == today) CertiTheme.colors.white else CertiTheme.colors.black
             DayPosition.InDate, DayPosition.OutDate -> CertiTheme.colors.gray200
         }
 
-        if(isScheduleExist) {
+        if (isScheduleExist) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_dot),
                 contentDescription = null,
@@ -186,7 +183,7 @@ private fun Day(
         Text(
             text = day.date.dayOfMonth.toString(),
             style = CertiTheme.typography.caption.regular_12,
-            color = textColor,
+            color = textColor
         )
     }
 }
@@ -209,14 +206,11 @@ private fun WeekDayHeader() {
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray400,
                 textAlign = TextAlign.Center,
-                text = dayOfWeek,
+                text = dayOfWeek
             )
         }
     }
 }
-
-
-
 
 @Preview
 @Composable
