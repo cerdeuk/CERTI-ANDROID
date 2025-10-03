@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -38,12 +39,14 @@ import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.findActivity
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
+import org.sopt.certi.presentation.ui.home.component.HomeCalendarView
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.main.MainActivity
@@ -111,14 +114,14 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     userInfo: UserInfoData,
-    recommendedList: ImmutableList<CertificationData>,
-    preCertificationList: ImmutableList<CertificationData>,
-    favoriteCertificationList: ImmutableList<CertificationData>,
-    onFavoriteClicked: (Long) -> Unit,
-    navigateToCertRecommend: () -> Unit,
-    navigateToCertDetail: (Long) -> Unit,
-    navigateToPreCerti: () -> Unit,
-    navigateToLogin: () -> Unit,
+    recommendedList: ImmutableList<CertificationData> = persistentListOf(),
+    preCertificationList: ImmutableList<CertificationData> = persistentListOf(),
+    favoriteCertificationList: ImmutableList<CertificationData> = persistentListOf(),
+    onFavoriteClicked: (Long) -> Unit = {},
+    navigateToCertRecommend: () -> Unit = {},
+    navigateToCertDetail: (Long) -> Unit = {},
+    navigateToPreCerti: () -> Unit = {},
+    navigateToLogin: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -148,6 +151,16 @@ fun HomeScreen(
             }
 
             item {
+                Box(
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                ) {
+                    HomeCalendarView()
+                }
+
+                Spacer(Modifier.heightForScreenPercentage(36.dp))
+            }
+
+            item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -158,7 +171,6 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-
                     ) {
                         Text(
                             text = stringResource(R.string.home_recommend_title, userInfo.name),
@@ -184,6 +196,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
                 }
             }
+
             item {
                 Column(
                     modifier = Modifier
@@ -276,6 +289,14 @@ private fun finishAndRestart(activity: MainActivity, context: Context) {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewHomeScreen() {
-    CERTITheme {
-    }
+    HomeScreen(
+        UserInfoData(
+            name = "김민수",
+            university = "솝트대학교",
+            major = "소프트웨어학과",
+            percentage = 20,
+            category = listOf("aa", "bb"),
+            track = "asdf"
+        )
+    )
 }

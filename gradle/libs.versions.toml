@@ -49,6 +49,9 @@ lifecycleRuntimeComposeAndroid = "2.8.7"
 kakao = "2.21.0"
 firebaseCrashlyticsBuildtools = "3.0.4"
 
+# Calendar
+calendar = "2.6.0"
+
 [libraries]
 # Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -100,6 +103,9 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 # --- Kakao SDK ---
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+
+# Calendar
+kizitonwose-calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
