@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,7 +36,11 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 import java.time.YearMonth
@@ -105,7 +107,7 @@ private fun MonthHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp)
+            .padding(bottom = screenHeightDp(12.dp))
     ) {
         Text(
             textAlign = TextAlign.Center,
@@ -119,19 +121,23 @@ private fun MonthHeader(
             imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_arrow_left),
             contentDescription = null,
             tint = CertiTheme.colors.purpleBlue,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier
+                .widthForScreenPercentage(16.dp)
+                .heightForScreenPercentage(16.dp)
                 .noRippleClickable {
                     onPrevMonthClick()
                 }
         )
 
-        Spacer(Modifier.width(20.dp))
+        Spacer(Modifier.widthForScreenPercentage(20.dp))
 
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_arrow_right),
             contentDescription = null,
             tint = CertiTheme.colors.purpleBlue,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier
+                .widthForScreenPercentage(16.dp)
+                .heightForScreenPercentage(16.dp)
                 .noRippleClickable {
                     onNextMonthClick()
                 }
@@ -150,7 +156,7 @@ private fun Day(
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .padding(10.dp)
+            .padding(horizontal = screenWidthDp(10.dp), vertical = screenHeightDp(10.dp))
             .clip(CircleShape)
             .background(
                 color =
@@ -176,8 +182,10 @@ private fun Day(
                 contentDescription = null,
                 tint = Color.Unspecified,
                 modifier = Modifier
+                    .widthForScreenPercentage(20.dp)
+                    .heightForScreenPercentage(20.dp)
                     .size(20.dp)
-                    .padding(start = 16.dp, bottom = 16.dp)
+                    .padding(start = screenWidthDp(16.dp), bottom = screenHeightDp(16.dp))
             )
         }
 
@@ -196,7 +204,7 @@ private fun WeekDayHeader() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(36.dp),
+            .heightForScreenPercentage(36.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         for (dayOfWeek in weekNameList) {
