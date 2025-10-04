@@ -122,6 +122,9 @@ dependencies {
 
     // lottie
     implementation(libs.lottie.compose)
+
+    // calendar
+    implementation(libs.kizitonwose.calendar)
 }
 
 ktlint {

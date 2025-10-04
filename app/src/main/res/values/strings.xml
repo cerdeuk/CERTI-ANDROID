@@ -50,6 +50,16 @@
     <string name="home_favorite_title">즐겨찾기한 자격증</string>
     <string name="home_pre_certification_empty">취득 예정 자격증이 없습니다.</string>
     <string name="home_favorite_empty">즐겨찾기한 자격증이 없습니다.</string>
+    
+    <string-array name="home_calendar_week">
+        <item>일</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+    </string-array>
 
     <!-- CertList Screen -->
     <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
