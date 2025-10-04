@@ -44,7 +44,8 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun HomeCalendarView(
+fun HomeCalendar(
+    // FIXME 서버 데이터 형식 어떻게 올지 몰라서 일단 String으로 해놨어유
     scheduleExistDayList: List<String> = emptyList()
 ) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
@@ -85,7 +86,7 @@ fun HomeCalendarView(
                         day = day,
                         isSelected = day == selectedDate,
                         today = today,
-                        isScheduleExist = false
+                        isScheduleExist = scheduleExistDayList.contains(day.date.toString())
                     ) { newSelectedDate ->
                         selectedDate = newSelectedDate
                     }
@@ -215,5 +216,7 @@ private fun WeekDayHeader() {
 @Preview
 @Composable
 private fun PreviewHomeCalendarView() {
-    HomeCalendarView()
+    HomeCalendar(
+        scheduleExistDayList = listOf("2025-10-06", "2025-10-17", "2025-10-18")
+    )
 }

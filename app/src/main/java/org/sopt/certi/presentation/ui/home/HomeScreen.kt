@@ -46,7 +46,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
-import org.sopt.certi.presentation.ui.home.component.HomeCalendarView
+import org.sopt.certi.presentation.ui.home.component.HomeCalendar
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.main.MainActivity
@@ -153,7 +153,7 @@ fun HomeScreen(
                 Box(
                     modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
-                    HomeCalendarView()
+                    HomeCalendar()
                 }
 
                 Spacer(Modifier.heightForScreenPercentage(36.dp))
