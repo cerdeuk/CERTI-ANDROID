@@ -12,7 +12,7 @@
     <string name="onboarding_track_title">계열을 선택해주세요</string>
     <string name="onboarding_major_title">학과를 선택해주세요</string>
     <string name="onboarding_category_title">희망직무를 선택해주세요</string>
-    <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(최대 3개 선택 가능)</string>
+    <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(2,3순위 선택 가능)</string>
     <string name="onboarding_info_nickname">%s님,</string>
     <string name="onboarding_info_title">이제 서티와 함께 해요!</string>
     <string name="onboarding_info_final_education_title">최종학력</string>
@@ -21,6 +21,7 @@
 
     <!-- Button -->
     <string name="button_next">다음</string>
+    <string name="button_skip">건너뛰기</string>
     <string name="button_start">시작하기</string>
     <string name="button_apply">적용하기</string>
     <string name="button_add">추가하기</string>

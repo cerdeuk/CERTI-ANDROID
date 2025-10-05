@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -102,8 +101,8 @@ private fun OnBoardingTrackSection(
 ) {
     OnBoardingSelectableButtons(
         selectableButtonType = SelectableButtonType.TRACK,
-        selectedOptions = selectedTrack?.let { listOf(it) } ?: emptyList(),
-        onOptionsChanged = { options -> onTracksChanged(options.firstOrNull()) },
+        selectedOption = selectedTrack.toString(),
+        onOptionChanged = { option -> onTracksChanged(option) },
         modifier = modifier
     )
 }

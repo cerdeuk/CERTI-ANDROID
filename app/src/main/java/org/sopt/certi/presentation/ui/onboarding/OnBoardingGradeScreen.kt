@@ -99,8 +99,8 @@ private fun OnBoardingGradeSection(
 ) {
     OnBoardingSelectableButtons(
         selectableButtonType = SelectableButtonType.GRADE,
-        selectedOptions = selectedGrade?.let { listOf(it) } ?: emptyList(),
-        onOptionsChanged = { options -> onGradeSelected(options.firstOrNull()) },
+        selectedOption = selectedGrade.toString(),
+        onOptionChanged = { option -> onGradeSelected(option) },
         modifier = modifier
     )
 }

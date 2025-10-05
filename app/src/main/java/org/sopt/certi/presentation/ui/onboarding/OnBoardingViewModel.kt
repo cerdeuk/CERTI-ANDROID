@@ -12,12 +12,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
-import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.presentation.ui.onboarding.state.JobCategoryStep
+import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingJobCategoryUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,14 +38,14 @@ class OnBoardingViewModel @Inject constructor(
     private val _majorSearchText = MutableStateFlow("")
     private val _submittedMajorSearchText = MutableStateFlow("")
 
+    private val _onBoardingJobCategoryUiState = MutableStateFlow(OnBoardingJobCategoryUiState())
+    val onBoardingJobCategoryUiState: StateFlow<OnBoardingJobCategoryUiState> = _onBoardingJobCategoryUiState.asStateFlow()
+
     private val _grade = MutableStateFlow<String?>(null)
     val grade: StateFlow<String?> = _grade.asStateFlow()
 
     private val _track = MutableStateFlow<String?>(null)
     val track: StateFlow<String?> = _track.asStateFlow()
-
-    private val _jobCategory = MutableStateFlow<List<String>>(emptyList())
-    val jobCategory: StateFlow<List<String>> = _jobCategory.asStateFlow()
 
     private val _userInfo = MutableStateFlow<UserInfoData?>(null)
     val userInfo: StateFlow<UserInfoData?> = _userInfo.asStateFlow()
@@ -91,6 +94,7 @@ class OnBoardingViewModel @Inject constructor(
                 submittedMajorSearchText = ""
             )
         )
+
 
     fun getUnivList(univSearchText: String) {
         viewModelScope.launch {
@@ -158,8 +162,28 @@ class OnBoardingViewModel @Inject constructor(
         _track.value = track
     }
 
-    fun onJobCategoryChanged(selected: List<String>) {
-        _jobCategory.value = selected
+    fun onJobCategorySelected(selected: String) {
+        val current = _onBoardingJobCategoryUiState.value
+        when (current.step) {
+            JobCategoryStep.FIRST -> {
+                _onBoardingJobCategoryUiState.value = current.copy(first = selected)
+            }
+            JobCategoryStep.SECOND -> {
+                _onBoardingJobCategoryUiState.value = current.copy(second = selected)
+            }
+            JobCategoryStep.THIRD -> {
+                _onBoardingJobCategoryUiState.value = current.copy(third = selected)
+            }
+        }
+    }
+
+    fun onJobCategoryNextClicked() {
+        val current = _onBoardingJobCategoryUiState.value
+        when (current.step) {
+            JobCategoryStep.FIRST -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.SECOND)
+            JobCategoryStep.SECOND -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.THIRD)
+            JobCategoryStep.THIRD -> {}
+        }
     }
 
     fun postSignUp() {
@@ -174,7 +198,7 @@ class OnBoardingViewModel @Inject constructor(
                 grade = grade.value.toString(),
                 track = track.value.toString(),
                 major = _submittedMajorSearchText.value,
-                jobs = jobCategory.value
+                jobs = onBoardingJobCategoryUiState.value.selectedList
             ).fold(
                 onSuccess = { signUpResult ->
                     _userInfo.value = UserInfoData(
