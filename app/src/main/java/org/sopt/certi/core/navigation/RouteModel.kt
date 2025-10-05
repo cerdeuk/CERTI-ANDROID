@@ -27,6 +27,9 @@ sealed interface OnBoardingRoute : Route {
     data object JobCategory : OnBoardingRoute
 
     @Serializable
+    data object NickName : OnBoardingRoute
+
+    @Serializable
     data object OnBoardingInfo : OnBoardingRoute
 }
 

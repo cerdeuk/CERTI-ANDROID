@@ -6,9 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.OnBoardingRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingGradeRoute
+import org.sopt.certi.presentation.ui.onboarding.OnBoardingInfoRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingJobCategoryRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingMajorRoute
-import org.sopt.certi.presentation.ui.onboarding.OnBoardingInfoRoute
+import org.sopt.certi.presentation.ui.onboarding.OnBoardingNickNameRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingTrackRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingUnivRoute
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingViewModel
@@ -31,6 +32,10 @@ fun NavController.navigateToMajor() {
 
 fun NavController.navigateToJobCategory() {
     navigate(OnBoardingRoute.JobCategory)
+}
+
+fun NavController.navigateToNickName() {
+    navigate(OnBoardingRoute.NickName)
 }
 
 fun NavController.navigateToOnBoardingInfo() {
@@ -77,6 +82,14 @@ fun NavGraphBuilder.onBoardingNavGraph(
 
     composable<OnBoardingRoute.JobCategory> {
         OnBoardingJobCategoryRoute(
+            padding = padding,
+            navigateToOnBoardingNickName = navController::navigateToNickName,
+            viewModel = viewModel
+        )
+    }
+
+    composable<OnBoardingRoute.NickName> {
+        OnBoardingNickNameRoute(
             padding = padding,
             navigateToOnBoardingInfo = navController::navigateToOnBoardingInfo,
             viewModel = viewModel

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,23 +32,15 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun OnBoardingJobCategoryRoute(
     padding: PaddingValues,
-    navigateToOnBoardingInfo: () -> Unit,
+    navigateToOnBoardingNickName: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
     val jobCategory by viewModel.jobCategory.collectAsStateWithLifecycle()
-    val signUpSuccess by viewModel.signUpSuccess.collectAsStateWithLifecycle()
-    val userInfo by viewModel.userInfo.collectAsStateWithLifecycle()
-
-    LaunchedEffect(signUpSuccess, userInfo) {
-        if (signUpSuccess && userInfo != null) {
-            navigateToOnBoardingInfo()
-        }
-    }
 
     OnBoardingJobCategoryScreen(
         selectedJobCategory = jobCategory,
         onJobCategoryChanged = viewModel::onJobCategoryChanged,
-        onSignUpClick = { viewModel.postSignUp() },
+        onNextClick = navigateToOnBoardingNickName,
         modifier = Modifier.padding(padding)
     )
 }
@@ -58,7 +49,7 @@ fun OnBoardingJobCategoryRoute(
 fun OnBoardingJobCategoryScreen(
     selectedJobCategory: List<String>,
     onJobCategoryChanged: (List<String>) -> Unit,
-    onSignUpClick: () -> Unit,
+    onNextClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -99,7 +90,7 @@ fun OnBoardingJobCategoryScreen(
 
         CertiBasicButton(
             buttonText = stringResource(R.string.button_next),
-            onClick = onSignUpClick,
+            onClick = onNextClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment = Alignment.BottomCenter),
