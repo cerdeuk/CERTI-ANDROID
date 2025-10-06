@@ -16,11 +16,11 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.onboarding.state.JobCategoryStep
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingJobCategoryUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingMajorUiState
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingUnivUiState
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,6 +46,12 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _track = MutableStateFlow<String?>(null)
     val track: StateFlow<String?> = _track.asStateFlow()
+
+    private val _nickname = MutableStateFlow("")
+    val nickname: StateFlow<String> = _nickname.asStateFlow()
+
+    private val _nicknameValidState = MutableStateFlow(NickNameValidType.IDLE)
+    val nicknameValidState: StateFlow<NickNameValidType> = _nicknameValidState.asStateFlow()
 
     private val _userInfo = MutableStateFlow<UserInfoData?>(null)
     val userInfo: StateFlow<UserInfoData?> = _userInfo.asStateFlow()
@@ -168,9 +174,11 @@ class OnBoardingViewModel @Inject constructor(
             JobCategoryStep.FIRST -> {
                 _onBoardingJobCategoryUiState.value = current.copy(first = selected)
             }
+
             JobCategoryStep.SECOND -> {
                 _onBoardingJobCategoryUiState.value = current.copy(second = selected)
             }
+
             JobCategoryStep.THIRD -> {
                 _onBoardingJobCategoryUiState.value = current.copy(third = selected)
             }
@@ -183,6 +191,28 @@ class OnBoardingViewModel @Inject constructor(
             JobCategoryStep.FIRST -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.SECOND)
             JobCategoryStep.SECOND -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.THIRD)
             JobCategoryStep.THIRD -> {}
+        }
+    }
+
+    fun onNickNameFocusChange(isFocused: Boolean) {
+        if (isFocused){
+            _nicknameValidState.value = NickNameValidType.FOCUS
+        }else{
+            _nicknameValidState.value = NickNameValidType.IDLE
+        }
+    }
+
+    fun onNicknameChange(nickname: String) {
+        _nickname.value = nickname
+    }
+
+    fun onDuplicateCheckClick() {
+        // 추후 서버 통신에 따라 로직 변경
+        _nicknameValidState.value = when {
+            _nickname.value.isBlank() -> NickNameValidType.EMPTY
+            _nickname.value == "ㅅㅂ" -> NickNameValidType.INVALID
+            _nickname.value == "북북" -> NickNameValidType.DUPLICATE
+            else -> NickNameValidType.VALID
         }
     }
 
