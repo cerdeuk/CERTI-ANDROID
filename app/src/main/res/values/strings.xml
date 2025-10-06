@@ -13,6 +13,14 @@
     <string name="onboarding_major_title">학과를 선택해주세요</string>
     <string name="onboarding_category_title">희망직무를 선택해주세요</string>
     <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(2,3순위 선택 가능)</string>
+    <string name="onboarding_nickname_title">서티에서 사용할 닉네임을\n입력해 주세요.</string>
+    <string name="onboarding_nickname_textfield_title">닉네임</string>
+    <string name="onboarding_nickname_textfield_hint">닉네임 입력</string>
+    <string name="onboarding_nickname_textfield_valid">사용 가능한 닉네임입니다.</string>
+    <string name="onboarding_nickname_textfield_duplicate">이미 사용중인 닉네임입니다.</string>
+    <string name="onboarding_nickname_textfield_empty">닉네임을 입력해 주세요.</string>
+    <string name="onboarding_nickname_textfield_invalid">욕설과 비속어 등은 사용할 수 없습니다.</string>
+    <string name="onboarding_nickname_check">닉네임 중복 확인</string>
     <string name="onboarding_info_nickname">%s님,</string>
     <string name="onboarding_info_title">이제 서티와 함께 해요!</string>
     <string name="onboarding_info_final_education_title">최종학력</string>
