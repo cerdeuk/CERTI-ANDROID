@@ -28,6 +28,8 @@
     <string name="onboarding_info_final_education_title">최종학력</string>
     <string name="onboarding_info_major_title">학과</string>
     <string name="onboarding_info_category_title">희망직무</string>
+    <string name="onboarding_info_category_rank">%s순위</string>
+    <string name="onboarding_info_category_rank_empty">-</string>
 
     <!-- Button -->
     <string name="button_next">다음</string>
