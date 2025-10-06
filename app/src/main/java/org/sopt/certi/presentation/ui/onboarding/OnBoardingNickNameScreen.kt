@@ -70,7 +70,7 @@ private fun OnBoardingNickNameScreen(
     onDuplicateCheckClick: () -> Unit,
     nicknameValidState: NickNameValidType,
     onSignUpClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
@@ -127,8 +127,6 @@ private fun OnBoardingNickNameScreen(
                     }
                     .noRippleClickable(onDuplicateCheckClick)
             )
-
-
         }
 
         CertiBasicButton(

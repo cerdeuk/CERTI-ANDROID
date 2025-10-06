@@ -38,7 +38,6 @@ import org.sopt.certi.presentation.ui.onboarding.component.OnBoardingSelectableB
 import org.sopt.certi.presentation.ui.onboarding.state.JobCategoryStep
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
-import timber.log.Timber
 
 @Composable
 fun OnBoardingJobCategoryRoute(
@@ -76,7 +75,7 @@ fun OnBoardingJobCategoryScreen(
     onSkipClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var candidate by remember{ mutableStateOf<String?>(null) }
+    var candidate by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(step) {
         candidate = null

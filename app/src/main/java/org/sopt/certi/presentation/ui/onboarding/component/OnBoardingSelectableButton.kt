@@ -93,8 +93,11 @@ private fun OnBoardingSelectableButton(
         isSelected -> CertiTheme.colors.mainBlue
         else -> CertiTheme.colors.gray500
     }
-    val textStyle = if (isSelected && enabled) CertiTheme.typography.body.semibold_16
-    else CertiTheme.typography.body.regular_16
+    val textStyle = if (isSelected && enabled) {
+        CertiTheme.typography.body.semibold_16
+    } else {
+        CertiTheme.typography.body.regular_16
+    }
 
     Box(
         modifier = modifier
@@ -104,8 +107,11 @@ private fun OnBoardingSelectableButton(
                 borderColor = borderColor
             )
             .then(
-                if (enabled) Modifier.noRippleClickable(onClick = onClick)
-                else Modifier
+                if (enabled) {
+                    Modifier.noRippleClickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
             ),
         contentAlignment = Alignment.Center
     ) {

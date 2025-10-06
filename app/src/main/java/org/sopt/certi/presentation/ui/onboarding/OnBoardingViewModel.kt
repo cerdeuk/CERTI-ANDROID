@@ -101,7 +101,6 @@ class OnBoardingViewModel @Inject constructor(
             )
         )
 
-
     fun getUnivList(univSearchText: String) {
         viewModelScope.launch {
             _onBoardingUnivLoadState.value = UiState.Loading
@@ -195,9 +194,9 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun onNickNameFocusChange(isFocused: Boolean) {
-        if (isFocused){
+        if (isFocused) {
             _nicknameValidState.value = NickNameValidType.FOCUS
-        }else{
+        } else {
             _nicknameValidState.value = NickNameValidType.IDLE
         }
     }

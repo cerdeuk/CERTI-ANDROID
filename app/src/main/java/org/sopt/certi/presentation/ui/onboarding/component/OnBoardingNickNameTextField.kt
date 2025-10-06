@@ -43,7 +43,7 @@ fun OnBoardingNickNameTextField(
     onDeleteClick: () -> Unit,
     onFocusChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    nicknameValidState: NickNameValidType = NickNameValidType.IDLE,
+    nicknameValidState: NickNameValidType = NickNameValidType.IDLE
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -120,7 +120,7 @@ fun OnBoardingNickNameTextField(
         HorizontalDivider(
             color = nicknameValidState.color,
             modifier = Modifier.padding(top = screenHeightDp(13.dp)),
-            thickness = screenHeightDp(1.dp),
+            thickness = screenHeightDp(1.dp)
         )
         Spacer(modifier = Modifier.padding(top = screenHeightDp(12.dp)))
 
