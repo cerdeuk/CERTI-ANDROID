@@ -18,6 +18,9 @@ val LightBlue = Color(0xFFE0EEFF)
 val PurpleWhite = Color(0xFFF7F8FE)
 val BlueWhite = Color(0xFFFBFDFF)
 
+// Semantic Color
+val Error = Color(0xFFFF2222)
+
 // Sub Color
 val SubYellow = Color(0xFFFFDB39)
 
@@ -48,6 +51,8 @@ data class CertiColors(
     val purpleWhite: Color = PurpleWhite,
     val blueWhite: Color = BlueWhite,
 
+    val error: Color = Error,
+
     val subYellow: Color = SubYellow,
 
     val gray600: Color = Gray600,
@@ -74,6 +79,8 @@ val defaultCertiColors = CertiColors(
     lightBlue = LightBlue,
     purpleWhite = PurpleWhite,
     blueWhite = BlueWhite,
+
+    error = Error,
 
     subYellow = SubYellow,
 
