@@ -148,7 +148,7 @@ fun OnBoardingJobCategoryScreen(
                         text = stringResource(R.string.button_skip),
                         style = CertiTheme.typography.body.semibold_16,
                         color = CertiTheme.colors.gray500,
-                        modifier = Modifier.padding(vertical = 18.dp)
+                        modifier = Modifier.padding(vertical = screenHeightDp(18.dp))
                     )
                 }
                 Spacer(modifier = Modifier.padding(end = screenWidthDp(16.dp)))
