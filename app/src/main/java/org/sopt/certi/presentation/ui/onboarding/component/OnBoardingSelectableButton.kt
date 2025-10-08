@@ -29,11 +29,10 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun OnBoardingSelectableButtons(
     selectableButtonType: SelectableButtonType,
-    selectedOptions: List<String>,
-    onOptionsChanged: (List<String>) -> Unit,
+    selectedOption: String?,
+    onOptionChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
-    isMultiple: Boolean = false,
-    maxSelect: Int = 1
+    disabledOptions: List<String> = emptyList()
 ) {
     val chunkedOptions = selectableButtonType.options.chunked(size = selectableButtonType.chunkedSize)
 
@@ -45,22 +44,15 @@ fun OnBoardingSelectableButtons(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 rowOptions.forEach { option ->
-                    val isSelected = option in selectedOptions
+                    val isSelected = option == selectedOption
+                    val isEnabled = option !in disabledOptions
+
                     OnBoardingSelectableButton(
                         selectableButtonType = selectableButtonType,
                         option = option,
-                        onClick = {
-                            if (isMultiple) {
-                                if (isSelected) {
-                                    onOptionsChanged(selectedOptions - option)
-                                } else if (selectedOptions.size < maxSelect) {
-                                    onOptionsChanged(selectedOptions + option)
-                                }
-                            } else {
-                                onOptionsChanged(listOf(option))
-                            }
-                        },
+                        onClick = { if (isEnabled) onOptionChanged(option) },
                         isSelected = isSelected,
+                        enabled = isEnabled,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -83,23 +75,51 @@ private fun OnBoardingSelectableButton(
     option: String,
     onClick: () -> Unit,
     isSelected: Boolean,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val backgroundColor = when {
+        !enabled -> CertiTheme.colors.gray100
+        isSelected -> CertiTheme.colors.lightBlue
+        else -> CertiTheme.colors.blueWhite
+    }
+    val borderColor = when {
+        !enabled -> CertiTheme.colors.gray200
+        isSelected -> CertiTheme.colors.skyBlue
+        else -> CertiTheme.colors.lightBlue
+    }
+    val textColor = when {
+        !enabled -> CertiTheme.colors.gray300
+        isSelected -> CertiTheme.colors.mainBlue
+        else -> CertiTheme.colors.gray500
+    }
+    val textStyle = if (isSelected && enabled) {
+        CertiTheme.typography.body.semibold_16
+    } else {
+        CertiTheme.typography.body.regular_16
+    }
+
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(
                 cornerRadius = 12.dp,
-                backgroundColor = if (isSelected) CertiTheme.colors.lightBlue else CertiTheme.colors.blueWhite,
-                borderColor = if (isSelected) CertiTheme.colors.skyBlue else CertiTheme.colors.lightBlue
+                backgroundColor = backgroundColor,
+                borderColor = borderColor
             )
-            .noRippleClickable(onClick = onClick),
+            .then(
+                if (enabled) {
+                    Modifier.noRippleClickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = option,
             modifier = Modifier.padding(vertical = screenHeightDp(selectableButtonType.verticalPadding)),
-            style = if (isSelected) CertiTheme.typography.body.semibold_16 else CertiTheme.typography.body.regular_16,
-            color = if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.gray500
+            style = textStyle,
+            color = textColor
         )
     }
 }
@@ -108,14 +128,12 @@ private fun OnBoardingSelectableButton(
 @Composable
 private fun PreviewOnBoardingSelectableButtonCategory() {
     CERTITheme {
-        var selectedOptions by remember { mutableStateOf<List<String>>(emptyList()) }
+        var selectedOption by remember { mutableStateOf("") }
 
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.CATEGORY,
-            selectedOptions = selectedOptions,
-            isMultiple = true,
-            maxSelect = 3,
-            onOptionsChanged = { selectedOptions = it }
+            selectedOption = selectedOption,
+            onOptionChanged = { selectedOption = it }
         )
     }
 }
@@ -127,9 +145,8 @@ private fun PreviewOnBoardingSelectableButtonTrack() {
         var selectedOption by remember { mutableStateOf("") }
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.TRACK,
-            selectedOptions = listOfNotNull(selectedOption),
-            isMultiple = false,
-            onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
+            selectedOption = selectedOption,
+            onOptionChanged = { option -> selectedOption = option }
         )
     }
 }
@@ -141,10 +158,8 @@ private fun PreviewOnBoardingSelectableButtonGrade() {
         var selectedOption by remember { mutableStateOf("") }
         OnBoardingSelectableButtons(
             selectableButtonType = SelectableButtonType.GRADE,
-            selectedOptions =
-            listOfNotNull(selectedOption),
-            isMultiple = false,
-            onOptionsChanged = { options -> selectedOption = options.firstOrNull().toString() }
+            selectedOption = selectedOption,
+            onOptionChanged = { option -> selectedOption = option }
         )
     }
 }
