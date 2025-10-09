@@ -1,9 +1,11 @@
 package org.sopt.certi.presentation.ui.home.component
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.padding
@@ -12,6 +14,8 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -32,7 +36,7 @@ fun RecommendedCertificationListSection(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp)),
+        verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp)),
         modifier = modifier.fillMaxWidth()
     ) {
         recommendedList.forEach { item ->
@@ -61,8 +65,7 @@ fun RecommendedCertificationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = screenWidthDp(16.dp), vertical = screenHeightDp(10.dp)),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .padding(horizontal = screenWidthDp(16.dp), vertical = screenHeightDp(10.dp))
         ) {
             Row(
                 modifier = Modifier
@@ -86,10 +89,24 @@ fun RecommendedCertificationItem(
 
                 Text(
                     text = stringResource(R.string.home_recommended_score, recommendedCertificationData.recommendScore),
-                    style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.gray500
+                    style = CertiTheme.typography.caption.bold_14.copy(
+                        brush = CertiTheme.colors.gradientBluePurple
+                    )
                 )
             }
+
+            Spacer(Modifier.heightForScreenPercentage(8.dp))
+
+            Text(
+                text = recommendedCertificationData.description,
+                style = CertiTheme.typography.caption.regular_12,
+                color = CertiTheme.colors.gray600,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(Modifier.heightForScreenPercentage(10.dp))
+
             CertiChipList(
                 categories = recommendedCertificationData.tags,
                 spacing = screenWidthDp(6.dp)
@@ -105,6 +122,7 @@ fun RecommendedCertificationItemPreview() {
         certificationId = 1,
         certificationName = "OPIc",
         recommendScore = 90,
+        description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
         tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
     )
 
