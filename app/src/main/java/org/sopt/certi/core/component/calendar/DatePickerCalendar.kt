@@ -31,6 +31,7 @@ import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import com.kizitonwose.calendar.core.yearMonth
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -87,7 +88,12 @@ fun DatePickerCalendar(
                 Day(
                     day = day,
                     isSelected = selectedDate == day.date,
-                    onDateClick = { onDateSelected(day.date) }
+                    onDateClick = {
+                        if (day.position != DayPosition.MonthDate) {
+                            onMonthChanged(day.date.yearMonth)
+                        }
+                        onDateSelected(day.date)
+                    }
                 )
             }
         )
