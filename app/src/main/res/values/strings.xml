@@ -100,7 +100,8 @@
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>
     <string name="resume_textfield_caption">%d/%d</string>
-    <string name="resume_textfield_date">YYYY.MM.DD</string>
+    <string name="resume_start_placeholder">시작일</string>
+    <string name="resume_end_placeholder">종료일</string>
     <string name="resume_date_input_text_1">부터</string>
     <string name="resume_date_input_text_2">까지</string>
 
