@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,11 +35,13 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.core.yearMonth
 import org.sopt.certi.R
+import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 import java.time.YearMonth
@@ -73,7 +77,15 @@ fun DatePickerCalendar(
     }
 
     Column(
-        modifier = modifier.padding(screenWidthDp(12.dp))
+        modifier = modifier
+            .dropShadow(
+                color = Color.Black.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(12.dp),
+                blur = 20.dp
+            )
+            .clip(RoundedCornerShape(12.dp))
+            .background(CertiTheme.colors.white)
+            .padding(screenWidthDp(12.dp))
     ) {
         CalendarHeader(
             currentMonth = currentMonth,
@@ -210,14 +222,22 @@ private fun PreviewDatePickerCalendar() {
     var selectedDate by remember { mutableStateOf<LocalDate?>(LocalDate.now()) }
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
-    DatePickerCalendar(
-        selectedDate = selectedDate,
-        currentMonth = currentMonth,
-        onDateSelected = { newDate ->
-            selectedDate = newDate
-        },
-        onMonthChanged = { newMonth ->
-            currentMonth = newMonth
+    CERTITheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(screenWidthDp(20.dp))
+        ) {
+            DatePickerCalendar(
+                selectedDate = selectedDate,
+                currentMonth = currentMonth,
+                onDateSelected = { newDate ->
+                    selectedDate = newDate
+                },
+                onMonthChanged = { newMonth ->
+                    currentMonth = newMonth
+                }
+            )
         }
-    )
+    }
 }
