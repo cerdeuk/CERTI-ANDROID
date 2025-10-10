@@ -16,8 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +32,6 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.core.yearMonth
-import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -52,6 +51,7 @@ fun DatePickerCalendar(
     onMonthChanged: (YearMonth) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val initialMonth = remember { currentMonth }
     val startMonth = remember { currentMonth.minusMonths(100) }
     val endMonth = remember { currentMonth.plusMonths(100) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
@@ -59,15 +59,17 @@ fun DatePickerCalendar(
     val state = rememberCalendarState(
         startMonth = startMonth,
         endMonth = endMonth,
-        firstVisibleMonth = currentMonth,
+        firstVisibleMonth = initialMonth,
         firstDayOfWeek = firstDayOfWeek
     )
 
-    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(currentMonth) {
-        coroutineScope.launch {
-            state.animateScrollToMonth(currentMonth)
-        }
+        state.animateScrollToMonth(currentMonth)
+    }
+
+    LaunchedEffect(state) {
+        snapshotFlow { state.firstVisibleMonth.yearMonth }
+            .collect { month -> onMonthChanged(month) }
     }
 
     Column(
