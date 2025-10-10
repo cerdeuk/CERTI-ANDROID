@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -198,7 +199,7 @@ private fun DaysOfWeekTitle() {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
-        val daysOfWeek = listOf("일", "월", "화", "수", "목", "금", "토")
+        val daysOfWeek = stringArrayResource(R.array.home_calendar_week)
         for (day in daysOfWeek) {
             Box(
                 modifier = Modifier
