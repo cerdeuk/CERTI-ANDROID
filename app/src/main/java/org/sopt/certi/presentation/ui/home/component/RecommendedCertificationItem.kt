@@ -107,7 +107,8 @@ fun RecommendedCertificationItem(
 
             CertiChipList(
                 categories = recommendedCertificationData.tags,
-                spacing = screenWidthDp(6.dp)
+                spacing = screenWidthDp(6.dp),
+                backgroundColor = CertiTheme.colors.white
             )
         }
     }
