@@ -49,6 +49,7 @@ fun ResumeDateInputSection(
 ) {
     var editingField by remember { mutableStateOf(EditingField.NONE) }
     val formatter = remember { DateTimeFormatter.ofPattern("yyyy.MM.dd") }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     Column(
         modifier = modifier
@@ -98,7 +99,7 @@ fun ResumeDateInputSection(
         ) {
             DatePickerCalendar(
                 selectedDate = null,
-                currentMonth = YearMonth.now(),
+                currentMonth = currentMonth,
                 onDateSelected = { selectedLocalDate ->
                     val formattedDate = selectedLocalDate.format(formatter)
                     when (editingField) {
@@ -108,7 +109,9 @@ fun ResumeDateInputSection(
                     }
                     editingField = EditingField.NONE
                 },
-                onMonthChanged = {},
+                onMonthChanged = { newMonth ->
+                    currentMonth = newMonth
+                },
                 modifier = Modifier.padding(top = screenWidthDp(12.dp))
             )
         }

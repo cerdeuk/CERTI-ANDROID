@@ -10,9 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +27,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.activity.state.AddActivityUiState
 import org.sopt.certi.presentation.ui.resume.component.ResumeDateInputSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeTextInputSection
+import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -138,6 +143,37 @@ fun ResumeAddActivitiesScreen(
                 .fillMaxWidth()
                 .padding(bottom = screenHeightDp(24.dp))
                 .padding(horizontal = screenWidthDp(20.dp))
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ResumeAddActivitiesScreen_Preview() {
+    var uiState by remember {
+        mutableStateOf(
+            AddActivityUiState(
+                startDate = "",
+                endDate = "",
+                organizationValue = "",
+                activityValue = "",
+                descriptionValue = "",
+                addButtonEnabled = false
+            )
+        )
+    }
+
+    CERTITheme {
+        ResumeAddActivitiesScreen(
+            uiState = uiState,
+            onStartDateValueChange = { uiState = uiState.copy(startDate = it) },
+            onEndDateValueChange = { uiState = uiState.copy(endDate = it) },
+            onOrganizationValueChange = { uiState = uiState.copy(organizationValue = it) },
+            onActivityValueChange = { uiState = uiState.copy(activityValue = it) },
+            onDescriptionValue = { uiState = uiState.copy(descriptionValue = it) },
+            onAddClick = {
+                uiState = uiState.copy(addButtonEnabled = !uiState.addButtonEnabled)
+            }
         )
     }
 }
