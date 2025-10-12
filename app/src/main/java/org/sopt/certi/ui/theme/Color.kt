@@ -2,6 +2,7 @@ package org.sopt.certi.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 // Default Color
@@ -37,6 +38,11 @@ val Gray0 = Color(0xFFF8F8F8)
 val Black85 = Color(0xD9000000)
 val Black70 = Color(0xB3000000)
 
+// Gradient Color
+val GradientBluePurple = Brush.linearGradient(
+    colors = listOf(PurpleBlue, Color(0xFFAA68FF))
+)
+
 @Immutable
 data class CertiColors(
     val white: Color = White,
@@ -64,7 +70,9 @@ data class CertiColors(
     val gray0: Color = Gray0,
 
     val black85: Color = Black85,
-    val black70: Color = Black70
+    val black70: Color = Black70,
+
+    val gradientBluePurple: Brush = GradientBluePurple
 )
 
 val defaultCertiColors = CertiColors(
@@ -93,7 +101,9 @@ val defaultCertiColors = CertiColors(
     gray0 = Gray0,
 
     black85 = Black85,
-    black70 = Black70
+    black70 = Black70,
+
+    gradientBluePurple = GradientBluePurple
 )
 
 val LocalCertiColorsProvider = staticCompositionLocalOf { defaultCertiColors }
