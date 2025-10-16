@@ -63,6 +63,8 @@
     <string name="home_favorite_title">즐겨찾기한 자격증</string>
     <string name="home_pre_certification_empty">취득 예정 자격증이 없습니다.</string>
     <string name="home_favorite_empty">즐겨찾기한 자격증이 없습니다.</string>
+    <string name="home_calendar_today_date">%s (오늘)</string>
+    <string name="home_calendar_no_data">예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요. </string>
     
     <string-array name="home_calendar_week">
         <item>일</item>
@@ -172,5 +174,11 @@
 
     <!-- LoadingLayout -->
     <string name="loading_title">%s님에게 딱 맞는\n자격증을 고르고 있어요.</string>
+    
+    <!-- MyCertificationListSection -->
+    <string name="my_certification_pre">취득 예정</string>
+    <string name="my_certification_acquired">취득 완료</string>
+    <string name="my_certification_modify">수정</string>
+    <string name="my_certification_delete">삭제</string>
     
 </resources>

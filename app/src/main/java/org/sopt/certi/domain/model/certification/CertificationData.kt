@@ -27,5 +27,11 @@ data class CertificationData(
     val cardBackImageUrl: String = "",
     val createdAt: LocalDate = LocalDate.now(),
     val testDateInformation: String = "",
-    val expirationPeriod: String = ""
+    val expirationPeriod: String = "",
+
+    // 아직 서버에 없음 근데 필요한것들
+    var isAcquired: Boolean = false, // 취득 여부
+    var level: String = "", // 레벨
+    var placement: String = "", // 시험장소
+    var testTime: String = "" // 시험시간
 )
