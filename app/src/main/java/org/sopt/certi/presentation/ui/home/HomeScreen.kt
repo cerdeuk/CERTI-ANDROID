@@ -130,8 +130,31 @@ fun HomeScreen(
     navigateToLogin: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedDate by remember { mutableStateOf("") }
-    var certListInSelectedData by remember { mutableStateOf(listOf<CertificationData>()) }
+    var selectedDate by remember { mutableStateOf("2025-10-16") }
+    var certListInSelectedData by remember {
+        mutableStateOf(
+            listOf<CertificationData>(
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    agencyName = "국가기술자격",
+                    isAcquired = true,
+                    placement = "강남",
+                    testTime = "09:00",
+                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+                ),
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    agencyName = "국가기술자격",
+                    isAcquired = false,
+                    testDateInformation = "2025-11-03",
+                    level = "IM3",
+                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+                )
+            )
+        )
+    }
 
     Column(
         modifier = modifier
@@ -235,6 +258,8 @@ fun HomeScreen(
                         .padding(horizontal = screenWidthDp(20.dp)),
                     verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
                 ) {
+                    Spacer(Modifier.heightForScreenPercentage(36.dp))
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
