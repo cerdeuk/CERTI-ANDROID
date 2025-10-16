@@ -127,7 +127,7 @@ private fun CertListScreen(
 private fun CertListRecommendSection(modifier: Modifier = Modifier) {
     Text(
         text = "맞춤 추천",
-        style = CertiTheme.typography.body.semibold_18,
+        style = CertiTheme.typography.body.semibold_18
     )
 }
 

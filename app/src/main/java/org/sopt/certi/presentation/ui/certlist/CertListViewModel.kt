@@ -46,9 +46,9 @@ class CertListViewModel @Inject constructor(
     fun getCertificationList(isFavorite: Boolean, category: Int) {
         viewModelScope.launch {
             _certListLoadState.value = UiState.Loading
-            if (category == 0){
+            if (category == 0) {
                 getRecommendCertificationList()
-            }else{
+            } else {
                 getCategoryCertificationList(isFavorite, category)
             }
         }
