@@ -46,13 +46,25 @@ class CertListViewModel @Inject constructor(
     fun getCertificationList(isFavorite: Boolean, category: Int) {
         viewModelScope.launch {
             _certListLoadState.value = UiState.Loading
-            val jobs = CategoryType.entries.getOrNull(category)?.description ?: ""
-            getCategoryCertListUseCase(isFavorite, jobs)
-                .onSuccess { list ->
-                    _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list)
-                }
-                .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
+            if (category == 0){
+                getRecommendCertificationList()
+            }else{
+                getCategoryCertificationList(isFavorite, category)
+            }
         }
+    }
+
+    private fun getRecommendCertificationList() = viewModelScope.launch {
+        _certListLoadState.value = UiState.Loading
+        // 맞춤 추천 서버통신 로직
+    }
+
+    private fun getCategoryCertificationList(isFavorite: Boolean, category: Int) = viewModelScope.launch {
+        _certListLoadState.value = UiState.Loading
+        val jobs = CategoryType.entries.getOrNull(category - 1)?.description ?: ""
+        getCategoryCertListUseCase(isFavorite, jobs)
+            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
+            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
     }
 
     fun onCategorySelected(index: Int) {

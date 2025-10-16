@@ -14,8 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -29,7 +31,8 @@ fun CategoryBar(
     selectedCategory: Int = 0,
     onCategorySelected: (Int) -> Unit = {}
 ) {
-    val categoryList = CategoryType.entries.toTypedArray()
+    val recommendCategory = stringResource(R.string.cert_list_recommend)
+    val categoryList = listOf(recommendCategory) + CategoryType.entries.map { it.description }
 
     LazyRow(
         modifier = modifier
@@ -38,7 +41,7 @@ fun CategoryBar(
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(22.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(CategoryType.entries.size) { index ->
+        items(categoryList.size) { index ->
             if (index == 0) {
                 Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
@@ -46,7 +49,7 @@ fun CategoryBar(
             val category = categoryList[index]
 
             Text(
-                text = category.description,
+                text = category,
                 style = if (index == selectedCategory) CertiTheme.typography.body.bold_16 else CertiTheme.typography.body.semibold_16,
                 color = if (index == selectedCategory) CertiTheme.colors.gray500 else CertiTheme.colors.gray400,
                 modifier = Modifier.noRippleClickable { onCategorySelected(index) }

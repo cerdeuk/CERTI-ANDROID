@@ -76,6 +76,7 @@
 
     <!-- CertList Screen -->
     <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
+    <string name="cert_list_recommend">맞춤 추천</string>
     <string name="cert_list_favorite_btn">즐겨찾기</string>
 
     <!-- Search Screen -->
