@@ -121,14 +121,18 @@ private fun Day(
     isSelected: Boolean,
     onDateClick: (LocalDate) -> Unit
 ) {
+    val isToday = day.date == LocalDate.now()
+    val bgColor = when {
+        isToday -> CertiTheme.colors.gray100
+        else -> Color.Transparent
+    }
+
     Box(
         modifier = Modifier
             .aspectRatio(1f)
             .padding(screenWidthDp(4.dp))
             .clip(CircleShape)
-            .background(
-                color = if (isSelected) CertiTheme.colors.gray100 else Color.Transparent
-            )
+            .background(bgColor)
             .noRippleClickable { onDateClick(day.date) },
         contentAlignment = Alignment.Center
     ) {
