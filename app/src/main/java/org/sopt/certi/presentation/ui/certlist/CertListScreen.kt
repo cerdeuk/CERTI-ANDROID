@@ -125,7 +125,6 @@ private fun CertListScreen(
                 is UiState.Success ->
                     LazyColumn(
                         modifier = Modifier
-                            .padding(horizontal = screenWidthDp(20.dp))
                             .fillMaxSize()
                     ) {
                         items(
@@ -138,7 +137,13 @@ private fun CertListScreen(
                                 onCertificationClick = {
                                     navigateToCertDetail(item.certificationId)
                                 },
-                                modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
+                                modifier = Modifier
+                                    .padding(horizontal = screenWidthDp(20.dp))
+                            )
+
+                            HorizontalDivider(
+                                color = CertiTheme.colors.gray100,
+                                thickness = screenWidthDp(1.dp)
                             )
                         }
                     }
@@ -171,20 +176,29 @@ private fun PreviewCertListScreen() {
                     CertificationData(
                         certificationId = 1,
                         certificationName = "정보처리기사",
-                        tags = listOf("IT", "컴퓨터", "국가기술자격"),
-                        isFavorite = true
+                        tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                        isFavorite = true,
+                        testType = "실기형",
+                        agencyName = "국가기술자격",
+                        description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     ),
                     CertificationData(
                         certificationId = 2,
                         certificationName = "GTQ 1급 (그래픽 기술 자격)",
-                        tags = listOf("디자인", "컴퓨터", "그래픽"),
-                        isFavorite = false
+                        tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                        isFavorite = false,
+                        testType = "실기형",
+                        agencyName = "국가기술자격",
+                        description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     ),
                     CertificationData(
                         certificationId = 3,
                         certificationName = "TOEIC 900+",
-                        tags = listOf("어학", "영어", "공인어학성적"),
-                        isFavorite = true
+                        tags = listOf("경영", "시각디자인", "컴퓨터공학"),
+                        isFavorite = true,
+                        testType = "실기형",
+                        agencyName = "국가기술자격",
+                        description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     )
                 )
             )

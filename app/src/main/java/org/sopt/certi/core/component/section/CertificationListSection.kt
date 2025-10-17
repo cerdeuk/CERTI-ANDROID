@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -43,11 +44,6 @@ fun CertificationListSection(
         modifier = modifier
             .noRippleClickable(onCertificationClick)
             .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = CertiTheme.colors.gray100,
-                shape = RoundedCornerShape(12.dp)
-            )
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_star_24),
@@ -73,12 +69,21 @@ fun CertificationListSection(
                 )
 
                 Text(
-                    text = certificationListData.certificationType,
+                    text = certificationListData.agencyName,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.black,
+                    color = CertiTheme.colors.mainBlue,
                     modifier = Modifier.padding(start = screenWidthDp(8.dp))
                 )
             }
+            Spacer(Modifier.height(screenHeightDp(12.dp)))
+
+            Text(
+                text = certificationListData.description,
+                style = CertiTheme.typography.caption.regular_12,
+                color = CertiTheme.colors.gray500,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
             Spacer(Modifier.height(screenHeightDp(12.dp)))
 
             CertiChipList(categories = certificationListData.tags)
