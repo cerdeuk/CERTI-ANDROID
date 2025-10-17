@@ -139,6 +139,7 @@ private fun CertListScreen(
                                 },
                                 modifier = Modifier
                                     .padding(horizontal = screenWidthDp(20.dp))
+                                    .padding(top = screenHeightDp(16.dp), bottom = screenHeightDp(24.dp))
                             )
 
                             HorizontalDivider(
