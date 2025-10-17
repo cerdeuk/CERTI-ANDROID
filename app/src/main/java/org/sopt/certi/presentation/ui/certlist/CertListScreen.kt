@@ -2,6 +2,7 @@ package org.sopt.certi.presentation.ui.certlist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,17 +17,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
-import org.sopt.certi.presentation.ui.certlist.component.CategoryFavoriteButton
+import org.sopt.certi.presentation.ui.certlist.component.CategoryFilterButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import org.sopt.certi.ui.theme.CERTITheme
@@ -41,8 +44,8 @@ fun CertListRoute(
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState.selectedCategory, uiState.isFavorite) {
-        viewModel.getCertificationList(uiState.isFavorite, uiState.selectedCategory)
+    LaunchedEffect(uiState.selectedCategory, uiState.isRank, uiState.isDefault, uiState.isFavorite) {
+        viewModel.getCertificationList(uiState.isRank, uiState.isDefault, uiState.isFavorite, uiState.selectedCategory)
     }
 
     CertListScreen(
@@ -50,6 +53,8 @@ fun CertListRoute(
         navigateToSearch = navigateToSearch,
         navigateToCertDetail = navigateToCertDetail,
         onCategorySelected = viewModel::onCategorySelected,
+        onRankButtonClick = viewModel::onRankClick,
+        onDefaultClick = viewModel::onDefaultClick,
         onFavoriteButtonClick = viewModel::onFavoriteClick,
         onLikeClick = viewModel::onLikeClick,
         modifier = Modifier.padding(padding)
@@ -62,6 +67,8 @@ private fun CertListScreen(
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     onCategorySelected: (Int) -> Unit,
+    onRankButtonClick: () -> Unit,
+    onDefaultClick: () -> Unit,
     onFavoriteButtonClick: () -> Unit,
     onLikeClick: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -86,10 +93,32 @@ private fun CertListScreen(
         if (certListState.selectedCategory == 0) {
             CertListRecommendSection()
         } else {
-            CategoryFavoriteButton(
-                onClick = onFavoriteButtonClick,
-                isFavorite = certListState.isFavorite,
-                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
+            Row(
+                modifier = Modifier.padding(vertical = screenHeightDp(12.dp))
+            ) {
+                CategoryFilterButton(
+                    label = stringResource(R.string.cert_list_rank_btn),
+                    onClick = onRankButtonClick,
+                    isClicked = certListState.isRank,
+                    modifier = Modifier.padding(start = screenWidthDp(20.dp), end = screenWidthDp(8.dp))
+                )
+
+                CategoryFilterButton(
+                    label = stringResource(R.string.cert_list_default_btn),
+                    onClick = onDefaultClick,
+                    isClicked = certListState.isDefault,
+                    modifier = Modifier.padding(end = screenWidthDp(8.dp))
+                )
+
+                CategoryFilterButton(
+                    label = stringResource(R.string.cert_list_favorite_btn),
+                    onClick = onFavoriteButtonClick,
+                    isClicked = certListState.isFavorite
+                )
+            }
+            HorizontalDivider(
+                color = CertiTheme.colors.gray100,
+                thickness = screenWidthDp(1.dp)
             )
 
             when (certListState.certificationListLoadState) {
@@ -164,6 +193,8 @@ private fun PreviewCertListScreen() {
         val uiState = CertListUiState(
             certificationListLoadState = if (certificationList.isEmpty()) UiState.Empty else UiState.Success(certificationList),
             selectedCategory = selectedCategory,
+            isRank = false,
+            isDefault = true,
             isFavorite = false
         )
 
@@ -174,6 +205,8 @@ private fun PreviewCertListScreen() {
             onCategorySelected = { index ->
                 selectedCategory = index
             },
+            onRankButtonClick = {},
+            onDefaultClick = {},
             onFavoriteButtonClick = {},
             onLikeClick = {}
         )

@@ -21,25 +21,26 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CategoryFavoriteButton(
+fun CategoryFilterButton(
+    label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isFavorite: Boolean = false
+    isClicked: Boolean = false
 ) {
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(
                 cornerRadius = 24.dp,
                 borderWidth = 1.dp,
-                borderColor = if (isFavorite) CertiTheme.colors.mainBlue else CertiTheme.colors.gray100,
+                borderColor = if (isClicked) CertiTheme.colors.mainBlue else CertiTheme.colors.gray100,
                 backgroundColor = CertiTheme.colors.white
             )
             .noRippleClickable(onClick)
     ) {
         Text(
-            text = stringResource(R.string.cert_list_favorite_btn),
+            text = label,
             style = CertiTheme.typography.caption.semibold_12,
-            color = if (isFavorite) CertiTheme.colors.mainBlue else CertiTheme.colors.gray400,
+            color = if (isClicked) CertiTheme.colors.mainBlue else CertiTheme.colors.gray400,
             modifier = Modifier.padding(vertical = screenHeightDp(6.dp), horizontal = screenWidthDp(12.dp))
         )
     }
@@ -51,9 +52,10 @@ private fun PreviewCategoryFavoriteButton() {
     var isFavorite by remember { mutableStateOf(false) }
 
     CERTITheme {
-        CategoryFavoriteButton(
+        CategoryFilterButton(
+            label = stringResource(R.string.cert_list_favorite_btn),
             onClick = { isFavorite = !isFavorite },
-            isFavorite = isFavorite
+            isClicked = isFavorite
         )
     }
 }

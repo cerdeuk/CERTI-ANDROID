@@ -24,13 +24,17 @@ class CertListViewModel @Inject constructor(
 ) : ViewModel() {
     private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCategory = MutableStateFlow(0)
+    private val _isRank = MutableStateFlow(false)
+    private val _isDefault = MutableStateFlow(true)
     private val _isFavorite = MutableStateFlow(false)
 
     val certificationListUiState: StateFlow<CertListUiState> =
-        combine(_certListLoadState, _selectedCategory, _isFavorite) { certListLoadState, selectedCategory, isFavorite ->
+        combine(_certListLoadState, _selectedCategory, _isRank, _isDefault, _isFavorite) { certListLoadState, selectedCategory, isRank, isDefault, isFavorite ->
             CertListUiState(
                 certificationListLoadState = certListLoadState,
                 selectedCategory = selectedCategory,
+                isRank = isRank,
+                isDefault = isDefault,
                 isFavorite = isFavorite
             )
         }.stateIn(
@@ -39,17 +43,24 @@ class CertListViewModel @Inject constructor(
             initialValue = CertListUiState(
                 certificationListLoadState = UiState.Loading,
                 selectedCategory = 0,
+                isRank = false,
+                isDefault = true,
                 isFavorite = false
             )
         )
 
-    fun getCertificationList(isFavorite: Boolean, category: Int) {
+    fun getCertificationList(
+        isRank: Boolean,
+        isDefault: Boolean,
+        isFavorite: Boolean,
+        category: Int
+    ) {
         viewModelScope.launch {
             _certListLoadState.value = UiState.Loading
             if (category == 0) {
                 getRecommendCertificationList()
             } else {
-                getCategoryCertificationList(isFavorite, category)
+                getCategoryCertificationList(isRank, isDefault, isFavorite, category)
             }
         }
     }
@@ -59,7 +70,12 @@ class CertListViewModel @Inject constructor(
         // 맞춤 추천 서버통신 로직
     }
 
-    private fun getCategoryCertificationList(isFavorite: Boolean, category: Int) = viewModelScope.launch {
+    private fun getCategoryCertificationList(
+        isRank: Boolean,
+        isDefault: Boolean,
+        isFavorite: Boolean,
+        category: Int
+    ) = viewModelScope.launch {
         _certListLoadState.value = UiState.Loading
         val jobs = CategoryType.entries.getOrNull(category - 1)?.description ?: ""
         getCategoryCertListUseCase(isFavorite, jobs)
@@ -71,7 +87,21 @@ class CertListViewModel @Inject constructor(
         _selectedCategory.value = index
     }
 
+    fun onRankClick() {
+        _isRank.value = !_isRank.value
+        _isDefault.value = false
+        _isFavorite.value = false
+    }
+
+    fun onDefaultClick() {
+        _isRank.value = false
+        _isDefault.value = !_isDefault.value
+        _isFavorite.value = false
+    }
+
     fun onFavoriteClick() {
+        _isRank.value = false
+        _isDefault.value = false
         _isFavorite.value = !_isFavorite.value
     }
 
