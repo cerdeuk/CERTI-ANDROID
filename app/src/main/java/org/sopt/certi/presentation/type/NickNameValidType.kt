@@ -17,6 +17,10 @@ enum class NickNameValidType(
         stringRes = R.string.onboarding_nickname_textfield_idle,
         color = defaultCertiColors.gray500
     ),
+    DEFAULT(
+        stringRes = R.string.onboarding_nickname_textfield_idle,
+        color = defaultCertiColors.gray200
+    ),
     VALID(
         stringRes = R.string.onboarding_nickname_textfield_valid,
         color = defaultCertiColors.mainBlue
@@ -29,5 +33,8 @@ enum class NickNameValidType(
     ),
     INVALID(
         stringRes = R.string.onboarding_nickname_textfield_invalid
+    ),
+    UNCHECKED(
+        stringRes = R.string.mypage_nickname_textfield_duplicate
     )
 }

@@ -173,5 +173,8 @@
 
     <!-- LoadingLayout -->
     <string name="loading_title">%s님에게 딱 맞는\n자격증을 고르고 있어요.</string>
-    
+
+    <!-- MyPageScreen -->
+    <string name="mypage_nickname_textfield_duplicate">닉네임 중복확인을 해주세요.</string>
+
 </resources>
