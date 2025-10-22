@@ -123,7 +123,7 @@ fun MyPageNicknameTextField(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPageTextFieldPreview() {
+private fun MyPageNicknameTextFieldPreview() {
     val nickname by remember { mutableStateOf("name") }
     var value by remember { mutableStateOf("") }
     var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }

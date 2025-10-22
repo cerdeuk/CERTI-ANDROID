@@ -46,11 +46,7 @@ fun MyPageTextField(
         )
         BasicTextField(
             value = value,
-            onValueChange = {
-                if (it.length <= 7) {
-                    onValueChange(it)
-                }
-            },
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
