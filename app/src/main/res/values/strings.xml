@@ -175,16 +175,16 @@
     <string name="loading_title">%s님에게 딱 맞는\n자격증을 고르고 있어요.</string>
 
     <!-- MyPageScreen -->
-    <string name="mypage_menu_persional_info">개인 정보 수정</string>
-    <string name="mypage_menu_persional_info_description">프로필 사진 및 개인 정보 수정</string>
-    <string name="mypage_menu_school">학사정보 관리</string>
-    <string name="mypage_menu_school_description">학교/학과 정보 및 희망직무 설정</string>
-    <string name="mypage_menu_certification">자격증 관리</string>
-    <string name="mypage_menu_certification_description">즐겨찾기 자격증 및 취득 자격증 관리</string>
-    <string name="mypage_menu_setting">설정</string>
-    <string name="mypage_menu_setting_description">비밀번호 변경 및 계정 관련</string>
-    <string name="mypage_menu_questions">문의사항</string>
-    <string name="mypage_menu_questions_description">오픈채팅 바로가기</string>
+    <string name="mypage_personal_info">개인정보 수정</string>
+    <string name="mypage_personal_info_description">프로필 사진 및 개인 정보 수정</string>
+    <string name="mypage_school_info">학사정보 관리</string>
+    <string name="mypage_school_info_description">학교/학과 정보 및 희망직무 설정</string>
+    <string name="mypage_certification">자격증 관리</string>
+    <string name="mypage_certification_description">즐겨찾기 자격증 및 취득 자격증 관리</string>
+    <string name="mypage_setting">설정</string>
+    <string name="mypage_setting_description">비밀번호 변경 및 계정 관련</string>
+    <string name="mypage_questions">문의사항</string>
+    <string name="mypage_questions_description">오픈채팅 바로가기</string>
 
     <string name="mypage_nickname_textfield_duplicate">닉네임 중복확인을 해주세요.</string>
 
