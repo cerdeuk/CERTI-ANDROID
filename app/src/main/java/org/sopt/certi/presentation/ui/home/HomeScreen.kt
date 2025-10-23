@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,6 +60,8 @@ import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertific
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun HomeRoute(
@@ -130,7 +133,7 @@ fun HomeScreen(
     navigateToLogin: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedDate by remember { mutableStateOf("2025-10-16") }
+    var selectedDate by remember { mutableStateOf("2025-10-23") }
     var certListInSelectedData by remember {
         mutableStateOf(
             listOf<CertificationData>(
@@ -202,10 +205,13 @@ fun HomeScreen(
                 if (selectedDate.isNotEmpty()) {
                     val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                     val backgroundColor = if (certListInSelectedData.isEmpty()) CertiTheme.colors.white else CertiTheme.colors.purpleWhite
+                    val dayName = getDayNameOfWeek(selectedDate)
+                    val (_, selectedMonth, selectedDay) = selectedDate.split("-")
+
                     val dateText = if (selectedDate == currentDate) {
-                        stringResource(R.string.home_calendar_today_date, selectedDate)
+                        stringResource(R.string.home_calendar_today_date, selectedMonth, selectedDay, dayName)
                     } else {
-                        selectedDate
+                        stringResource(R.string.home_calendar_date, selectedMonth, selectedDay, dayName)
                     }
 
                     Box(
@@ -223,7 +229,10 @@ fun HomeScreen(
                 }
             }
 
-            items(certListInSelectedData.size) {
+            items(
+                items = certListInSelectedData,
+                key = { it.certificationId }
+            ) { certificationData ->
                 if (selectedDate.isNotEmpty()) {
                     Box(
                         modifier = Modifier
@@ -232,7 +241,7 @@ fun HomeScreen(
                             .padding(bottom = screenHeightDp(16.dp))
                     ) {
                         MyCertificationListSection(
-                            certificationListData = certListInSelectedData[it],
+                            certificationListData = certificationData,
                             isForEdit = false,
                             onCertificationClick = {
                                 // TODO 자격증 이동
@@ -370,6 +379,11 @@ fun HomeScreen(
             }
         }
     }
+}
+
+private fun getDayNameOfWeek(dateString: String): String {
+    val date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    return date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREA)
 }
 
 private fun finishAndRestart(activity: MainActivity, context: Context) {

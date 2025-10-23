@@ -63,7 +63,8 @@
     <string name="home_favorite_title">즐겨찾기한 자격증</string>
     <string name="home_pre_certification_empty">취득 예정 자격증이 없습니다.</string>
     <string name="home_favorite_empty">즐겨찾기한 자격증이 없습니다.</string>
-    <string name="home_calendar_today_date">%s (오늘)</string>
+    <string name="home_calendar_date">%s월 %s일 %s</string>
+    <string name="home_calendar_today_date">%s월 %s일 %s (오늘)</string>
     <string name="home_calendar_no_data">예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요. </string>
     
     <string-array name="home_calendar_week">
