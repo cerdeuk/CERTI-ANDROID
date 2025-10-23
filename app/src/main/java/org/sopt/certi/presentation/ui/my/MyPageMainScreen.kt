@@ -25,7 +25,12 @@ fun MyPageMainRoute() {
 fun MyPageMainScreen(
     name: String,
     email: String,
-    jobList: List<String>
+    jobList: List<String>,
+    onPersonalInfoClick: () -> Unit,
+    onSchoolClick: () -> Unit,
+    onCertificationClick: () -> Unit,
+    onSettingClick: () -> Unit,
+    onQuestionsClick: () -> Unit
 ) {
     Column {
         MyPageProfile(
@@ -44,7 +49,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_person_24,
                     title = stringResource(R.string.mypage_menu_persional_info),
                     description = stringResource(R.string.mypage_menu_persional_info_description),
-                    onClick = {}
+                    onClick = onPersonalInfoClick
                 )
             }
             item {
@@ -52,7 +57,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_school_24,
                     title = stringResource(R.string.mypage_menu_school),
                     description = stringResource(R.string.mypage_menu_school_description),
-                    onClick = {}
+                    onClick = onSchoolClick
                 )
             }
             item {
@@ -60,7 +65,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_pencil_24,
                     title = stringResource(R.string.mypage_menu_certification),
                     description = stringResource(R.string.mypage_menu_certification_description),
-                    onClick = {}
+                    onClick = onCertificationClick
                 )
             }
             item {
@@ -68,7 +73,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_setting_24,
                     title = stringResource(R.string.mypage_menu_setting),
                     description = stringResource(R.string.mypage_menu_setting_description),
-                    onClick = {}
+                    onClick = onSettingClick
                 )
             }
             item {
@@ -76,7 +81,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_message_24,
                     title = stringResource(R.string.mypage_menu_questions),
                     description = stringResource(R.string.mypage_menu_questions_description),
-                    onClick = {}
+                    onClick = onQuestionsClick
                 )
             }
         }
@@ -90,7 +95,12 @@ private fun MyPageMainPreview() {
         MyPageMainScreen(
             name = "김서티",
             email = "certification@gmail.com",
-            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
+            onPersonalInfoClick = {},
+            onSchoolClick = {},
+            onCertificationClick = {},
+            onSettingClick = {},
+            onQuestionsClick = {}
         )
     }
 }
