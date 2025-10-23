@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -25,59 +26,62 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoImageUploader(
-    onClick: (Uri?) -> Unit,
+fun PersonalInfoProfileImage(
+    selectedImageUri: Uri?,
+    onImageSelected: (Uri?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri: Uri? ->
-            onClick(uri)
+            onImageSelected(uri)
         }
     )
 
-    Box(
-        modifier = modifier
-    ) {
+    if (selectedImageUri == null) {
         Box(
+            modifier = modifier
+        ) {
+            MyPageEmptyProfileImage(
+                modifier = Modifier
+                    .padding(screenWidthDp(2.dp))
+                    .size(screenWidthDp(100.dp))
+            )
+
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_24),
+                contentDescription = null,
+                tint = CertiTheme.colors.white,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(CertiTheme.colors.mainBlue)
+                    .noRippleClickable {
+                        imagePickerLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                    }
+                    .padding(screenWidthDp(4.dp))
+                    .align(Alignment.BottomEnd)
+            )
+        }
+    } else {
+        AsyncImage(
+            model = selectedImageUri,
+            contentDescription = null,
             modifier = Modifier
                 .padding(screenWidthDp(2.dp))
                 .size(screenWidthDp(100.dp))
-                .clip(CircleShape)
-                .background(CertiTheme.colors.gray100),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_image_24),
-                contentDescription = null,
-                tint = CertiTheme.colors.gray300
-            )
-        }
-
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_24),
-            contentDescription = null,
-            tint = CertiTheme.colors.white,
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(CertiTheme.colors.mainBlue)
-                .noRippleClickable {
-                    imagePickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
-                }
-                .padding(screenWidthDp(4.dp))
-                .align(Alignment.BottomEnd)
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PersonalInfoImageUploaderPreview() {
+private fun PersonalInfoProfileImagePreview() {
     CERTITheme {
-        PersonalInfoImageUploader(
-            onClick = {}
+        PersonalInfoProfileImage(
+            selectedImageUri = null,
+            onImageSelected = {}
         )
     }
 }

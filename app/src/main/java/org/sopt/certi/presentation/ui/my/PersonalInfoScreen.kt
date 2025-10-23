@@ -21,8 +21,8 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoDateInputField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoHeader
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoImageUploader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
+import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -56,8 +56,9 @@ fun PersonalInfoScreen(
         }
 
         item {
-            PersonalInfoImageUploader(
-                onClick = {},
+            PersonalInfoProfileImage(
+                selectedImageUri = null,
+                onImageSelected = {},
                 modifier = Modifier.padding(bottom = screenHeightDp(12.dp), top = screenHeightDp(4.dp))
             )
         }
