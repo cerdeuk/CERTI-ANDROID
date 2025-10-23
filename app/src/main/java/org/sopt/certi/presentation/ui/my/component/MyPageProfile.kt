@@ -1,0 +1,74 @@
+package org.sopt.certi.presentation.ui.my.component
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import org.sopt.certi.core.component.chip.CertiChipList
+import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
+
+@Composable
+fun MyPageProfile(
+    name: String,
+    email: String,
+    jobList: List<String>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = screenWidthDp(70.dp), bottom = screenWidthDp(40.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            model = "https://us.123rf.com/450wm/rashadashurov/rashadashurov2002/rashadashurov200201094/140529504-%EB%B9%88-%EC%82%AC%EC%A7%84-%EC%95%84%EC%9D%B4%EC%BD%98.jpg?ver=6",
+            contentDescription = null,
+            modifier = Modifier
+                .size(screenWidthDp(80.dp))
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text = name,
+            style = CertiTheme.typography.subtitle.bold_20,
+            color = CertiTheme.colors.mainBlue,
+            modifier = Modifier.padding(top = screenWidthDp(16.dp))
+        )
+        Text(
+            text = email,
+            style = CertiTheme.typography.caption.regular_14,
+            color = CertiTheme.colors.gray500,
+            modifier = Modifier.padding(top = screenWidthDp(4.dp))
+        )
+        CertiChipList(
+            categories = jobList,
+            modifier = Modifier.padding(top = screenWidthDp(16.dp)),
+            spacing = screenWidthDp(8.dp),
+            backgroundColor = CertiTheme.colors.purpleWhite
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MyPageProfilePreview() {
+    CERTITheme {
+        MyPageProfile(
+            name = "김서티",
+            email = "certification@gmail.com",
+            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+        )
+    }
+}
