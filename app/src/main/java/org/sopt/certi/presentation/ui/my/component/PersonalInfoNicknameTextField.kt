@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,9 +39,10 @@ fun PersonalInfoNicknameTextField(
     modifier: Modifier = Modifier,
     label: String = stringResource(R.string.onboarding_nickname_textfield_title),
     placeholder: String = stringResource(R.string.onboarding_nickname_textfield_empty),
-    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT,
-    isButtonEnable: Boolean = false
+    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT
 ) {
+    val preValue by rememberSaveable { mutableStateOf(value) }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
@@ -58,7 +60,7 @@ fun PersonalInfoNicknameTextField(
             PersonalInfoTextFieldButton(
                 text = "중복확인",
                 onClick = onButtonClick,
-                isEnable = isButtonEnable
+                isEnable = value != preValue
             )
         }
         BasicTextField(
@@ -125,8 +127,7 @@ fun PersonalInfoNicknameTextField(
 @Preview(showBackground = true)
 @Composable
 private fun MyPageNicknameTextFieldPreview() {
-    val nickname by remember { mutableStateOf("name") }
-    var value by remember { mutableStateOf("") }
+    var value by remember { mutableStateOf("name") }
     var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
     var isChecked by remember { mutableStateOf(false) }
     var isValid by remember { mutableStateOf(false) }
@@ -155,8 +156,7 @@ private fun MyPageNicknameTextFieldPreview() {
                         else -> NickNameValidType.DUPLICATE
                     }
                 },
-                nickNameValidType = nickNameValidType,
-                isButtonEnable = value != nickname
+                nickNameValidType = nickNameValidType
             )
         }
     }

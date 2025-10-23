@@ -1,116 +1,126 @@
 package org.sopt.certi.presentation.ui.my
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.type.NickNameValidType
+import org.sopt.certi.presentation.ui.my.component.PersonalInfoDateInputField
+import org.sopt.certi.presentation.ui.my.component.PersonalInfoHeader
+import org.sopt.certi.presentation.ui.my.component.PersonalInfoImageUploader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
 import org.sopt.certi.ui.theme.CERTITheme
-import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun PersonalInfoRoute() {
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PersonalInfoScreen(
+    nickname: String,
+    name: String,
+    email: String,
+    birth: String,
     onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onNickNameChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onBirthChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT
 ) {
-    Column(
-        modifier = modifier
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(screenWidthDp(20.dp)),
+        verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MyPagePersonalInfoHeader(onSaveClick = onSaveClick)
-
-        LazyColumn(
-            contentPadding = PaddingValues(screenWidthDp(20.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp))
-        ) {
-            item {
-                PersonalInfoNicknameTextField(
-                    value = "",
-                    onValueChange = {},
-                    onButtonClick = {}
-                )
-            }
-
-            item {
-                PersonalInfoTextField(
-                    label = stringResource(R.string.personal_name_label),
-                    placeholder = stringResource(R.string.personal_name_placeholder),
-                    value = "",
-                    onValueChange = {}
-                )
-            }
-
-            item {
-                PersonalInfoTextField(
-                    label = stringResource(R.string.personal_email_label),
-                    placeholder = stringResource(R.string.personal_email_placeholder),
-                    value = "",
-                    onValueChange = {}
-                )
-            }
-
-            item {
-                PersonalInfoTextField(
-                    label = stringResource(R.string.personal_birthday_label),
-                    placeholder = stringResource(R.string.personal_birthday_placeholder),
-                    value = "",
-                    onValueChange = {}
-                )
-            }
+        stickyHeader {
+            PersonalInfoHeader(onSaveClick = onSaveClick)
         }
-    }
-}
 
-@Composable
-private fun MyPagePersonalInfoHeader(
-    onSaveClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(screenWidthDp(20.dp))
-    ) {
-        Text(
-            text = stringResource(R.string.mypage_personal_info),
-            style = CertiTheme.typography.subtitle.semibold_20,
-            color = CertiTheme.colors.gray600,
-            modifier = Modifier.align(Alignment.Center)
-        )
-        Text(
-            text = stringResource(R.string.personal_save),
-            style = CertiTheme.typography.body.semibold_18,
-            color = CertiTheme.colors.gray400,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .noRippleClickable { onSaveClick() }
-        )
+        item {
+            PersonalInfoImageUploader(
+                onClick = {},
+                modifier = Modifier.padding(bottom = screenHeightDp(12.dp), top = screenHeightDp(4.dp))
+            )
+        }
+
+        item {
+            PersonalInfoNicknameTextField(
+                value = nickname,
+                onValueChange = onNickNameChange,
+                onButtonClick = {},
+                nickNameValidType = nickNameValidType
+            )
+        }
+
+        item {
+            PersonalInfoTextField(
+                label = stringResource(R.string.personal_name_label),
+                placeholder = stringResource(R.string.personal_name_placeholder),
+                value = name,
+                onValueChange = onNameChange
+            )
+        }
+
+        item {
+            PersonalInfoTextField(
+                label = stringResource(R.string.personal_email_label),
+                placeholder = stringResource(R.string.personal_email_placeholder),
+                value = email,
+                onValueChange = onEmailChange
+            )
+        }
+
+        item {
+            PersonalInfoDateInputField(
+                label = stringResource(R.string.personal_birthday_label),
+                placeholder = stringResource(R.string.personal_birthday_placeholder),
+                value = birth,
+                onValueChange = onBirthChange
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
+    var nickname by remember { mutableStateOf("name") }
+    var name by remember { mutableStateOf("name") }
+    var email by remember { mutableStateOf("") }
+    var birth by remember { mutableStateOf("") }
+    var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
+
     CERTITheme {
         PersonalInfoScreen(
-            onSaveClick = {}
+            nickname = nickname,
+            name = name,
+            email = email,
+            birth = birth,
+            onSaveClick = {},
+            onNickNameChange = { nickname = it },
+            onNameChange = { name = it },
+            onEmailChange = { email = it },
+            onBirthChange = { birth = it },
+            nickNameValidType = nickNameValidType
         )
     }
 }

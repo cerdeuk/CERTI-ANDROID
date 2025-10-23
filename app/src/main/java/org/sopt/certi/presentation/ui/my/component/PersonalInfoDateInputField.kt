@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.my.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,6 +62,7 @@ fun PersonalInfoDateInputField(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .border(1.dp, CertiTheme.colors.gray200, RoundedCornerShape(8.dp))
+                .background(CertiTheme.colors.gray0)
                 .noRippleClickable { visible = !visible }
                 .padding(screenWidthDp(12.dp)),
             verticalAlignment = Alignment.CenterVertically,

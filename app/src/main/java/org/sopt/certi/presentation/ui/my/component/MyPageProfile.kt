@@ -1,20 +1,23 @@
 package org.sopt.certi.presentation.ui.my.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import org.sopt.certi.R
 import org.sopt.certi.core.component.chip.CertiChipList
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -35,14 +38,19 @@ fun MyPageProfile(
             .padding(top = screenHeightDp(70.dp), bottom = screenHeightDp(40.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = "https://us.123rf.com/450wm/rashadashurov/rashadashurov2002/rashadashurov200201094/140529504-%EB%B9%88-%EC%82%AC%EC%A7%84-%EC%95%84%EC%9D%B4%EC%BD%98.jpg?ver=6",
-            contentDescription = null,
+        Box(
             modifier = Modifier
                 .size(screenWidthDp(80.dp))
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
+                .clip(CircleShape)
+                .background(CertiTheme.colors.gray100),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_image_24),
+                contentDescription = null,
+                tint = CertiTheme.colors.gray300
+            )
+        }
         Text(
             text = name,
             style = CertiTheme.typography.subtitle.bold_20,
