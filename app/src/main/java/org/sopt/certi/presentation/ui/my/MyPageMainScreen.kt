@@ -30,9 +30,12 @@ fun MyPageMainScreen(
     onSchoolClick: () -> Unit,
     onCertificationClick: () -> Unit,
     onSettingClick: () -> Unit,
-    onQuestionsClick: () -> Unit
+    onQuestionsClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         MyPageProfile(
             name = name,
             email = email,
@@ -47,40 +50,40 @@ fun MyPageMainScreen(
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_person_24,
-                    title = stringResource(R.string.mypage_menu_persional_info),
-                    description = stringResource(R.string.mypage_menu_persional_info_description),
+                    title = stringResource(R.string.mypage_personal_info),
+                    description = stringResource(R.string.mypage_personal_info_description),
                     onClick = onPersonalInfoClick
                 )
             }
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_school_24,
-                    title = stringResource(R.string.mypage_menu_school),
-                    description = stringResource(R.string.mypage_menu_school_description),
+                    title = stringResource(R.string.mypage_school_info),
+                    description = stringResource(R.string.mypage_school_info_description),
                     onClick = onSchoolClick
                 )
             }
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_pencil_24,
-                    title = stringResource(R.string.mypage_menu_certification),
-                    description = stringResource(R.string.mypage_menu_certification_description),
+                    title = stringResource(R.string.mypage_certification),
+                    description = stringResource(R.string.mypage_certification_description),
                     onClick = onCertificationClick
                 )
             }
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_setting_24,
-                    title = stringResource(R.string.mypage_menu_setting),
-                    description = stringResource(R.string.mypage_menu_setting_description),
+                    title = stringResource(R.string.mypage_setting),
+                    description = stringResource(R.string.mypage_setting_description),
                     onClick = onSettingClick
                 )
             }
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_message_24,
-                    title = stringResource(R.string.mypage_menu_questions),
-                    description = stringResource(R.string.mypage_menu_questions_description),
+                    title = stringResource(R.string.mypage_questions),
+                    description = stringResource(R.string.mypage_questions_description),
                     onClick = onQuestionsClick
                 )
             }

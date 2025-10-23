@@ -24,19 +24,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.sopt.certi.R
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageNicknameTextField(
-    label: String,
-    placeholder: String,
+fun PersonalInfoNicknameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    label: String = stringResource(R.string.onboarding_nickname_textfield_title),
+    placeholder: String = stringResource(R.string.onboarding_nickname_textfield_empty),
     nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT,
     isButtonEnable: Boolean = false
 ) {
@@ -54,7 +55,7 @@ fun MyPageNicknameTextField(
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600
             )
-            MyPageTextFieldButton(
+            PersonalInfoTextFieldButton(
                 text = "중복확인",
                 onClick = onButtonClick,
                 isEnable = isButtonEnable
@@ -134,9 +135,7 @@ private fun MyPageNicknameTextFieldPreview() {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            MyPageNicknameTextField(
-                label = "닉네임",
-                placeholder = "닉네임을 입력해주세요.",
+            PersonalInfoNicknameTextField(
                 value = value,
                 onValueChange = { newValue ->
                     value = newValue

@@ -35,6 +35,6 @@ enum class NickNameValidType(
         stringRes = R.string.onboarding_nickname_textfield_invalid
     ),
     UNCHECKED(
-        stringRes = R.string.mypage_nickname_textfield_duplicate
+        stringRes = R.string.personal_nickname_textfield_duplicate
     )
 }

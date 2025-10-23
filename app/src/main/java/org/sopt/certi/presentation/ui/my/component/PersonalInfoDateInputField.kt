@@ -36,7 +36,7 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun MyPageDateInputField(
+fun PersonalInfoDateInputField(
     label: String,
     placeholder: String,
     value: String,
@@ -119,7 +119,7 @@ private fun MyPageDateInputFieldPreview() {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            MyPageDateInputField(
+            PersonalInfoDateInputField(
                 label = "생년월일",
                 placeholder = "생년월일을 선택해주세요.",
                 value = value,

@@ -27,7 +27,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageTextField(
+fun PersonalInfoTextField(
     label: String,
     placeholder: String,
     value: String,
@@ -96,7 +96,7 @@ private fun MyPageTextFieldPreview() {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            MyPageTextField(
+            PersonalInfoTextField(
                 label = "이름",
                 placeholder = "이름을 입력해주세요.",
                 value = value,

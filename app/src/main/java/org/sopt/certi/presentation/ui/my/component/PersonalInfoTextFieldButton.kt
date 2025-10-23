@@ -15,7 +15,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageTextFieldButton(
+fun PersonalInfoTextFieldButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -53,7 +53,7 @@ fun MyPageTextFieldButton(
 @Composable
 private fun MyPageTextFieldButtonPreview() {
     CERTITheme {
-        MyPageTextFieldButton(
+        PersonalInfoTextFieldButton(
             text = "중복확인",
             onClick = {}
         )
