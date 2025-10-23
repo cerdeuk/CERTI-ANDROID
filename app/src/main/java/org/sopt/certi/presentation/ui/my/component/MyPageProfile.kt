@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.my.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.sopt.certi.core.component.chip.CertiChipList
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -29,7 +31,8 @@ fun MyPageProfile(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = screenWidthDp(70.dp), bottom = screenWidthDp(40.dp)),
+            .background(CertiTheme.colors.white)
+            .padding(top = screenHeightDp(70.dp), bottom = screenHeightDp(40.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
@@ -44,17 +47,17 @@ fun MyPageProfile(
             text = name,
             style = CertiTheme.typography.subtitle.bold_20,
             color = CertiTheme.colors.mainBlue,
-            modifier = Modifier.padding(top = screenWidthDp(16.dp))
+            modifier = Modifier.padding(top = screenHeightDp(16.dp))
         )
         Text(
             text = email,
             style = CertiTheme.typography.caption.regular_14,
             color = CertiTheme.colors.gray500,
-            modifier = Modifier.padding(top = screenWidthDp(4.dp))
+            modifier = Modifier.padding(top = screenHeightDp(4.dp))
         )
         CertiChipList(
             categories = jobList,
-            modifier = Modifier.padding(top = screenWidthDp(16.dp)),
+            modifier = Modifier.padding(top = screenHeightDp(16.dp)),
             spacing = screenWidthDp(8.dp),
             backgroundColor = CertiTheme.colors.purpleWhite
         )
