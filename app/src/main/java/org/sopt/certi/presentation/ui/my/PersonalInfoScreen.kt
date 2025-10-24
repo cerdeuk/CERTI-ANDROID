@@ -9,12 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -24,26 +26,40 @@ import org.sopt.certi.presentation.ui.my.component.PersonalInfoHeader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
+import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun PersonalInfoRoute() {
+fun PersonalInfoRoute(
+    padding: PaddingValues,
+    viewModel: PersonalInfoViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val nickNameValidTypeState by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
+
+    PersonalInfoScreen(
+        uiState = uiState,
+        nickNameValidType = nickNameValidTypeState,
+        onSaveClick = { viewModel.onSaveClick() },
+        onNickNameChange = { viewModel.onNickNameChange(it) },
+        onNameChange = { viewModel.onNameChange(it) },
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onBirthChange = { viewModel.onBirthChange(it) },
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PersonalInfoScreen(
-    nickname: String,
-    name: String,
-    email: String,
-    birth: String,
+    uiState: PersonalInfoUiState,
+    nickNameValidType: NickNameValidType,
     onSaveClick: () -> Unit,
     onNickNameChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onBirthChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier,
@@ -65,7 +81,7 @@ fun PersonalInfoScreen(
 
         item {
             PersonalInfoNicknameTextField(
-                value = nickname,
+                value = uiState.nickname,
                 onValueChange = onNickNameChange,
                 onButtonClick = {},
                 nickNameValidType = nickNameValidType
@@ -76,7 +92,7 @@ fun PersonalInfoScreen(
             PersonalInfoTextField(
                 label = stringResource(R.string.personal_name_label),
                 placeholder = stringResource(R.string.personal_name_placeholder),
-                value = name,
+                value = uiState.name,
                 onValueChange = onNameChange
             )
         }
@@ -85,8 +101,9 @@ fun PersonalInfoScreen(
             PersonalInfoTextField(
                 label = stringResource(R.string.personal_email_label),
                 placeholder = stringResource(R.string.personal_email_placeholder),
-                value = email,
-                onValueChange = onEmailChange
+                value = uiState.email,
+                onValueChange = onEmailChange,
+                imeAction = ImeAction.Done
             )
         }
 
@@ -94,7 +111,7 @@ fun PersonalInfoScreen(
             PersonalInfoDateInputField(
                 label = stringResource(R.string.personal_birthday_label),
                 placeholder = stringResource(R.string.personal_birthday_placeholder),
-                value = birth,
+                value = uiState.birth,
                 onValueChange = onBirthChange
             )
         }
@@ -104,24 +121,27 @@ fun PersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
-    var nickname by remember { mutableStateOf("name") }
-    var name by remember { mutableStateOf("name") }
-    var email by remember { mutableStateOf("") }
-    var birth by remember { mutableStateOf("") }
-    var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
+    val uiState by remember {
+        mutableStateOf(
+            PersonalInfoUiState(
+                nickname = "nick",
+                name = "name",
+                email = "certification@gamil.com",
+                birth = ""
+            )
+        )
+    }
+    val nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
 
     CERTITheme {
         PersonalInfoScreen(
-            nickname = nickname,
-            name = name,
-            email = email,
-            birth = birth,
-            onSaveClick = {},
-            onNickNameChange = { nickname = it },
-            onNameChange = { name = it },
-            onEmailChange = { email = it },
-            onBirthChange = { birth = it },
-            nickNameValidType = nickNameValidType
+            uiState = uiState,
+            nickNameValidType = nickNameValidType,
+            onSaveClick = { },
+            onNickNameChange = { },
+            onNameChange = { },
+            onEmailChange = { },
+            onBirthChange = { }
         )
     }
 }

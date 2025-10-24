@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.ui.theme.CERTITheme
@@ -84,7 +85,6 @@ fun PersonalInfoNicknameTextField(
                 color = CertiTheme.colors.black
             ),
             maxLines = 1,
-            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -121,6 +121,41 @@ fun PersonalInfoNicknameTextField(
                 color = nickNameValidType.color
             )
         }
+    }
+}
+
+@Composable
+private fun PersonalInfoTextFieldButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isEnable: Boolean = false
+) {
+    Box(
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = when {
+                    isEnable -> CertiTheme.colors.gray300
+                    else -> CertiTheme.colors.gray200
+                },
+                shape = RoundedCornerShape(100.dp)
+            )
+            .noRippleClickable {
+                if (isEnable) {
+                    onClick()
+                }
+            }
+            .padding(vertical = screenWidthDp(4.dp), horizontal = screenWidthDp(12.dp))
+    ) {
+        Text(
+            text = text,
+            style = CertiTheme.typography.caption.regular_12,
+            color = when {
+                isEnable -> CertiTheme.colors.gray600
+                else -> CertiTheme.colors.gray300
+            }
+        )
     }
 }
 

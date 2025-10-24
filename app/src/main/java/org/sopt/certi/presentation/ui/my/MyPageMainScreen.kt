@@ -3,29 +3,48 @@ package org.sopt.certi.presentation.ui.my
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.presentation.ui.my.component.MyPageMenuItem
 import org.sopt.certi.presentation.ui.my.component.MyPageProfile
+import org.sopt.certi.presentation.ui.my.state.MyPageUiSate
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageMainRoute() {
+fun MyPageMainRoute(
+    padding: PaddingValues,
+    viewModel: MyPageMainViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    MyPageMainScreen(
+        uiState = uiState,
+        onPersonalInfoClick = viewModel::onPersonalInfoClick,
+        onSchoolClick = viewModel::onSchoolClick,
+        onCertificationClick = viewModel::onCertificationClick,
+        onSettingClick = viewModel::onSettingClick,
+        onQuestionsClick = viewModel::onQuestionClick,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
 fun MyPageMainScreen(
-    name: String,
-    email: String,
-    jobList: List<String>,
+    uiState: MyPageUiSate,
     onPersonalInfoClick: () -> Unit,
     onSchoolClick: () -> Unit,
     onCertificationClick: () -> Unit,
@@ -37,9 +56,9 @@ fun MyPageMainScreen(
         modifier = modifier
     ) {
         MyPageProfile(
-            name = name,
-            email = email,
-            jobList = jobList
+            name = uiState.name,
+            email = uiState.email,
+            jobList = uiState.jobList
         )
         LazyColumn(
             modifier = Modifier
@@ -94,11 +113,19 @@ fun MyPageMainScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPageMainPreview() {
+    val uiState by remember {
+        mutableStateOf(
+            MyPageUiSate(
+                name = "김서티",
+                email = "certification@gmail.com",
+                jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+            )
+        )
+    }
+
     CERTITheme {
         MyPageMainScreen(
-            name = "김서티",
-            email = "certification@gmail.com",
-            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
+            uiState = uiState,
             onPersonalInfoClick = {},
             onSchoolClick = {},
             onCertificationClick = {},

@@ -33,7 +33,8 @@ fun PersonalInfoTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT
+    nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT,
+    imeAction: ImeAction = ImeAction.Next
 ) {
     Column(
         modifier = modifier,
@@ -61,9 +62,8 @@ fun PersonalInfoTextField(
                 color = CertiTheme.colors.black
             ),
             maxLines = 1,
-            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
+                imeAction = imeAction
             ),
             decorationBox = { innerTextField ->
                 if (value.isEmpty()) {
