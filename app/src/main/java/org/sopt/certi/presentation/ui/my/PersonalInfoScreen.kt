@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -42,6 +43,7 @@ fun PersonalInfoRoute(
         nickNameValidType = nickNameValidTypeState,
         onSaveClick = { viewModel.onSaveClick() },
         onNickNameChange = { viewModel.onNickNameChange(it) },
+        onNickNameCheckButtonClick = { viewModel.onNickNameCheckButtonClick() },
         onNameChange = { viewModel.onNameChange(it) },
         onEmailChange = { viewModel.onEmailChange(it) },
         onBirthChange = { viewModel.onBirthChange(it) },
@@ -56,6 +58,7 @@ fun PersonalInfoScreen(
     nickNameValidType: NickNameValidType,
     onSaveClick: () -> Unit,
     onNickNameChange: (String) -> Unit,
+    onNickNameCheckButtonClick: () -> Unit,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onBirthChange: (String) -> Unit,
@@ -83,7 +86,7 @@ fun PersonalInfoScreen(
             PersonalInfoNicknameTextField(
                 value = uiState.nickname,
                 onValueChange = onNickNameChange,
-                onButtonClick = {},
+                onButtonClick = onNickNameCheckButtonClick,
                 nickNameValidType = nickNameValidType
             )
         }
@@ -121,7 +124,7 @@ fun PersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
-    val uiState by remember {
+    var uiState by remember {
         mutableStateOf(
             PersonalInfoUiState(
                 nickname = "nick",
@@ -131,17 +134,36 @@ private fun MyPagePersonalInfoPreview() {
             )
         )
     }
-    val nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
+    var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
+    var isChecked by remember { mutableStateOf(false) }
+    var isValid by remember { mutableStateOf(false) }
 
     CERTITheme {
         PersonalInfoScreen(
             uiState = uiState,
             nickNameValidType = nickNameValidType,
             onSaveClick = { },
-            onNickNameChange = { },
-            onNameChange = { },
-            onEmailChange = { },
-            onBirthChange = { }
+            onNickNameChange = { newValue ->
+                uiState = uiState.copy(nickname = newValue)
+                isChecked = false
+                nickNameValidType = when {
+                    newValue.isEmpty() -> NickNameValidType.EMPTY
+                    newValue.contains("시발") -> NickNameValidType.INVALID
+                    else -> NickNameValidType.UNCHECKED
+                }
+            },
+            onNickNameCheckButtonClick = {
+                isChecked = true
+                isValid = !isValid
+                nickNameValidType = when {
+                    uiState.name.contains("시발") -> NickNameValidType.INVALID
+                    isValid -> NickNameValidType.VALID
+                    else -> NickNameValidType.DUPLICATE
+                }
+            },
+            onNameChange = { uiState = uiState.copy(name = it) },
+            onEmailChange = { uiState = uiState.copy(email = it) },
+            onBirthChange = { uiState = uiState.copy(birth = it) }
         )
     }
 }

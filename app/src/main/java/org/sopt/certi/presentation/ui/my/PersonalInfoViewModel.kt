@@ -36,15 +36,16 @@ class PersonalInfoViewModel@Inject constructor() : ViewModel() {
 
     fun onSaveClick() {}
     fun onNickNameChange(nickname: String) {
-        uiState.value.nickname = nickname
+        _uiState.value.nickname = nickname
     }
+    fun onNickNameCheckButtonClick() {}
     fun onNameChange(name: String) {
-        uiState.value.name = name
+        _uiState.value.name = name
     }
     fun onEmailChange(email: String) {
-        uiState.value.email = email
+        _uiState.value.email = email
     }
     fun onBirthChange(birth: String) {
-        uiState.value.birth = birth
+        _uiState.value.birth = birth
     }
 }
