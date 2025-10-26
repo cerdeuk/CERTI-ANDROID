@@ -75,6 +75,7 @@ fun PersonalInfoProfileImage(
             modifier = Modifier
                 .padding(screenWidthDp(2.dp))
                 .size(screenWidthDp(100.dp))
+                .clip(CircleShape)
         )
     }
 }

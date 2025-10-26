@@ -13,6 +13,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun PersonalInfoHeader(
+    isSaveEnable: Boolean,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -28,7 +29,7 @@ fun PersonalInfoHeader(
         Text(
             text = stringResource(R.string.personal_save),
             style = CertiTheme.typography.body.semibold_18,
-            color = CertiTheme.colors.gray400,
+            color = if (isSaveEnable) CertiTheme.colors.mainBlue else CertiTheme.colors.gray400,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .noRippleClickable { onSaveClick() }

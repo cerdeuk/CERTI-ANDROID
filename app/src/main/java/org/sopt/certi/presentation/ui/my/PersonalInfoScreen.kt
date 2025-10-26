@@ -42,6 +42,7 @@ fun PersonalInfoRoute(
     PersonalInfoScreen(
         uiState = uiState,
         nickNameValidType = nickNameValidTypeState,
+        isSaveButtonEnabled = false,
         onSaveClick = { viewModel.onSaveClick() },
         onProfileUriChange = { viewModel.onProfileUriChange() },
         onNickNameChange = { viewModel.onNickNameChange(it) },
@@ -58,6 +59,7 @@ fun PersonalInfoRoute(
 fun PersonalInfoScreen(
     uiState: PersonalInfoUiState,
     nickNameValidType: NickNameValidType,
+    isSaveButtonEnabled: Boolean,
     onSaveClick: () -> Unit,
     onProfileUriChange: (Uri?) -> Unit,
     onNickNameChange: (String) -> Unit,
@@ -74,7 +76,10 @@ fun PersonalInfoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         stickyHeader {
-            PersonalInfoHeader(onSaveClick = onSaveClick)
+            PersonalInfoHeader(
+                isSaveEnable = isSaveButtonEnabled,
+                onSaveClick = onSaveClick
+            )
         }
 
         item {
@@ -127,7 +132,7 @@ fun PersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
-    var uiState by remember {
+    val initialUiState by remember {
         mutableStateOf(
             PersonalInfoUiState(
                 nickname = "nick",
@@ -138,14 +143,20 @@ private fun MyPagePersonalInfoPreview() {
             )
         )
     }
+    var uiState by remember {
+        mutableStateOf(initialUiState)
+    }
+
     var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
     var isChecked by remember { mutableStateOf(false) }
     var isValid by remember { mutableStateOf(false) }
+    val isSaveButtonEnabled = (nickNameValidType == NickNameValidType.VALID) && (initialUiState != uiState)
 
     CERTITheme {
         PersonalInfoScreen(
             uiState = uiState,
             nickNameValidType = nickNameValidType,
+            isSaveButtonEnabled = isSaveButtonEnabled,
             onSaveClick = { },
             onProfileUriChange = { uiState = uiState.copy(profileUri = it) },
             onNickNameChange = { newValue ->
