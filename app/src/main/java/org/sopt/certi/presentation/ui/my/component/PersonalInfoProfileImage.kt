@@ -42,40 +42,40 @@ fun PersonalInfoProfileImage(
         }
     )
 
-    if (selectedImageUri == null) {
-        Box(
-            modifier = modifier
-        ) {
+    Box(
+        modifier = modifier
+    ) {
+        if (selectedImageUri == null) {
             MyPageEmptyProfileImage(
                 modifier = Modifier
                     .padding(screenWidthDp(2.dp))
                     .size(screenWidthDp(100.dp))
             )
-
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_24),
+        } else {
+            AsyncImage(
+                model = selectedImageUri,
                 contentDescription = null,
-                tint = CertiTheme.colors.white,
                 modifier = Modifier
+                    .padding(screenWidthDp(2.dp))
+                    .size(screenWidthDp(100.dp))
                     .clip(CircleShape)
-                    .background(CertiTheme.colors.mainBlue)
-                    .noRippleClickable {
-                        imagePickerLauncher.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                        )
-                    }
-                    .padding(screenWidthDp(4.dp))
-                    .align(Alignment.BottomEnd)
             )
         }
-    } else {
-        AsyncImage(
-            model = selectedImageUri,
+
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_24),
             contentDescription = null,
+            tint = CertiTheme.colors.white,
             modifier = Modifier
-                .padding(screenWidthDp(2.dp))
-                .size(screenWidthDp(100.dp))
                 .clip(CircleShape)
+                .background(CertiTheme.colors.mainBlue)
+                .noRippleClickable {
+                    imagePickerLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+                }
+                .padding(screenWidthDp(4.dp))
+                .align(Alignment.BottomEnd)
         )
     }
 }
