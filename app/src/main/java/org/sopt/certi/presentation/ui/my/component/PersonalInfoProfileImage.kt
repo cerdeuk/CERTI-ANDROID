@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,13 +32,13 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun PersonalInfoProfileImage(
     selectedImageUri: Uri?,
-    onImageSelected: (Uri?) -> Unit,
+    onImageUriChange: (Uri?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri: Uri? ->
-            onImageSelected(uri)
+            onImageUriChange(uri)
         }
     )
 
@@ -78,10 +82,12 @@ fun PersonalInfoProfileImage(
 @Preview(showBackground = true)
 @Composable
 private fun PersonalInfoProfileImagePreview() {
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
     CERTITheme {
         PersonalInfoProfileImage(
-            selectedImageUri = null,
-            onImageSelected = {}
+            selectedImageUri = selectedImageUri,
+            onImageUriChange = { selectedImageUri = it }
         )
     }
 }

@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.my
 
+import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,6 +43,7 @@ fun PersonalInfoRoute(
         uiState = uiState,
         nickNameValidType = nickNameValidTypeState,
         onSaveClick = { viewModel.onSaveClick() },
+        onProfileUriChange = { viewModel.onProfileUriChange() },
         onNickNameChange = { viewModel.onNickNameChange(it) },
         onNickNameCheckButtonClick = { viewModel.onNickNameCheckButtonClick() },
         onNameChange = { viewModel.onNameChange(it) },
@@ -57,6 +59,7 @@ fun PersonalInfoScreen(
     uiState: PersonalInfoUiState,
     nickNameValidType: NickNameValidType,
     onSaveClick: () -> Unit,
+    onProfileUriChange: (Uri?) -> Unit,
     onNickNameChange: (String) -> Unit,
     onNickNameCheckButtonClick: () -> Unit,
     onNameChange: (String) -> Unit,
@@ -76,8 +79,8 @@ fun PersonalInfoScreen(
 
         item {
             PersonalInfoProfileImage(
-                selectedImageUri = null,
-                onImageSelected = {},
+                selectedImageUri = uiState.profileUri,
+                onImageUriChange = onProfileUriChange,
                 modifier = Modifier.padding(bottom = screenHeightDp(12.dp), top = screenHeightDp(4.dp))
             )
         }
@@ -130,7 +133,8 @@ private fun MyPagePersonalInfoPreview() {
                 nickname = "nick",
                 name = "name",
                 email = "certification@gamil.com",
-                birth = ""
+                birth = "",
+                profileUri = null
             )
         )
     }
@@ -143,6 +147,7 @@ private fun MyPagePersonalInfoPreview() {
             uiState = uiState,
             nickNameValidType = nickNameValidType,
             onSaveClick = { },
+            onProfileUriChange = { uiState = uiState.copy(profileUri = it) },
             onNickNameChange = { newValue ->
                 uiState = uiState.copy(nickname = newValue)
                 isChecked = false

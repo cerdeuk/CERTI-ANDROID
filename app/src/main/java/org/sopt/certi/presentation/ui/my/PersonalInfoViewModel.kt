@@ -10,8 +10,8 @@ import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
 import javax.inject.Inject
 
-class PersonalInfoViewModel@Inject constructor() : ViewModel() {
-    private val _uiState = MutableStateFlow(PersonalInfoUiState("", "", "", ""))
+class PersonalInfoViewModel @Inject constructor() : ViewModel() {
+    private val _uiState = MutableStateFlow(PersonalInfoUiState("", "", "", "", null))
     val uiState = _uiState.asStateFlow()
 
     private val _nickNameValidTypeUiState = MutableStateFlow(NickNameValidType.DEFAULT)
@@ -35,17 +35,10 @@ class PersonalInfoViewModel@Inject constructor() : ViewModel() {
     }
 
     fun onSaveClick() {}
-    fun onNickNameChange(nickname: String) {
-        _uiState.value.nickname = nickname
-    }
+    fun onProfileUriChange() {}
+    fun onNickNameChange(nickname: String) {}
     fun onNickNameCheckButtonClick() {}
-    fun onNameChange(name: String) {
-        _uiState.value.name = name
-    }
-    fun onEmailChange(email: String) {
-        _uiState.value.email = email
-    }
-    fun onBirthChange(birth: String) {
-        _uiState.value.birth = birth
-    }
+    fun onNameChange(name: String) {}
+    fun onEmailChange(email: String) {}
+    fun onBirthChange(birth: String) {}
 }
