@@ -36,11 +36,12 @@ fun MyCertificationListSection(
     certificationListData: CertificationData,
     isForEdit: Boolean,
     onCertificationClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onModifyClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {}
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .border(width = 1.dp, color = CertiTheme.colors.lightPurple, shape = RoundedCornerShape(12.dp))
             .background(color = CertiTheme.colors.white, shape = RoundedCornerShape(12.dp))

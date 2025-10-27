@@ -29,11 +29,15 @@ enum class CertiEditChipType {
 }
 
 @Composable
-fun CertiEditChip(type: CertiEditChipType, onClick: () -> Unit) {
+fun CertiEditChip(
+    type: CertiEditChipType,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     var isPressed by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .heightForScreenPercentage(26.dp)
             .background(
                 color = if (isPressed) {
