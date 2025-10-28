@@ -48,7 +48,8 @@ import java.time.YearMonth
 @Composable
 fun HomeCalendar(
     // FIXME 서버 데이터 형식 어떻게 올지 몰라서 일단 String으로 해놨어유
-    scheduleExistDayList: List<String> = emptyList()
+    scheduleExistDayList: List<String> = emptyList(),
+    dayOnClick: (String) -> Unit
 ) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     val startMonth by remember { mutableStateOf(currentMonth.minusMonths(100)) }
@@ -91,6 +92,7 @@ fun HomeCalendar(
                         isScheduleExist = scheduleExistDayList.contains(day.date.toString())
                     ) { newSelectedDate ->
                         selectedDate = newSelectedDate
+                        dayOnClick(day.date.toString())
                     }
                 }
             )
@@ -226,5 +228,6 @@ private fun WeekDayHeader() {
 private fun PreviewHomeCalendarView() {
     HomeCalendar(
         scheduleExistDayList = listOf("2025-10-06", "2025-10-17", "2025-10-18")
-    )
+    ) {
+    }
 }
