@@ -54,8 +54,6 @@
     <string name="delete_dialog_cancel">취소</string>
 
     <!--Home Screen -->
-    <string name="home_user_info_name">안녕하세요, %1$s님!</string>
-    <string name="home_fill_completed">회원님의 이력서가 %1$d%% 채워졌어요!</string>
     <string name="home_average_period">평균 취득 기간 약 %1$s</string>
     <string name="home_recommended_score">추천점수 %1$d점</string>
     <string name="home_recommend_title">%1$s님에게 추천하는 자격증</string>

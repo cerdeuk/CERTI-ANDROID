@@ -16,7 +16,6 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.HomeRecommendUseCase
-import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.WithDrawUseCase
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userInfoUseCase: UserInfoUseCase,
     private val homeRecommendUseCase: HomeRecommendUseCase,
-    private val preCertUseCase: PreCertUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val withDrawUseCase: WithDrawUseCase,
@@ -35,19 +33,16 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    private val _preCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
 
     val homeUiState: StateFlow<HomeUiState> = combine(
         _userInfoLoadState,
         _recommendedListLoadState,
-        _preCertificationListLoadState,
         _favoriteListLoadState
-    ) { userInfo, recommended, preCerti, favorite ->
+    ) { userInfo, recommended, favorite ->
         HomeUiState(
             userInfoLoadState = userInfo,
             recommendedListLoadState = recommended,
-            preCertificationListLoadState = preCerti,
             favoriteListLoadState = favorite
         )
     }.stateIn(
@@ -56,7 +51,6 @@ class HomeViewModel @Inject constructor(
         initialValue = HomeUiState(
             userInfoLoadState = UiState.Loading,
             recommendedListLoadState = UiState.Loading,
-            preCertificationListLoadState = UiState.Loading,
             favoriteListLoadState = UiState.Loading
         )
     )
@@ -84,19 +78,6 @@ class HomeViewModel @Inject constructor(
                 }
                 .onFailure {
                     _recommendedListLoadState.value = UiState.Failure(it.toString())
-                }
-        }
-    }
-
-    fun getPreCertList() {
-        viewModelScope.launch {
-            _preCertificationListLoadState.value = UiState.Loading
-            preCertUseCase()
-                .onSuccess { result ->
-                    _preCertificationListLoadState.value = UiState.Success(result.take(3))
-                }
-                .onFailure {
-                    _preCertificationListLoadState.value = UiState.Failure(it.toString())
                 }
         }
     }
