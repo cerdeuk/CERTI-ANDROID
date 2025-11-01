@@ -54,7 +54,7 @@ fun CertificationListSection(
                 .size(screenWidthDp(22.dp))
         )
 
-        Column{
+        Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {

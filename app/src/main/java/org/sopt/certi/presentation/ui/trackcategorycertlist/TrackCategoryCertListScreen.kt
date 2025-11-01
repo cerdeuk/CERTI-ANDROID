@@ -1,129 +1,145 @@
-package org.sopt.certi.presentation.ui.certlist
+package org.sopt.certi.presentation.ui.trackcategorycertlist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import org.sopt.certi.R
+import org.sopt.certi.core.component.section.CertificationListSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
+import org.sopt.certi.presentation.ui.certlist.component.CategoryFilterButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
-import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
+import org.sopt.certi.presentation.ui.trackcategorycertlist.model.TrackCategoryType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertListRoute(
+fun TrackCategoryCertListRoute(
     padding: PaddingValues,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (certId: Long) -> Unit,
-    viewModel: CertListViewModel = hiltViewModel()
+    viewModel: TrackCategoryCertListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
 
-    CertListScreen(
+    LaunchedEffect(uiState.selectedCategory, uiState.isFavorite) {
+        viewModel.getCertificationList(uiState.isFavorite, uiState.selectedCategory)
+    }
+
+    TrackCategoryCertListScreen(
+        type = viewModel.mode,
         certListState = uiState,
         navigateToSearch = navigateToSearch,
         navigateToCertDetail = navigateToCertDetail,
-        recommendedList = persistentListOf(),
+        onCategorySelected = viewModel::onCategorySelected,
+        onFavoriteButtonClick = viewModel::onFavoriteClick,
+        onLikeClick = viewModel::onLikeClick,
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
-private fun CertListScreen(
+private fun TrackCategoryCertListScreen(
+    type: TrackCategoryType,
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
-    recommendedList: ImmutableList<CertificationData>,
+    onCategorySelected: (Int) -> Unit,
+    onFavoriteButtonClick: () -> Unit,
+    onLikeClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         CategoryTopBar(
-            title = R.string.cert_list_top_bar,
+            title = type.titleResId,
             onClick = navigateToSearch,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
         )
 
-        CertListRecommendSection(
-            recommendedList = recommendedList,
-            onDetailClick = { certId ->
-                navigateToCertDetail(certId)
-            },
-            modifier = Modifier.padding(start = screenWidthDp(20.dp), end = screenWidthDp(20.dp), top = screenHeightDp(24.dp), bottom = screenHeightDp(30.dp))
+        CategoryBar(
+            labels = type.type,
+            selectedCategory = certListState.selectedCategory,
+            onCategorySelected = onCategorySelected
         )
-    }
-}
+        HorizontalDivider(
+            color = CertiTheme.colors.gray100,
+            thickness = screenWidthDp(1.dp)
+        )
 
-@Composable
-private fun CertListRecommendSection(
-    recommendedList: ImmutableList<CertificationData>,
-    onDetailClick: (Long) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(
-        modifier = modifier
-    ) {
-        item {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+        CategoryFilterButton(
+            label = stringResource(R.string.cert_list_favorite_btn),
+            onClick = onFavoriteButtonClick,
+            isClicked = certListState.isFavorite,
+            modifier = Modifier
+                .padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(20.dp))
+        )
+
+        HorizontalDivider(
+            color = CertiTheme.colors.gray100,
+            thickness = screenWidthDp(1.dp)
+        )
+
+        when (certListState.certificationListLoadState) {
+            is UiState.Success ->
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = stringResource(R.string.cert_list_recommend_title),
-                        style = CertiTheme.typography.subtitle.bold_20,
-                        color = CertiTheme.colors.gray600,
-                        modifier = Modifier.padding(end = screenWidthDp(4.dp))
-                    )
+                    items(
+                        items = certListState.certificationListLoadState.data,
+                        key = { it.certificationId }
+                    ) { item ->
+                        CertificationListSection(
+                            certificationListData = item,
+                            onLikeClick = { onLikeClick(item.certificationId) },
+                            onCertificationClick = {
+                                navigateToCertDetail(item.certificationId)
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = screenWidthDp(20.dp))
+                                .padding(top = screenHeightDp(16.dp), bottom = screenHeightDp(24.dp))
+                        )
 
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_information_24),
-                        contentDescription = null,
-                        tint = Color.Unspecified
-                    )
+                        HorizontalDivider(
+                            color = CertiTheme.colors.gray100,
+                            thickness = screenWidthDp(1.dp)
+                        )
+                    }
                 }
 
-                RecommendedCertificationListSection(
-                    recommendedList = recommendedList,
-                    onDetailClick = { certId ->
-                        onDetailClick(certId)
-                    }
-                )
-            }
+            is UiState.Failure -> {}
+            is UiState.Loading -> {}
+            is UiState.Empty -> {}
+            is UiState.Init -> {}
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewCertListScreen() {
+private fun CategoryCertListScreenPreview() {
     CERTITheme {
         var selectedCategory by remember { mutableIntStateOf(0) }
         var certificationList by remember {
@@ -166,11 +182,16 @@ private fun PreviewCertListScreen() {
             isFavorite = false
         )
 
-        CertListScreen(
+        TrackCategoryCertListScreen(
+            type = TrackCategoryType.TRACK,
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },
-            recommendedList = persistentListOf()
+            onCategorySelected = { index ->
+                selectedCategory = index
+            },
+            onFavoriteButtonClick = {},
+            onLikeClick = {}
         )
     }
 }

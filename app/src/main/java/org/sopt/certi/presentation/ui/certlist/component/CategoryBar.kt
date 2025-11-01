@@ -14,10 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -28,12 +26,10 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CategoryBar(
     modifier: Modifier = Modifier,
+    labels: List<String>,
     selectedCategory: Int = 0,
     onCategorySelected: (Int) -> Unit = {}
 ) {
-    val recommendCategory = stringResource(R.string.cert_list_recommend)
-    val categoryList = listOf(recommendCategory) + CategoryType.entries.map { it.description }
-
     LazyRow(
         modifier = modifier
             .padding(vertical = screenHeightDp(10.dp))
@@ -41,12 +37,12 @@ fun CategoryBar(
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(22.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(categoryList.size) { index ->
+        items(labels.size) { index ->
             if (index == 0) {
                 Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
 
-            val category = categoryList[index]
+            val category = labels[index]
 
             Text(
                 text = category,
@@ -55,7 +51,7 @@ fun CategoryBar(
                 modifier = Modifier.noRippleClickable { onCategorySelected(index) }
             )
 
-            if (index == categoryList.lastIndex) {
+            if (index == labels.lastIndex) {
                 Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
         }
@@ -69,6 +65,7 @@ private fun PreviewCategoryBar() {
 
     CERTITheme {
         CategoryBar(
+            labels = CategoryType.entries.map { it.description },
             selectedCategory = selectedIndex,
             onCategorySelected = { selectedIndex = it }
         )

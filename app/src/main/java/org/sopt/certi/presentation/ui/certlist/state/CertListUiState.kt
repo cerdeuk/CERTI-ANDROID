@@ -6,8 +6,6 @@ import org.sopt.certi.domain.model.certification.CertificationData
 data class CertListUiState(
     val certificationListLoadState: UiState<List<CertificationData>>,
     val selectedCategory: Int,
-    val isRank: Boolean,
-    val isDefault: Boolean = true,
     val isFavorite: Boolean
 ) {
     val loadState: UiState<Unit>

@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.certlist.component
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CategoryTopBar(
+    @StringRes title: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -30,7 +32,7 @@ fun CategoryTopBar(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(R.string.cert_list_top_bar),
+            text = stringResource(title),
             style = CertiTheme.typography.subtitle.semibold_20,
             color = CertiTheme.colors.gray600,
             modifier = Modifier
@@ -55,6 +57,7 @@ fun CategoryTopBar(
 private fun PreviewCategoryTopBar() {
     CERTITheme {
         CategoryTopBar(
+            title = R.string.category_cert_list_top_bar,
             onClick = {}
         )
     }
