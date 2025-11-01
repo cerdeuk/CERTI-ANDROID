@@ -29,10 +29,4 @@ class MyPageMainViewModel@Inject constructor() : ViewModel() {
             }
         }
     }
-
-    fun onPersonalInfoClick() {}
-    fun onSchoolClick() {}
-    fun onCertificationClick() {}
-    fun onSettingClick() {}
-    fun onQuestionClick() {}
 }

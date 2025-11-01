@@ -27,17 +27,22 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun MyPageMainRoute(
     padding: PaddingValues,
+    navigateToPersonalInfo: () -> Unit,
+    navigateToSchoolInfo: () -> Unit,
+    navigateToCertManage: () -> Unit,
+    navigateToSetting: () -> Unit,
+    navigateToQuestion: () -> Unit,
     viewModel: MyPageMainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MyPageMainScreen(
         uiState = uiState,
-        onPersonalInfoClick = viewModel::onPersonalInfoClick,
-        onSchoolClick = viewModel::onSchoolClick,
-        onCertificationClick = viewModel::onCertificationClick,
-        onSettingClick = viewModel::onSettingClick,
-        onQuestionsClick = viewModel::onQuestionClick,
+        onPersonalInfoClick = navigateToPersonalInfo,
+        onSchoolInfoClick = navigateToSchoolInfo,
+        onCertManageClick = navigateToCertManage,
+        onSettingClick = navigateToSetting,
+        onQuestionsClick = navigateToQuestion,
         modifier = Modifier.padding(padding)
     )
 }
@@ -46,8 +51,8 @@ fun MyPageMainRoute(
 fun MyPageMainScreen(
     uiState: MyPageUiSate,
     onPersonalInfoClick: () -> Unit,
-    onSchoolClick: () -> Unit,
-    onCertificationClick: () -> Unit,
+    onSchoolInfoClick: () -> Unit,
+    onCertManageClick: () -> Unit,
     onSettingClick: () -> Unit,
     onQuestionsClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -79,7 +84,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_school_24,
                     title = stringResource(R.string.mypage_school_info),
                     description = stringResource(R.string.mypage_school_info_description),
-                    onClick = onSchoolClick
+                    onClick = onSchoolInfoClick
                 )
             }
             item {
@@ -87,7 +92,7 @@ fun MyPageMainScreen(
                     iconId = R.drawable.ic_pencil_24,
                     title = stringResource(R.string.mypage_certification),
                     description = stringResource(R.string.mypage_certification_description),
-                    onClick = onCertificationClick
+                    onClick = onCertManageClick
                 )
             }
             item {
@@ -127,8 +132,8 @@ private fun MyPageMainPreview() {
         MyPageMainScreen(
             uiState = uiState,
             onPersonalInfoClick = {},
-            onSchoolClick = {},
-            onCertificationClick = {},
+            onSchoolInfoClick = {},
+            onCertManageClick = {},
             onSettingClick = {},
             onQuestionsClick = {}
         )

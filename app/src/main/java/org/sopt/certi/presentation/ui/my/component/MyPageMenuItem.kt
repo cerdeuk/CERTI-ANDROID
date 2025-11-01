@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.my.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MyPageMenuItem(
-    iconId: Int,
+    @DrawableRes iconId: Int,
     title: String,
     description: String,
     onClick: () -> Unit,
