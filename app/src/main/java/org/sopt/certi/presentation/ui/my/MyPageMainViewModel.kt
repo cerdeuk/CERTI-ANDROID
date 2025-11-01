@@ -10,7 +10,7 @@ import org.sopt.certi.presentation.ui.my.state.MyPageUiSate
 import javax.inject.Inject
 
 class MyPageMainViewModel@Inject constructor() : ViewModel() {
-    private val _uiState = MutableStateFlow(MyPageUiSate("", "", emptyList()))
+    private val _uiState = MutableStateFlow(MyPageUiSate("", "", emptyList(), 0, 0, 0))
     val uiState = _uiState.asStateFlow()
 
     init {

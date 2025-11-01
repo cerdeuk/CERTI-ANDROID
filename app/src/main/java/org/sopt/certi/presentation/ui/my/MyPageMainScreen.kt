@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.presentation.ui.my.component.MyPageCertMenuItem
 import org.sopt.certi.presentation.ui.my.component.MyPageMenuItem
 import org.sopt.certi.presentation.ui.my.component.MyPageProfile
 import org.sopt.certi.presentation.ui.my.state.MyPageUiSate
@@ -69,8 +70,16 @@ fun MyPageMainScreen(
             modifier = Modifier
                 .background(CertiTheme.colors.gray0)
                 .padding(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(24.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
         ) {
+            item {
+                MyPageCertMenuItem(
+                    acquireExpectedCertCount = uiState.acquireExpectedCertCount,
+                    acquiredCertCount = uiState.acquiredCertCount,
+                    favoriteCertCount = uiState.favoriteCertCount,
+                    onClick = onCertManageClick
+                )
+            }
             item {
                 MyPageMenuItem(
                     iconId = R.drawable.ic_person_24,
@@ -85,14 +94,6 @@ fun MyPageMainScreen(
                     title = stringResource(R.string.mypage_school_info),
                     description = stringResource(R.string.mypage_school_info_description),
                     onClick = onSchoolInfoClick
-                )
-            }
-            item {
-                MyPageMenuItem(
-                    iconId = R.drawable.ic_pencil_24,
-                    title = stringResource(R.string.mypage_certification),
-                    description = stringResource(R.string.mypage_certification_description),
-                    onClick = onCertManageClick
                 )
             }
             item {
@@ -123,7 +124,10 @@ private fun MyPageMainPreview() {
             MyPageUiSate(
                 name = "김서티",
                 email = "certification@gmail.com",
-                jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+                jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
+                acquireExpectedCertCount = 0,
+                acquiredCertCount = 0,
+                favoriteCertCount = 0
             )
         )
     }

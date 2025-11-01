@@ -28,7 +28,7 @@ fun MyPageProfile(
         modifier = modifier
             .fillMaxWidth()
             .background(CertiTheme.colors.white)
-            .padding(top = screenHeightDp(70.dp), bottom = screenHeightDp(40.dp)),
+            .padding(top = screenHeightDp(52.dp), bottom = screenHeightDp(20.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MyPageEmptyProfileImage(

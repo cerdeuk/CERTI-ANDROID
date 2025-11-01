@@ -4,5 +4,8 @@ package org.sopt.certi.presentation.ui.my.state
 data class MyPageUiSate(
     val name: String,
     val email: String,
-    val jobList: List<String>
+    val jobList: List<String>,
+    val acquireExpectedCertCount: Int,
+    val acquiredCertCount: Int,
+    val favoriteCertCount: Int
 )

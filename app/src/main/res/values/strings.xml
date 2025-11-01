@@ -180,6 +180,7 @@
     <string name="mypage_school_info">학사정보 관리</string>
     <string name="mypage_school_info_description">학교/학과 정보 및 희망직무 설정</string>
     <string name="mypage_certification">자격증 관리</string>
+    <string name="mypage_cert_count">%d개</string>
     <string name="mypage_certification_description">즐겨찾기 자격증 및 취득 자격증 관리</string>
     <string name="mypage_setting">설정</string>
     <string name="mypage_setting_description">비밀번호 변경 및 계정 관련</string>
