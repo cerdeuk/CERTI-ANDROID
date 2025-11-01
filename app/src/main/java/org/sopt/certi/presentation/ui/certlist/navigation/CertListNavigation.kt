@@ -9,6 +9,7 @@ import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
 import org.sopt.certi.presentation.ui.certlist.CertListRoute
 import org.sopt.certi.presentation.ui.search.navigation.navigateToSearch
+import org.sopt.certi.presentation.ui.trackcategorycertlist.navigation.navigateToTrackCategoryCertList
 
 fun NavController.navigateToCertList(navOptions: NavOptions) {
     navigate(MainTabRoute.CertList, navOptions)
@@ -24,6 +25,9 @@ fun NavGraphBuilder.certListNavGraph(
             navigateToSearch = { navController.navigateToSearch() },
             navigateToCertDetail = { certId ->
                 navController.navigateToCertDetail(certId = certId)
+            },
+            navigateToMore = {mode ->
+                navController.navigateToTrackCategoryCertList(mode = mode)
             }
         )
     }

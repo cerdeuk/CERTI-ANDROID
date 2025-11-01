@@ -28,6 +28,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.sopt.certi.R
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
@@ -42,6 +43,7 @@ fun CertListRoute(
     padding: PaddingValues,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (certId: Long) -> Unit,
+    navigateToMore: (mode: String) -> Unit,
     viewModel: CertListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
@@ -50,6 +52,7 @@ fun CertListRoute(
         certListState = uiState,
         navigateToSearch = navigateToSearch,
         navigateToCertDetail = navigateToCertDetail,
+        navigateToMore = navigateToMore,
         recommendedList = persistentListOf(),
         modifier = Modifier.padding(padding)
     )
@@ -60,6 +63,7 @@ private fun CertListScreen(
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
+    navigateToMore: (mode: String) -> Unit,
     recommendedList: ImmutableList<CertificationData>,
     modifier: Modifier = Modifier
 ) {
@@ -70,6 +74,16 @@ private fun CertListScreen(
             title = R.string.cert_list_top_bar,
             onClick = navigateToSearch,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
+        )
+
+        Text(
+            text = "계열별",
+            modifier = Modifier.noRippleClickable { navigateToMore("track") }
+        )
+
+        Text(
+            text = "직무별",
+            modifier = Modifier.noRippleClickable { navigateToMore("category") }
         )
 
         CertListRecommendSection(
@@ -170,6 +184,7 @@ private fun PreviewCertListScreen() {
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },
+            navigateToMore = { },
             recommendedList = persistentListOf()
         )
     }

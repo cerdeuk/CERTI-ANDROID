@@ -21,6 +21,7 @@ import org.sopt.certi.presentation.ui.onboarding.navigation.onBoardingNavGraph
 import org.sopt.certi.presentation.ui.resume.navigation.resumeNavGraph
 import org.sopt.certi.presentation.ui.search.navigation.searchNavGraph
 import org.sopt.certi.presentation.ui.splash.navigation.splashNavGraph
+import org.sopt.certi.presentation.ui.trackcategorycertlist.navigation.trackCategoryCertListNavGraph
 import org.sopt.certi.presentation.ui.workExperience.navigation.workExperienceNavGraph
 
 @Composable
@@ -65,6 +66,11 @@ fun MainNavHost(
             )
 
             certListNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
+
+            trackCategoryCertListNavGraph(
                 padding = padding,
                 navController = navigator.navController
             )
