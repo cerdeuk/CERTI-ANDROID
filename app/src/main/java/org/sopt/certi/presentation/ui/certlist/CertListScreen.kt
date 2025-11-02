@@ -1,16 +1,25 @@
 package org.sopt.certi.presentation.ui.certlist
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
@@ -33,6 +43,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
+import org.sopt.certi.presentation.ui.certlist.component.Top3CertificationItem
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.ui.theme.CERTITheme
@@ -48,90 +59,218 @@ fun CertListRoute(
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
 
-    CertListScreen(
-        certListState = uiState,
-        navigateToSearch = navigateToSearch,
-        navigateToCertDetail = navigateToCertDetail,
-        navigateToMore = navigateToMore,
-        recommendedList = persistentListOf(),
-        modifier = Modifier.padding(padding)
-    )
+    when (uiState.loadState) {
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Success -> {
+            CertListScreen(
+                certListState = uiState,
+                navigateToSearch = navigateToSearch,
+                navigateToCertDetail = navigateToCertDetail,
+                navigateToMore = navigateToMore,
+                modifier = Modifier.padding(padding)
+            )
+        }
+
+        is UiState.Failure -> {}
+        else -> {}
+    }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CertListScreen(
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     navigateToMore: (mode: String) -> Unit,
-    recommendedList: ImmutableList<CertificationData>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
-        CategoryTopBar(
-            title = R.string.cert_list_top_bar,
-            onClick = navigateToSearch,
-            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
-        )
+        stickyHeader {
+            CategoryTopBar(
+                title = R.string.cert_list_top_bar,
+                onClick = navigateToSearch,
+                modifier = Modifier
+                    .background(color = CertiTheme.colors.white)
+                    .padding(horizontal = screenWidthDp(20.dp))
+            )
 
-        Text(
-            text = "계열별",
-            modifier = Modifier.noRippleClickable { navigateToMore("track") }
-        )
+            HorizontalDivider(
+                color = CertiTheme.colors.gray100,
+                thickness = screenWidthDp(1.dp)
+            )
+        }
 
-        Text(
-            text = "직무별",
-            modifier = Modifier.noRippleClickable { navigateToMore("category") }
-        )
+        item {
+            CertListRecommendSection(
+                nickname = "김서티",
+                recommendedList = (certListState.recommendListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
+                onDetailClick = { certId ->
+                    navigateToCertDetail(certId)
+                },
+                modifier = Modifier.padding(start = screenWidthDp(20.dp), end = screenWidthDp(20.dp), top = screenHeightDp(24.dp), bottom = screenHeightDp(36.dp))
+            )
+        }
 
-        CertListRecommendSection(
-            recommendedList = recommendedList,
-            onDetailClick = { certId ->
-                navigateToCertDetail(certId)
-            },
-            modifier = Modifier.padding(start = screenWidthDp(20.dp), end = screenWidthDp(20.dp), top = screenHeightDp(24.dp), bottom = screenHeightDp(30.dp))
-        )
+        item {
+            CertListTop3Section(
+                type = "track",
+                titleLabel = "공학계열",
+                top3List = (certListState.trackTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 20.dp),
+                navigateToMore = navigateToMore,
+                navigateToCertDetail = navigateToCertDetail
+            )
+        }
+
+        item {
+            CertListTop3Section(
+                type = "category",
+                titleLabel = "경영사무",
+                top3List = (certListState.categoryTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 14.dp),
+                navigateToMore = navigateToMore,
+                navigateToCertDetail = navigateToCertDetail
+            )
+        }
     }
 }
 
 @Composable
 private fun CertListRecommendSection(
+    nickname: String,
     recommendedList: ImmutableList<CertificationData>,
     onDetailClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
+    var infoVisible by remember { mutableStateOf(false) }
+    Column(
         modifier = modifier
     ) {
-        item {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.cert_list_recommend_title),
-                        style = CertiTheme.typography.subtitle.bold_20,
-                        color = CertiTheme.colors.gray600,
-                        modifier = Modifier.padding(end = screenWidthDp(4.dp))
-                    )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.cert_list_recommend_title, nickname),
+                style = CertiTheme.typography.subtitle.bold_20,
+                color = CertiTheme.colors.gray600,
+                modifier = Modifier.padding(end = screenWidthDp(4.dp))
+            )
 
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_information_24),
-                        contentDescription = null,
-                        tint = Color.Unspecified
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_information_24),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.noRippleClickable {
+                    infoVisible = !infoVisible
+                }
+            )
+        }
+
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            RecommendedCertificationListSection(
+                recommendedList = recommendedList,
+                onDetailClick = { certId ->
+                    onDetailClick(certId)
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
+            if (infoVisible) {
+                Column(
+                    modifier = Modifier
+                        .width(IntrinsicSize.Max)
+                        .padding(top = 2.dp, end = 14.dp)
+                        .background(color = CertiTheme.colors.white, shape = RoundedCornerShape(8.dp))
+                        .border(width = 1.dp, color = CertiTheme.colors.gray400, shape = RoundedCornerShape(8.dp))
+                        .padding(horizontal = 10.dp, vertical = 6.dp)
+                        .align(Alignment.TopEnd)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 3.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = stringResource(R.string.cert_list_recommend_subtitle),
+                            style = CertiTheme.typography.caption.semibold_12,
+                            color = CertiTheme.colors.gray500
+                        )
+
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_close_20),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .noRippleClickable {
+                                    infoVisible = !infoVisible
+                                },
+                            tint = CertiTheme.colors.gray300
+                        )
+                    }
+
+                    Text(
+                        text = stringResource(R.string.cert_list_recommend_description),
+                        style = CertiTheme.typography.caption.regular_12,
+                        color = CertiTheme.colors.gray400
                     )
                 }
-
-                RecommendedCertificationListSection(
-                    recommendedList = recommendedList,
-                    onDetailClick = { certId ->
-                        onDetailClick(certId)
-                    }
-                )
             }
         }
+    }
+}
+
+@Composable
+private fun CertListTop3Section(
+    type: String,
+    titleLabel: String,
+    top3List: ImmutableList<CertificationData>,
+    navigateToMore: (String) -> Unit,
+    navigateToCertDetail: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.cert_list_recommend_certification_top3_title, titleLabel),
+                style = CertiTheme.typography.subtitle.bold_20,
+                color = CertiTheme.colors.gray600
+            )
+
+            Text(
+                text = stringResource(R.string.cert_list_recommend_certification_top3_more),
+                style = CertiTheme.typography.caption.regular_12,
+                color = CertiTheme.colors.gray400,
+                modifier = Modifier.noRippleClickable {
+                    navigateToMore(type)
+                }
+            )
+        }
+
+        Top3CertificationItem(
+            top3List = top3List,
+            navigateToCertDetail = { certId ->
+                navigateToCertDetail(certId)
+            }
+        )
     }
 }
 
@@ -139,7 +278,6 @@ private fun CertListRecommendSection(
 @Composable
 private fun PreviewCertListScreen() {
     CERTITheme {
-        var selectedCategory by remember { mutableIntStateOf(0) }
         var certificationList by remember {
             mutableStateOf(
                 listOf(
@@ -149,6 +287,7 @@ private fun PreviewCertListScreen() {
                         tags = listOf("시각디자인", "컴퓨터공학", "경영"),
                         isFavorite = true,
                         testType = "실기형",
+                        recommendScore = 20,
                         agencyName = "국가기술자격",
                         description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     ),
@@ -158,6 +297,7 @@ private fun PreviewCertListScreen() {
                         tags = listOf("시각디자인", "컴퓨터공학", "경영"),
                         isFavorite = false,
                         testType = "실기형",
+                        recommendScore = 90,
                         agencyName = "국가기술자격",
                         description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     ),
@@ -167,25 +307,25 @@ private fun PreviewCertListScreen() {
                         tags = listOf("경영", "시각디자인", "컴퓨터공학"),
                         isFavorite = true,
                         testType = "실기형",
+                        recommendScore = 80,
                         agencyName = "국가기술자격",
                         description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
                     )
-                )
+                ).toImmutableList()
             )
         }
 
         val uiState = CertListUiState(
-            certificationListLoadState = if (certificationList.isEmpty()) UiState.Empty else UiState.Success(certificationList),
-            selectedCategory = selectedCategory,
-            isFavorite = false
+            recommendListLoadState = UiState.Success(certificationList),
+            trackTop3ListLoadState = UiState.Success(certificationList),
+            categoryTop3ListLoadState = UiState.Success(certificationList)
         )
 
         CertListScreen(
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },
-            navigateToMore = { },
-            recommendedList = persistentListOf()
+            navigateToMore = { }
         )
     }
 }

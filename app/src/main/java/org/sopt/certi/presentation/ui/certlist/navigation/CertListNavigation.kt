@@ -26,7 +26,7 @@ fun NavGraphBuilder.certListNavGraph(
             navigateToCertDetail = { certId ->
                 navController.navigateToCertDetail(certId = certId)
             },
-            navigateToMore = {mode ->
+            navigateToMore = { mode ->
                 navController.navigateToTrackCategoryCertList(mode = mode)
             }
         )

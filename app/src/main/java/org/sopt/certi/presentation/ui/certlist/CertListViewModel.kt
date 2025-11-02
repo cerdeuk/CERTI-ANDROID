@@ -3,6 +3,8 @@ package org.sopt.certi.presentation.ui.certlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -11,95 +13,152 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
-import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
 
 @HiltViewModel
-class CertListViewModel @Inject constructor(
-    private val getCategoryCertListUseCase: GetCategoryCertListUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
-) : ViewModel() {
-    private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    private val _selectedCategory = MutableStateFlow(0)
-    private val _isFavorite = MutableStateFlow(false)
+class CertListViewModel @Inject constructor() : ViewModel() {
+    private val _recommendCertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
+    private val _trackTop3CertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
+    private val _categoryTop3CertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
 
     val certificationListUiState: StateFlow<CertListUiState> =
-        combine(_certListLoadState, _selectedCategory, _isFavorite) { certListLoadState, selectedCategory, isFavorite ->
+        combine(_recommendCertListLoadState, _trackTop3CertListLoadState, _categoryTop3CertListLoadState) { recommendCertListLoadState, trackTop3CertListLoadState, categoryTop3CertListLoadState ->
             CertListUiState(
-                certificationListLoadState = certListLoadState,
-                selectedCategory = selectedCategory,
-                isFavorite = isFavorite
+                recommendListLoadState = recommendCertListLoadState,
+                trackTop3ListLoadState = trackTop3CertListLoadState,
+                categoryTop3ListLoadState = categoryTop3CertListLoadState
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = CertListUiState(
-                certificationListLoadState = UiState.Loading,
-                selectedCategory = 0,
-                isFavorite = false
+                recommendListLoadState = UiState.Loading,
+                trackTop3ListLoadState = UiState.Loading,
+                categoryTop3ListLoadState = UiState.Loading
             )
         )
 
-    fun getCertificationList(
-        isFavorite: Boolean,
-        category: Int
-    ) {
-        viewModelScope.launch {
-            _certListLoadState.value = UiState.Loading
-            if (category == 0) {
-                getRecommendCertificationList()
-            } else {
-                getCategoryCertificationList(isFavorite, category)
-            }
-        }
+    init {
+        getRecommendCertificationList()
+        getTrackTop3CertificationList()
+        getCategoryTop3CertificationList()
     }
 
     private fun getRecommendCertificationList() = viewModelScope.launch {
-        _certListLoadState.value = UiState.Loading
+        _recommendCertListLoadState.value = UiState.Loading
         // 맞춤 추천 서버통신 로직
+        _recommendCertListLoadState.value = UiState.Success(
+            listOf(
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 20,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = false,
+                    testType = "실기형",
+                    recommendScore = 90,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 3,
+                    certificationName = "TOEIC 900+",
+                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 80,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                )
+            ).toImmutableList()
+        )
     }
 
-    private fun getCategoryCertificationList(
-        isFavorite: Boolean,
-        category: Int
-    ) = viewModelScope.launch {
-        _certListLoadState.value = UiState.Loading
-        val jobs = CategoryType.entries.getOrNull(category - 1)?.description ?: ""
-        getCategoryCertListUseCase(isFavorite, jobs)
-            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
-            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
+    private fun getTrackTop3CertificationList() = viewModelScope.launch {
+        _trackTop3CertListLoadState.value = UiState.Loading
+        // 계열 서버통신 로직
+        _trackTop3CertListLoadState.value = UiState.Success(
+            listOf(
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 20,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = false,
+                    testType = "실기형",
+                    recommendScore = 90,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 3,
+                    certificationName = "TOEIC 900+",
+                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 80,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                )
+            ).toImmutableList()
+        )
     }
 
-    fun onCategorySelected(index: Int) {
-        _selectedCategory.value = index
-    }
-
-    fun onFavoriteClick() {
-        _isFavorite.value = !_isFavorite.value
-    }
-
-    fun onLikeClick(certificationId: Long) {
-        viewModelScope.launch {
-            toggleFavoriteUseCase(certificationId)
-                .onSuccess {
-                    val currentState = _certListLoadState.value
-                    if (currentState is UiState.Success) {
-                        val updatedList = currentState.data.map {
-                            if (it.certificationId == certificationId) {
-                                it.copy(isFavorite = !it.isFavorite)
-                            } else {
-                                it
-                            }
-                        }
-                        _certListLoadState.value = UiState.Success(updatedList)
-                    }
-                }
-                .onFailure {
-                    _certListLoadState.value = UiState.Failure(it.toString())
-                }
-        }
+    private fun getCategoryTop3CertificationList() = viewModelScope.launch {
+        _categoryTop3CertListLoadState.value = UiState.Loading
+        // 직무 카테고리 서버통신 로직
+        _categoryTop3CertListLoadState.value = UiState.Success(
+            listOf(
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 20,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 2,
+                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
+                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
+                    isFavorite = false,
+                    testType = "실기형",
+                    recommendScore = 90,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                ),
+                CertificationData(
+                    certificationId = 3,
+                    certificationName = "TOEIC 900+",
+                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
+                    isFavorite = true,
+                    testType = "실기형",
+                    recommendScore = 80,
+                    agencyName = "국가기술자격",
+                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
+                )
+            ).toImmutableList()
+        )
     }
 }

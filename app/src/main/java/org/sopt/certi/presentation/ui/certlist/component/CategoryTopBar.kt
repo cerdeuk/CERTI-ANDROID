@@ -29,7 +29,7 @@ fun CategoryTopBar(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(title),
@@ -44,7 +44,7 @@ fun CategoryTopBar(
             imageVector = ImageVector.vectorResource(R.drawable.ic_search_24),
             contentDescription = null,
             tint = CertiTheme.colors.gray400,
-            modifier = modifier
+            modifier = Modifier
                 .noRippleClickable(onClick)
                 .align(Alignment.CenterEnd)
                 .size(screenWidthDp(24.dp))
