@@ -1,9 +1,9 @@
-package org.sopt.certi.presentation.ui.certlist.state
+package org.sopt.certi.presentation.ui.trackcategorycertlist.state
 
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 
-data class CertListUiState(
+data class TrackCategoryCertListUiState(
     val certificationListLoadState: UiState<List<CertificationData>>,
     val selectedCategory: Int,
     val isFavorite: Boolean

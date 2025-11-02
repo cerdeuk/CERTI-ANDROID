@@ -16,7 +16,7 @@ import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.domain.type.TrackType
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
-import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
+import org.sopt.certi.presentation.ui.trackcategorycertlist.state.TrackCategoryCertListUiState
 import org.sopt.certi.presentation.ui.trackcategorycertlist.model.TrackCategoryType
 import javax.inject.Inject
 
@@ -34,9 +34,9 @@ class TrackCategoryCertListViewModel @Inject constructor(
     private val _selectedCategory = MutableStateFlow(0)
     private val _isFavorite = MutableStateFlow(false)
 
-    val certificationListUiState: StateFlow<CertListUiState> =
+    val certificationListUiState: StateFlow<TrackCategoryCertListUiState> =
         combine(_certListLoadState, _selectedCategory, _isFavorite) { certListLoadState, selectedCategory, isFavorite ->
-            CertListUiState(
+            TrackCategoryCertListUiState(
                 certificationListLoadState = certListLoadState,
                 selectedCategory = selectedCategory,
                 isFavorite = isFavorite
@@ -44,7 +44,7 @@ class TrackCategoryCertListViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = CertListUiState(
+            initialValue = TrackCategoryCertListUiState(
                 certificationListLoadState = UiState.Loading,
                 selectedCategory = 0,
                 isFavorite = false

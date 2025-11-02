@@ -29,7 +29,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.ui.certlist.component.CategoryBar
 import org.sopt.certi.presentation.ui.certlist.component.CategoryFilterButton
 import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
-import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
+import org.sopt.certi.presentation.ui.trackcategorycertlist.state.TrackCategoryCertListUiState
 import org.sopt.certi.presentation.ui.trackcategorycertlist.model.TrackCategoryType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -62,7 +62,7 @@ fun TrackCategoryCertListRoute(
 @Composable
 private fun TrackCategoryCertListScreen(
     type: TrackCategoryType,
-    certListState: CertListUiState,
+    certListState: TrackCategoryCertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     onCategorySelected: (Int) -> Unit,
@@ -176,7 +176,7 @@ private fun CategoryCertListScreenPreview() {
             )
         }
 
-        val uiState = CertListUiState(
+        val uiState = TrackCategoryCertListUiState(
             certificationListLoadState = if (certificationList.isEmpty()) UiState.Empty else UiState.Success(certificationList),
             selectedCategory = selectedCategory,
             isFavorite = false
