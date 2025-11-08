@@ -63,7 +63,7 @@ fun BottomSheetButton(
                     .size(15.dp)
                     .background(CertiTheme.colors.mainBlue),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Text(
                     text = selectNumber.toString(),
                     style = CertiTheme.typography.caption.semibold_10,

@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -48,7 +49,6 @@ fun SelectJobCategoryBottomSheet(
     changeBottomSheetVisibility: (Boolean) -> Unit = { }
 ) {
     val coroutineScope = rememberCoroutineScope()
-
     val categoryList = CategoryType.entries.toTypedArray()
 
     ModalBottomSheet(
@@ -63,7 +63,7 @@ fun SelectJobCategoryBottomSheet(
             Box(
                 modifier = Modifier
                     .padding(top = 24.dp)
-                    .width(80.dp)
+                    .width(screenWidthDp(80.dp))
                     .height(5.dp)
                     .roundedBackgroundWithBorder(12.dp, CertiTheme.colors.gray200)
             )
@@ -75,19 +75,19 @@ fun SelectJobCategoryBottomSheet(
                 .padding(top = 48.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_title),
+                text = stringResource(id = R.string.job_category_bottomsheet_title),
                 style = CertiTheme.typography.subtitle.bold_20,
                 color = CertiTheme.colors.black
             )
             Spacer(Modifier.height(12.dp))
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_sub_title),
+                text = stringResource(id = R.string.job_category_bottomsheet_sub_title),
                 style = CertiTheme.typography.caption.semibold_14,
                 color = CertiTheme.colors.mainBlue
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_content),
+                text = stringResource(id = R.string.job_category_bottomsheet_content),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray500
             )
@@ -122,7 +122,7 @@ fun SelectJobCategoryBottomSheet(
 
             CertiBasicButton(
                 modifier = Modifier.fillMaxWidth(),
-                buttonText = stringResource(R.string.recommend_filter_bottomsheet_confirm_button),
+                buttonText = stringResource(R.string.job_category_bottomsheet_confirm_button),
                 enabled = selectedList.isNotEmpty(),
                 onClick = {
                     coroutineScope.launch {

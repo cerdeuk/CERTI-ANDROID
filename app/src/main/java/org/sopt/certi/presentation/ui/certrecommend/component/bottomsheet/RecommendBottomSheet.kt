@@ -76,19 +76,19 @@ fun RecommendFilterBottomSheet(
                 .padding(top = 48.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_title),
+                text = stringResource(id = R.string.job_category_bottomsheet_title),
                 style = CertiTheme.typography.subtitle.bold_20,
                 color = CertiTheme.colors.black
             )
             Spacer(Modifier.height(12.dp))
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_sub_title),
+                text = stringResource(id = R.string.job_category_bottomsheet_sub_title),
                 style = CertiTheme.typography.caption.semibold_14,
                 color = CertiTheme.colors.mainBlue
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = stringResource(id = R.string.recommend_filter_bottomsheet_content),
+                text = stringResource(id = R.string.job_category_bottomsheet_content),
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray500
             )
@@ -118,7 +118,7 @@ fun RecommendFilterBottomSheet(
 
             CertiBasicButton(
                 modifier = Modifier.fillMaxWidth(),
-                buttonText = stringResource(R.string.recommend_filter_bottomsheet_confirm_button),
+                buttonText = stringResource(R.string.job_category_bottomsheet_confirm_button),
                 enabled = selectedList.isNotEmpty(),
                 onClick = {
                     coroutineScope.launch {
