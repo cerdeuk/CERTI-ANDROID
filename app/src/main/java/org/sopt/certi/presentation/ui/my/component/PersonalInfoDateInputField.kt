@@ -3,7 +3,6 @@ package org.sopt.certi.presentation.ui.my.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +38,7 @@ import androidx.compose.ui.window.PopupProperties
 import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
@@ -157,9 +157,12 @@ private fun DatePickerField(
     Column {
         Row(
             modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .border(1.dp, CertiTheme.colors.gray200, RoundedCornerShape(8.dp))
-                .background(CertiTheme.colors.gray0)
+                .roundedBackgroundWithBorder(
+                    cornerRadius = 8.dp,
+                    backgroundColor = CertiTheme.colors.gray0,
+                    borderColor = CertiTheme.colors.gray200,
+                    borderWidth = 1.dp
+                )
                 .noRippleClickable { visible = !visible }
                 .onSizeChanged {
                     rowWidth = with(density) { it.width.toDp() }
@@ -169,20 +172,18 @@ private fun DatePickerField(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
         ) {
-            Box {
-                if (selectedValue.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        style = CertiTheme.typography.caption.semibold_14,
-                        color = CertiTheme.colors.gray300
-                    )
-                } else {
-                    Text(
-                        text = if (padDisplayValue) selectedValue.padStart(2, '0') else selectedValue,
-                        style = CertiTheme.typography.caption.regular_14,
-                        color = CertiTheme.colors.black
-                    )
-                }
+            if (selectedValue.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    style = CertiTheme.typography.caption.semibold_14,
+                    color = CertiTheme.colors.gray300
+                )
+            } else {
+                Text(
+                    text = if (padDisplayValue) selectedValue.padStart(2, '0') else selectedValue,
+                    style = CertiTheme.typography.caption.regular_14,
+                    color = CertiTheme.colors.black
+                )
             }
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
