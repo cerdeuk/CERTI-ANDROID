@@ -69,7 +69,7 @@ fun MyPageMainScreen(
         LazyColumn(
             modifier = Modifier
                 .background(CertiTheme.colors.gray0)
-                .padding(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(24.dp)),
+                .padding(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(20.dp)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
         ) {
             item {
@@ -98,7 +98,7 @@ fun MyPageMainScreen(
             }
             item {
                 MyPageMenuItem(
-                    iconId = R.drawable.ic_setting_24,
+                    iconId = R.drawable.ic_edit_24,
                     title = stringResource(R.string.mypage_setting),
                     description = stringResource(R.string.mypage_setting_description),
                     onClick = onSettingClick

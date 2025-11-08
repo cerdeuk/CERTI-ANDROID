@@ -19,7 +19,6 @@ class MyPageMainViewModel@Inject constructor() : ViewModel() {
 
     private fun loadMyPageData() {
         viewModelScope.launch {
-            // 임시 데이터
             _uiState.update {
                 it.copy(
                     name = "김서티",
