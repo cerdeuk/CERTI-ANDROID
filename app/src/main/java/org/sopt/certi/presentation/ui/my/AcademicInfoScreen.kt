@@ -1,5 +1,7 @@
 package org.sopt.certi.presentation.ui.my
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -67,11 +69,15 @@ fun AcademicInfoScreen(
 @Composable
 private fun MySchoolInfoPreview() {
     CERTITheme {
-        AcademicInfoScreen(
-            onSchoolManageClick = {},
-            onMajorManageClick = {},
-            jobCategoryList = listOf("재무/세무/IR", "재무/세무/IR", "재무/세무/IR"),
-            onReselectCategoryClick = {}
-        )
+        Box(
+            modifier = Modifier.background(CertiTheme.colors.white)
+        ) {
+            AcademicInfoScreen(
+                onSchoolManageClick = {},
+                onMajorManageClick = {},
+                jobCategoryList = listOf("재무/세무/IR", "재무/세무/IR", "재무/세무/IR"),
+                onReselectCategoryClick = {}
+            )
+        }
     }
 }

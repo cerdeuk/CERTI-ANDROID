@@ -76,8 +76,8 @@ private fun JobCategoryChip(
 ) {
     Box(
         modifier = modifier
-            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(8.dp))
             .roundedBackgroundWithBorder(cornerRadius = 24.dp, backgroundColor = CertiTheme.colors.gray0)
+            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(8.dp))
     ) {
         Text(
             text = categoryType,
