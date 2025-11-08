@@ -104,12 +104,14 @@ fun PersonalInfoNicknameTextField(
                         }
                         innerTextField()
                     }
-                    Text(
-                        text = "${value.length}/7",
-                        style = CertiTheme.typography.caption.semibold_12,
-                        color = CertiTheme.colors.gray500,
-                        modifier = Modifier.padding(start = screenWidthDp(8.dp))
-                    )
+                    if (value != preValue) {
+                        Text(
+                            text = "${value.length}/7",
+                            style = CertiTheme.typography.caption.semibold_12,
+                            color = CertiTheme.colors.gray500,
+                            modifier = Modifier.padding(start = screenWidthDp(8.dp))
+                        )
+                    }
                 }
             }
         )
