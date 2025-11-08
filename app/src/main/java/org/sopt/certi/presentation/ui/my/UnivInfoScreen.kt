@@ -1,0 +1,122 @@
+package org.sopt.certi.presentation.ui.my
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import org.sopt.certi.R
+import org.sopt.certi.core.component.textfield.CertiBasicTextField
+import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.showIf
+import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
+import org.sopt.certi.presentation.ui.my.state.MyUnivUiState
+import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
+
+@Composable
+fun UnivInfoRoute() {}
+
+@Composable
+fun UnivInfoScreen(
+    uiState: MyUnivUiState,
+    onValueChange: (String) -> Unit,
+    onSearchClick: () -> Unit,
+    univList: ImmutableList<String>,
+    onUnivSelected: (String) -> Unit,
+    isSaveEnable: Boolean,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        ModifyInfoHeader(
+            headerTitle = "",
+            isSaveEnable = isSaveEnable,
+            onSaveClick = onSaveClick,
+            modifier = Modifier.padding(vertical = screenHeightDp(22.dp), horizontal = screenWidthDp(20.dp))
+        )
+        Text(
+            text = stringResource(R.string.onboarding_univ_title),
+            style = CertiTheme.typography.subtitle.bold_20,
+            color = CertiTheme.colors.gray600,
+            modifier = Modifier.padding(vertical = screenHeightDp(24.dp), horizontal = screenWidthDp(20.dp))
+        )
+        CertiBasicTextField(
+            value = uiState.univSearchText,
+            onValueChange = onValueChange,
+            onSearchClick = onSearchClick,
+            modifier = Modifier
+                .padding(top = screenHeightDp(14.dp))
+                .padding(horizontal = screenWidthDp(20.dp))
+        )
+
+        when (uiState.loadState) {
+            is UiState.Init -> {}
+            is UiState.Success -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .showIf(
+                            condition = uiState.univListLoadState is UiState.Success
+                        )
+                        .padding(bottom = screenHeightDp(60.dp))
+                ) {
+                    items(univList.size) { univ ->
+                        Column(
+                            modifier = Modifier.noRippleClickable { onUnivSelected(univList[univ]) }
+                        ) {
+                            Text(
+                                text = univList[univ],
+                                style = CertiTheme.typography.body.regular_16,
+                                color = CertiTheme.colors.black,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(20.dp))
+                            )
+                            HorizontalDivider(
+                                color = CertiTheme.colors.gray100,
+                                thickness = screenHeightDp(1.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            is UiState.Empty -> {}
+            is UiState.Failure -> {}
+            is UiState.Loading -> {}
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UnivInfoPreview() {
+    CERTITheme {
+        UnivInfoScreen(
+            uiState = MyUnivUiState(
+                univSearchText = "",
+                univListLoadState = UiState.Success(listOf("서울대학교", "고려대학교", "연세대학교")),
+                submittedUnivSearchText = ""
+            ),
+            onValueChange = {},
+            onSearchClick = {},
+            univList = listOf("대학교이름").toImmutableList(),
+            onUnivSelected = {},
+            isSaveEnable = false,
+            onSaveClick = {}
+        )
+    }
+}
