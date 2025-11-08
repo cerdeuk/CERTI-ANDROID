@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import org.sopt.certi.R
+import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
@@ -201,6 +202,11 @@ private fun DatePickerField(
                 LazyColumn(
                     state = lazyListState,
                     modifier = Modifier
+                        .dropShadow(
+                            shape = RoundedCornerShape(4.dp),
+                            color = CertiTheme.colors.black.copy(alpha = 0.05f),
+                            blur = 20.dp
+                        )
                         .clip(RoundedCornerShape(4.dp))
                         .heightForScreenPercentage(240.dp)
                         .background(CertiTheme.colors.white)
