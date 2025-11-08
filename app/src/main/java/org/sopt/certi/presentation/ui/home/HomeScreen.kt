@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -36,6 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
+import org.sopt.certi.core.component.section.MyCertificationListSection
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.findActivity
@@ -47,11 +52,16 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.home.component.FavoriteCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.HomeCalendar
+import org.sopt.certi.presentation.ui.home.component.NoDataCalendarItem
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.main.MainActivity
 import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.ui.theme.CertiTheme
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun HomeRoute(
@@ -123,6 +133,32 @@ fun HomeScreen(
     navigateToLogin: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var selectedDate by remember { mutableStateOf("2025-10-23") }
+    var certListInSelectedData by remember {
+        mutableStateOf(
+            listOf<CertificationData>(
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    agencyName = "국가기술자격",
+                    isAcquired = true,
+                    placement = "강남",
+                    testTime = "09:00",
+                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+                ),
+                CertificationData(
+                    certificationId = 1,
+                    certificationName = "정보처리기사",
+                    agencyName = "국가기술자격",
+                    isAcquired = false,
+                    testDateInformation = "2025-11-03",
+                    level = "IM3",
+                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+                )
+            )
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -153,10 +189,75 @@ fun HomeScreen(
                 Box(
                     modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
-                    HomeCalendar()
+                    // TODO 서버에서 날짜 받아서 넣어야댐
+                    HomeCalendar() { day ->
+                        selectedDate = day
+                    }
                 }
 
-                Spacer(Modifier.heightForScreenPercentage(36.dp))
+                if (certListInSelectedData.isNotEmpty()) {
+                    Spacer(Modifier.heightForScreenPercentage(16.dp))
+                }
+            }
+
+            item {
+                // Date Text
+                if (selectedDate.isNotEmpty()) {
+                    val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    val backgroundColor = if (certListInSelectedData.isEmpty()) CertiTheme.colors.white else CertiTheme.colors.purpleWhite
+                    val dayName = getDayNameOfWeek(selectedDate)
+                    val (_, selectedMonth, selectedDay) = selectedDate.split("-")
+
+                    val dateText = if (selectedDate == currentDate) {
+                        stringResource(R.string.home_calendar_today_date, selectedMonth, selectedDay, dayName)
+                    } else {
+                        stringResource(R.string.home_calendar_date, selectedMonth, selectedDay, dayName)
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = backgroundColor)
+                            .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(16.dp))
+                    ) {
+                        Text(
+                            text = dateText,
+                            style = CertiTheme.typography.body.semibold_16,
+                            color = CertiTheme.colors.black
+                        )
+                    }
+                }
+            }
+
+            items(
+                items = certListInSelectedData,
+                key = { it.certificationId }
+            ) { certificationData ->
+                if (selectedDate.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .background(color = CertiTheme.colors.purpleWhite)
+                            .padding(horizontal = screenWidthDp(20.dp))
+                            .padding(bottom = screenHeightDp(16.dp))
+                    ) {
+                        MyCertificationListSection(
+                            certificationListData = certificationData,
+                            isForEdit = false,
+                            onCertificationClick = {
+                                // TODO 자격증 이동
+                            }
+                        )
+                    }
+                }
+            }
+
+            item {
+                if (selectedDate.isNotEmpty() && certListInSelectedData.isEmpty()) {
+                    NoDataCalendarItem {
+                        // TODO 자격증 추가하기
+                    }
+                    Spacer(Modifier.heightForScreenPercentage(36.dp))
+                }
             }
 
             item {
@@ -166,6 +267,8 @@ fun HomeScreen(
                         .padding(horizontal = screenWidthDp(20.dp)),
                     verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
                 ) {
+                    Spacer(Modifier.heightForScreenPercentage(36.dp))
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -276,6 +379,11 @@ fun HomeScreen(
             }
         }
     }
+}
+
+private fun getDayNameOfWeek(dateString: String): String {
+    val date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    return date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREA)
 }
 
 private fun finishAndRestart(activity: MainActivity, context: Context) {

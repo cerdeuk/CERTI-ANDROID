@@ -74,7 +74,8 @@ fun RecommendedCertificationItem(
                 Text(
                     text = recommendedCertificationData.certificationName,
                     style = CertiTheme.typography.body.bold_18,
-                    color = CertiTheme.colors.gray600
+                    color = CertiTheme.colors.gray600,
+                    overflow = TextOverflow.Ellipsis
                 )
                 VerticalDivider(
                     modifier = Modifier
