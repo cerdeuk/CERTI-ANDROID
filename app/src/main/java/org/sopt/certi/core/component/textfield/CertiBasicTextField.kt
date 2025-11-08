@@ -99,7 +99,7 @@ fun CertiBasicTextField(
                     Text(
                         text = placeholder,
                         style = CertiTheme.typography.body.regular_16,
-                        color = CertiTheme.colors.gray200
+                        color = CertiTheme.colors.gray300
                     )
                 }
                 innerTextField()
@@ -110,7 +110,7 @@ fun CertiBasicTextField(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_search_24),
             contentDescription = stringResource(R.string.textfield_placeholder),
-            tint = CertiTheme.colors.gray200,
+            tint = CertiTheme.colors.gray300,
             modifier = Modifier.noRippleClickable(onSearchClick)
         )
     }
