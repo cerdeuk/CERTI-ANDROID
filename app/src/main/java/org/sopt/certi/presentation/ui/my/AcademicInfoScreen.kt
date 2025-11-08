@@ -28,7 +28,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.presentation.ui.my.component.MyJobCategorySection
+import org.sopt.certi.presentation.ui.my.component.JobCategorySection
 import org.sopt.certi.presentation.ui.my.component.MySchoolSection
 import org.sopt.certi.presentation.ui.my.component.SelectJobCategoryBottomSheet
 import org.sopt.certi.ui.theme.CERTITheme
@@ -67,7 +67,7 @@ fun AcademicInfoScreen(
         HorizontalDivider(
             color = CertiTheme.colors.gray100
         )
-        MyJobCategorySection(
+        JobCategorySection(
             jobCategoryList = selectedCategoryList,
             onClick = onReselectCategoryClick,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(24.dp))

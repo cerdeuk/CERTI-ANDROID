@@ -1,12 +1,18 @@
 package org.sopt.certi.presentation.ui.my
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -104,19 +110,37 @@ fun UnivInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun UnivInfoPreview() {
-    CERTITheme {
-        UnivInfoScreen(
-            uiState = MyPageUnivUiState(
+    var uiState by remember {
+        mutableStateOf(
+            MyPageUnivUiState(
                 univSearchText = "",
                 univListLoadState = UiState.Success(listOf("서울대학교", "고려대학교", "연세대학교")),
                 submittedUnivSearchText = ""
-            ),
-            onValueChange = {},
-            onSearchClick = {},
-            univList = listOf("대학교이름").toImmutableList(),
-            onUnivSelected = {},
-            isSaveEnable = false,
-            onSaveClick = {}
+            )
+        )
+    }
+
+    CERTITheme {
+        UnivInfoScreen(
+            uiState = uiState,
+            onValueChange = {
+                uiState = uiState.copy(
+                    univSearchText = it
+                )
+            },
+            onSearchClick = { },
+            univList = listOf("서울대학교", "고려대학교", "연세대학교").toImmutableList(),
+            onUnivSelected = {
+                uiState = uiState.copy(
+                    univSearchText = it,
+                    submittedUnivSearchText = it
+                )
+            },
+            isSaveEnable = uiState.submittedUnivSearchText.isNotBlank(),
+            onSaveClick = {},
+            modifier = Modifier
+                .background(CertiTheme.colors.white)
+                .statusBarsPadding()
         )
     }
 }

@@ -30,7 +30,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyJobCategorySection(
+fun JobCategorySection(
     jobCategoryList: List<CategoryType>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -120,7 +120,7 @@ private fun ReselectInterestedChip(
 @Composable
 private fun MyJobCategoryManagePreview() {
     CERTITheme {
-        MyJobCategorySection(
+        JobCategorySection(
             jobCategoryList = listOf(CategoryType.MARKETING, CategoryType.MARKETING, CategoryType.MARKETING),
             onClick = {}
         )
