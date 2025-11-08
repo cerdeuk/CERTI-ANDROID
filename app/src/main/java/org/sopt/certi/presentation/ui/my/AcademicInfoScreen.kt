@@ -22,12 +22,12 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyAcademicInfoRoute() {
+fun AcademicInfoRoute() {
 
 }
 
 @Composable
-fun MyAcademicInfoScreen(
+fun AcademicInfoScreen(
     onSchoolManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
     jobCategoryList: List<String>,
@@ -68,7 +68,7 @@ fun MyAcademicInfoScreen(
 @Composable
 private fun MySchoolInfoPreview() {
     CERTITheme {
-        MyAcademicInfoScreen(
+        AcademicInfoScreen(
             onSchoolManageClick = {},
             onMajorManageClick = {},
             jobCategoryList = listOf("재무/세무/IR", "재무/세무/IR", "재무/세무/IR"),

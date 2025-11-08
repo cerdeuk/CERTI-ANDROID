@@ -188,5 +188,7 @@
     <string name="my_school_info_title">학사정보</string>
     <string name="my_school_info_modify">대학교 변경</string>
     <string name="my_school_major_modify">학과 변경</string>
+
+    <string name="personal_save">저장</string>
     
 </resources>

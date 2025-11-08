@@ -15,17 +15,20 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.textfield.CertiBasicTextField
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MySchoolInfoRoute() {}
+fun SchoolInfoRoute() {}
 
 @Composable
-fun MySchoolInfoScreen(
+fun SchoolInfoScreen(
     value: String,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
+    isSaveEnable: Boolean,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -34,6 +37,12 @@ fun MySchoolInfoScreen(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = screenWidthDp(20.dp))
     ) {
+        ModifyInfoHeader(
+            headerTitle = "",
+            isSaveEnable = isSaveEnable,
+            onSaveClick = onSaveClick,
+            modifier = Modifier.padding(vertical = screenHeightDp(22.dp))
+        )
         Text(
             text = stringResource(R.string.onboarding_univ_title),
             style = CertiTheme.typography.subtitle.bold_20,
@@ -53,10 +62,12 @@ fun MySchoolInfoScreen(
 @Composable
 private fun MySchoolInfoPreview() {
     CERTITheme {
-        MySchoolInfoScreen(
+        SchoolInfoScreen(
             value = "",
             onValueChange = {},
-            onSearchClick = {}
+            onSearchClick = {},
+            isSaveEnable = false,
+            onSaveClick = {}
         )
     }
 }
