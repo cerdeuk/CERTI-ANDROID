@@ -2,9 +2,11 @@ package org.sopt.certi.presentation.ui.my
 
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,13 +25,14 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
+import org.sopt.certi.presentation.ui.my.component.BirthdayInputField
 import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoDateInputField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
 import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
+import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun PersonalInfoRoute(
@@ -120,10 +123,8 @@ fun PersonalInfoScreen(
         }
 
         item {
-            PersonalInfoDateInputField(
+            BirthdayInputField(
                 label = stringResource(R.string.personal_birthday_label),
-                placeholder = stringResource(R.string.personal_birthday_placeholder),
-                value = uiState.birth,
                 onValueChange = onBirthChange
             )
         }
@@ -180,7 +181,10 @@ private fun MyPagePersonalInfoPreview() {
             },
             onNameChange = { uiState = uiState.copy(name = it) },
             onEmailChange = { uiState = uiState.copy(email = it) },
-            onBirthChange = { uiState = uiState.copy(birth = it) }
+            onBirthChange = { uiState = uiState.copy(birth = it) },
+            modifier = Modifier
+                .background(CertiTheme.colors.white)
+                .statusBarsPadding()
         )
     }
 }
