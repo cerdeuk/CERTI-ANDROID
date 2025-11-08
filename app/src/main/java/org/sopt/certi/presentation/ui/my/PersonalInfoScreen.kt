@@ -23,8 +23,8 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
+import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoDateInputField
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoHeader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
@@ -76,9 +76,10 @@ fun PersonalInfoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         stickyHeader {
-            PersonalInfoHeader(
+            ModifyInfoHeader(
                 isSaveEnable = isSaveButtonEnabled,
-                onSaveClick = onSaveClick
+                onSaveClick = onSaveClick,
+                headerTitle = stringResource(R.string.mypage_personal_info)
             )
         }
 

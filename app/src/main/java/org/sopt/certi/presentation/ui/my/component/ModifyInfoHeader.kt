@@ -12,16 +12,17 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoHeader(
+fun ModifyInfoHeader(
     isSaveEnable: Boolean,
     onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    headerTitle: String = ""
 ) {
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(R.string.mypage_personal_info),
+            text = headerTitle,
             style = CertiTheme.typography.subtitle.semibold_20,
             color = CertiTheme.colors.gray600,
             modifier = Modifier.align(Alignment.Center)
