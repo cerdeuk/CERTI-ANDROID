@@ -122,6 +122,8 @@ fun PersonalInfoScreen(
         item {
             PersonalInfoDateInputField(
                 label = stringResource(R.string.personal_birthday_label),
+                placeholder = stringResource(R.string.personal_birthday_placeholder),
+                value = uiState.birth,
                 onValueChange = onBirthChange
             )
         }
