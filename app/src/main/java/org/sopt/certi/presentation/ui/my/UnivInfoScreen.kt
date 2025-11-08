@@ -21,7 +21,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.my.state.MyUnivUiState
+import org.sopt.certi.presentation.ui.my.state.MyPageUnivUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -30,7 +30,7 @@ fun UnivInfoRoute() {}
 
 @Composable
 fun UnivInfoScreen(
-    uiState: MyUnivUiState,
+    uiState: MyPageUnivUiState,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     univList: ImmutableList<String>,
@@ -106,7 +106,7 @@ fun UnivInfoScreen(
 private fun UnivInfoPreview() {
     CERTITheme {
         UnivInfoScreen(
-            uiState = MyUnivUiState(
+            uiState = MyPageUnivUiState(
                 univSearchText = "",
                 univListLoadState = UiState.Success(listOf("서울대학교", "고려대학교", "연세대학교")),
                 submittedUnivSearchText = ""

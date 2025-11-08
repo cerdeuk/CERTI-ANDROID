@@ -23,7 +23,6 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun AcademicInfoRoute() {
-
 }
 
 @Composable
@@ -59,7 +58,7 @@ fun AcademicInfoScreen(
         MyJobCategorySection(
             jobCategoryList = jobCategoryList,
             onClick = onReselectCategoryClick,
-            modifier= Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(24.dp))
+            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(24.dp))
         )
     }
 }

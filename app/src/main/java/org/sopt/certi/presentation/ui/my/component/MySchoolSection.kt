@@ -38,7 +38,6 @@ fun MySchoolSection(
             modifier = Modifier.padding(bottom = screenHeightDp(16.dp))
         )
         MySchoolManageItem(onClick = onMajorManageClick)
-
     }
 }
 

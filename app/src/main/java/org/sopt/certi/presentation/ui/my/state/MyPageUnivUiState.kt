@@ -2,7 +2,7 @@ package org.sopt.certi.presentation.ui.my.state
 
 import org.sopt.certi.core.state.UiState
 
-data class MyUnivUiState(
+data class MyPageUnivUiState(
     val univSearchText: String,
     val univListLoadState: UiState<List<String>>,
     val submittedUnivSearchText: String
