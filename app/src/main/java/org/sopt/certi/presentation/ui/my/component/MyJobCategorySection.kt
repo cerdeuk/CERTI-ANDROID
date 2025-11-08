@@ -25,12 +25,13 @@ import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MyJobCategorySection(
-    jobCategoryList: List<String>,
+    jobCategoryList: List<CategoryType>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +55,7 @@ fun MyJobCategorySection(
 
 @Composable
 private fun JobCategoryList(
-    jobCategoryList: List<String>,
+    jobCategoryList: List<CategoryType>,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -71,7 +72,7 @@ private fun JobCategoryList(
 
 @Composable
 private fun JobCategoryChip(
-    categoryType: String,
+    categoryType: CategoryType,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -80,7 +81,7 @@ private fun JobCategoryChip(
             .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(8.dp))
     ) {
         Text(
-            text = categoryType,
+            text = categoryType.description,
             style = CertiTheme.typography.caption.regular_12,
             color = CertiTheme.colors.gray600
         )
@@ -120,7 +121,7 @@ private fun ReselectInterestedChip(
 private fun MyJobCategoryManagePreview() {
     CERTITheme {
         MyJobCategorySection(
-            jobCategoryList = listOf("재무/세무/IR"),
+            jobCategoryList = listOf(CategoryType.MARKETING, CategoryType.MARKETING, CategoryType.MARKETING),
             onClick = {}
         )
     }

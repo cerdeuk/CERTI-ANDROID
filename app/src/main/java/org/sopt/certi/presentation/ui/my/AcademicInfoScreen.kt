@@ -3,13 +3,22 @@ package org.sopt.certi.presentation.ui.my
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,20 +27,21 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.my.component.MyJobCategorySection
 import org.sopt.certi.presentation.ui.my.component.MySchoolSection
+import org.sopt.certi.presentation.ui.my.component.SelectJobCategoryBottomSheet
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun AcademicInfoRoute() {
-}
+fun AcademicInfoRoute() { }
 
 @Composable
 fun AcademicInfoScreen(
     onSchoolManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
-    jobCategoryList: List<String>,
+    selectedCategoryList: List<CategoryType>,
     onReselectCategoryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -58,26 +68,55 @@ fun AcademicInfoScreen(
             color = CertiTheme.colors.gray100
         )
         MyJobCategorySection(
-            jobCategoryList = jobCategoryList,
+            jobCategoryList = selectedCategoryList,
             onClick = onReselectCategoryClick,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(24.dp))
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun MySchoolInfoPreview() {
+private fun AcademicInfoPreview() {
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val selectedCategoryList = remember { mutableStateListOf(CategoryType.MARKETING, CategoryType.RND, CategoryType.MEDIA) }
+
     CERTITheme {
         Box(
-            modifier = Modifier.background(CertiTheme.colors.white)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(CertiTheme.colors.white)
+                .statusBarsPadding()
         ) {
             AcademicInfoScreen(
                 onSchoolManageClick = {},
                 onMajorManageClick = {},
-                jobCategoryList = listOf("재무/세무/IR", "재무/세무/IR", "재무/세무/IR"),
-                onReselectCategoryClick = {}
+                selectedCategoryList = selectedCategoryList,
+                onReselectCategoryClick = {
+                    showBottomSheet = !showBottomSheet
+                }
             )
+
+            if (showBottomSheet) {
+                SelectJobCategoryBottomSheet(
+                    sheetState = sheetState,
+                    selectedList = selectedCategoryList,
+                    onItemClick = { categoryType ->
+                        if (selectedCategoryList.contains(categoryType)) {
+                            selectedCategoryList.remove(categoryType)
+                        } else {
+                            selectedCategoryList.add(categoryType)
+                        }
+                    },
+                    changeBottomSheetVisibility = { showBottomSheet = it },
+                    onConfirmClick = { },
+                    onDismissClick = { }
+                )
+            }
         }
     }
 }
