@@ -9,8 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import org.sopt.certi.core.navigation.Route
-import org.sopt.certi.presentation.ui.certrecommend.navigation.navigateToCertRecommend
+import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.presentation.ui.certlist.navigation.navigateToCertList
 import org.sopt.certi.presentation.ui.home.navigation.navigateToHome
 import org.sopt.certi.presentation.ui.login.navigation.navigateToLogin
@@ -24,7 +23,8 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Splash
+    // val startDestination = Route.Splash
+    val startDestination = MainTabRoute.CertList
 
     val currentTab: MainTab?
         @Composable get() = MainTab.entries.find { tab ->
@@ -45,7 +45,7 @@ class MainNavigator(
         when (tab) {
             MainTab.HOME -> navController.navigateToHome(navOptions)
             MainTab.CERTLIST -> navController.navigateToCertList(navOptions)
-            MainTab.CERTRECOMMEND -> navController.navigateToCertRecommend(navOptions)
+            MainTab.CERTRECOMMEND -> {}
             MainTab.RESUME -> navController.navigateToResume(navOptions)
         }
     }
