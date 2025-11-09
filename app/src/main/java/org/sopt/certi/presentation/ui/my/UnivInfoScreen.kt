@@ -10,13 +10,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
@@ -41,7 +40,6 @@ fun UnivInfoScreen(
     onSearchClick: () -> Unit,
     univList: ImmutableList<String>,
     onUnivSelected: (String) -> Unit,
-    isSaveEnable: Boolean,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,7 +48,7 @@ fun UnivInfoScreen(
     ) {
         ModifyInfoHeader(
             headerTitle = "",
-            isSaveEnable = isSaveEnable,
+            isSaveEnable = uiState.isSaveEnable,
             onSaveClick = onSaveClick,
             modifier = Modifier.padding(vertical = screenHeightDp(22.dp), horizontal = screenWidthDp(20.dp))
         )
@@ -110,34 +108,17 @@ fun UnivInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun UnivInfoPreview() {
-    var uiState by remember {
-        mutableStateOf(
-            MyPageUnivUiState(
-                univSearchText = "",
-                univListLoadState = UiState.Success(listOf("서울대학교", "고려대학교", "연세대학교")),
-                submittedUnivSearchText = ""
-            )
-        )
-    }
+    val viewModel = remember { AcademicInfoViewModel() }
+    val uiState by viewModel.myPageUnivUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
         UnivInfoScreen(
             uiState = uiState,
-            onValueChange = {
-                uiState = uiState.copy(
-                    univSearchText = it
-                )
-            },
-            onSearchClick = { },
-            univList = listOf("서울대학교", "고려대학교", "연세대학교").toImmutableList(),
-            onUnivSelected = {
-                uiState = uiState.copy(
-                    univSearchText = it,
-                    submittedUnivSearchText = it
-                )
-            },
-            isSaveEnable = uiState.submittedUnivSearchText.isNotBlank(),
-            onSaveClick = {},
+            onValueChange = viewModel::onUnivSearchTextChanged,
+            onSearchClick = viewModel::onSearchUnivClick,
+            univList = (uiState.univListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+            onUnivSelected = viewModel::onUnivSelected,
+            onSaveClick = viewModel::onUnivSaveClick,
             modifier = Modifier
                 .background(CertiTheme.colors.white)
                 .statusBarsPadding()
