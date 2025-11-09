@@ -78,8 +78,17 @@
     </string-array>
 
     <!-- CertList Screen -->
-    <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
+    <string name="cert_list_top_bar">모든 자격증</string>
+    <string name="cert_list_recommend_title">%s님에게 추천하는 자격증</string>
+    <string name="cert_list_recommend_subtitle">추천 기준</string>
+    <string name="cert_list_recommend_description">서티는 자체 알고리즘을 기반으로 사용자\n에게 적합한 자격증을 추천해주고 있어요.\n수많은 사용자 데이터를 학습하여 신뢰할\n수 있는 결과를 제공합니다.</string>
+    <string name="cert_list_recommend_certification_top3_title">%s 자격증 TOP3</string>
+    <string name="cert_list_recommend_certification_top3_more">더보기</string>
+    <string name="cert_list_recommend_certification_rank">%d</string>
+
     <string name="cert_list_favorite_btn">즐겨찾기</string>
+    <string name="category_cert_list_top_bar">직무별 자격증</string>
+    <string name="track_cert_list_top_bar">계열별 자격증</string>
 
     <!-- Search Screen -->
     <string name="search_result_title">총 %d개의 검색 결과</string>
