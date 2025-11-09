@@ -49,7 +49,7 @@ fun PersonalInfoRoute(
         onProfileUriChange = viewModel::onProfileUriChange,
         onNickNameChange = viewModel::onNickNameChange,
         onNickNameCheckButtonClick = viewModel::onNickNameCheckButtonClick,
-        onNameChange = viewModel::onNickNameChange,
+        onNameChange = viewModel::onNameChange,
         onEmailChange = viewModel::onEmailChange,
         onBirthChange = viewModel::onBirthChange,
         onSaveClick = viewModel::onSaveClick,

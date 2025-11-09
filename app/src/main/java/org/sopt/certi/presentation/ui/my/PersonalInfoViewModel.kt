@@ -48,23 +48,20 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
         val currentStateForComparison = _uiState.value.copy(
             isSaveButtonEnabled = initial.isSaveButtonEnabled
         )
-        val isContengChanged = currentStateForComparison != initial
-        val isNicknameValid = (_nickNameValidTypeUiState.value == NickNameValidType.VALID) || (_nickNameValidTypeUiState.value == NickNameValidType.DEFAULT)
+        val isContentChanged = currentStateForComparison != initial
+        val isNicknameValid = _nickNameValidTypeUiState.value in setOf(NickNameValidType.VALID, NickNameValidType.DEFAULT)
 
         _uiState.update {
-            it.copy(
-                isSaveButtonEnabled = isContengChanged && isNicknameValid
-            )
+            it.copy(isSaveButtonEnabled = isContentChanged && isNicknameValid)
         }
     }
 
     fun onSaveClick() {
         viewModelScope.launch {
-            _nickNameValidTypeUiState.update { NickNameValidType.DEFAULT }
-            _initialUiState.update { _uiState.value.copy(isSaveButtonEnabled = false) }
-            _uiState.update {
-                it.copy(isSaveButtonEnabled = false)
-            }
+            _nickNameValidTypeUiState.value = NickNameValidType.DEFAULT
+            val savedState = _uiState.value.copy(isSaveButtonEnabled = false)
+            _uiState.value = savedState
+            _initialUiState.value = savedState
         }
     }
 
