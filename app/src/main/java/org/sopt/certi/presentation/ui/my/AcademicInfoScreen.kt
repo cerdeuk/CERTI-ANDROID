@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,13 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.my.component.JobCategorySection
 import org.sopt.certi.presentation.ui.my.component.MySchoolSection
 import org.sopt.certi.presentation.ui.my.component.SelectJobCategoryBottomSheet
+import org.sopt.certi.presentation.ui.my.state.AcademicInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -39,9 +39,9 @@ fun AcademicInfoRoute() { }
 
 @Composable
 fun AcademicInfoScreen(
+    uiState: AcademicInfoUiState,
     onSchoolManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
-    selectedCategoryList: List<CategoryType>,
     onReselectCategoryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -68,7 +68,7 @@ fun AcademicInfoScreen(
             color = CertiTheme.colors.gray100
         )
         JobCategorySection(
-            jobCategoryList = selectedCategoryList,
+            jobCategoryList = uiState.selectedCategoryList,
             onClick = onReselectCategoryClick,
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(24.dp))
         )
@@ -83,7 +83,9 @@ private fun AcademicInfoPreview() {
         skipPartiallyExpanded = true
     )
     var showBottomSheet by remember { mutableStateOf(false) }
-    val selectedCategoryList = remember { mutableStateListOf(CategoryType.MARKETING, CategoryType.RND, CategoryType.MEDIA) }
+    val viewModel = remember { AcademicInfoViewModel() }
+    val uiState by viewModel.academicInfoUiState.collectAsStateWithLifecycle()
+    val editingList by viewModel.editingCategoryList.collectAsStateWithLifecycle()
 
     CERTITheme {
         Box(
@@ -93,10 +95,11 @@ private fun AcademicInfoPreview() {
                 .statusBarsPadding()
         ) {
             AcademicInfoScreen(
+                uiState = uiState,
                 onSchoolManageClick = {},
                 onMajorManageClick = {},
-                selectedCategoryList = selectedCategoryList,
                 onReselectCategoryClick = {
+                    viewModel.startEditing()
                     showBottomSheet = !showBottomSheet
                 }
             )
@@ -104,17 +107,11 @@ private fun AcademicInfoPreview() {
             if (showBottomSheet) {
                 SelectJobCategoryBottomSheet(
                     sheetState = sheetState,
-                    selectedList = selectedCategoryList,
-                    onItemClick = { categoryType ->
-                        if (selectedCategoryList.contains(categoryType)) {
-                            selectedCategoryList.remove(categoryType)
-                        } else {
-                            selectedCategoryList.add(categoryType)
-                        }
-                    },
+                    selectedList = editingList,
+                    onItemClick = viewModel::editJobCategory,
                     changeBottomSheetVisibility = { showBottomSheet = it },
-                    onConfirmClick = { },
-                    onDismissClick = { }
+                    onConfirmClick = viewModel::saveChanges,
+                    onDismissClick = { showBottomSheet = false }
                 )
             }
         }
