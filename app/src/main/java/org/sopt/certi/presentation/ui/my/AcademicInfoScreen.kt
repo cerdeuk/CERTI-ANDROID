@@ -110,8 +110,7 @@ private fun AcademicInfoPreview() {
                     selectedList = editingList,
                     onItemClick = viewModel::editJobCategory,
                     changeBottomSheetVisibility = { showBottomSheet = it },
-                    onConfirmClick = viewModel::saveChanges,
-                    onDismissClick = { showBottomSheet = false }
+                    onConfirmClick = viewModel::saveChanges
                 )
             }
         }

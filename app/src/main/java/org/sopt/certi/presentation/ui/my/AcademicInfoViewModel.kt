@@ -46,9 +46,9 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         _editingCategoryList.value = currentList
     }
 
-    fun saveChanges(selectedList: List<CategoryType>) {
+    fun saveChanges() {
         _academicInfoUiState.update {
-            it.copy(selectedCategoryList = editingCategoryList.value)
+            it.copy(selectedCategoryList = _editingCategoryList.value)
         }
     }
 }

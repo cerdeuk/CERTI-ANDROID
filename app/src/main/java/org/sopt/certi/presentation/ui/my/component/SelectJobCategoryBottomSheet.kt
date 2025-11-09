@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -34,9 +34,12 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.ui.theme.CertiTheme
+
+private const val MAX_SELECTION_COUNT = 3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,25 +47,20 @@ fun SelectJobCategoryBottomSheet(
     sheetState: SheetState,
     selectedList: List<CategoryType>,
     onItemClick: (CategoryType) -> Unit,
-    onConfirmClick: (List<CategoryType>) -> Unit,
-    onDismissClick: () -> Unit,
+    onConfirmClick: () -> Unit,
     changeBottomSheetVisibility: (Boolean) -> Unit = { }
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val categoryList = CategoryType.entries.toTypedArray()
 
     ModalBottomSheet(
-        onDismissRequest = {
-            changeBottomSheetVisibility(false)
-            onDismissClick()
-        },
+        onDismissRequest = { changeBottomSheetVisibility(false) },
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
         sheetState = sheetState,
         dragHandle = {
             Box(
                 modifier = Modifier
-                    .padding(top = 24.dp)
+                    .padding(top = screenHeightDp(20.dp), bottom = screenHeightDp(48.dp))
                     .width(screenWidthDp(80.dp))
                     .height(5.dp)
                     .roundedBackgroundWithBorder(12.dp, CertiTheme.colors.gray200)
@@ -72,68 +70,66 @@ fun SelectJobCategoryBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 48.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
+                .padding(horizontal = screenWidthDp(20.dp))
         ) {
             Text(
                 text = stringResource(id = R.string.job_category_bottomsheet_title),
                 style = CertiTheme.typography.subtitle.bold_20,
-                color = CertiTheme.colors.black
+                color = CertiTheme.colors.black,
+                modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
             )
-            Spacer(Modifier.height(12.dp))
+
             Text(
                 text = stringResource(id = R.string.job_category_bottomsheet_sub_title),
                 style = CertiTheme.typography.caption.semibold_14,
-                color = CertiTheme.colors.mainBlue
+                color = CertiTheme.colors.mainBlue,
+                modifier = Modifier.padding(bottom = screenHeightDp(4.dp))
             )
-            Spacer(Modifier.height(4.dp))
+
             Text(
                 text = stringResource(id = R.string.job_category_bottomsheet_content),
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray500
+                color = CertiTheme.colors.gray500,
+                modifier = Modifier.padding(bottom = screenHeightDp(10.dp))
             )
-            Spacer(Modifier.height(10.dp))
+
             HorizontalDivider(thickness = 1.dp, color = CertiTheme.colors.gray200)
-            Spacer(Modifier.height(36.dp))
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(MAX_SELECTION_COUNT),
                 userScrollEnabled = false,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.padding(top = screenHeightDp(36.dp), bottom = screenHeightDp(32.dp))
             ) {
-                items(categoryList.size) { index ->
-                    val currentCategory = categoryList[index]
-                    val selectedIndex = selectedList.indexOf(currentCategory)
-                    val selectNumber = if (selectedIndex != -1) selectedIndex + 1 else 0
+                items(CategoryType.entries) { category ->
+                    val selectedIndex = selectedList.indexOf(category)
+                    val isSelected = selectedIndex != -1
 
                     BottomSheetButton(
-                        categoryType = categoryList[index],
-                        isSelected = selectedList.contains(categoryList[index]),
-                        selectNumber = selectNumber,
-                        clickable = selectedList.contains(categoryList[index]) || selectedList.size < 3,
-                        onClick = { categoryType ->
-                            onItemClick.invoke(categoryType)
-                        }
+                        categoryType = category,
+                        isSelected = isSelected,
+                        selectNumber = if (isSelected) selectedIndex + 1 else 0,
+                        clickable = isSelected || selectedList.size < MAX_SELECTION_COUNT,
+                        onClick = onItemClick
                     )
                 }
             }
 
-            Spacer(Modifier.height(32.dp))
-
             CertiBasicButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(bottom = screenHeightDp(36.dp))
+                    .fillMaxWidth(),
                 buttonText = stringResource(R.string.job_category_bottomsheet_confirm_button),
                 enabled = selectedList.isNotEmpty(),
                 onClick = {
                     coroutineScope.launch {
                         sheetState.hide()
                         changeBottomSheetVisibility(false)
-                        onConfirmClick(selectedList)
+                        onConfirmClick()
                     }
                 }
             )
-
-            Spacer(Modifier.height(16.dp))
         }
     }
 }
@@ -168,8 +164,7 @@ fun SelectJobCategoryBottomSheetWithClickPreview() {
                     }
                 },
                 changeBottomSheetVisibility = { showBottomSheet = it },
-                onConfirmClick = { },
-                onDismissClick = { }
+                onConfirmClick = { }
             )
         }
     }
