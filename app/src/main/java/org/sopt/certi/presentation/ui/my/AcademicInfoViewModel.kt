@@ -34,6 +34,13 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
             _academicInfoUiState.update {
                 AcademicInfoUiState(selectedCategoryList = initialList)
             }
+            _myPageUnivUiState.update {
+                it.copy(
+                    univSearchText = "기존대학교",
+                    submittedUnivSearchText = "기존대학교",
+                    savedUnivName = "기존대학교"
+                )
+            }
         }
     }
 
@@ -59,10 +66,7 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
 
     fun onUnivSearchTextChanged(text: String) {
         _myPageUnivUiState.update {
-            it.copy(
-                univSearchText = text,
-                submittedUnivSearchText = ""
-            )
+            it.copy(univSearchText = text)
         }
     }
 
@@ -85,5 +89,9 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun onUnivSaveClick() {}
+    fun onUnivSaveClick() {
+        _myPageUnivUiState.update {
+            it.copy(savedUnivName = _myPageUnivUiState.value.submittedUnivSearchText)
+        }
+    }
 }
