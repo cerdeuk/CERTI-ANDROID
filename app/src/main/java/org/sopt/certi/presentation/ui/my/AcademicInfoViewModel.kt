@@ -80,15 +80,10 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         _myPageUnivUiState.update {
             it.copy(
                 univSearchText = univName,
-                submittedUnivSearchText = univName,
-                isSaveEnable = true
+                submittedUnivSearchText = univName
             )
         }
     }
 
-    fun onUnivSaveClick() {
-        _myPageUnivUiState.update {
-            it.copy(isSaveEnable = false)
-        }
-    }
+    fun onUnivSaveClick() {}
 }

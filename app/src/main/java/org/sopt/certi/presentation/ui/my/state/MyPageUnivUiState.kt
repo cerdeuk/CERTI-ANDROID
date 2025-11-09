@@ -5,8 +5,7 @@ import org.sopt.certi.core.state.UiState
 data class MyPageUnivUiState(
     val univSearchText: String = "",
     val univListLoadState: UiState<List<String>> = UiState.Init,
-    val submittedUnivSearchText: String = "",
-    val isSaveEnable: Boolean = false
+    val submittedUnivSearchText: String = ""
 ) {
     val loadState: UiState<Unit>
         get() = when (univListLoadState) {
@@ -14,4 +13,7 @@ data class MyPageUnivUiState(
             is UiState.Init -> UiState.Init
             else -> UiState.Empty
         }
+
+    val isSaveEnable: Boolean
+        get() = submittedUnivSearchText.isNotBlank() && univSearchText == submittedUnivSearchText
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,6 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.util.showIf
 import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
 import org.sopt.certi.presentation.ui.my.state.MyPageUnivUiState
 import org.sopt.certi.ui.theme.CERTITheme
@@ -71,18 +71,14 @@ fun UnivInfoScreen(
             is UiState.Init -> {}
             is UiState.Success -> {
                 LazyColumn(
-                    modifier = Modifier
-                        .showIf(
-                            condition = uiState.univListLoadState is UiState.Success
-                        )
-                        .padding(bottom = screenHeightDp(60.dp))
+                    modifier = Modifier.padding(bottom = screenHeightDp(60.dp))
                 ) {
-                    items(univList.size) { univ ->
+                    items(univList) { univ ->
                         Column(
-                            modifier = Modifier.noRippleClickable { onUnivSelected(univList[univ]) }
+                            modifier = Modifier.noRippleClickable { onUnivSelected(univ) }
                         ) {
                             Text(
-                                text = univList[univ],
+                                text = univ,
                                 style = CertiTheme.typography.body.regular_16,
                                 color = CertiTheme.colors.black,
                                 modifier = Modifier
