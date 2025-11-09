@@ -183,6 +183,7 @@
     <string name="my_certification_modify">수정</string>
     <string name="my_certification_delete">삭제</string>
 
+
     <!-- MyPageMainScreen -->
     <string name="mypage_personal_info">개인정보 수정</string>
     <string name="mypage_personal_info_description">프로필 사진 및 개인 정보 수정</string>
