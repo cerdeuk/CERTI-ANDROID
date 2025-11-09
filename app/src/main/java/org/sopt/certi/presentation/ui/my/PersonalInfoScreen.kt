@@ -5,14 +5,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,18 +40,19 @@ fun PersonalInfoRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidTypeState by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
+    val initialUiState by viewModel.initialUiState.collectAsStateWithLifecycle()
 
     PersonalInfoScreen(
         uiState = uiState,
+        initialUiState = initialUiState,
         nickNameValidType = nickNameValidTypeState,
-        isSaveButtonEnabled = false,
-        onSaveClick = { viewModel.onSaveClick() },
-        onProfileUriChange = { viewModel.onProfileUriChange() },
-        onNickNameChange = { viewModel.onNickNameChange(it) },
-        onNickNameCheckButtonClick = { viewModel.onNickNameCheckButtonClick() },
-        onNameChange = { viewModel.onNameChange(it) },
-        onEmailChange = { viewModel.onEmailChange(it) },
-        onBirthChange = { viewModel.onBirthChange(it) },
+        onProfileUriChange = viewModel::onProfileUriChange,
+        onNickNameChange = viewModel::onNickNameChange,
+        onNickNameCheckButtonClick = viewModel::onNickNameCheckButtonClick,
+        onNameChange = viewModel::onNickNameChange,
+        onEmailChange = viewModel::onEmailChange,
+        onBirthChange = viewModel::onBirthChange,
+        onSaveClick = viewModel::onSaveClick,
         modifier = Modifier.padding(padding)
     )
 }
@@ -61,15 +61,15 @@ fun PersonalInfoRoute(
 @Composable
 fun PersonalInfoScreen(
     uiState: PersonalInfoUiState,
+    initialUiState: PersonalInfoUiState,
     nickNameValidType: NickNameValidType,
-    isSaveButtonEnabled: Boolean,
-    onSaveClick: () -> Unit,
     onProfileUriChange: (Uri?) -> Unit,
     onNickNameChange: (String) -> Unit,
     onNickNameCheckButtonClick: () -> Unit,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onBirthChange: (String) -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -80,7 +80,7 @@ fun PersonalInfoScreen(
     ) {
         stickyHeader {
             ModifyInfoHeader(
-                isSaveEnable = isSaveButtonEnabled,
+                isSaveEnable = uiState.isSaveButtonEnabled,
                 onSaveClick = onSaveClick,
                 headerTitle = stringResource(R.string.mypage_personal_info)
             )
@@ -98,6 +98,7 @@ fun PersonalInfoScreen(
             PersonalInfoNicknameTextField(
                 value = uiState.nickname,
                 onValueChange = onNickNameChange,
+                isEnable = uiState.nickname.isNotEmpty() && uiState.nickname != initialUiState.nickname,
                 onButtonClick = onNickNameCheckButtonClick,
                 nickNameValidType = nickNameValidType
             )
@@ -125,7 +126,12 @@ fun PersonalInfoScreen(
         item {
             BirthdayInputField(
                 label = stringResource(R.string.personal_birthday_label),
-                onValueChange = onBirthChange
+                onValueChange = onBirthChange,
+                inputFieldBackgroundColor = when {
+                    uiState.birth.isEmpty() -> CertiTheme.colors.white
+                    uiState.birth != initialUiState.birth -> CertiTheme.colors.white
+                    else -> CertiTheme.colors.gray0
+                }
             )
         }
     }
@@ -134,55 +140,25 @@ fun PersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
-    val initialUiState by remember {
-        mutableStateOf(
-            PersonalInfoUiState(
-                nickname = "nick",
-                name = "name",
-                email = "certification@gamil.com",
-                birth = "",
-                profileUri = null
-            )
-        )
-    }
-    var uiState by remember {
-        mutableStateOf(initialUiState)
-    }
-
-    var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
-    var isChecked by remember { mutableStateOf(false) }
-    var isValid by remember { mutableStateOf(false) }
-    val isSaveButtonEnabled = (nickNameValidType == NickNameValidType.VALID) && (initialUiState != uiState)
+    val viewModel = remember { PersonalInfoViewModel() }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
+    val initialUiState by viewModel.initialUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
         PersonalInfoScreen(
             uiState = uiState,
+            initialUiState = initialUiState,
             nickNameValidType = nickNameValidType,
-            isSaveButtonEnabled = isSaveButtonEnabled,
-            onSaveClick = { },
-            onProfileUriChange = { uiState = uiState.copy(profileUri = it) },
-            onNickNameChange = { newValue ->
-                uiState = uiState.copy(nickname = newValue)
-                isChecked = false
-                nickNameValidType = when {
-                    newValue.isEmpty() -> NickNameValidType.EMPTY
-                    newValue.contains("시발") -> NickNameValidType.INVALID
-                    else -> NickNameValidType.UNCHECKED
-                }
-            },
-            onNickNameCheckButtonClick = {
-                isChecked = true
-                isValid = !isValid
-                nickNameValidType = when {
-                    uiState.name.contains("시발") -> NickNameValidType.INVALID
-                    isValid -> NickNameValidType.VALID
-                    else -> NickNameValidType.DUPLICATE
-                }
-            },
-            onNameChange = { uiState = uiState.copy(name = it) },
-            onEmailChange = { uiState = uiState.copy(email = it) },
-            onBirthChange = { uiState = uiState.copy(birth = it) },
+            onSaveClick = viewModel::onSaveClick,
+            onProfileUriChange = viewModel::onProfileUriChange,
+            onNickNameChange = viewModel::onNickNameChange,
+            onNickNameCheckButtonClick = viewModel::onNickNameCheckButtonClick,
+            onNameChange = viewModel::onNameChange,
+            onEmailChange = viewModel::onEmailChange,
+            onBirthChange = viewModel::onBirthChange,
             modifier = Modifier
+                .fillMaxSize()
                 .background(CertiTheme.colors.white)
                 .statusBarsPadding()
         )

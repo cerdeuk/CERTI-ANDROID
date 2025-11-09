@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,14 +35,13 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun PersonalInfoNicknameTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    isEnable: Boolean,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     label: String = stringResource(R.string.onboarding_nickname_textfield_title),
     placeholder: String = stringResource(R.string.onboarding_nickname_textfield_empty),
     nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT
 ) {
-    val preValue by rememberSaveable { mutableStateOf(value) }
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
@@ -61,7 +59,7 @@ fun PersonalInfoNicknameTextField(
             PersonalInfoTextFieldButton(
                 text = "중복확인",
                 onClick = onButtonClick,
-                isEnable = value != preValue
+                isEnable = isEnable
             )
         }
         BasicTextField(
@@ -104,14 +102,12 @@ fun PersonalInfoNicknameTextField(
                         }
                         innerTextField()
                     }
-                    if (value != preValue) {
-                        Text(
-                            text = "${value.length}/7",
-                            style = CertiTheme.typography.caption.semibold_12,
-                            color = CertiTheme.colors.gray500,
-                            modifier = Modifier.padding(start = screenWidthDp(8.dp))
-                        )
-                    }
+                    Text(
+                        text = "${value.length}/7",
+                        style = CertiTheme.typography.caption.semibold_12,
+                        color = CertiTheme.colors.gray500,
+                        modifier = Modifier.padding(start = screenWidthDp(8.dp))
+                    )
                 }
             }
         )
@@ -184,6 +180,7 @@ private fun MyPageNicknameTextFieldPreview() {
                         else -> NickNameValidType.UNCHECKED
                     }
                 },
+                isEnable = false,
                 onButtonClick = {
                     isChecked = true
                     isValid = !isValid

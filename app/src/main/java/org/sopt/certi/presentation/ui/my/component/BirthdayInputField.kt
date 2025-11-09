@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -50,6 +51,7 @@ import java.time.YearMonth
 fun BirthdayInputField(
     label: String,
     onValueChange: (String) -> Unit,
+    inputFieldBackgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
     val currentDate by remember { mutableStateOf(LocalDate.now()) }
@@ -104,7 +106,8 @@ fun BirthdayInputField(
                 placeholder = "YYYY",
                 dateList = yearList,
                 selectedValue = yearValue,
-                onValueChange = { yearValue = it},
+                onValueChange = { yearValue = it },
+                backgroundColor = inputFieldBackgroundColor,
                 initialScrollItem = currentDate.year
             )
             DatePickerField(
@@ -112,6 +115,7 @@ fun BirthdayInputField(
                 dateList = monthList,
                 selectedValue = monthValue,
                 onValueChange = { monthValue = it },
+                backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true
             )
             DatePickerField(
@@ -119,6 +123,7 @@ fun BirthdayInputField(
                 dateList = dayList,
                 selectedValue = dayValue,
                 onValueChange = { dayValue = it },
+                backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true
             )
         }
@@ -131,10 +136,11 @@ private fun DatePickerField(
     dateList: List<Int>,
     selectedValue: String,
     onValueChange: (String) -> Unit,
+    backgroundColor: Color,
     modifier: Modifier = Modifier,
     padDisplayValue: Boolean = false,
     initialScrollItem: Int? = null
-){
+) {
     var visible by remember { mutableStateOf(false) }
 
     var rowWidth by remember { mutableStateOf(0.dp) }
@@ -160,7 +166,7 @@ private fun DatePickerField(
             modifier = Modifier
                 .roundedBackgroundWithBorder(
                     cornerRadius = 8.dp,
-                    backgroundColor = CertiTheme.colors.white,
+                    backgroundColor = backgroundColor,
                     borderColor = CertiTheme.colors.gray200,
                     borderWidth = 1.dp
                 )
@@ -192,7 +198,7 @@ private fun DatePickerField(
                 tint = CertiTheme.colors.gray400
             )
         }
-        if(visible) {
+        if (visible) {
             Popup(
                 alignment = Alignment.TopStart,
                 offset = IntOffset(x = 0, y = rowHeight),
@@ -257,6 +263,7 @@ private fun MyPageDateInputFieldPreview() {
             BirthdayInputField(
                 label = "생년월일",
                 onValueChange = { value = it },
+                inputFieldBackgroundColor = CertiTheme.colors.white,
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
         }
