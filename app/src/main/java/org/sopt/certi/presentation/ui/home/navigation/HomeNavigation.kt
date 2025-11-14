@@ -30,8 +30,7 @@ fun NavGraphBuilder.homeNavGraph(
             },
             navigateToCertDetail = { certId ->
                 navController.navigateToCertDetail(certId = certId)
-            },
-            navigateToPreCerti = { navController.navigateToPreCerti() }
+            }
         )
     }
 
