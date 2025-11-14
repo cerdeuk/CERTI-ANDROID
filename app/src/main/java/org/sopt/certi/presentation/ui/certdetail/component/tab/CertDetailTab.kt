@@ -1,15 +1,13 @@
 package org.sopt.certi.presentation.ui.certdetail.component.tab
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -68,8 +66,8 @@ fun CertDetailTabButton(
 ) {
     val textColor = if (isSelected) CertiTheme.colors.black else CertiTheme.colors.gray300
     val viewWidth = when (detailTabType) {
-        DetailTabType.Info -> 76.dp
-        DetailTabType.Comment -> 48.dp
+        DetailTabType.Info -> screenWidthDp(76.dp)
+        DetailTabType.Comment -> screenWidthDp(48.dp)
     }
 
     Column(
@@ -91,14 +89,7 @@ fun CertDetailTabButton(
 
         Spacer(Modifier.weight(1f))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(2.dp)
-                .background(
-                    if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.transParent
-                )
-        )
+        HorizontalDivider(thickness = 2.dp, color = if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.transParent)
     }
 }
 

@@ -26,7 +26,7 @@ import org.sopt.certi.presentation.model.ToastConfig
 import org.sopt.certi.presentation.ui.certdetail.component.tab.CertDetailTab
 import org.sopt.certi.presentation.ui.certdetail.component.tab.DetailTabType
 import org.sopt.certi.presentation.ui.certdetail.screen.CertDetailCommentRoute
-import org.sopt.certi.presentation.ui.certdetail.screen.CertDetailInfoRoute
+import org.sopt.certi.presentation.ui.certdetail.screen.CertDetailInfoScreen
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 
@@ -150,7 +150,7 @@ fun CertDetailScreen(
 
         when (selectedTab) {
             DetailTabType.Info -> {
-                CertDetailInfoRoute(
+                CertDetailInfoScreen(
                     certData = certData,
                     showWebView = {
                         showWebView()
