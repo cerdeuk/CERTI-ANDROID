@@ -184,5 +184,18 @@
     <string name="my_certification_acquired">취득 완료</string>
     <string name="my_certification_modify">수정</string>
     <string name="my_certification_delete">삭제</string>
-    
+
+    <!-- RegisterTestInfoBottomSheet -->
+    <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>
+    <string name="test_info_bottomsheet_date_title">시험 날짜</string>
+    <string name="test_info_bottomsheet_date_hint">시험 날짜를 선택해주세요.</string>
+    <string name="test_info_bottomsheet_place_title">시험 장소</string>
+    <string name="test_info_bottomsheet_place_p1_hint">시/도</string>
+    <string name="test_info_bottomsheet_place_p2_hint">구/시</string>
+    <string name="test_info_bottomsheet_time_title">시험 시간</string>
+    <string name="test_info_bottomsheet_time_morning">오전</string>
+    <string name="test_info_bottomsheet_time_afternoon">오후</string>
+    <string name="test_info_bottomsheet_confirm_later">나중에 입력하기</string>
+    <string name="test_info_bottomsheet_confirm">적용하기</string>
+
 </resources>
