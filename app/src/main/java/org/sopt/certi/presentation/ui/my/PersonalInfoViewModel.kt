@@ -7,21 +7,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.sopt.certi.domain.model.user.UserProfile
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class PersonalInfoViewModel @Inject constructor() : ViewModel() {
-    private val defaultState = PersonalInfoUiState("", "", "", "", null, false)
-
-    private val _uiState = MutableStateFlow(defaultState)
+    private val _uiState = MutableStateFlow(PersonalInfoUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _nickNameValidTypeUiState = MutableStateFlow(NickNameValidType.DEFAULT)
     val nickNameValidTypeUiState = _nickNameValidTypeUiState.asStateFlow()
 
-    private var _initialUiState = MutableStateFlow(defaultState)
-    val initialUiState = _initialUiState.asStateFlow()
+    private lateinit var _originalUserProfile: UserProfile
 
     init {
         loadPersonalInfoData()
@@ -29,26 +28,37 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
 
     private fun loadPersonalInfoData() {
         viewModelScope.launch {
-            val loadedState = PersonalInfoUiState(
+            val profileData = UserProfile(
                 nickname = "nick",
                 name = "name",
                 email = "certification@gmail.com",
                 birth = "",
-                profileUri = null,
-                isSaveButtonEnabled = false
+                profileImageUrl = null
             )
 
-            _initialUiState.update { loadedState.copy() }
-            _uiState.update { loadedState }
+            _originalUserProfile = profileData
+            _uiState.update {
+                PersonalInfoUiState(
+                    nickname = profileData.nickname,
+                    name = profileData.name,
+                    email = profileData.email,
+                    birth = profileData.birth,
+                    profileUri = profileData.profileImageUrl?.toUri()
+                )
+            }
         }
     }
 
     private fun updateSaveButtonState() {
-        val initial = _initialUiState.value
-        val currentStateForComparison = _uiState.value.copy(
-            isSaveButtonEnabled = initial.isSaveButtonEnabled
-        )
-        val isContentChanged = currentStateForComparison != initial
+        val current = _uiState.value
+
+        val isContentChanged =
+            current.nickname != _originalUserProfile.nickname ||
+                current.nickname != _originalUserProfile.name ||
+                current.email != _originalUserProfile.email ||
+                current.birth != _originalUserProfile.birth ||
+                current.profileUri.toString() != _originalUserProfile.profileImageUrl
+
         val isNicknameValid = _nickNameValidTypeUiState.value in setOf(NickNameValidType.VALID, NickNameValidType.DEFAULT)
 
         _uiState.update {
@@ -59,9 +69,21 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
     fun onSaveClick() {
         viewModelScope.launch {
             _nickNameValidTypeUiState.value = NickNameValidType.DEFAULT
-            val savedState = _uiState.value.copy(isSaveButtonEnabled = false)
-            _uiState.value = savedState
-            _initialUiState.value = savedState
+            val savedState = _uiState.value
+            _uiState.update {
+                it.copy(
+                    isNicknameChanged = false,
+                    isBirthChanged = false,
+                    isSaveButtonEnabled = false
+                )
+            }
+            _originalUserProfile = UserProfile(
+                name = savedState.name,
+                nickname = savedState.nickname,
+                email = savedState.email,
+                birth = savedState.birth,
+                profileImageUrl = savedState.profileUri.toString() // 서버 url로 나중에 수정
+            )
         }
     }
 
@@ -71,12 +93,17 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onNickNameChange(nickname: String) {
-        _uiState.update { it.copy(nickname = nickname) }
+        _uiState.update {
+            it.copy(
+                nickname = nickname,
+                isNicknameChanged = nickname != _originalUserProfile.nickname
+            )
+        }
         _nickNameValidTypeUiState.update {
             when {
                 nickname.isEmpty() -> NickNameValidType.EMPTY
                 nickname.contains("시발") -> NickNameValidType.INVALID
-                nickname == _initialUiState.value.nickname -> NickNameValidType.DEFAULT
+                nickname == _originalUserProfile.nickname -> NickNameValidType.DEFAULT
                 else -> NickNameValidType.UNCHECKED
             }
         }
@@ -105,7 +132,10 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
 
     fun onBirthChange(birth: String) {
         _uiState.update {
-            it.copy(birth = birth)
+            it.copy(
+                birth = birth,
+                isBirthChanged = birth != _originalUserProfile.birth
+            )
         }
         updateSaveButtonState()
     }

@@ -40,11 +40,9 @@ fun PersonalInfoRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidTypeState by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
-    val initialUiState by viewModel.initialUiState.collectAsStateWithLifecycle()
 
     PersonalInfoScreen(
         uiState = uiState,
-        initialUiState = initialUiState,
         nickNameValidType = nickNameValidTypeState,
         onProfileUriChange = viewModel::onProfileUriChange,
         onNickNameChange = viewModel::onNickNameChange,
@@ -61,7 +59,6 @@ fun PersonalInfoRoute(
 @Composable
 fun PersonalInfoScreen(
     uiState: PersonalInfoUiState,
-    initialUiState: PersonalInfoUiState,
     nickNameValidType: NickNameValidType,
     onProfileUriChange: (Uri?) -> Unit,
     onNickNameChange: (String) -> Unit,
@@ -98,7 +95,7 @@ fun PersonalInfoScreen(
             PersonalInfoNicknameTextField(
                 value = uiState.nickname,
                 onValueChange = onNickNameChange,
-                isEnable = uiState.nickname.isNotEmpty() && uiState.nickname != initialUiState.nickname,
+                isEnable = uiState.isNicknameChanged,
                 onButtonClick = onNickNameCheckButtonClick,
                 nickNameValidType = nickNameValidType
             )
@@ -129,7 +126,7 @@ fun PersonalInfoScreen(
                 onValueChange = onBirthChange,
                 inputFieldBackgroundColor = when {
                     uiState.birth.isEmpty() -> CertiTheme.colors.white
-                    uiState.birth != initialUiState.birth -> CertiTheme.colors.white
+                    uiState.isBirthChanged -> CertiTheme.colors.white
                     else -> CertiTheme.colors.gray0
                 }
             )
@@ -143,12 +140,10 @@ private fun MyPagePersonalInfoPreview() {
     val viewModel = remember { PersonalInfoViewModel() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
-    val initialUiState by viewModel.initialUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
         PersonalInfoScreen(
             uiState = uiState,
-            initialUiState = initialUiState,
             nickNameValidType = nickNameValidType,
             onSaveClick = viewModel::onSaveClick,
             onProfileUriChange = viewModel::onProfileUriChange,
