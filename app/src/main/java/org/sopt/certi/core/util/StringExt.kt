@@ -23,3 +23,6 @@ fun String.parseDateToYearMonthDay(): Triple<String, String, String> {
         Triple("", "", "")
     }
 }
+
+fun String.padIfNeeded(pad: Boolean): String =
+    if (pad) padStart(2, '0') else this

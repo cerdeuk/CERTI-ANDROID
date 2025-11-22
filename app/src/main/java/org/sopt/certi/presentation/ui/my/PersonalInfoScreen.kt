@@ -50,6 +50,7 @@ fun PersonalInfoRoute(
         onNameChange = viewModel::onNameChange,
         onEmailChange = viewModel::onEmailChange,
         onBirthChange = viewModel::onBirthChange,
+        onBirthValidityChange = viewModel::onBirthValidityChange,
         onSaveClick = viewModel::onSaveClick,
         modifier = Modifier.padding(padding)
     )
@@ -66,6 +67,7 @@ fun PersonalInfoScreen(
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onBirthChange: (String) -> Unit,
+    onBirthValidityChange: (Boolean) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -125,6 +127,7 @@ fun PersonalInfoScreen(
                 label = stringResource(R.string.personal_birthday_label),
                 value = uiState.birth,
                 onValueChange = onBirthChange,
+                onValidityChange = onBirthValidityChange,
                 inputFieldBackgroundColor = when {
                     uiState.birth.isEmpty() -> CertiTheme.colors.white
                     uiState.isBirthChanged -> CertiTheme.colors.white
@@ -141,7 +144,6 @@ private fun MyPagePersonalInfoPreview() {
     val viewModel = remember { PersonalInfoViewModel() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
-    viewModel.onBirthChange("2024.05.04")
 
     CERTITheme {
         PersonalInfoScreen(
@@ -154,6 +156,7 @@ private fun MyPagePersonalInfoPreview() {
             onNameChange = viewModel::onNameChange,
             onEmailChange = viewModel::onEmailChange,
             onBirthChange = viewModel::onBirthChange,
+            onBirthValidityChange = viewModel::onBirthValidityChange,
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.white)

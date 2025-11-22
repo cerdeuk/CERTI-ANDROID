@@ -32,7 +32,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
                 nickname = "nick",
                 name = "name",
                 email = "certification@gmail.com",
-                birth = "",
+                birth = "2024.05.04",
                 profileImageUrl = null
             )
 
@@ -53,11 +53,11 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
         val current = _uiState.value
 
         val isContentChanged =
-            current.nickname != _originalUserProfile.nickname ||
-                current.nickname != _originalUserProfile.name ||
+            current.isNicknameChanged ||
+                current.name != _originalUserProfile.name ||
                 current.email != _originalUserProfile.email ||
-                current.birth != _originalUserProfile.birth ||
-                current.profileUri.toString() != _originalUserProfile.profileImageUrl
+                (current.isBirthChanged && current.isBirthValid) ||
+                current.profileUri?.toString() != _originalUserProfile.profileImageUrl
 
         val isNicknameValid = _nickNameValidTypeUiState.value in setOf(NickNameValidType.VALID, NickNameValidType.DEFAULT)
 
@@ -82,7 +82,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
                 nickname = savedState.nickname,
                 email = savedState.email,
                 birth = savedState.birth,
-                profileImageUrl = savedState.profileUri.toString() // 서버 url로 나중에 수정
+                profileImageUrl = savedState.profileUri?.toString() // 서버 url로 나중에 수정
             )
         }
     }
@@ -137,6 +137,11 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
                 isBirthChanged = birth != _originalUserProfile.birth
             )
         }
+        updateSaveButtonState()
+    }
+
+    fun onBirthValidityChange(isValid: Boolean) {
+        _uiState.update { it.copy(isBirthValid = isValid) }
         updateSaveButtonState()
     }
 }

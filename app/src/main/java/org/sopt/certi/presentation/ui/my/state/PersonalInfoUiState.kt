@@ -10,5 +10,6 @@ data class PersonalInfoUiState(
     val profileUri: Uri? = null,
     val isNicknameChanged: Boolean = false,
     val isBirthChanged: Boolean = false,
+    val isBirthValid: Boolean = true,
     val isSaveButtonEnabled: Boolean = false
 )
