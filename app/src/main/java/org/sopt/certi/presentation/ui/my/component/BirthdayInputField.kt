@@ -202,20 +202,25 @@ private fun DatePickerField(
                     rowHeight = it.height
                 }
                 .padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
             if (value.isEmpty()) {
                 Text(
                     text = placeholder,
                     style = CertiTheme.typography.caption.semibold_14,
-                    color = CertiTheme.colors.gray300
+                    color = CertiTheme.colors.gray300,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
             } else {
                 Text(
                     text = value.padIfNeeded(padDisplayValue),
                     style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.black
+                    color = CertiTheme.colors.black,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
             }
             Icon(
@@ -280,8 +285,8 @@ private fun DatePickerField(
 
 private fun BirthdayFields.toFormattedDateOrNull(): String? {
     if (year.isEmpty() || month.isEmpty() || day.isEmpty()) return null
-    val formattedMonth = month.padStart(2, '0')
-    val formattedDay = day.padStart(2, '0')
+    val formattedMonth = month.padIfNeeded(true)
+    val formattedDay = day.padIfNeeded(true)
     return "$year.$formattedMonth.$formattedDay"
 }
 
