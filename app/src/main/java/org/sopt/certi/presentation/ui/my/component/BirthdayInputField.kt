@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,9 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 import java.time.YearMonth
+
+private const val VISIBLE_DROPBOX_COUNT = 4
+private val DROPBOX_ITEM_HEIGHT = 40.dp
 
 private data class BirthdayFields(
     val year: String,
@@ -88,38 +92,17 @@ fun BirthdayInputField(
     val monthList = remember { (1..12).toList() }
 
     val daysInMonth = remember(birthday.year, birthday.month) {
-        if (birthday.year.isNotEmpty() && birthday.month.isNotEmpty()) {
-            try {
-                YearMonth.of(birthday.year.toInt(), birthday.month.toInt()).lengthOfMonth()
-            } catch (e: Exception) { 31 }
-        } else { 31 }
+        getMaxDays(birthday.year, birthday.month)
     }
     val dayList = remember(daysInMonth) { (1..daysInMonth).toList() }
 
-    val onDateSelected = { fields: BirthdayFields ->
-        fields.toFormattedDateOrNull()?.let(onValueChange)
-    }
-
-    LaunchedEffect(birthday.year, birthday.month, birthday.day) {
-        var current = birthday
-
-        val dayInt = current.day.toIntOrNull()
-        if (current.day.isNotEmpty() && (dayInt == null || dayInt > daysInMonth)) {
-            current = current.copy(day = "")
-            birthday = current
-        }
-
-        val isAllEmpty = current.year.isEmpty() &&
-            current.month.isEmpty() &&
-            current.day.isEmpty()
-
-        val isComplete = current.year.isNotEmpty() &&
-            current.month.isNotEmpty() &&
-            current.day.isNotEmpty()
-
-        val isValid = isAllEmpty || isComplete
-
-        onValidityChange(isValid)
+    val handleUpdate = { newFields: BirthdayFields ->
+        updateBirthday(
+            newFields = newFields,
+            onStateUpdate = { birthday = it },
+            onValueChange = onValueChange,
+            onValidityChange = onValidityChange
+        )
     }
 
     Column(
@@ -140,8 +123,7 @@ fun BirthdayInputField(
                 dateList = yearList,
                 value = birthday.year,
                 onValueChange = { newYear ->
-                    birthday = birthday.copy(year = newYear)
-                    onDateSelected(birthday)
+                    handleUpdate(birthday.copy(year = newYear))
                 },
                 backgroundColor = inputFieldBackgroundColor,
                 initialScrollItem = currentDate.year,
@@ -152,8 +134,7 @@ fun BirthdayInputField(
                 dateList = monthList,
                 value = birthday.month,
                 onValueChange = { newMonth ->
-                    birthday = birthday.copy(month = newMonth)
-                    onDateSelected(birthday)
+                    handleUpdate(birthday.copy(month = newMonth))
                 },
                 backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true,
@@ -164,8 +145,7 @@ fun BirthdayInputField(
                 dateList = dayList,
                 value = birthday.day,
                 onValueChange = { newDay ->
-                    birthday = birthday.copy(day = newDay)
-                    onDateSelected(birthday)
+                    handleUpdate(birthday.copy(day = newDay))
                 },
                 backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true,
@@ -260,7 +240,7 @@ private fun DatePickerField(
                             blur = 20.dp
                         )
                         .clip(RoundedCornerShape(4.dp))
-                        .heightForScreenPercentage(240.dp)
+                        .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT)
                         .background(CertiTheme.colors.white)
                         .width(rowWidth)
                 ) {
@@ -272,7 +252,7 @@ private fun DatePickerField(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .heightForScreenPercentage(40.dp)
+                                .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
                                 .noRippleClickable {
                                     onValueChange(dateString)
                                     isDropdownVisible = false
@@ -282,7 +262,9 @@ private fun DatePickerField(
                             Text(
                                 text = dateString.padIfNeeded(padDisplayValue),
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = CertiTheme.colors.black
+                                color = CertiTheme.colors.black,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                             HorizontalDivider(
                                 modifier = Modifier.align(Alignment.BottomCenter),
@@ -301,6 +283,44 @@ private fun BirthdayFields.toFormattedDateOrNull(): String? {
     val formattedMonth = month.padStart(2, '0')
     val formattedDay = day.padStart(2, '0')
     return "$year.$formattedMonth.$formattedDay"
+}
+
+private fun getMaxDays(year: String, month: String): Int {
+    return if (year.isNotEmpty() && month.isNotEmpty()) {
+        runCatching {
+            YearMonth.of(year.toInt(), month.toInt()).lengthOfMonth()
+        }.getOrDefault(31)
+    } else {
+        31
+    }
+}
+
+private fun updateBirthday(
+    newFields: BirthdayFields,
+    onStateUpdate: (BirthdayFields) -> Unit,
+    onValueChange: (String) -> Unit,
+    onValidityChange: (Boolean) -> Unit
+) {
+    var validatedFields = newFields
+
+    val maxDays = getMaxDays(validatedFields.year, validatedFields.month)
+    val currentDay = validatedFields.day.toIntOrNull()
+    if (currentDay != null && currentDay > maxDays) {
+        validatedFields = validatedFields.copy(day = "")
+    }
+
+    onStateUpdate(validatedFields)
+
+    validatedFields.toFormattedDateOrNull()?.let(onValueChange)
+
+    val isAllEmpty = validatedFields.year.isEmpty() &&
+        validatedFields.month.isEmpty() &&
+        validatedFields.day.isEmpty()
+    val isComplete = validatedFields.year.isNotEmpty() &&
+        validatedFields.month.isNotEmpty() &&
+        validatedFields.day.isNotEmpty()
+
+    onValidityChange(isAllEmpty || isComplete)
 }
 
 @Preview(showBackground = true)
