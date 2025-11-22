@@ -26,11 +26,10 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CategoryBar(
     modifier: Modifier = Modifier,
+    labels: List<String>,
     selectedCategory: Int = 0,
     onCategorySelected: (Int) -> Unit = {}
 ) {
-    val categoryList = CategoryType.entries.toTypedArray()
-
     LazyRow(
         modifier = modifier
             .padding(vertical = screenHeightDp(10.dp))
@@ -38,21 +37,21 @@ fun CategoryBar(
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(22.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(CategoryType.entries.size) { index ->
+        items(labels.size) { index ->
             if (index == 0) {
                 Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
 
-            val category = categoryList[index]
+            val category = labels[index]
 
             Text(
-                text = category.description,
+                text = category,
                 style = if (index == selectedCategory) CertiTheme.typography.body.bold_16 else CertiTheme.typography.body.semibold_16,
                 color = if (index == selectedCategory) CertiTheme.colors.gray500 else CertiTheme.colors.gray400,
                 modifier = Modifier.noRippleClickable { onCategorySelected(index) }
             )
 
-            if (index == categoryList.lastIndex) {
+            if (index == labels.lastIndex) {
                 Spacer(Modifier.width(screenWidthDp(18.dp)))
             }
         }
@@ -66,6 +65,7 @@ private fun PreviewCategoryBar() {
 
     CERTITheme {
         CategoryBar(
+            labels = CategoryType.entries.map { it.description },
             selectedCategory = selectedIndex,
             onCategorySelected = { selectedIndex = it }
         )

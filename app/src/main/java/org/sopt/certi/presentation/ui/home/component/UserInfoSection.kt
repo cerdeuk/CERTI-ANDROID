@@ -3,7 +3,6 @@ package org.sopt.certi.presentation.ui.home.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,22 +12,16 @@ import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import org.sopt.certi.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.ui.theme.CERTITheme
 import androidx.compose.material3.VerticalDivider
-import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 
@@ -46,13 +39,6 @@ fun UserInfoSection(
     Column(
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(id = R.string.home_user_info_name, displayName),
-            style = CertiTheme.typography.subtitle.bold_20,
-            color = CertiTheme.colors.gray600
-        )
-        Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
-
         Row(
             modifier = Modifier
                 .padding(vertical = screenHeightDp(2.dp))
@@ -99,46 +85,6 @@ fun UserInfoSection(
             }
         }
         Spacer(modifier = Modifier.height(screenHeightDp(12.dp)))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = screenHeightDp(4.dp))
-                .height(screenHeightDp(4.dp))
-                .roundedBackgroundWithBorder(
-                    cornerRadius = 12.dp,
-                    backgroundColor = CertiTheme.colors.gray100
-                )
-
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(userInfoData.percentage / 100f)
-                    .fillMaxHeight()
-                    .roundedBackgroundWithBorder(
-                        cornerRadius = 12.dp,
-                        backgroundColor = CertiTheme.colors.purpleBlue
-                    )
-            )
-        }
-        Spacer(modifier = Modifier.height(screenHeightDp(8.dp)))
-
-        Text(
-            text = buildAnnotatedString {
-                append(stringResource(R.string.home_fill_completed, userInfoData.percentage))
-                addStyle(
-                    style = SpanStyle(
-                        fontSize = CertiTheme.typography.caption.bold_14.fontSize,
-                        fontWeight = FontWeight.Bold,
-                        color = CertiTheme.colors.mainBlue
-                    ),
-                    start = stringResource(R.string.home_fill_completed, userInfoData.percentage).indexOf("${userInfoData.percentage}%"),
-                    end = stringResource(R.string.home_fill_completed, userInfoData.percentage).indexOf("${userInfoData.percentage}%") + "${userInfoData.percentage}%".length
-                )
-            },
-            style = CertiTheme.typography.caption.regular_14,
-            color = CertiTheme.colors.gray600
-        )
     }
 }
 
@@ -149,7 +95,6 @@ fun PreviewUserInfoSection() {
         name = "김서티야",
         university = "솝트대학교",
         major = "서티취득학과",
-        percentage = 48,
         category = listOf()
     )
 
