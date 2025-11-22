@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -19,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -109,35 +112,38 @@ fun BirthdayInputField(
             DatePickerField(
                 placeholder = "YYYY",
                 dateList = yearList,
-                selectedValue = yearValue,
+                value = yearValue,
                 onValueChange = { newYear ->
                     yearValue = newYear
                     onDateSelected(newYear, monthValue, dayValue)
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                initialScrollItem = currentDate.year
+                initialScrollItem = currentDate.year,
+                modifier = Modifier.widthIn(min = screenWidthDp(94.dp), max = screenWidthDp(114.dp))
             )
             DatePickerField(
                 placeholder = "MM",
                 dateList = monthList,
-                selectedValue = monthValue,
+                value = monthValue,
                 onValueChange = { newMonth ->
                     monthValue = newMonth
                     onDateSelected(yearValue, newMonth, dayValue)
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                padDisplayValue = true
+                padDisplayValue = true,
+                modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
             DatePickerField(
                 placeholder = "DD",
                 dateList = dayList,
-                selectedValue = dayValue,
+                value = dayValue,
                 onValueChange = { newDay ->
                     dayValue = newDay
                     onDateSelected(yearValue, monthValue, newDay)
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                padDisplayValue = true
+                padDisplayValue = true,
+                modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
         }
     }
@@ -147,7 +153,7 @@ fun BirthdayInputField(
 private fun DatePickerField(
     placeholder: String,
     dateList: List<Int>,
-    selectedValue: String,
+    value: String,
     onValueChange: (String) -> Unit,
     backgroundColor: Color,
     modifier: Modifier = Modifier,
@@ -157,11 +163,11 @@ private fun DatePickerField(
     var visible by remember { mutableStateOf(false) }
 
     var rowWidth by remember { mutableStateOf(0.dp) }
-    var rowHeight by remember { mutableStateOf(0) }
+    var rowHeight by remember { mutableIntStateOf(0) }
     val density = LocalDensity.current
 
     val lazyListState = rememberLazyListState()
-    val targetItem = selectedValue.toIntOrNull() ?: initialScrollItem
+    val targetItem = value.toIntOrNull() ?: initialScrollItem
     val initialIndex = remember(dateList, targetItem) {
         targetItem?.let { dateList.indexOf(it) } ?: -1
     }
@@ -173,10 +179,11 @@ private fun DatePickerField(
     }
 
     Column(
-        modifier = modifier
+        modifier = modifier.width(IntrinsicSize.Max)
     ) {
         Row(
             modifier = Modifier
+                .fillMaxWidth()
                 .roundedBackgroundWithBorder(
                     cornerRadius = 8.dp,
                     backgroundColor = backgroundColor,
@@ -190,9 +197,9 @@ private fun DatePickerField(
                 }
                 .padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (selectedValue.isEmpty()) {
+            if (value.isEmpty()) {
                 Text(
                     text = placeholder,
                     style = CertiTheme.typography.caption.semibold_14,
@@ -200,7 +207,7 @@ private fun DatePickerField(
                 )
             } else {
                 Text(
-                    text = if (padDisplayValue) selectedValue.padStart(2, '0') else selectedValue,
+                    text = if (padDisplayValue) value.padStart(2, '0') else value,
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.black
                 )
