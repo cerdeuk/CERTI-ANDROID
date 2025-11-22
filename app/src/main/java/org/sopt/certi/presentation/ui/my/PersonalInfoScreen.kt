@@ -123,6 +123,7 @@ fun PersonalInfoScreen(
         item {
             BirthdayInputField(
                 label = stringResource(R.string.personal_birthday_label),
+                value = uiState.birth,
                 onValueChange = onBirthChange,
                 inputFieldBackgroundColor = when {
                     uiState.birth.isEmpty() -> CertiTheme.colors.white
@@ -140,6 +141,7 @@ private fun MyPagePersonalInfoPreview() {
     val viewModel = remember { PersonalInfoViewModel() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
+    viewModel.onBirthChange("2024.05.04")
 
     CERTITheme {
         PersonalInfoScreen(

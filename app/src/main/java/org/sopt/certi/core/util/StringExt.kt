@@ -13,3 +13,13 @@ fun String.toLocalDateOrMin(): LocalDate =
             it.printStackTrace()
             LocalDate.MIN
         }
+
+fun String.parseDateToYearMonthDay(): Triple<String, String, String> {
+    if (this.isBlank()) return Triple("", "", "")
+    return runCatching {
+        val parts = this.split(".")
+        Triple(parts[0], parts[1], parts[2])
+    }.getOrElse {
+        Triple("", "", "")
+    }
+}

@@ -39,6 +39,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.parseDateToYearMonthDay
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -50,19 +51,22 @@ import java.time.YearMonth
 @Composable
 fun BirthdayInputField(
     label: String,
+    value: String,
     onValueChange: (String) -> Unit,
     inputFieldBackgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
-    val currentDate by remember { mutableStateOf(LocalDate.now()) }
+    val parsedDate = value.parseDateToYearMonthDay()
+    var yearValue by remember { mutableStateOf(parsedDate.first) }
+    var monthValue by remember { mutableStateOf(parsedDate.second) }
+    var dayValue by remember { mutableStateOf(parsedDate.third) }
 
-    var yearValue by remember { mutableStateOf("") }
-    var monthValue by remember { mutableStateOf("") }
-    var dayValue by remember { mutableStateOf("") }
+    val currentDate by remember { mutableStateOf(LocalDate.now()) }
 
     val yearList = remember(currentDate) {
         (currentDate.year - 100..currentDate.year + 100).reversed().toList()
     }
+
     val monthList = remember { (1..12).toList() }
 
     val daysInMonth = remember(yearValue, monthValue) {
@@ -74,18 +78,18 @@ fun BirthdayInputField(
     }
     val dayList = remember(daysInMonth) { (1..daysInMonth).toList() }
 
+    val onDateSelected = { newYear: String, newMonth: String, newDay: String ->
+        if (newYear.isNotEmpty() && newMonth.isNotEmpty() && newDay.isNotEmpty()) {
+            val formattedMonth = newMonth.padStart(2, '0')
+            val formattedDay = newDay.padStart(2, '0')
+            onValueChange("$newYear.$formattedMonth.$formattedDay")
+        }
+    }
+
     LaunchedEffect(yearValue, monthValue) {
         val dayInt = dayValue.toIntOrNull() ?: 0
         if (dayValue.isNotEmpty() && dayInt > daysInMonth) {
             dayValue = ""
-        }
-    }
-
-    LaunchedEffect(yearValue, monthValue, dayValue) {
-        if (yearValue.isNotEmpty() && monthValue.isNotEmpty() && dayValue.isNotEmpty()) {
-            val formattedMonth = monthValue.padStart(2, '0')
-            val formattedDay = dayValue.padStart(2, '0')
-            onValueChange("$yearValue.$formattedMonth.$formattedDay")
         }
     }
 
@@ -106,7 +110,10 @@ fun BirthdayInputField(
                 placeholder = "YYYY",
                 dateList = yearList,
                 selectedValue = yearValue,
-                onValueChange = { yearValue = it },
+                onValueChange = { newYear ->
+                    yearValue = newYear
+                    onDateSelected(newYear, monthValue, dayValue)
+                },
                 backgroundColor = inputFieldBackgroundColor,
                 initialScrollItem = currentDate.year
             )
@@ -114,7 +121,10 @@ fun BirthdayInputField(
                 placeholder = "MM",
                 dateList = monthList,
                 selectedValue = monthValue,
-                onValueChange = { monthValue = it },
+                onValueChange = { newMonth ->
+                    monthValue = newMonth
+                    onDateSelected(yearValue, newMonth, dayValue)
+                },
                 backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true
             )
@@ -122,7 +132,10 @@ fun BirthdayInputField(
                 placeholder = "DD",
                 dateList = dayList,
                 selectedValue = dayValue,
-                onValueChange = { dayValue = it },
+                onValueChange = { newDay ->
+                    dayValue = newDay
+                    onDateSelected(yearValue, monthValue, newDay)
+                },
                 backgroundColor = inputFieldBackgroundColor,
                 padDisplayValue = true
             )
@@ -262,6 +275,7 @@ private fun MyPageDateInputFieldPreview() {
         ) {
             BirthdayInputField(
                 label = "생년월일",
+                value = "2004.04.05",
                 onValueChange = { value = it },
                 inputFieldBackgroundColor = CertiTheme.colors.white,
                 modifier = Modifier.padding(horizontal = 20.dp)
