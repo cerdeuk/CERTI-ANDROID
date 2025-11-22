@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.presentation.ui.my.state.AcademicInfoUiState
-import org.sopt.certi.presentation.ui.my.state.MyPageUnivUiState
+import org.sopt.certi.presentation.ui.my.state.UnivUiState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +18,7 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
     private val _academicInfoUiState = MutableStateFlow(AcademicInfoUiState())
     val academicInfoUiState = _academicInfoUiState.asStateFlow()
 
-    private val _myPageUnivUiState = MutableStateFlow(MyPageUnivUiState())
+    private val _myPageUnivUiState = MutableStateFlow(UnivUiState())
     val myPageUnivUiState = _myPageUnivUiState.asStateFlow()
 
     private val _editingCategoryList = MutableStateFlow<List<CategoryType>>(emptyList())

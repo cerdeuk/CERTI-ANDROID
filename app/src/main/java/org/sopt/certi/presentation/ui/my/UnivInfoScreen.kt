@@ -2,6 +2,7 @@ package org.sopt.certi.presentation.ui.my
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -26,7 +27,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.my.state.MyPageUnivUiState
+import org.sopt.certi.presentation.ui.my.state.UnivUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -35,7 +36,7 @@ fun UnivInfoRoute() {}
 
 @Composable
 fun UnivInfoScreen(
-    uiState: MyPageUnivUiState,
+    uiState: UnivUiState,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     univList: ImmutableList<String>,
@@ -116,6 +117,7 @@ private fun UnivInfoPreview() {
             onUnivSelected = viewModel::onUnivSelected,
             onSaveClick = viewModel::onUnivSaveClick,
             modifier = Modifier
+                .fillMaxSize()
                 .background(CertiTheme.colors.white)
                 .statusBarsPadding()
         )
