@@ -37,8 +37,8 @@ fun PersonalInfoProfileImage(
 ) {
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri: Uri? ->
-            onImageUriChange(uri)
+        onResult = { uri ->
+            if (uri != null) onImageUriChange(uri)
         }
     )
 
