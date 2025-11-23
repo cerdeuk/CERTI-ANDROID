@@ -64,9 +64,15 @@ fun PersonalInfoNicknameTextField(
         }
         BasicTextField(
             value = value,
-            onValueChange = {
-                if (it.length <= 7) {
-                    onValueChange(it)
+            onValueChange = { newValue ->
+                if (newValue == value) {
+                    return@BasicTextField
+                }
+                if (newValue.contains("\n") || newValue.contains("\r")) {
+                    return@BasicTextField
+                }
+                if (newValue.length <= 7) {
+                    onValueChange(newValue)
                 }
             },
             modifier = Modifier

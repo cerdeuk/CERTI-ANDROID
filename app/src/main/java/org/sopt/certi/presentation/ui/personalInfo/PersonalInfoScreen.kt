@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
@@ -71,8 +74,12 @@ fun PersonalInfoScreen(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val focusManager = LocalFocusManager.current
+
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .noRippleClickable { focusManager.clearFocus() }
+            .imePadding(),
         contentPadding = PaddingValues(screenWidthDp(20.dp)),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -108,7 +115,8 @@ fun PersonalInfoScreen(
                 label = stringResource(R.string.personal_name_label),
                 placeholder = stringResource(R.string.personal_name_placeholder),
                 value = uiState.name,
-                onValueChange = onNameChange
+                onValueChange = onNameChange,
+                focusManager = focusManager
             )
         }
 
@@ -118,6 +126,7 @@ fun PersonalInfoScreen(
                 placeholder = stringResource(R.string.personal_email_placeholder),
                 value = uiState.email,
                 onValueChange = onEmailChange,
+                focusManager = focusManager,
                 imeAction = ImeAction.Done
             )
         }
