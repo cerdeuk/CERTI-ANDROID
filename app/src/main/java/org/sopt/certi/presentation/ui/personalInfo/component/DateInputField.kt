@@ -43,7 +43,6 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.padIfNeeded
 import org.sopt.certi.core.util.parseDateToYearMonthDay
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
@@ -53,7 +52,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
 import java.time.YearMonth
 
-private const val VISIBLE_DROPBOX_COUNT = 4
+private const val VISIBLE_DROPBOX_COUNT = 6
 private val DROPBOX_ITEM_HEIGHT = 40.dp
 
 private data class BirthdayFields(
@@ -63,7 +62,7 @@ private data class BirthdayFields(
 )
 
 @Composable
-fun BirthdayInputField(
+fun DateInputField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -84,18 +83,14 @@ fun BirthdayInputField(
     }
 
     val currentDate = remember { LocalDate.now() }
-
     val yearList = remember(currentDate) {
-        (currentDate.year - 100..currentDate.year + 100).reversed().toList()
+        (currentDate.year - 100..currentDate.year + 100).reversed().map { it.toString() }
     }
-
-    val monthList = remember { (1..12).toList() }
-
+    val monthList = remember { (1..12).map { it.toString().padStart(2, '0') } }
     val daysInMonth = remember(birthday.year, birthday.month) {
         getMaxDays(birthday.year, birthday.month)
     }
-    val dayList = remember(daysInMonth) { (1..daysInMonth).toList() }
-
+    val dayList = remember(daysInMonth) { (1..daysInMonth).map { it.toString().padStart(2, '0') } }
     val handleUpdate = { newFields: BirthdayFields ->
         updateBirthday(
             newFields = newFields,
@@ -118,37 +113,35 @@ fun BirthdayInputField(
         Row(
             horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
         ) {
-            DatePickerField(
+            DateDropdown(
                 placeholder = "YYYY",
-                dateList = yearList,
+                items = yearList,
                 value = birthday.year,
                 onValueChange = { newYear ->
                     handleUpdate(birthday.copy(year = newYear))
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                initialScrollItem = currentDate.year,
+                initialScrollItem = currentDate.year.toString(),
                 modifier = Modifier.widthIn(min = screenWidthDp(94.dp), max = screenWidthDp(114.dp))
             )
-            DatePickerField(
+            DateDropdown(
                 placeholder = "MM",
-                dateList = monthList,
+                items = monthList,
                 value = birthday.month,
                 onValueChange = { newMonth ->
                     handleUpdate(birthday.copy(month = newMonth))
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                padDisplayValue = true,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
-            DatePickerField(
+            DateDropdown(
                 placeholder = "DD",
-                dateList = dayList,
+                items = dayList,
                 value = birthday.day,
                 onValueChange = { newDay ->
                     handleUpdate(birthday.copy(day = newDay))
                 },
                 backgroundColor = inputFieldBackgroundColor,
-                padDisplayValue = true,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
         }
@@ -156,33 +149,20 @@ fun BirthdayInputField(
 }
 
 @Composable
-private fun DatePickerField(
+private fun DateDropdown(
     placeholder: String,
-    dateList: List<Int>,
+    items: List<String>,
     value: String,
     onValueChange: (String) -> Unit,
     backgroundColor: Color,
     modifier: Modifier = Modifier,
-    padDisplayValue: Boolean = false,
-    initialScrollItem: Int? = null
+    initialScrollItem: String? = null
 ) {
     var isDropdownVisible by remember { mutableStateOf(false) }
 
     var rowWidth by remember { mutableStateOf(0.dp) }
     var rowHeight by remember { mutableIntStateOf(0) }
     val density = LocalDensity.current
-
-    val lazyListState = rememberLazyListState()
-    val targetItem = value.toIntOrNull() ?: initialScrollItem
-    val initialIndex = remember(dateList, targetItem) {
-        targetItem?.let { dateList.indexOf(it) } ?: -1
-    }
-
-    LaunchedEffect(isDropdownVisible, initialIndex) {
-        if (isDropdownVisible && initialIndex >= 0) {
-            lazyListState.scrollToItem(index = initialIndex)
-        }
-    }
 
     Column(
         modifier = modifier.width(IntrinsicSize.Max)
@@ -204,25 +184,15 @@ private fun DatePickerField(
                 .padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (value.isEmpty()) {
-                Text(
-                    text = placeholder,
-                    style = CertiTheme.typography.caption.semibold_14,
-                    color = CertiTheme.colors.gray300,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
-            } else {
-                Text(
-                    text = value.padIfNeeded(padDisplayValue),
-                    style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.black,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            Text(
+                text = if (value.isEmpty()) placeholder else value,
+                style = CertiTheme.typography.caption.semibold_12,
+                color = if (value.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
                 contentDescription = null,
@@ -236,6 +206,18 @@ private fun DatePickerField(
                 onDismissRequest = { isDropdownVisible = false },
                 properties = PopupProperties(focusable = true)
             ) {
+                val lazyListState = rememberLazyListState()
+                val targetItem = if (value.isNotEmpty()) value else initialScrollItem
+                val initialIndex = remember(items, targetItem) {
+                    targetItem?.let { items.indexOf(it) } ?: -1
+                }
+
+                LaunchedEffect(isDropdownVisible, initialIndex) {
+                    if (isDropdownVisible && initialIndex >= 0) {
+                        lazyListState.scrollToItem(index = initialIndex)
+                    }
+                }
+
                 LazyColumn(
                     state = lazyListState,
                     modifier = Modifier
@@ -249,23 +231,19 @@ private fun DatePickerField(
                         .background(CertiTheme.colors.white)
                         .width(rowWidth)
                 ) {
-                    items(
-                        items = dateList,
-                        key = { it }
-                    ) { date ->
-                        val dateString = date.toString()
+                    items(items) { item ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
                                 .noRippleClickable {
-                                    onValueChange(dateString)
+                                    onValueChange(item)
                                     isDropdownVisible = false
                                 },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = dateString.padIfNeeded(padDisplayValue),
+                                text = item,
                                 style = CertiTheme.typography.caption.semibold_12,
                                 color = CertiTheme.colors.black,
                                 maxLines = 1,
@@ -285,9 +263,7 @@ private fun DatePickerField(
 
 private fun BirthdayFields.toFormattedDateOrNull(): String? {
     if (year.isEmpty() || month.isEmpty() || day.isEmpty()) return null
-    val formattedMonth = month.padIfNeeded(true)
-    val formattedDay = day.padIfNeeded(true)
-    return "$year.$formattedMonth.$formattedDay"
+    return "$year.$month.$day"
 }
 
 private fun getMaxDays(year: String, month: String): Int {
@@ -339,7 +315,7 @@ private fun MyPageDateInputFieldPreview() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            BirthdayInputField(
+            DateInputField(
                 label = "생년월일",
                 value = value,
                 onValueChange = { value = it },

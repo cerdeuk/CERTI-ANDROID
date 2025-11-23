@@ -24,7 +24,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.personalInfo.component.BirthdayInputField
+import org.sopt.certi.presentation.ui.personalInfo.component.DateInputField
 import org.sopt.certi.presentation.ui.personalInfo.component.ModifyInfoHeader
 import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoProfileImage
@@ -123,7 +123,7 @@ fun PersonalInfoScreen(
         }
 
         item {
-            BirthdayInputField(
+            DateInputField(
                 label = stringResource(R.string.personal_birthday_label),
                 value = uiState.birth,
                 onValueChange = onBirthChange,
