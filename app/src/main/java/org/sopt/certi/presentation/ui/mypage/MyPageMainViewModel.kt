@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.sopt.certi.presentation.ui.my.state.MyPageUiSate
+import org.sopt.certi.presentation.ui.mypage.state.MyPageUiSate
 import javax.inject.Inject
 
 class MyPageMainViewModel@Inject constructor() : ViewModel() {

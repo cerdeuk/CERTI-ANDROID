@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.personalInfo
 
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,12 +24,12 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.my.component.BirthdayInputField
-import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage
-import org.sopt.certi.presentation.ui.my.component.PersonalInfoTextField
-import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
+import org.sopt.certi.presentation.ui.personalInfo.component.BirthdayInputField
+import org.sopt.certi.presentation.ui.personalInfo.component.ModifyInfoHeader
+import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoNicknameTextField
+import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoProfileImage
+import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoTextField
+import org.sopt.certi.presentation.ui.personalInfo.state.PersonalInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 

@@ -1,6 +1,7 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.personalInfo
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,9 +10,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.domain.model.user.UserProfile
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.my.state.PersonalInfoUiState
+import org.sopt.certi.presentation.ui.personalInfo.state.PersonalInfoUiState
 import javax.inject.Inject
-import androidx.core.net.toUri
 
 class PersonalInfoViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(PersonalInfoUiState())

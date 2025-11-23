@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my.component
+package org.sopt.certi.presentation.ui.personalInfo.component
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.ui.mypage.component.MyPageEmptyProfileImage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
