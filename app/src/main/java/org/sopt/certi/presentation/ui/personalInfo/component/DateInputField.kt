@@ -55,10 +55,10 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.parseDateToYearMonthDay
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -67,49 +67,36 @@ import java.time.YearMonth
 private const val VISIBLE_DROPBOX_COUNT = 6
 private val DROPBOX_ITEM_HEIGHT = 40.dp
 
-private data class BirthdayFields(
-    val year: String,
-    val month: String,
-    val day: String
-)
-
 @Composable
 fun DateInputField(
     label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    onValidityChange: (Boolean) -> Unit,
+    value: DateData,
+    onValueChange: (DateData) -> Unit,
     inputFieldBackgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
-    val parsedDate = value.parseDateToYearMonthDay()
-
-    var birthday by remember(value) {
-        mutableStateOf(
-            BirthdayFields(
-                year = parsedDate.first,
-                month = parsedDate.second,
-                day = parsedDate.third
-            )
-        )
-    }
-
     val currentDate = remember { LocalDate.now() }
     val yearList = remember(currentDate) {
         (currentDate.year - 100..currentDate.year + 100).reversed().map { it.toString() }
     }
-    val monthList = remember { (1..12).map { it.toString().padStart(2, '0') } }
-    val daysInMonth = remember(birthday.year, birthday.month) {
-        getMaxDays(birthday.year, birthday.month)
+
+    val monthList = remember { (1..12).map { "%02d".format(it) } }
+
+    val daysInMonth = remember(value.year, value.month) {
+        if (value.year != null && value.month != null) {
+            runCatching { YearMonth.of(value.year, value.month).lengthOfMonth() }.getOrDefault(31)
+        } else 31
     }
-    val dayList = remember(daysInMonth) { (1..daysInMonth).map { it.toString().padStart(2, '0') } }
-    val handleUpdate = { newFields: BirthdayFields ->
-        updateBirthday(
-            newFields = newFields,
-            onStateUpdate = { birthday = it },
-            onValueChange = onValueChange,
-            onValidityChange = onValidityChange
-        )
+    val dayList = remember(daysInMonth) { (1..daysInMonth).map { "%02d".format(it) } }
+
+    fun updateDate(newYear: Int? = value.year, newMonth: Int? = value.month, newDay: Int? = value.day) {
+        var validatedDay = newDay
+
+        if (newYear != null && newMonth != null && validatedDay != null) {
+            val maxDay = runCatching { YearMonth.of(newYear, newMonth).lengthOfMonth() }.getOrDefault(31)
+            if (validatedDay > maxDay) validatedDay = null
+        }
+        onValueChange(DateData(newYear, newMonth, validatedDay))
     }
 
     Column(
@@ -128,10 +115,8 @@ fun DateInputField(
             DateDropdown(
                 placeholder = "YYYY",
                 items = yearList,
-                value = birthday.year,
-                onValueChange = { newYear ->
-                    handleUpdate(birthday.copy(year = newYear))
-                },
+                value = value.yearText,
+                onValueChange = { updateDate(newYear = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 initialScrollItem = currentDate.year.toString(),
                 modifier = Modifier.widthIn(min = screenWidthDp(94.dp), max = screenWidthDp(114.dp))
@@ -139,20 +124,16 @@ fun DateInputField(
             DateDropdown(
                 placeholder = "MM",
                 items = monthList,
-                value = birthday.month,
-                onValueChange = { newMonth ->
-                    handleUpdate(birthday.copy(month = newMonth))
-                },
+                value = value.monthText,
+                onValueChange = { updateDate(newMonth = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
             DateDropdown(
                 placeholder = "DD",
                 items = dayList,
-                value = birthday.day,
-                onValueChange = { newDay ->
-                    handleUpdate(birthday.copy(day = newDay))
-                },
+                value = value.dayText,
+                onValueChange = { updateDate(newDay = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
             )
@@ -303,54 +284,10 @@ private fun DateDropdown(
     }
 }
 
-private fun BirthdayFields.toFormattedDateOrNull(): String? {
-    if (year.isEmpty() || month.isEmpty() || day.isEmpty()) return null
-    return "$year.$month.$day"
-}
-
-private fun getMaxDays(year: String, month: String): Int {
-    return if (year.isNotEmpty() && month.isNotEmpty()) {
-        runCatching {
-            YearMonth.of(year.toInt(), month.toInt()).lengthOfMonth()
-        }.getOrDefault(31)
-    } else {
-        31
-    }
-}
-
-private fun updateBirthday(
-    newFields: BirthdayFields,
-    onStateUpdate: (BirthdayFields) -> Unit,
-    onValueChange: (String) -> Unit,
-    onValidityChange: (Boolean) -> Unit
-) {
-    var validatedFields = newFields
-
-    val maxDays = getMaxDays(validatedFields.year, validatedFields.month)
-    val currentDay = validatedFields.day.toIntOrNull()
-    if (currentDay != null && currentDay > maxDays) {
-        validatedFields = validatedFields.copy(day = "")
-    }
-
-    onStateUpdate(validatedFields)
-
-    validatedFields.toFormattedDateOrNull()?.let(onValueChange)
-
-    val isAllEmpty = validatedFields.year.isEmpty() &&
-        validatedFields.month.isEmpty() &&
-        validatedFields.day.isEmpty()
-    val isComplete = validatedFields.year.isNotEmpty() &&
-        validatedFields.month.isNotEmpty() &&
-        validatedFields.day.isNotEmpty()
-
-    onValidityChange(isAllEmpty || isComplete)
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun MyPageDateInputFieldPreview() {
-    var value by remember { mutableStateOf("2004.04.05") }
-    var isValid by remember { mutableStateOf(true) }
+    var value by remember { mutableStateOf(DateData(2004, 4, 5)) }
 
     CERTITheme {
         Box(
@@ -361,7 +298,6 @@ private fun MyPageDateInputFieldPreview() {
                 label = "생년월일",
                 value = value,
                 onValueChange = { value = it },
-                onValidityChange = { isValid = it },
                 inputFieldBackgroundColor = CertiTheme.colors.white,
                 modifier = Modifier.padding(horizontal = 20.dp)
             )

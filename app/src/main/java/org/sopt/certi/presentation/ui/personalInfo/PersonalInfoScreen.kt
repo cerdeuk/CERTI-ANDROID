@@ -26,6 +26,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.personalInfo.component.DateInputField
 import org.sopt.certi.presentation.ui.personalInfo.component.ModifyInfoHeader
@@ -53,7 +54,6 @@ fun PersonalInfoRoute(
         onNameChange = viewModel::onNameChange,
         onEmailChange = viewModel::onEmailChange,
         onBirthChange = viewModel::onBirthChange,
-        onBirthValidityChange = viewModel::onBirthValidityChange,
         onSaveClick = viewModel::onSaveClick,
         modifier = Modifier.padding(padding)
     )
@@ -69,8 +69,7 @@ fun PersonalInfoScreen(
     onNickNameCheckButtonClick: () -> Unit,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
-    onBirthChange: (String) -> Unit,
-    onBirthValidityChange: (Boolean) -> Unit,
+    onBirthChange: (DateData) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -136,9 +135,8 @@ fun PersonalInfoScreen(
                 label = stringResource(R.string.personal_birthday_label),
                 value = uiState.birth,
                 onValueChange = onBirthChange,
-                onValidityChange = onBirthValidityChange,
                 inputFieldBackgroundColor = when {
-                    uiState.birth.isEmpty() -> CertiTheme.colors.white
+                    uiState.birth.isAllEmpty -> CertiTheme.colors.white
                     uiState.isBirthChanged -> CertiTheme.colors.white
                     else -> CertiTheme.colors.gray0
                 }
@@ -165,7 +163,6 @@ private fun MyPagePersonalInfoPreview() {
             onNameChange = viewModel::onNameChange,
             onEmailChange = viewModel::onEmailChange,
             onBirthChange = viewModel::onBirthChange,
-            onBirthValidityChange = viewModel::onBirthValidityChange,
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.white)

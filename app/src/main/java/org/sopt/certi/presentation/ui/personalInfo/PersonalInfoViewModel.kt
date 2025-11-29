@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.domain.model.user.UserProfile
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.personalInfo.state.PersonalInfoUiState
@@ -32,7 +33,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
                 nickname = "nick",
                 name = "name",
                 email = "certification@gmail.com",
-                birth = "2024.05.04",
+                birth = DateData(2004, 4, 5),
                 profileImageUrl = null
             )
 
@@ -56,7 +57,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
             current.isNicknameChanged ||
                 current.name != _originalUserProfile.name ||
                 current.email != _originalUserProfile.email ||
-                (current.isBirthChanged && current.isBirthValid) ||
+                (current.birth != _originalUserProfile.birth && current.birth.isValid) ||
                 current.profileUri?.toString() != _originalUserProfile.profileImageUrl
 
         val isNicknameValid = _nickNameValidTypeUiState.value in setOf(NickNameValidType.VALID, NickNameValidType.DEFAULT)
@@ -130,18 +131,13 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
         updateSaveButtonState()
     }
 
-    fun onBirthChange(birth: String) {
+    fun onBirthChange(birth: DateData) {
         _uiState.update {
             it.copy(
                 birth = birth,
                 isBirthChanged = birth != _originalUserProfile.birth
             )
         }
-        updateSaveButtonState()
-    }
-
-    fun onBirthValidityChange(isValid: Boolean) {
-        _uiState.update { it.copy(isBirthValid = isValid) }
         updateSaveButtonState()
     }
 }

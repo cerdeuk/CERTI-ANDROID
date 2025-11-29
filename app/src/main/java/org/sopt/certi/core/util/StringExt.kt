@@ -1,5 +1,6 @@
 package org.sopt.certi.core.util
 
+import org.sopt.certi.domain.model.DateData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -14,12 +15,12 @@ fun String.toLocalDateOrMin(): LocalDate =
             LocalDate.MIN
         }
 
-fun String.parseDateToYearMonthDay(): Triple<String, String, String> {
-    if (this.isBlank()) return Triple("", "", "")
-    return runCatching {
-        val parts = this.split(".")
-        Triple(parts[0], parts[1], parts[2])
-    }.getOrElse {
-        Triple("", "", "")
-    }
+fun String.toDateModel(): DateData {
+    val parts = this.split(".")
+    if (parts.size != 3) return DateData()
+    return DateData(
+        year = parts[0].toIntOrNull(),
+        month = parts[1].toIntOrNull(),
+        day = parts[2].toIntOrNull()
+    )
 }
