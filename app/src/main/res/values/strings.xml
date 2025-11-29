@@ -165,6 +165,8 @@
     <string name="toast_acquire_expect_fail_content">홈-취득 예정 자격증에서 확인 가능</string>
     <string name="toast_acquired_fail_title">이미 취득 완료된 자격증입니다.</string>
     <string name="toast_acquired_fail_content">이력서 탭에서 확인 가능</string>
+    <string name="cert_detail_info_tab">상세정보</string>
+    <string name="cert_detail_comment_tab">댓글</string>
 
     
     <!-- CertRecommendScreen -->
