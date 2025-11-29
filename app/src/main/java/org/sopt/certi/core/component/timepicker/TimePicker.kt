@@ -25,9 +25,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.certi.R
+import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
 
@@ -52,8 +57,8 @@ fun CustomTimePicker(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 오전/오후 Picker
-        TimePickerColumn(
-            items = listOf("오전", "오후"),
+        TimePeriodPickerColumn(
+            items = listOf(TimePeriodType.AM, TimePeriodType.PM),
             selectedItem = selectedPeriod,
             onItemSelected = {
                 selectedPeriod = it
@@ -66,10 +71,10 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.width(80.dp)
+            modifier = Modifier.widthForScreenPercentage(45.dp)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.widthForScreenPercentage(47.dp))
 
         // 시간 Picker
         TimePickerColumn(
@@ -86,18 +91,27 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.width(80.dp)
+            modifier = Modifier.widthForScreenPercentage(35.dp)
         )
 
         Text(
             text = ":",
-            modifier = Modifier.padding(horizontal = 8.dp)
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(horizontal = 22.dp)
+                .widthForScreenPercentage(4.dp)
         )
 
         // 분 Picker
         TimePickerColumn(
-            items = (0..59).map { it.toString() },
-            selectedItem = selectedMinute.toString(),
+            items = (0..59).map {
+                if(it.toString().length == 1) {
+                    "0$it"
+                } else {
+                    it.toString()
+                }
+            },
+            selectedItem = if(selectedMinute.toString().length == 1) "0$selectedMinute" else selectedMinute.toString(),
             onItemSelected = {
                 selectedMinute = it.toInt()
                 onTimeSelected(
@@ -109,7 +123,7 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.width(80.dp)
+            modifier = Modifier.widthForScreenPercentage(38.dp)
         )
     }
 }
@@ -133,13 +147,13 @@ fun TimePickerColumn(
     }
 
     Box(
-        modifier = modifier.height(180.dp),
+        modifier = modifier.heightForScreenPercentage(120.dp),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .heightForScreenPercentage(40.dp)
         ) {
             // 상단 파란색 라인
             Box(
@@ -166,7 +180,7 @@ fun TimePickerColumn(
         ) {
             // 위 패딩
             items(1) {
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
             }
 
             items(items.size) { index ->
@@ -178,7 +192,7 @@ fun TimePickerColumn(
                     style = CertiTheme.typography.caption.semibold_14,
                     color = if (isSelected) CertiTheme.colors.black else CertiTheme.colors.gray300,
                     modifier = Modifier
-                        .height(60.dp)
+                        .heightForScreenPercentage(40.dp)
                         .wrapContentHeight()
                         .clickable {
                             onItemSelected(item)
@@ -188,13 +202,99 @@ fun TimePickerColumn(
 
             // 아래 패딩
             items(1) {
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
             }
         }
     }
 }
 
-// 사용 예시
+@Composable
+fun TimePeriodPickerColumn(
+    items: List<TimePeriodType>,
+    selectedItem: TimePeriodType,
+    onItemSelected: (TimePeriodType) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = items.indexOf(selectedItem).coerceAtLeast(0)
+    )
+
+    LaunchedEffect(selectedItem) {
+        val index = items.indexOf(selectedItem)
+        if (index >= 0) {
+            listState.animateScrollToItem(index)
+        }
+    }
+
+    Box(
+        modifier = modifier.heightForScreenPercentage(120.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightForScreenPercentage(40.dp)
+        ) {
+            // 상단 파란색 라인
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .background(CertiTheme.colors.purpleBlue)
+                    .align(Alignment.TopCenter)
+            )
+            // 하단 파란색 라인
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .background(CertiTheme.colors.purpleBlue)
+                    .align(Alignment.BottomCenter)
+            )
+        }
+
+        LazyColumn(
+            state = listState,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+            // 위 패딩
+            items(1) {
+                Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
+            }
+
+            items(items.size) { index ->
+                val item = items[index]
+                val isSelected = item == selectedItem
+                val itemTitle = when(item) {
+                    TimePeriodType.AM -> stringResource(R.string.test_info_bottomsheet_time_morning)
+                    TimePeriodType.PM -> stringResource(R.string.test_info_bottomsheet_time_afternoon)
+                }
+
+                Text(
+                    text = itemTitle,
+                    style = CertiTheme.typography.caption.semibold_14,
+                    color = if (isSelected) CertiTheme.colors.black else CertiTheme.colors.gray300,
+                    modifier = Modifier
+                        .heightForScreenPercentage(40.dp)
+                        .wrapContentHeight()
+                        .clickable {
+                            onItemSelected(item)
+                        }
+                )
+            }
+
+            // 아래 패딩
+            items(1) {
+                Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
+            }
+
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun TimePickerPreview() {
