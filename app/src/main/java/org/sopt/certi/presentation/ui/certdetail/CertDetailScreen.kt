@@ -21,6 +21,7 @@ import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.toast.ShowToastRoute
 import org.sopt.certi.core.component.webview.CertWebView
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.model.ToastConfig
 import org.sopt.certi.presentation.ui.certdetail.component.tab.CertDetailTab
@@ -140,7 +141,7 @@ fun CertDetailScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         CertDetailTab(
             tabClicked = { tab ->
