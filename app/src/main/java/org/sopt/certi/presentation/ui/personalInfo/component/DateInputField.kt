@@ -1,19 +1,30 @@
 package org.sopt.certi.presentation.ui.personalInfo.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -39,6 +50,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import kotlinx.coroutines.delay
 import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -148,6 +160,7 @@ fun DateInputField(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun DateDropdown(
     placeholder: String,
@@ -160,12 +173,26 @@ private fun DateDropdown(
 ) {
     var isDropdownVisible by remember { mutableStateOf(false) }
 
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val animationTime = 300
+
+    LaunchedEffect(isDropdownVisible) {
+        if (isDropdownVisible) {
+            bringIntoViewRequester.bringIntoView()
+        } else {
+            delay(animationTime.toLong())
+        }
+    }
+
     var rowWidth by remember { mutableStateOf(0.dp) }
     var rowHeight by remember { mutableIntStateOf(0) }
     val density = LocalDensity.current
 
     Column(
-        modifier = modifier.width(IntrinsicSize.Max)
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .bringIntoViewRequester(bringIntoViewRequester)
+            .navigationBarsPadding()
     ) {
         Row(
             modifier = Modifier
@@ -206,58 +233,73 @@ private fun DateDropdown(
                 onDismissRequest = { isDropdownVisible = false },
                 properties = PopupProperties(focusable = true)
             ) {
-                val lazyListState = rememberLazyListState()
-                val targetItem = if (value.isNotEmpty()) value else initialScrollItem
-                val initialIndex = remember(items, targetItem) {
-                    targetItem?.let { items.indexOf(it) } ?: -1
-                }
-
-                LaunchedEffect(isDropdownVisible, initialIndex) {
-                    if (isDropdownVisible && initialIndex >= 0) {
-                        lazyListState.scrollToItem(index = initialIndex)
-                    }
-                }
-
-                LazyColumn(
-                    state = lazyListState,
-                    modifier = Modifier
-                        .dropShadow(
-                            shape = RoundedCornerShape(4.dp),
-                            color = CertiTheme.colors.black.copy(alpha = 0.05f),
-                            blur = 20.dp
-                        )
-                        .clip(RoundedCornerShape(4.dp))
-                        .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT)
-                        .background(CertiTheme.colors.white)
-                        .width(rowWidth)
+                AnimatedVisibility(
+                    visible = isDropdownVisible,
+                    enter = fadeIn(animationSpec = tween(animationTime)) +
+                            expandVertically(
+                                animationSpec = tween(animationTime),
+                                expandFrom = Alignment.Top
+                            ),
+                    exit = fadeOut(animationSpec = tween(animationTime)) +
+                            shrinkVertically(
+                                animationSpec = tween(animationTime),
+                                shrinkTowards = Alignment.Top
+                            )
                 ) {
-                    items(items) { item ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
-                                .noRippleClickable {
-                                    onValueChange(item)
-                                    isDropdownVisible = false
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = item,
-                                style = CertiTheme.typography.caption.semibold_12,
-                                color = CertiTheme.colors.black,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                    val lazyListState = rememberLazyListState()
+                    val targetItem = if (value.isNotEmpty()) value else initialScrollItem
+                    val initialIndex = remember(items, targetItem) {
+                        targetItem?.let { items.indexOf(it) } ?: -1
+                    }
+
+                    LaunchedEffect(isDropdownVisible, initialIndex) {
+                        if (isDropdownVisible && initialIndex >= 0) {
+                            lazyListState.scrollToItem(index = initialIndex)
+                        }
+                    }
+
+                    LazyColumn(
+                        state = lazyListState,
+                        modifier = Modifier
+                            .dropShadow(
+                                shape = RoundedCornerShape(4.dp),
+                                color = CertiTheme.colors.black.copy(alpha = 0.05f),
+                                blur = 20.dp
                             )
-                            HorizontalDivider(
-                                modifier = Modifier.align(Alignment.BottomCenter),
-                                color = CertiTheme.colors.gray100
-                            )
+                            .clip(RoundedCornerShape(4.dp))
+                            .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT)
+                            .background(CertiTheme.colors.white)
+                            .width(rowWidth)
+                    ) {
+                        items(items) { item ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
+                                    .noRippleClickable {
+                                        onValueChange(item)
+                                        isDropdownVisible = false
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = item,
+                                    style = CertiTheme.typography.caption.semibold_12,
+                                    color = CertiTheme.colors.black,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.align(Alignment.BottomCenter),
+                                    color = CertiTheme.colors.gray100
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+        if (isDropdownVisible) Spacer(modifier = Modifier.heightForScreenPercentage(DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT))
     }
 }
 
@@ -313,7 +355,7 @@ private fun MyPageDateInputFieldPreview() {
     CERTITheme {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.BottomCenter
         ) {
             DateInputField(
                 label = "생년월일",
