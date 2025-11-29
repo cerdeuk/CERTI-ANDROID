@@ -302,6 +302,7 @@ fun RegisterTestInfoBottomSheet(
                     ) {
                         Row {
                             if(showPlaceP1List) {
+                                // Place P1 List
                                 LazyColumn (
                                     modifier = Modifier
                                         .widthForScreenPercentage(placeItemWidth  - screenWidthDp(12.dp))
@@ -327,6 +328,7 @@ fun RegisterTestInfoBottomSheet(
                             }
 
                             if(showPlaceP2List) {
+                                // Place P2 List
                                 Spacer(Modifier.widthForScreenPercentage(placeItemWidth))
 
                                 LazyColumn (
@@ -350,6 +352,29 @@ fun RegisterTestInfoBottomSheet(
                                             showPlaceP2List = false
                                         }
                                     }
+                                }
+                            }
+
+                            Column {
+                                Spacer(Modifier.heightForScreenPercentage(24.dp))
+
+                                // Time Title
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
+                                        contentDescription = null,
+                                        tint = CertiTheme.colors.black
+                                    )
+
+                                    Spacer(Modifier.widthForScreenPercentage(4.dp))
+
+                                    Text(
+                                        text = stringResource(R.string.test_info_bottomsheet_time_title),
+                                        style = CertiTheme.typography.body.semibold_16,
+                                        color = CertiTheme.colors.gray600
+                                    )
                                 }
                             }
                         }
