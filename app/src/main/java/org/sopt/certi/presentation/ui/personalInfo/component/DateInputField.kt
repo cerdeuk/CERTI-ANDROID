@@ -1,9 +1,7 @@
 package org.sopt.certi.presentation.ui.personalInfo.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -165,12 +163,7 @@ private fun DateDropdown(
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val animationTime = 300
-    val transition = updateTransition(targetState = isExpanded)
-    val spacerHeight by transition.animateDp(
-        transitionSpec = { tween(animationTime) }
-    ) { expanded ->
-        if (expanded) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) else 0.dp
-    }
+    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) else 0.dp
 
     val toggleDropdown = {
         if (isExpanded) {
@@ -180,8 +173,8 @@ private fun DateDropdown(
         }
     }
 
-    LaunchedEffect(spacerHeight, isExpanded) {
-        if (isExpanded && spacerHeight > 0.dp) {
+    LaunchedEffect(spacerHeight) {
+        if (spacerHeight > 0.dp) {
             bringIntoViewRequester.bringIntoView()
         }
     }
@@ -244,8 +237,8 @@ private fun DateDropdown(
                 onDismissRequest = { isExpanded = false },
                 properties = PopupProperties(focusable = true)
             ) {
-                transition.AnimatedVisibility(
-                    visible = {it},
+                AnimatedVisibility(
+                    visible = isExpanded,
                     enter = fadeIn(animationSpec = tween(animationTime)) +
                         expandVertically(
                             animationSpec = tween(animationTime),
