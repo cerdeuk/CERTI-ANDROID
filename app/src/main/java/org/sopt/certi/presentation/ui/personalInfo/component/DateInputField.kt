@@ -85,7 +85,9 @@ fun DateInputField(
     val daysInMonth = remember(value.year, value.month) {
         if (value.year != null && value.month != null) {
             runCatching { YearMonth.of(value.year, value.month).lengthOfMonth() }.getOrDefault(31)
-        } else 31
+        } else {
+            31
+        }
     }
     val dayList = remember(daysInMonth) { (1..daysInMonth).map { "%02d".format(it) } }
 
@@ -217,15 +219,15 @@ private fun DateDropdown(
                 AnimatedVisibility(
                     visible = isDropdownVisible,
                     enter = fadeIn(animationSpec = tween(animationTime)) +
-                            expandVertically(
-                                animationSpec = tween(animationTime),
-                                expandFrom = Alignment.Top
-                            ),
+                        expandVertically(
+                            animationSpec = tween(animationTime),
+                            expandFrom = Alignment.Top
+                        ),
                     exit = fadeOut(animationSpec = tween(animationTime)) +
-                            shrinkVertically(
-                                animationSpec = tween(animationTime),
-                                shrinkTowards = Alignment.Top
-                            )
+                        shrinkVertically(
+                            animationSpec = tween(animationTime),
+                            shrinkTowards = Alignment.Top
+                        )
                 ) {
                     val lazyListState = rememberLazyListState()
                     val targetItem = if (value.isNotEmpty()) value else initialScrollItem
