@@ -1,7 +1,9 @@
 package org.sopt.certi.presentation.ui.personalInfo.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -154,22 +156,48 @@ private fun DateDropdown(
     modifier: Modifier = Modifier,
     initialScrollItem: String? = null
 ) {
-    var isDropdownVisible by remember { mutableStateOf(false) }
-
-    val bringIntoViewRequester = remember { BringIntoViewRequester() }
-    val animationTime = 300
-
-    LaunchedEffect(isDropdownVisible) {
-        if (isDropdownVisible) {
-            bringIntoViewRequester.bringIntoView()
-        } else {
-            delay(animationTime.toLong())
-        }
-    }
-
     var rowWidth by remember { mutableStateOf(0.dp) }
     var rowHeight by remember { mutableIntStateOf(0) }
     val density = LocalDensity.current
+
+    var showPopup by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(false) }
+
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val animationTime = 300
+    val transition = updateTransition(targetState = isExpanded)
+    val spacerHeight by transition.animateDp(
+        transitionSpec = { tween(animationTime) }
+    ) { expanded ->
+        if (expanded) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) else 0.dp
+    }
+
+    val toggleDropdown = {
+        if (isExpanded) {
+            isExpanded = false
+        } else {
+            showPopup = true
+        }
+    }
+
+    LaunchedEffect(spacerHeight, isExpanded) {
+        if (isExpanded && spacerHeight > 0.dp) {
+            bringIntoViewRequester.bringIntoView()
+        }
+    }
+
+    LaunchedEffect(showPopup) {
+        if (showPopup) {
+            isExpanded = true
+        }
+    }
+
+    LaunchedEffect(isExpanded) {
+        if (!isExpanded && showPopup) {
+            delay(animationTime.toLong())
+            showPopup = false
+        }
+    }
 
     Column(
         modifier = modifier
@@ -186,7 +214,7 @@ private fun DateDropdown(
                     borderColor = CertiTheme.colors.gray200,
                     borderWidth = 1.dp
                 )
-                .noRippleClickable { isDropdownVisible = !isDropdownVisible }
+                .noRippleClickable(toggleDropdown)
                 .onSizeChanged {
                     rowWidth = with(density) { it.width.toDp() }
                     rowHeight = it.height
@@ -209,15 +237,15 @@ private fun DateDropdown(
                 tint = CertiTheme.colors.gray400
             )
         }
-        if (isDropdownVisible) {
+        if (showPopup) {
             Popup(
                 alignment = Alignment.TopStart,
                 offset = IntOffset(x = 0, y = rowHeight),
-                onDismissRequest = { isDropdownVisible = false },
+                onDismissRequest = { isExpanded = false },
                 properties = PopupProperties(focusable = true)
             ) {
-                AnimatedVisibility(
-                    visible = isDropdownVisible,
+                transition.AnimatedVisibility(
+                    visible = {it},
                     enter = fadeIn(animationSpec = tween(animationTime)) +
                         expandVertically(
                             animationSpec = tween(animationTime),
@@ -235,8 +263,8 @@ private fun DateDropdown(
                         targetItem?.let { items.indexOf(it) } ?: -1
                     }
 
-                    LaunchedEffect(isDropdownVisible, initialIndex) {
-                        if (isDropdownVisible && initialIndex >= 0) {
+                    LaunchedEffect(initialIndex) {
+                        if (initialIndex >= 0) {
                             lazyListState.scrollToItem(index = initialIndex)
                         }
                     }
@@ -261,7 +289,7 @@ private fun DateDropdown(
                                     .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
                                     .noRippleClickable {
                                         onValueChange(item)
-                                        isDropdownVisible = false
+                                        isExpanded = false
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
@@ -282,7 +310,7 @@ private fun DateDropdown(
                 }
             }
         }
-        if (isDropdownVisible) Spacer(modifier = Modifier.heightForScreenPercentage(DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT))
+        Spacer(modifier = Modifier.heightForScreenPercentage(spacerHeight))
     }
 }
 
