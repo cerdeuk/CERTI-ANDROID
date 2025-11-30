@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween

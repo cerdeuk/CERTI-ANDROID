@@ -1,9 +1,9 @@
-package org.sopt.certi.presentation.ui.personalInfo.state
+package org.sopt.certi.presentation.ui.editpersonalinfo.state
 
 import android.net.Uri
 import org.sopt.certi.domain.model.DateData
 
-data class PersonalInfoUiState(
+data class EditPersonalInfoUiState(
     val nickname: String = "",
     val name: String = "",
     val email: String = "",

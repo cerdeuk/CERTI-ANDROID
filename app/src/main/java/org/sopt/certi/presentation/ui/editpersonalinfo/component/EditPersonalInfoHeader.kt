@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,7 +16,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun ModifyInfoHeader(
+fun EditPersonalInfoHeader(
     isSaveEnable: Boolean,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,

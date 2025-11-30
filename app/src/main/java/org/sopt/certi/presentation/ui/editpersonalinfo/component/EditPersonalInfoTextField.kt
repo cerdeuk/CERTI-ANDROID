@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +30,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoTextField(
+fun EditPersonalInfoTextField(
     label: String,
     placeholder: String,
     value: String,
@@ -103,14 +103,14 @@ fun PersonalInfoTextField(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPageTextFieldPreview() {
+private fun EditPersonalInfoTextFieldPreview() {
     var value by remember { mutableStateOf("") }
 
     CERTITheme {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            PersonalInfoTextField(
+            EditPersonalInfoTextField(
                 label = "이름",
                 placeholder = "이름을 입력해주세요.",
                 value = value,

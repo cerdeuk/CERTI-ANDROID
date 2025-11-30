@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo
+package org.sopt.certi.presentation.ui.editpersonalinfo
 
 import android.net.Uri
 import androidx.core.net.toUri
@@ -11,11 +11,11 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.domain.model.user.UserProfile
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.personalInfo.state.PersonalInfoUiState
+import org.sopt.certi.presentation.ui.editpersonalinfo.state.EditPersonalInfoUiState
 import javax.inject.Inject
 
-class PersonalInfoViewModel @Inject constructor() : ViewModel() {
-    private val _uiState = MutableStateFlow(PersonalInfoUiState())
+class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
+    private val _uiState = MutableStateFlow(EditPersonalInfoUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _nickNameValidTypeUiState = MutableStateFlow(NickNameValidType.DEFAULT)
@@ -39,7 +39,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
 
             _originalUserProfile = profileData
             _uiState.update {
-                PersonalInfoUiState(
+                EditPersonalInfoUiState(
                     nickname = profileData.nickname,
                     name = profileData.name,
                     email = profileData.email,

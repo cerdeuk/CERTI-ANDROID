@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,7 +35,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoNicknameTextField(
+fun EditNicknameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isEnable: Boolean,
@@ -187,7 +187,7 @@ private fun MyPageNicknameTextFieldPreview() {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            PersonalInfoNicknameTextField(
+            EditNicknameTextField(
                 value = value,
                 onValueChange = { newValue ->
                     value = newValue

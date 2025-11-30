@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

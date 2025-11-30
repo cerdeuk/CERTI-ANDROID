@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.personalInfo
+package org.sopt.certi.presentation.ui.editpersonalinfo
 
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -28,24 +28,24 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.personalInfo.component.DateInputField
-import org.sopt.certi.presentation.ui.personalInfo.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoNicknameTextField
-import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoProfileImage
-import org.sopt.certi.presentation.ui.personalInfo.component.PersonalInfoTextField
-import org.sopt.certi.presentation.ui.personalInfo.state.PersonalInfoUiState
+import org.sopt.certi.presentation.ui.editpersonalinfo.component.DateInputField
+import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditPersonalInfoHeader
+import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditNicknameTextField
+import org.sopt.certi.presentation.ui.editpersonalinfo.component.PersonalInfoProfileImage
+import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditPersonalInfoTextField
+import org.sopt.certi.presentation.ui.editpersonalinfo.state.EditPersonalInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoRoute(
+fun EditPersonalInfoRoute(
     padding: PaddingValues,
-    viewModel: PersonalInfoViewModel = hiltViewModel()
+    viewModel: EditPersonalInfoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidTypeState by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
 
-    PersonalInfoScreen(
+    EditPersonalInfoScreen(
         uiState = uiState,
         nickNameValidType = nickNameValidTypeState,
         onProfileUriChange = viewModel::onProfileUriChange,
@@ -61,8 +61,8 @@ fun PersonalInfoRoute(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PersonalInfoScreen(
-    uiState: PersonalInfoUiState,
+fun EditPersonalInfoScreen(
+    uiState: EditPersonalInfoUiState,
     nickNameValidType: NickNameValidType,
     onProfileUriChange: (Uri?) -> Unit,
     onNickNameChange: (String) -> Unit,
@@ -84,7 +84,7 @@ fun PersonalInfoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         stickyHeader {
-            ModifyInfoHeader(
+            EditPersonalInfoHeader(
                 isSaveEnable = uiState.isSaveButtonEnabled,
                 onSaveClick = onSaveClick,
                 headerTitle = stringResource(R.string.mypage_personal_info)
@@ -100,7 +100,7 @@ fun PersonalInfoScreen(
         }
 
         item {
-            PersonalInfoNicknameTextField(
+            EditNicknameTextField(
                 value = uiState.nickname,
                 onValueChange = onNickNameChange,
                 isEnable = uiState.isNicknameChanged,
@@ -110,7 +110,7 @@ fun PersonalInfoScreen(
         }
 
         item {
-            PersonalInfoTextField(
+            EditPersonalInfoTextField(
                 label = stringResource(R.string.personal_name_label),
                 placeholder = stringResource(R.string.personal_name_placeholder),
                 value = uiState.name,
@@ -119,7 +119,7 @@ fun PersonalInfoScreen(
         }
 
         item {
-            PersonalInfoTextField(
+            EditPersonalInfoTextField(
                 label = stringResource(R.string.personal_email_label),
                 placeholder = stringResource(R.string.personal_email_placeholder),
                 value = uiState.email,
@@ -146,12 +146,12 @@ fun PersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePersonalInfoPreview() {
-    val viewModel = remember { PersonalInfoViewModel() }
+    val viewModel = remember { EditPersonalInfoViewModel() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
-        PersonalInfoScreen(
+        EditPersonalInfoScreen(
             uiState = uiState,
             nickNameValidType = nickNameValidType,
             onSaveClick = viewModel::onSaveClick,
