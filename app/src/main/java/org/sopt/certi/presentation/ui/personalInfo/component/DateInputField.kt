@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,7 +78,7 @@ fun DateInputField(
 ) {
     val currentDate = remember { LocalDate.now() }
     val yearList = remember(currentDate) {
-        (currentDate.year - 100..currentDate.year + 100).reversed().map { it.toString() }
+        (currentDate.year - 100..currentDate.year + 100).map { it.toString() }
     }
 
     val monthList = remember { (1..12).map { "%02d".format(it) } }
@@ -163,7 +164,7 @@ private fun DateDropdown(
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val animationTime = 300
-    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) else 0.dp
+    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
 
     val toggleDropdown = {
         if (isExpanded) {
@@ -173,6 +174,8 @@ private fun DateDropdown(
         }
     }
 
+    val focusManager = LocalFocusManager.current
+
     LaunchedEffect(spacerHeight) {
         if (spacerHeight > 0.dp) {
             bringIntoViewRequester.bringIntoView()
@@ -181,6 +184,7 @@ private fun DateDropdown(
 
     LaunchedEffect(showPopup) {
         if (showPopup) {
+            delay(100)
             isExpanded = true
         }
     }
@@ -207,7 +211,10 @@ private fun DateDropdown(
                     borderColor = CertiTheme.colors.gray200,
                     borderWidth = 1.dp
                 )
-                .noRippleClickable(toggleDropdown)
+                .noRippleClickable {
+                    focusManager.clearFocus()
+                    toggleDropdown()
+                }
                 .onSizeChanged {
                     rowWidth = with(density) { it.width.toDp() }
                     rowHeight = it.height

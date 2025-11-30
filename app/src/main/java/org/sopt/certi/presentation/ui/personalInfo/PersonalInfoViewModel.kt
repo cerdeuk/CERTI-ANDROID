@@ -33,7 +33,7 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
                 nickname = "nick",
                 name = "name",
                 email = "certification@gmail.com",
-                birth = DateData(2004, 4, 5),
+                birth = DateData(2004, 5, 31),
                 profileImageUrl = null
             )
 

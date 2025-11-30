@@ -79,7 +79,7 @@ fun PersonalInfoScreen(
         modifier = modifier
             .noRippleClickable { focusManager.clearFocus() }
             .imePadding(),
-        contentPadding = PaddingValues(screenWidthDp(20.dp)),
+        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -114,8 +114,7 @@ fun PersonalInfoScreen(
                 label = stringResource(R.string.personal_name_label),
                 placeholder = stringResource(R.string.personal_name_placeholder),
                 value = uiState.name,
-                onValueChange = onNameChange,
-                focusManager = focusManager
+                onValueChange = onNameChange
             )
         }
 
@@ -125,7 +124,6 @@ fun PersonalInfoScreen(
                 placeholder = stringResource(R.string.personal_email_placeholder),
                 value = uiState.email,
                 onValueChange = onEmailChange,
-                focusManager = focusManager,
                 imeAction = ImeAction.Done
             )
         }

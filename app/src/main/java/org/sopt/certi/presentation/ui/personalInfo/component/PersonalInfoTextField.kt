@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -36,11 +35,12 @@ fun PersonalInfoTextField(
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
-    focusManager: FocusManager,
     modifier: Modifier = Modifier,
     nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT,
     imeAction: ImeAction = ImeAction.Next
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
@@ -105,7 +105,6 @@ fun PersonalInfoTextField(
 @Composable
 private fun MyPageTextFieldPreview() {
     var value by remember { mutableStateOf("") }
-    val focusManager = LocalFocusManager.current
 
     CERTITheme {
         Column(
@@ -115,8 +114,7 @@ private fun MyPageTextFieldPreview() {
                 label = "이름",
                 placeholder = "이름을 입력해주세요.",
                 value = value,
-                onValueChange = { value = it },
-                focusManager = focusManager
+                onValueChange = { value = it }
             )
         }
     }
