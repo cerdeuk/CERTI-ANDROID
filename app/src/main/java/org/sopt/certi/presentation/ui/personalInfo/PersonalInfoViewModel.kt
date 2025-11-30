@@ -52,13 +52,17 @@ class PersonalInfoViewModel @Inject constructor() : ViewModel() {
 
     private fun updateSaveButtonState() {
         val current = _uiState.value
+        val isNameChanged = current.name != _originalUserProfile.name
+        val isEmailChanged = current.email != _originalUserProfile.email
+        val isProfileChanged = current.profileUri?.toString() != _originalUserProfile.profileImageUrl
 
-        val isContentChanged =
+        val isContentChanged = (
             current.isNicknameChanged ||
-                current.name != _originalUserProfile.name ||
-                current.email != _originalUserProfile.email ||
-                (current.birth != _originalUserProfile.birth && current.birth.isValid) ||
-                current.profileUri?.toString() != _originalUserProfile.profileImageUrl
+                isNameChanged ||
+                isEmailChanged ||
+                current.isBirthChanged ||
+                isProfileChanged
+            ) && current.birth.isValid
 
         val isNicknameValid = _nickNameValidTypeUiState.value in setOf(NickNameValidType.VALID, NickNameValidType.DEFAULT)
 
