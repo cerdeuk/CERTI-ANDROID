@@ -107,7 +107,7 @@ fun CustomTimePicker(
 
         // 분 Picker
         TimePickerColumn(
-            items = (0..59).map {
+            items = (1..60).map {
                 if(it.toString().length == 1) {
                     "0$it"
                 } else {
