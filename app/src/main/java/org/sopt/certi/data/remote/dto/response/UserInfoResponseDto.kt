@@ -10,7 +10,5 @@ data class UserInfoResponseDto(
     @SerializedName("university")
     val university: String,
     @SerializedName("major")
-    val major: String,
-    @SerializedName("percentage")
-    val percentage: Int
+    val major: String
 )

@@ -29,7 +29,7 @@ fun CertiEmptySection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = screenHeightDp(60.dp)),
+            .padding(top = screenHeightDp(60.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(

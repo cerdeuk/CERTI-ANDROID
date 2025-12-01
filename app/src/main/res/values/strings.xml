@@ -54,8 +54,6 @@
     <string name="delete_dialog_cancel">취소</string>
 
     <!--Home Screen -->
-    <string name="home_user_info_name">안녕하세요, %1$s님!</string>
-    <string name="home_fill_completed">회원님의 이력서가 %1$d%% 채워졌어요!</string>
     <string name="home_average_period">평균 취득 기간 약 %1$s</string>
     <string name="home_recommended_score">추천점수 %1$d점</string>
     <string name="home_recommend_title">%1$s님에게 추천하는 자격증</string>
@@ -66,7 +64,7 @@
     <string name="home_calendar_date">%s월 %s일 %s</string>
     <string name="home_calendar_today_date">%s월 %s일 %s (오늘)</string>
     <string name="home_calendar_no_data">예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요. </string>
-    
+
     <string-array name="home_calendar_week">
         <item>일</item>
         <item>월</item>
@@ -78,8 +76,17 @@
     </string-array>
 
     <!-- CertList Screen -->
-    <string name="cert_list_top_bar">카테고리별 자격증 검색</string>
+    <string name="cert_list_top_bar">모든 자격증</string>
+    <string name="cert_list_recommend_title">%s님에게 추천하는 자격증</string>
+    <string name="cert_list_recommend_subtitle">추천 기준</string>
+    <string name="cert_list_recommend_description">서티는 자체 알고리즘을 기반으로 사용자\n에게 적합한 자격증을 추천해주고 있어요.\n수많은 사용자 데이터를 학습하여 신뢰할\n수 있는 결과를 제공합니다.</string>
+    <string name="cert_list_recommend_certification_top3_title">%s 자격증 TOP3</string>
+    <string name="cert_list_recommend_certification_top3_more">더보기</string>
+    <string name="cert_list_recommend_certification_rank">%d</string>
+
     <string name="cert_list_favorite_btn">즐겨찾기</string>
+    <string name="category_cert_list_top_bar">직무별 자격증</string>
+    <string name="track_cert_list_top_bar">계열별 자격증</string>
 
     <!-- Search Screen -->
     <string name="search_result_title">총 %d개의 검색 결과</string>
@@ -178,12 +185,37 @@
 
     <!-- LoadingLayout -->
     <string name="loading_title">%s님에게 딱 맞는\n자격증을 고르고 있어요.</string>
-    
+
     <!-- MyCertificationListSection -->
     <string name="my_certification_pre">취득 예정</string>
     <string name="my_certification_acquired">취득 완료</string>
     <string name="my_certification_modify">수정</string>
     <string name="my_certification_delete">삭제</string>
+
+
+    <!-- MyPageMainScreen -->
+    <string name="mypage_personal_info">개인정보 수정</string>
+    <string name="mypage_personal_info_description">프로필 사진 및 개인 정보 수정</string>
+    <string name="mypage_school_info">학사정보 관리</string>
+    <string name="mypage_school_info_description">학교/학과 정보 및 희망직무 설정</string>
+    <string name="mypage_certification">자격증 관리</string>
+    <string name="mypage_cert_count">%d개</string>
+    <string name="mypage_certification_description">즐겨찾기 자격증 및 취득 자격증 관리</string>
+    <string name="mypage_setting">설정</string>
+    <string name="mypage_setting_description">알림 설정 및 계정 관련</string>
+    <string name="mypage_questions">문의사항</string>
+    <string name="mypage_questions_description">오픈채팅 바로가기</string>
+
+    <!-- MyPagePersonalInfo -->
+    <string name="personal_save">저장</string>
+    <string name="personal_nickname_textfield_duplicate">닉네임 중복확인을 해주세요.</string>
+    <string name="personal_name_label">이름</string>
+    <string name="personal_name_placeholder">이름을 입력해주세요.</string>
+    <string name="personal_email_label">이메일</string>
+    <string name="personal_email_placeholder">이메일을 입력해주세요.</string>
+    <string name="personal_birthday_label">생년월일</string>
+    <string name="personal_birthday_placeholder">생년월일을 선택해주세요.</string>
+
 
     <!-- RegisterTestInfoBottomSheet -->
     <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>

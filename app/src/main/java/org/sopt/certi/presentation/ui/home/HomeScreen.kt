@@ -56,9 +56,9 @@ import org.sopt.certi.presentation.ui.home.component.NoDataCalendarItem
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
 import org.sopt.certi.presentation.ui.home.component.UserInfoSection
 import org.sopt.certi.presentation.ui.main.MainActivity
-import org.sopt.certi.presentation.ui.precertificationedit.component.PreCertificationListSection
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
@@ -68,7 +68,6 @@ fun HomeRoute(
     padding: PaddingValues,
     navigateToCertDetail: (certId: Long) -> Unit,
     navigateToCertRecommend: () -> Unit,
-    navigateToPreCerti: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -80,7 +79,6 @@ fun HomeRoute(
     LaunchedEffect(Unit) {
         viewModel.getUserInfo()
         viewModel.getRecommendedList()
-        viewModel.getPreCertList()
         viewModel.getFavoriteList()
     }
 
@@ -88,19 +86,16 @@ fun HomeRoute(
         is UiState.Success -> {
             val userInfo = (uiState.userInfoLoadState as? UiState.Success)?.data
             val recommendedList = (uiState.recommendedListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
-            val preCertList = (uiState.preCertificationListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
             val favoriteList = (uiState.favoriteListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
 
             if (userInfo != null) {
                 HomeScreen(
                     userInfo = userInfo,
                     recommendedList = recommendedList,
-                    preCertificationList = preCertList,
                     favoriteCertificationList = favoriteList,
                     onFavoriteClicked = viewModel::onFavoriteClicked,
                     navigateToCertRecommend = navigateToCertRecommend,
                     navigateToCertDetail = navigateToCertDetail,
-                    navigateToPreCerti = navigateToPreCerti,
                     navigateToLogin = {
                         coroutineScope.launch {
                             viewModel.withDraw()
@@ -123,38 +118,40 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     userInfo: UserInfoData,
+    modifier: Modifier = Modifier,
     recommendedList: ImmutableList<CertificationData> = persistentListOf(),
-    preCertificationList: ImmutableList<CertificationData> = persistentListOf(),
     favoriteCertificationList: ImmutableList<CertificationData> = persistentListOf(),
     onFavoriteClicked: (Long) -> Unit = {},
     navigateToCertRecommend: () -> Unit = {},
     navigateToCertDetail: (Long) -> Unit = {},
-    navigateToPreCerti: () -> Unit = {},
-    navigateToLogin: () -> Unit = {},
-    modifier: Modifier = Modifier
+    navigateToLogin: () -> Unit = {}
 ) {
-    var selectedDate by remember { mutableStateOf("2025-10-23") }
+    val today = LocalDate.now(ZoneId.of("Asia/Seoul"))
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val currentDate = today.format(formatter)
+
+    var selectedDate by remember { mutableStateOf(currentDate) }
     var certListInSelectedData by remember {
         mutableStateOf(
             listOf<CertificationData>(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    agencyName = "국가기술자격",
-                    isAcquired = true,
-                    placement = "강남",
-                    testTime = "09:00",
-                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
-                ),
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    agencyName = "국가기술자격",
-                    isAcquired = false,
-                    testDateInformation = "2025-11-03",
-                    level = "IM3",
-                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
-                )
+//                CertificationData(
+//                    certificationId = 1,
+//                    certificationName = "정보처리기사",
+//                    agencyName = "국가기술자격",
+//                    isAcquired = true,
+//                    placement = "강남",
+//                    testTime = "09:00",
+//                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+//                ),
+//                CertificationData(
+//                    certificationId = 2,
+//                    certificationName = "정보처리기사",
+//                    agencyName = "국가기술자격",
+//                    isAcquired = false,
+//                    testDateInformation = "2025-11-03",
+//                    level = "IM3",
+//                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
+//                )
             )
         )
     }
@@ -254,12 +251,46 @@ fun HomeScreen(
             item {
                 if (selectedDate.isNotEmpty() && certListInSelectedData.isEmpty()) {
                     NoDataCalendarItem {
-                        // TODO 자격증 추가하기
+                        // TODO 자격증 추가하기 이동
                     }
-                    Spacer(Modifier.heightForScreenPercentage(36.dp))
                 }
             }
 
+            // 즐겨찾기 자격증
+            item {
+                Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.home_favorite_title),
+                        style = CertiTheme.typography.subtitle.semibold_20,
+                        color = CertiTheme.colors.gray600,
+                        modifier = Modifier.padding(start = screenWidthDp(20.dp))
+                    )
+                    if (favoriteCertificationList.isEmpty()) {
+                        CertiEmptySection(
+                            text = stringResource(id = R.string.home_favorite_empty),
+                            modifier = Modifier
+                                .padding(horizontal = screenWidthDp(80.dp))
+                        )
+                    } else {
+                        Spacer(Modifier.height(screenHeightDp(16.dp)))
+
+                        FavoriteCertificationListSection(
+                            favoriteCertificationList = favoriteCertificationList,
+                            onDetailClick = { certId ->
+                                navigateToCertDetail(certId)
+                            },
+                            onFavoriteClicked = onFavoriteClicked
+                        )
+                    }
+                }
+            }
+
+            // 추천 자격증
             item {
                 Column(
                     modifier = Modifier
@@ -295,87 +326,9 @@ fun HomeScreen(
                             navigateToCertDetail(certId)
                         }
                     )
-                    Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
                 }
-            }
 
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = screenHeightDp(20.dp)),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = stringResource(R.string.home_pre_certification_title),
-                            style = CertiTheme.typography.subtitle.semibold_20,
-                            color = CertiTheme.colors.gray600
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrowright_36),
-                            contentDescription = null,
-                            tint = CertiTheme.colors.gray600,
-                            modifier = Modifier
-                                .width(screenWidthDp(24.dp))
-                                .height(screenHeightDp(24.dp))
-                                .noRippleClickable { navigateToPreCerti() }
-                        )
-                    }
-                    if (preCertificationList.isEmpty()) {
-                        CertiEmptySection(
-                            text = stringResource(id = R.string.home_pre_certification_empty),
-                            modifier = Modifier
-                                .padding(horizontal = screenWidthDp(80.dp))
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
-                        PreCertificationListSection(
-                            preCertificationList = preCertificationList,
-                            onDetailClick = { certId ->
-                                navigateToCertDetail(certId)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(screenHeightDp(36.dp)))
-                    }
-                }
-            }
-
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(R.string.home_favorite_title),
-                        style = CertiTheme.typography.subtitle.semibold_20,
-                        color = CertiTheme.colors.gray600,
-                        modifier = Modifier.padding(start = screenWidthDp(20.dp))
-                    )
-                    if (favoriteCertificationList.isEmpty()) {
-                        CertiEmptySection(
-                            text = stringResource(id = R.string.home_favorite_empty),
-                            modifier = Modifier
-                                .padding(horizontal = screenWidthDp(80.dp))
-                        )
-                    } else {
-                        Spacer(
-                            modifier = Modifier
-                                .height(screenHeightDp(16.dp))
-                        )
-                        FavoriteCertificationListSection(
-                            favoriteCertificationList = favoriteCertificationList,
-                            onDetailClick = { certId ->
-                                navigateToCertDetail(certId)
-                            },
-                            onFavoriteClicked = onFavoriteClicked,
-                            modifier = Modifier.padding(bottom = screenHeightDp(40.dp))
-                        )
-                    }
-                }
+                Spacer(modifier = Modifier.height(screenHeightDp(20.dp)))
             }
         }
     }
@@ -395,15 +348,98 @@ private fun finishAndRestart(activity: MainActivity, context: Context) {
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewHomeScreen() {
-    HomeScreen(
-        UserInfoData(
-            name = "김민수",
-            university = "솝트대학교",
-            major = "소프트웨어학과",
-            percentage = 20,
-            category = listOf("aa", "bb"),
-            track = "asdf"
+fun HomeScreenPreview() {
+    val userInfo = UserInfoData(
+        name = "김솝트",
+        university = "SOPT대학교",
+        major = "컴퓨터공학과",
+        category = listOf("IT", "데이터"),
+        track = "Android"
+    )
+    val recommendedList = persistentListOf(
+        CertificationData(
+            certificationId = 1,
+            certificationName = "OPIc",
+            recommendScore = 90,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ),
+        CertificationData(
+            certificationId = 2,
+            certificationName = "ABCD",
+            recommendScore = 80,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ),
+        CertificationData(
+            certificationId = 3,
+            certificationName = "QWER",
+            recommendScore = 85,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
         )
+    )
+    val favoriteList = persistentListOf(
+        CertificationData(
+            certificationId = 3,
+            certificationName = "리눅스마스터 1급",
+            certificationType = "국가기술자격",
+            isFavorite = true,
+            testType = "실기형",
+            agencyName = "한국산업인력공단"
+        ),
+        CertificationData(
+            certificationId = 4,
+            certificationName = "리눅스마스터 2급",
+            certificationType = "국가기술자격",
+            isFavorite = true,
+            testType = "실기형",
+            agencyName = "한국산업인력공단"
+        )
+    )
+
+    HomeScreen(
+        userInfo = userInfo,
+        recommendedList = recommendedList,
+        favoriteCertificationList = favoriteList
+    )
+}
+
+@Preview(showBackground = true, name = "HomeScreen With Empty Lists")
+@Composable
+fun HomeScreenEmptyPreview() {
+    val userInfo = UserInfoData(
+        name = "김솝트",
+        university = "SOPT대학교",
+        major = "컴퓨터공학과"
+    )
+
+    val recommendedList = persistentListOf(
+        CertificationData(
+            certificationId = 1,
+            certificationName = "OPIc",
+            recommendScore = 90,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ),
+        CertificationData(
+            certificationId = 2,
+            certificationName = "ABCD",
+            recommendScore = 80,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        ),
+        CertificationData(
+            certificationId = 3,
+            certificationName = "QWER",
+            recommendScore = 85,
+            description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.",
+            tags = listOf("컴퓨터공학", "재무/세무/IR", "재무/세무/IR")
+        )
+    )
+
+    HomeScreen(
+        userInfo = userInfo,
+        recommendedList = recommendedList
     )
 }

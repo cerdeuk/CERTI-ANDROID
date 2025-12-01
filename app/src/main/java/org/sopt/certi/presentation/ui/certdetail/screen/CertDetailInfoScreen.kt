@@ -13,8 +13,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,30 +36,11 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertDetailInfoRoute(
+fun CertDetailInfoScreen(
     certData: CertificationData,
     showWebView: () -> Unit = {},
     acquireExpectCert: () -> Unit = {},
     acquiredCert: () -> Unit = {}
-) {
-    CertDetailInfoScreen(
-        certData = certData,
-        showWebView = { showWebView() },
-        onAcquireExpectedBtnClick = {
-            acquireExpectCert()
-        },
-        onAcquiredBtnClick = {
-            acquiredCert()
-        }
-    )
-}
-
-@Composable
-fun CertDetailInfoScreen(
-    certData: CertificationData,
-    showWebView: () -> Unit = {},
-    onAcquireExpectedBtnClick: () -> Unit = {},
-    onAcquiredBtnClick: () -> Unit = {}
 ) {
     LazyColumn(
         contentPadding = PaddingValues(top = screenHeightDp(36.dp), bottom = screenHeightDp(36.dp))
@@ -284,7 +263,7 @@ fun CertDetailInfoScreen(
             AcquireButton(
                 acquireButtonType = AcquireButtonType.EXPECTED,
                 onClick = {
-                    onAcquireExpectedBtnClick()
+                    acquireExpectCert()
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -294,7 +273,7 @@ fun CertDetailInfoScreen(
             AcquireButton(
                 acquireButtonType = AcquireButtonType.FINISH,
                 onClick = {
-                    onAcquiredBtnClick()
+                    acquiredCert()
                 },
                 modifier = Modifier.fillMaxWidth()
             )
