@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,14 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
-
 
 enum class TimePeriodType() {
     AM, PM
@@ -48,7 +45,7 @@ fun CustomTimePicker(
     modifier: Modifier = Modifier,
     initialHour: Int = 12,
     initialMinute: Int = 0,
-    onTimeSelected: (hour: Int, minute: Int) -> Unit = { _, _ -> },
+    onTimeSelected: (hour: Int, minute: Int) -> Unit = { _, _ -> }
 ) {
     var selectedPeriod by remember { mutableStateOf(if (initialHour < 12) TimePeriodType.AM else TimePeriodType.PM) }
     var selectedHour by remember { mutableIntStateOf(if (initialHour == 0) 12 else if (initialHour > 12) initialHour - 12 else initialHour) }
@@ -108,13 +105,13 @@ fun CustomTimePicker(
         // 분 Picker
         TimePickerColumn(
             items = (1..60).map {
-                if(it.toString().length == 1) {
+                if (it.toString().length == 1) {
                     "0$it"
                 } else {
                     it.toString()
                 }
             },
-            selectedItem = if(selectedMinute.toString().length == 1) "0$selectedMinute" else selectedMinute.toString(),
+            selectedItem = if (selectedMinute.toString().length == 1) "0$selectedMinute" else selectedMinute.toString(),
             onItemSelected = {
                 selectedMinute = it.toInt()
                 onTimeSelected(
@@ -294,7 +291,6 @@ fun TimePeriodPickerColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-
             // 위 패딩
             items(1) {
                 Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
@@ -303,7 +299,7 @@ fun TimePeriodPickerColumn(
             items(items.size) { index ->
                 val item = items[index]
                 val isSelected = item == selectedItem
-                val itemTitle = when(item) {
+                val itemTitle = when (item) {
                     TimePeriodType.AM -> stringResource(R.string.test_info_bottomsheet_time_morning)
                     TimePeriodType.PM -> stringResource(R.string.test_info_bottomsheet_time_afternoon)
                 }
@@ -322,11 +318,9 @@ fun TimePeriodPickerColumn(
             items(1) {
                 Spacer(modifier = Modifier.heightForScreenPercentage(40.dp))
             }
-
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

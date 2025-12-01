@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -27,7 +25,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,11 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalFontFamilyResolver
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -89,12 +83,11 @@ fun RegisterTestInfoBottomSheet(
     var showPlaceP1List by remember { mutableStateOf(false) }
     var showPlaceP2List by remember { mutableStateOf(false) }
 
-    //FIXME Sample 서버데이터
+    // FIXME Sample 서버데이터
     val place1List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
     val place2List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
 
     var placeItemWidth by remember { mutableStateOf(0.dp) }
-
 
     var buttonEnable by remember { mutableStateOf(false) }
 
@@ -107,8 +100,8 @@ fun RegisterTestInfoBottomSheet(
     }
 
     LaunchedEffect(forModify) {
-        if(forModify && certificationData != null) {
-            //TODO data 형식에 맞게 여기서 삽입
+        if (forModify && certificationData != null) {
+            // TODO data 형식에 맞게 여기서 삽입
 
             dateText = certificationData.testDateInformation
 //            placeTextP1 = certificationData.
@@ -116,7 +109,6 @@ fun RegisterTestInfoBottomSheet(
 //            timeData = certificationData.testTime
         }
     }
-
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -142,7 +134,7 @@ fun RegisterTestInfoBottomSheet(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-        ){
+        ) {
             Spacer(Modifier.heightForScreenPercentage(35.dp))
 
             Text(
@@ -200,7 +192,7 @@ fun RegisterTestInfoBottomSheet(
                 Text(
                     text = dateText.ifEmpty { stringResource(R.string.test_info_bottomsheet_date_hint) },
                     style = CertiTheme.typography.caption.semibold_12,
-                    color = if(dateText.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                    color = if (dateText.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                 )
 
                 Spacer(Modifier.weight(1f))
@@ -208,7 +200,7 @@ fun RegisterTestInfoBottomSheet(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
                     tint = CertiTheme.colors.gray400,
-                    contentDescription = null,
+                    contentDescription = null
                 )
             }
 
@@ -217,8 +209,7 @@ fun RegisterTestInfoBottomSheet(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-
-                if(showCalendar) {
+                if (showCalendar) {
                     // Calendar
                     DatePickerCalendar(
                         selectedDate = dateText.toLocalDateOrMin(),
@@ -287,7 +278,7 @@ fun RegisterTestInfoBottomSheet(
                             Text(
                                 text = placeTextP1.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p1_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if(placeTextP1.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (placeTextP1.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -295,7 +286,7 @@ fun RegisterTestInfoBottomSheet(
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
                                 tint = CertiTheme.colors.gray400,
-                                contentDescription = null,
+                                contentDescription = null
                             )
                         }
 
@@ -310,7 +301,7 @@ fun RegisterTestInfoBottomSheet(
                                 .clip(RoundedCornerShape(4.dp))
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    if(placeTextP1.isNotEmpty()) {
+                                    if (placeTextP1.isNotEmpty()) {
                                         showPlaceP2List = true
                                     }
                                 },
@@ -319,7 +310,7 @@ fun RegisterTestInfoBottomSheet(
                             Text(
                                 text = placeTextP2.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p2_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if(placeTextP2.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (placeTextP2.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -327,7 +318,7 @@ fun RegisterTestInfoBottomSheet(
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
                                 tint = CertiTheme.colors.gray400,
-                                contentDescription = null,
+                                contentDescription = null
                             )
                         }
                     }
@@ -338,11 +329,11 @@ fun RegisterTestInfoBottomSheet(
                         Row(
                             modifier = Modifier.zIndex(1f)
                         ) {
-                            if(showPlaceP1List) {
+                            if (showPlaceP1List) {
                                 // Place P1 List
-                                LazyColumn (
+                                LazyColumn(
                                     modifier = Modifier
-                                        .widthForScreenPercentage(placeItemWidth  - screenWidthDp(12.dp))
+                                        .widthForScreenPercentage(placeItemWidth - screenWidthDp(12.dp))
                                         .heightIn(max = screenWidthDp(34.dp * 6))
                                         .dropShadow(
                                             color = Color.Black.copy(alpha = 0.05f),
@@ -355,7 +346,7 @@ fun RegisterTestInfoBottomSheet(
                                         PlaceItem(
                                             placeName = placeName,
                                             index = index,
-                                            listSize = place1List.size,
+                                            listSize = place1List.size
                                         ) {
                                             placeTextP1 = placeName
                                             showPlaceP1List = false
@@ -364,13 +355,13 @@ fun RegisterTestInfoBottomSheet(
                                 }
                             }
 
-                            if(showPlaceP2List) {
+                            if (showPlaceP2List) {
                                 // Place P2 List
                                 Spacer(Modifier.widthForScreenPercentage(placeItemWidth))
 
-                                LazyColumn (
+                                LazyColumn(
                                     modifier = Modifier
-                                        .widthForScreenPercentage(placeItemWidth  - screenWidthDp(12.dp))
+                                        .widthForScreenPercentage(placeItemWidth - screenWidthDp(12.dp))
                                         .heightIn(max = screenWidthDp(34.dp * 6))
                                         .dropShadow(
                                             color = Color.Black.copy(alpha = 0.05f),
@@ -383,7 +374,7 @@ fun RegisterTestInfoBottomSheet(
                                         PlaceItem(
                                             placeName = placeName,
                                             index = index,
-                                            listSize = place2List.size,
+                                            listSize = place2List.size
                                         ) {
                                             placeTextP2 = placeName
                                             showPlaceP2List = false
@@ -494,12 +485,11 @@ private fun PlaceItem(
 
         Spacer(Modifier.weight(1f))
 
-        if(index != listSize) {
+        if (index != listSize) {
             HorizontalDivider(thickness = 1.dp, color = CertiTheme.colors.gray100)
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
