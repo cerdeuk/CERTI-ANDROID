@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +47,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import org.sopt.certi.R
+import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.calendar.DatePickerCalendar
+import org.sopt.certi.core.component.timepicker.CustomTimePicker
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -64,20 +68,26 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
+    modifier: Modifier = Modifier,
     certificationData: CertificationData? = null,
     onDismissClick: () -> Unit = {},
     changeBottomSheetVisibility: (Boolean) -> Unit = {}
 ) {
     val density = LocalDensity.current
 
-    var showCalendar by remember { mutableStateOf(false) }
+    // Data
     var dateText by remember { mutableStateOf("") }
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-
-    var showPlaceP1List by remember { mutableStateOf(false) }
-    var showPlaceP2List by remember { mutableStateOf(false) }
     var placeTextP1 by remember { mutableStateOf("") }
     var placeTextP2 by remember { mutableStateOf("") }
+    var timeData by remember { mutableStateOf(Pair(-1, -1)) }
+
+    // Date
+    var showCalendar by remember { mutableStateOf(false) }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+
+    // Place
+    var showPlaceP1List by remember { mutableStateOf(false) }
+    var showPlaceP2List by remember { mutableStateOf(false) }
 
     //FIXME Sample 서버데이터
     val place1List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
@@ -85,6 +95,27 @@ fun RegisterTestInfoBottomSheet(
 
     var placeItemWidth by remember { mutableStateOf(0.dp) }
 
+
+    var buttonEnable by remember { mutableStateOf(false) }
+
+    LaunchedEffect(dateText, placeTextP1, placeTextP2, timeData) {
+        buttonEnable = dateText.isNotEmpty() &&
+            placeTextP1.isNotEmpty() &&
+            placeTextP2.isNotEmpty() &&
+            timeData.first != -1 &&
+            timeData.second != -1
+    }
+
+    LaunchedEffect(forModify) {
+        if(forModify && certificationData != null) {
+            //TODO data 형식에 맞게 여기서 삽입
+
+            dateText = certificationData.testDateInformation
+//            placeTextP1 = certificationData.
+//            placeTextP2 = certificationData.
+//            timeData = certificationData.testTime
+        }
+    }
 
 
     ModalBottomSheet(
@@ -95,6 +126,8 @@ fun RegisterTestInfoBottomSheet(
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
         sheetState = sheetState,
+        modifier = modifier
+            .wrapContentHeight(),
         dragHandle = {
             Box(
                 modifier = Modifier
@@ -106,7 +139,9 @@ fun RegisterTestInfoBottomSheet(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
         ){
             Spacer(Modifier.heightForScreenPercentage(35.dp))
 
@@ -180,7 +215,7 @@ fun RegisterTestInfoBottomSheet(
             Spacer(Modifier.heightForScreenPercentage(6.dp))
 
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
 
                 if(showCalendar) {
@@ -201,7 +236,7 @@ fun RegisterTestInfoBottomSheet(
 
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .padding(horizontal = 20.dp)
                 ) {
                     Spacer(Modifier.heightForScreenPercentage(18.dp))
@@ -298,9 +333,11 @@ fun RegisterTestInfoBottomSheet(
                     }
 
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Row {
+                        Row(
+                            modifier = Modifier.zIndex(1f)
+                        ) {
                             if(showPlaceP1List) {
                                 // Place P1 List
                                 LazyColumn (
@@ -354,36 +391,77 @@ fun RegisterTestInfoBottomSheet(
                                     }
                                 }
                             }
+                        }
 
-                            Column {
-                                Spacer(Modifier.heightForScreenPercentage(24.dp))
+                        Column {
+                            Spacer(Modifier.heightForScreenPercentage(24.dp))
 
-                                // Time Title
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
-                                        contentDescription = null,
-                                        tint = CertiTheme.colors.black
-                                    )
+                            // Time Title
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
+                                    contentDescription = null,
+                                    tint = CertiTheme.colors.black
+                                )
 
-                                    Spacer(Modifier.widthForScreenPercentage(4.dp))
+                                Spacer(Modifier.widthForScreenPercentage(4.dp))
 
-                                    Text(
-                                        text = stringResource(R.string.test_info_bottomsheet_time_title),
-                                        style = CertiTheme.typography.body.semibold_16,
-                                        color = CertiTheme.colors.gray600
-                                    )
-                                }
+                                Text(
+                                    text = stringResource(R.string.test_info_bottomsheet_time_title),
+                                    style = CertiTheme.typography.body.semibold_16,
+                                    color = CertiTheme.colors.gray600
+                                )
                             }
+
+                            Spacer(Modifier.heightForScreenPercentage(12.dp))
+
+                            CustomTimePicker { hour, minute ->
+                                timeData = Pair(hour, minute)
+                            }
+
+                            Spacer(modifier = Modifier.heightIn(min = screenHeightDp(48.dp)))
+
+                            Text(
+                                text = stringResource(R.string.test_info_bottomsheet_confirm_later),
+                                style = CertiTheme.typography.caption.semibold_12,
+                                color = CertiTheme.colors.gray300,
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .noRippleClickable {
+                                        onDismissClick()
+                                    }
+                            )
+
+                            Spacer(Modifier.heightForScreenPercentage(4.dp))
+
+                            HorizontalDivider(
+                                thickness = 1.dp,
+                                color = CertiTheme.colors.gray200,
+                                modifier = Modifier
+                                    .widthForScreenPercentage(100.dp)
+                                    .align(Alignment.CenterHorizontally)
+                            )
+
+                            Spacer(Modifier.heightForScreenPercentage(12.dp))
+
+                            CertiBasicButton(
+                                buttonText = stringResource(R.string.test_info_bottomsheet_confirm),
+                                enabled = buttonEnable,
+                                onClick = {
+                                    onDismissClick()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightForScreenPercentage(56.dp)
+                            )
+
+                            Spacer(Modifier.heightForScreenPercentage(24.dp))
                         }
                     }
-
                 }
             }
-
-
         }
     }
 }
@@ -397,8 +475,9 @@ private fun PlaceItem(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .heightForScreenPercentage(34.dp)
+            .background(CertiTheme.colors.white)
             .noRippleClickable {
                 itemOnClick(placeName)
             },
