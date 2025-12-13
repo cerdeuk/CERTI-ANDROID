@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -67,6 +69,7 @@ import java.time.YearMonth
 
 private const val VISIBLE_DROPBOX_COUNT = 6
 private val DROPBOX_ITEM_HEIGHT = 40.dp
+private const val ANIMATION_TIME = 300
 
 @Composable
 fun DateInputField(
@@ -163,37 +166,34 @@ private fun DateDropdown(
     var isExpanded by remember { mutableStateOf(false) }
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
-    val animationTime = 300
-    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
-
-    val toggleDropdown = {
-        if (isExpanded) {
-            isExpanded = false
-        } else {
-            showPopup = true
-        }
-    }
-
+    val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(spacerHeight) {
-        if (spacerHeight > 0.dp) {
-            bringIntoViewRequester.bringIntoView()
-        }
-    }
+    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
 
-    LaunchedEffect(showPopup) {
-        if (showPopup) {
-            delay(100)
-            isExpanded = true
-        }
-    }
-
-    LaunchedEffect(isExpanded) {
-        if (!isExpanded && showPopup) {
-            delay(animationTime.toLong())
+    val closeDropdown = {
+        scope.launch {
+            isExpanded = false
+            delay(ANIMATION_TIME.toLong())
             showPopup = false
         }
+    }
+
+    fun toggleDropdown() {
+        if (showPopup) {
+            closeDropdown()
+        } else {
+            focusManager.clearFocus()
+            scope.launch {
+                showPopup = true
+                delay(100)
+                isExpanded = true
+            }
+        }
+    }
+
+    LaunchedEffect(spacerHeight) {
+        if (showPopup) bringIntoViewRequester.bringIntoView()
     }
 
     Column(
@@ -211,10 +211,7 @@ private fun DateDropdown(
                     borderColor = CertiTheme.colors.gray200,
                     borderWidth = 1.dp
                 )
-                .noRippleClickable {
-                    focusManager.clearFocus()
-                    toggleDropdown()
-                }
+                .noRippleClickable { toggleDropdown() }
                 .onSizeChanged {
                     rowWidth = with(density) { it.width.toDp() }
                     rowHeight = it.height
@@ -241,33 +238,27 @@ private fun DateDropdown(
             Popup(
                 alignment = Alignment.TopStart,
                 offset = IntOffset(x = 0, y = rowHeight),
-                onDismissRequest = { isExpanded = false },
+                onDismissRequest = { closeDropdown() },
                 properties = PopupProperties(focusable = true)
             ) {
                 AnimatedVisibility(
                     visible = isExpanded,
-                    enter = fadeIn(animationSpec = tween(animationTime)) +
+                    enter = fadeIn(animationSpec = tween(ANIMATION_TIME)) +
                         expandVertically(
-                            animationSpec = tween(animationTime),
+                            animationSpec = tween(ANIMATION_TIME),
                             expandFrom = Alignment.Top
                         ),
-                    exit = fadeOut(animationSpec = tween(animationTime)) +
+                    exit = fadeOut(animationSpec = tween(ANIMATION_TIME)) +
                         shrinkVertically(
-                            animationSpec = tween(animationTime),
+                            animationSpec = tween(ANIMATION_TIME),
                             shrinkTowards = Alignment.Top
                         )
                 ) {
-                    val lazyListState = rememberLazyListState()
-                    val targetItem = if (value.isNotEmpty()) value else initialScrollItem
-                    val initialIndex = remember(items, targetItem) {
-                        targetItem?.let { items.indexOf(it) } ?: -1
+                    val initialIndex = remember(items, value, initialScrollItem) {
+                        val target = if (value.isNotEmpty()) value else initialScrollItem
+                        target?.let { items.indexOf(it) }?.takeIf { it >= 0 } ?: 0
                     }
-
-                    LaunchedEffect(initialIndex) {
-                        if (initialIndex >= 0) {
-                            lazyListState.scrollToItem(index = initialIndex)
-                        }
-                    }
+                    val lazyListState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
 
                     LazyColumn(
                         state = lazyListState,
@@ -289,7 +280,7 @@ private fun DateDropdown(
                                     .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
                                     .noRippleClickable {
                                         onValueChange(item)
-                                        isExpanded = false
+                                        closeDropdown()
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
