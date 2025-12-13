@@ -62,26 +62,17 @@ fun EditNicknameTextField(
                 color = CertiTheme.colors.gray600
             )
             PersonalInfoTextFieldButton(
-                text = "중복확인",
-                onClick = {
-                    onButtonClick()
-                    focusManager.clearFocus()
-                },
+                text = stringResource(R.string.personal_nickname_duplicate_check),
+                onClick = onButtonClick,
                 isEnable = isEnable
             )
         }
         BasicTextField(
             value = value,
             onValueChange = { newValue ->
-                if (newValue == value) {
-                    return@BasicTextField
-                }
-                if (newValue.contains("\n") || newValue.contains("\r")) {
-                    return@BasicTextField
-                }
-                if (newValue.length <= 7) {
-                    onValueChange(newValue)
-                }
+                val filteredValue = newValue.replace("\n", "").replace("\r", "")
+                if (filteredValue == value) return@BasicTextField
+                onValueChange(filteredValue.take(7))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,7 +87,7 @@ fun EditNicknameTextField(
             textStyle = CertiTheme.typography.caption.regular_14.copy(
                 color = CertiTheme.colors.black
             ),
-            maxLines = 1,
+            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -121,7 +112,7 @@ fun EditNicknameTextField(
                         innerTextField()
                     }
                     Text(
-                        text = "${value.length}/7",
+                        text = stringResource(R.string.personal_nickname_char_count, value.length),
                         style = CertiTheme.typography.caption.semibold_12,
                         color = CertiTheme.colors.gray500,
                         modifier = Modifier.padding(start = screenWidthDp(8.dp))
@@ -177,7 +168,7 @@ private fun PersonalInfoTextFieldButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPageNicknameTextFieldPreview() {
+private fun EditNicknameTextFieldPreview() {
     var value by remember { mutableStateOf("name") }
     var nickNameValidType by remember { mutableStateOf(NickNameValidType.DEFAULT) }
     var isChecked by remember { mutableStateOf(false) }

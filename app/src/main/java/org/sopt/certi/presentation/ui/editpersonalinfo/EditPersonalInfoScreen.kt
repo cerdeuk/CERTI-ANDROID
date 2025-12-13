@@ -145,7 +145,7 @@ fun EditPersonalInfoScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPagePersonalInfoPreview() {
+private fun EditPersonalInfoPreview() {
     val viewModel = remember { EditPersonalInfoViewModel() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,6 +15,7 @@ import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.editpersonalinfo.state.EditPersonalInfoUiState
 import javax.inject.Inject
 
+@HiltViewModel
 class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(EditPersonalInfoUiState())
     val uiState = _uiState.asStateFlow()
@@ -21,7 +23,7 @@ class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
     private val _nickNameValidTypeUiState = MutableStateFlow(NickNameValidType.DEFAULT)
     val nickNameValidTypeUiState = _nickNameValidTypeUiState.asStateFlow()
 
-    private lateinit var _originalUserProfile: UserProfile
+    private var _originalUserProfile: UserProfile? = null
 
     init {
         loadPersonalInfoData()
@@ -51,10 +53,12 @@ class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun updateSaveButtonState() {
+        val original = _originalUserProfile ?: return
+
         val current = _uiState.value
-        val isNameChanged = current.name != _originalUserProfile.name
-        val isEmailChanged = current.email != _originalUserProfile.email
-        val isProfileChanged = current.profileUri?.toString() != _originalUserProfile.profileImageUrl
+        val isNameChanged = current.name != original.name
+        val isEmailChanged = current.email != original.email
+        val isProfileChanged = current.profileUri?.toString() != original.profileImageUrl
 
         val isContentChanged = (
             current.isNicknameChanged ||
@@ -101,14 +105,17 @@ class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
         _uiState.update {
             it.copy(
                 nickname = nickname,
-                isNicknameChanged = nickname != _originalUserProfile.nickname
+                isNicknameChanged = _originalUserProfile?.nickname != null && nickname != _originalUserProfile?.nickname
             )
         }
+
+        val original = _originalUserProfile ?: return
+
         _nickNameValidTypeUiState.update {
             when {
                 nickname.isEmpty() -> NickNameValidType.EMPTY
                 nickname.contains("시발") -> NickNameValidType.INVALID
-                nickname == _originalUserProfile.nickname -> NickNameValidType.DEFAULT
+                nickname == original.nickname -> NickNameValidType.DEFAULT
                 else -> NickNameValidType.UNCHECKED
             }
         }
@@ -139,7 +146,7 @@ class EditPersonalInfoViewModel @Inject constructor() : ViewModel() {
         _uiState.update {
             it.copy(
                 birth = birth,
-                isBirthChanged = birth != _originalUserProfile.birth
+                isBirthChanged = _originalUserProfile?.birth != null && birth != _originalUserProfile?.birth
             )
         }
         updateSaveButtonState()
