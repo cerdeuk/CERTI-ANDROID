@@ -31,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -169,13 +170,19 @@ private fun DateDropdown(
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    val spacerHeight = if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
+    val spacerHeight by remember {
+        derivedStateOf {
+            if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
+        }
+    }
 
-    val closeDropdown = {
-        scope.launch {
-            isExpanded = false
-            delay(ANIMATION_TIME.toLong())
-            showPopup = false
+    val closeDropdown: () -> Unit = remember {
+        {
+            scope.launch {
+                isExpanded = false
+                delay(ANIMATION_TIME.toLong())
+                showPopup = false
+            }
         }
     }
 
@@ -273,35 +280,51 @@ private fun DateDropdown(
                             .background(CertiTheme.colors.white)
                             .width(rowWidth)
                     ) {
-                        items(items) { item ->
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
-                                    .noRippleClickable {
-                                        onValueChange(item)
-                                        closeDropdown()
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = item,
-                                    style = CertiTheme.typography.caption.semibold_12,
-                                    color = CertiTheme.colors.black,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                HorizontalDivider(
-                                    modifier = Modifier.align(Alignment.BottomCenter),
-                                    color = CertiTheme.colors.gray100
-                                )
-                            }
+                        items(
+                            items = items,
+                            key = { it },
+                            contentType = { "dropdownItem" }
+                        ) { item ->
+                            DropdownItem(
+                                text = item,
+                                onClick = {
+                                    onValueChange(item)
+                                    closeDropdown()
+                                }
+                            )
                         }
                     }
                 }
             }
         }
         Spacer(modifier = Modifier.heightForScreenPercentage(spacerHeight))
+    }
+}
+
+@Composable
+private fun DropdownItem(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
+            .noRippleClickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            style = CertiTheme.typography.caption.semibold_12,
+            color = CertiTheme.colors.black,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        HorizontalDivider(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            color = CertiTheme.colors.gray100
+        )
     }
 }
 
