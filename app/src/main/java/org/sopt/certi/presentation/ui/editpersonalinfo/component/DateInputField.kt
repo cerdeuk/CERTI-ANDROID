@@ -53,6 +53,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
@@ -82,10 +84,10 @@ fun DateInputField(
 ) {
     val currentDate = remember { LocalDate.now() }
     val yearList = remember(currentDate) {
-        (currentDate.year - 100..currentDate.year + 100).map { it.toString() }
+        (currentDate.year - 100..currentDate.year + 100).map { it.toString() }.toImmutableList()
     }
 
-    val monthList = remember { (1..12).map { "%02d".format(it) } }
+    val monthList = remember { (1..12).map { "%02d".format(it) }.toImmutableList() }
 
     val daysInMonth = remember(value.year, value.month) {
         if (value.year != null && value.month != null) {
@@ -94,7 +96,7 @@ fun DateInputField(
             31
         }
     }
-    val dayList = remember(daysInMonth) { (1..daysInMonth).map { "%02d".format(it) } }
+    val dayList = remember(daysInMonth) { (1..daysInMonth).map { "%02d".format(it) }.toImmutableList() }
 
     fun updateDate(newYear: Int? = value.year, newMonth: Int? = value.month, newDay: Int? = value.day) {
         var validatedDay = newDay
@@ -152,7 +154,7 @@ fun DateInputField(
 @Composable
 private fun DateDropdown(
     placeholder: String,
-    items: List<String>,
+    items: ImmutableList<String>,
     value: String,
     onValueChange: (String) -> Unit,
     backgroundColor: Color,
