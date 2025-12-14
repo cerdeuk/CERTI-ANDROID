@@ -56,6 +56,8 @@ fun CommentItem(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(8.dp))
     ) {
+        Spacer(Modifier.heightForScreenPercentage(8.dp))
+
         // 사용자 닉네임, 취득 상태, 직무 정보, 삭제 버튼
         Row(
             horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
