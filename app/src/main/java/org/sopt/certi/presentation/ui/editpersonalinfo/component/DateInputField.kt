@@ -31,7 +31,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -73,6 +72,7 @@ import java.time.YearMonth
 private const val VISIBLE_DROPBOX_COUNT = 6
 private val DROPBOX_ITEM_HEIGHT = 40.dp
 private const val ANIMATION_TIME = 300
+private val STATIC_MONTH_LIST = (1..12).map { "%02d".format(it) }.toImmutableList()
 
 @Composable
 fun DateInputField(
@@ -87,7 +87,7 @@ fun DateInputField(
         (currentDate.year - 100..currentDate.year + 100).map { it.toString() }.toImmutableList()
     }
 
-    val monthList = remember { (1..12).map { "%02d".format(it) }.toImmutableList() }
+    val monthList = STATIC_MONTH_LIST
 
     val daysInMonth = remember(value.year, value.month) {
         if (value.year != null && value.month != null) {
@@ -172,10 +172,8 @@ private fun DateDropdown(
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    val spacerHeight by remember {
-        derivedStateOf {
-            if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
-        }
+    val spacerHeight = remember(showPopup) {
+        if (showPopup) (DROPBOX_ITEM_HEIGHT * VISIBLE_DROPBOX_COUNT) + 36.dp else 36.dp
     }
 
     val closeDropdown: () -> Unit = remember {
@@ -185,6 +183,13 @@ private fun DateDropdown(
                 delay(ANIMATION_TIME.toLong())
                 showPopup = false
             }
+        }
+    }
+
+    val onItemClick: (String) -> Unit = remember(onValueChange, closeDropdown) {
+        { selectedItem ->
+            onValueChange(selectedItem)
+            closeDropdown()
         }
     }
 
@@ -289,10 +294,7 @@ private fun DateDropdown(
                         ) { item ->
                             DropdownItem(
                                 text = item,
-                                onClick = {
-                                    onValueChange(item)
-                                    closeDropdown()
-                                }
+                                onClick = onItemClick
                             )
                         }
                     }
@@ -306,14 +308,14 @@ private fun DateDropdown(
 @Composable
 private fun DropdownItem(
     text: String,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .heightForScreenPercentage(DROPBOX_ITEM_HEIGHT)
-            .noRippleClickable(onClick = onClick),
+            .noRippleClickable { onClick(text) },
         contentAlignment = Alignment.Center
     ) {
         Text(
