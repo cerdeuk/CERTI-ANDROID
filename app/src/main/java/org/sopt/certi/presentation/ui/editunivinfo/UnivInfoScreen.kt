@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.editunivinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.editunivinfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.editunivinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.ui.editunivinfo.AcademicInfoViewModel
 import org.sopt.certi.presentation.ui.my.component.JobCategorySection
 import org.sopt.certi.presentation.ui.my.component.MySchoolSection
 import org.sopt.certi.presentation.ui.my.component.SelectJobCategoryBottomSheet
