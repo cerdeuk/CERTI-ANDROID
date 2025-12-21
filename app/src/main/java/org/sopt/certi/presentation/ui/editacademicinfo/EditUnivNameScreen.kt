@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editunivinfo
+package org.sopt.certi.presentation.ui.editacademicinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -27,16 +27,16 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.component.header.EditInfoHeader
-import org.sopt.certi.presentation.ui.editunivinfo.state.UnivUiState
+import org.sopt.certi.presentation.ui.editacademicinfo.state.EditUnivNameUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun UnivInfoRoute() {}
+fun EditUnivNameRoute() {}
 
 @Composable
-fun UnivInfoScreen(
-    uiState: UnivUiState,
+fun EditUnivNameScreen(
+    uiState: EditUnivNameUiState,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     univList: ImmutableList<String>,
@@ -47,10 +47,9 @@ fun UnivInfoScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = screenWidthDp(20.dp)),
+            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         EditInfoHeader(
-            headerTitle = "",
             isSaveEnable = uiState.isSaveEnable,
             onSaveClick = onSaveClick,
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
@@ -104,12 +103,12 @@ fun UnivInfoScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun UnivInfoPreview() {
+private fun EditUnivNamePreview() {
     val viewModel = remember { AcademicInfoViewModel() }
-    val uiState by viewModel.myPageUnivUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.editUnivUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
-        UnivInfoScreen(
+        EditUnivNameScreen(
             uiState = uiState,
             onValueChange = viewModel::onUnivSearchTextChanged,
             onSearchClick = viewModel::onSearchUnivClick,

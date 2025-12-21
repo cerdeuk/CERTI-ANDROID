@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editunivinfo
+package org.sopt.certi.presentation.ui.editacademicinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,21 +24,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
+import org.sopt.certi.core.component.header.EditInfoHeader
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.presentation.ui.editunivinfo.component.JobCategorySection
-import org.sopt.certi.presentation.ui.editunivinfo.component.MySchoolSection
-import org.sopt.certi.presentation.ui.editunivinfo.component.SelectJobCategoryBottomSheet
-import org.sopt.certi.presentation.ui.editunivinfo.state.AcademicInfoUiState
+import org.sopt.certi.presentation.ui.editacademicinfo.component.JobCategorySection
+import org.sopt.certi.presentation.ui.editacademicinfo.component.MySchoolSection
+import org.sopt.certi.presentation.ui.editacademicinfo.component.SelectJobCategoryBottomSheet
+import org.sopt.certi.presentation.ui.editacademicinfo.state.AcademicUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun AcademicInfoRoute() { }
+fun UnivInfoRoute() { }
 
 @Composable
-fun AcademicInfoScreen(
-    uiState: AcademicInfoUiState,
+fun UnivInfoScreen(
+    uiState: AcademicUiState,
     onSchoolManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
     onReselectCategoryClick: () -> Unit,
@@ -51,11 +51,9 @@ fun AcademicInfoScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.my_academic_info_title),
-            style = CertiTheme.typography.subtitle.semibold_20,
-            color = CertiTheme.colors.gray600,
-            modifier = Modifier.padding(vertical = screenHeightDp(22.dp))
+        EditInfoHeader(
+            headerTitle = stringResource(R.string.my_academic_info_title),
+            modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
         MySchoolSection(
             onSchoolManageClick = onSchoolManageClick,
@@ -64,9 +62,7 @@ fun AcademicInfoScreen(
                 .padding(top = screenHeightDp(32.dp), bottom = screenHeightDp(24.dp))
                 .padding(horizontal = screenWidthDp(20.dp))
         )
-        HorizontalDivider(
-            color = CertiTheme.colors.gray100
-        )
+        HorizontalDivider(color = CertiTheme.colors.gray100)
         JobCategorySection(
             jobCategoryList = uiState.selectedCategoryList,
             onClick = onReselectCategoryClick,
@@ -84,7 +80,7 @@ private fun AcademicInfoPreview() {
     )
     var showBottomSheet by remember { mutableStateOf(false) }
     val viewModel = remember { AcademicInfoViewModel() }
-    val uiState by viewModel.academicInfoUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.academicUiState.collectAsStateWithLifecycle()
     val editingList by viewModel.editingCategoryList.collectAsStateWithLifecycle()
 
     CERTITheme {
@@ -94,7 +90,7 @@ private fun AcademicInfoPreview() {
                 .background(CertiTheme.colors.white)
                 .statusBarsPadding()
         ) {
-            AcademicInfoScreen(
+            UnivInfoScreen(
                 uiState = uiState,
                 onSchoolManageClick = {},
                 onMajorManageClick = {},

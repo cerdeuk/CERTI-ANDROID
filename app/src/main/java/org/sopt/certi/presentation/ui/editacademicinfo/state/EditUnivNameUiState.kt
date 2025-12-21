@@ -1,8 +1,8 @@
-package org.sopt.certi.presentation.ui.editunivinfo.state
+package org.sopt.certi.presentation.ui.editacademicinfo.state
 
 import org.sopt.certi.core.state.UiState
 
-data class UnivUiState(
+data class EditUnivNameUiState(
     val univSearchText: String = "",
     val univListLoadState: UiState<List<String>> = UiState.Init,
     val submittedUnivSearchText: String = "",

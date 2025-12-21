@@ -88,7 +88,7 @@ fun EditPersonalInfoScreen(
                 isSaveEnable = uiState.isSaveButtonEnabled,
                 onSaveClick = onSaveClick,
                 headerTitle = stringResource(R.string.mypage_personal_info),
-                modifier = Modifier.padding(screenWidthDp(20.dp))
+                modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
             )
         }
 

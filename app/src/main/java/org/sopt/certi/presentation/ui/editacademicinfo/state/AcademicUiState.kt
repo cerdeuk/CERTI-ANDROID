@@ -1,7 +1,7 @@
-package org.sopt.certi.presentation.ui.editunivinfo.state
+package org.sopt.certi.presentation.ui.editacademicinfo.state
 
 import org.sopt.certi.domain.type.CategoryType
 
-data class AcademicInfoUiState(
+data class AcademicUiState(
     val selectedCategoryList: List<CategoryType> = emptyList()
 )
