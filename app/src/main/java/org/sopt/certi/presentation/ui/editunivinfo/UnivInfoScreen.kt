@@ -26,7 +26,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.presentation.ui.editunivinfo.component.ModifyInfoHeader
+import org.sopt.certi.core.component.header.EditInfoHeader
 import org.sopt.certi.presentation.ui.editunivinfo.state.UnivUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -45,27 +45,27 @@ fun UnivInfoScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = screenWidthDp(20.dp)),
     ) {
-        ModifyInfoHeader(
+        EditInfoHeader(
             headerTitle = "",
             isSaveEnable = uiState.isSaveEnable,
             onSaveClick = onSaveClick,
-            modifier = Modifier.padding(vertical = screenHeightDp(22.dp), horizontal = screenWidthDp(20.dp))
+            modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
         Text(
             text = stringResource(R.string.onboarding_univ_title),
             style = CertiTheme.typography.subtitle.bold_20,
             color = CertiTheme.colors.gray600,
-            modifier = Modifier.padding(vertical = screenHeightDp(24.dp), horizontal = screenWidthDp(20.dp))
+            modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
         )
         CertiBasicTextField(
             value = uiState.univSearchText,
             onValueChange = onValueChange,
             onSearchClick = onSearchClick,
-            modifier = Modifier
-                .padding(top = screenHeightDp(14.dp))
-                .padding(horizontal = screenWidthDp(20.dp))
+            modifier = Modifier.padding(top = screenHeightDp(14.dp))
         )
 
         when (uiState.loadState) {

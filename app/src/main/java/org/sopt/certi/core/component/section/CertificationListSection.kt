@@ -1,6 +1,6 @@
 package org.sopt.certi.core.component.section
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -43,11 +43,6 @@ fun CertificationListSection(
         modifier = modifier
             .noRippleClickable(onCertificationClick)
             .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = CertiTheme.colors.gray100,
-                shape = RoundedCornerShape(12.dp)
-            )
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_star_24),
@@ -56,13 +51,10 @@ fun CertificationListSection(
             modifier = Modifier
                 .noRippleClickable(onLikeClick)
                 .align(Alignment.TopEnd)
-                .padding(screenWidthDp(12.dp))
                 .size(screenWidthDp(22.dp))
         )
 
-        Column(
-            modifier = Modifier.padding(start = screenWidthDp(12.dp), top = screenHeightDp(22.dp), bottom = screenHeightDp(16.dp))
-        ) {
+        Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -73,35 +65,45 @@ fun CertificationListSection(
                 )
 
                 Text(
-                    text = certificationListData.certificationType,
+                    text = certificationListData.agencyName,
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.black,
+                    color = CertiTheme.colors.mainBlue,
                     modifier = Modifier.padding(start = screenWidthDp(8.dp))
                 )
             }
             Spacer(Modifier.height(screenHeightDp(12.dp)))
 
-            CertiChipList(categories = certificationListData.tags)
-        }
-
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = screenWidthDp(14.dp), bottom = screenHeightDp(18.dp)),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_paper_16),
-                contentDescription = null,
-                tint = CertiTheme.colors.gray400,
-                modifier = Modifier.size(16.dp)
-            )
-
             Text(
-                text = certificationListData.testType,
+                text = certificationListData.description,
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray500
+                color = CertiTheme.colors.gray500,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
+            Spacer(Modifier.height(screenHeightDp(12.dp)))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                CertiChipList(categories = certificationListData.tags)
+
+                Row {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_paper_16),
+                        contentDescription = null,
+                        tint = CertiTheme.colors.gray400,
+                        modifier = Modifier.size(16.dp)
+                    )
+
+                    Text(
+                        text = certificationListData.testType,
+                        style = CertiTheme.typography.caption.regular_12,
+                        color = CertiTheme.colors.gray500
+                    )
+                }
+            }
         }
     }
 }

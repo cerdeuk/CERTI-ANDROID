@@ -6,6 +6,5 @@ import org.sopt.certi.domain.model.user.UserInfoData
 fun UserInfoResponseDto.toDomain() = UserInfoData(
     name = name,
     university = university,
-    major = major,
-    percentage = percentage
+    major = major
 )
