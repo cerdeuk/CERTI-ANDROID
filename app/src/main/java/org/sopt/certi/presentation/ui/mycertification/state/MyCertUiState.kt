@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.myCert.state
+package org.sopt.certi.presentation.ui.mycertification.state
 
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
