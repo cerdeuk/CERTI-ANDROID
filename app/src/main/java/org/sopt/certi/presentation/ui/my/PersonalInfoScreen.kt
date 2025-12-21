@@ -23,7 +23,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.type.NickNameValidType
-import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
+import org.sopt.certi.presentation.ui.editunivinfo.component.ModifyInfoHeader
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoDateInputField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoNicknameTextField
 import org.sopt.certi.presentation.ui.my.component.PersonalInfoProfileImage

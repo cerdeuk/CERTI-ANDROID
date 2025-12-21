@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my.state
+package org.sopt.certi.presentation.ui.editunivinfo.state
 
 import org.sopt.certi.domain.type.CategoryType
 

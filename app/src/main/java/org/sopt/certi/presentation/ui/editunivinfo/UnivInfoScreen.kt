@@ -26,8 +26,8 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.presentation.ui.my.component.ModifyInfoHeader
-import org.sopt.certi.presentation.ui.my.state.UnivUiState
+import org.sopt.certi.presentation.ui.editunivinfo.component.ModifyInfoHeader
+import org.sopt.certi.presentation.ui.editunivinfo.state.UnivUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 

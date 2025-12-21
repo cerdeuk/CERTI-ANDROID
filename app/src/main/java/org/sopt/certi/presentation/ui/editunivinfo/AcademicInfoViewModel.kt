@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.presentation.ui.my.state.AcademicInfoUiState
-import org.sopt.certi.presentation.ui.my.state.UnivUiState
+import org.sopt.certi.presentation.ui.editunivinfo.state.AcademicInfoUiState
+import org.sopt.certi.presentation.ui.editunivinfo.state.UnivUiState
 import javax.inject.Inject
 
 @HiltViewModel

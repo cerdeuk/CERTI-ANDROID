@@ -27,11 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.presentation.ui.editunivinfo.AcademicInfoViewModel
-import org.sopt.certi.presentation.ui.my.component.JobCategorySection
+import org.sopt.certi.presentation.ui.editunivinfo.component.JobCategorySection
 import org.sopt.certi.presentation.ui.my.component.MySchoolSection
-import org.sopt.certi.presentation.ui.my.component.SelectJobCategoryBottomSheet
-import org.sopt.certi.presentation.ui.my.state.AcademicInfoUiState
+import org.sopt.certi.presentation.ui.editunivinfo.component.SelectJobCategoryBottomSheet
+import org.sopt.certi.presentation.ui.editunivinfo.state.AcademicInfoUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
