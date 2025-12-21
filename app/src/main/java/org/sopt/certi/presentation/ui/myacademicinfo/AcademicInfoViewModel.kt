@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo
+package org.sopt.certi.presentation.ui.myacademicinfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.presentation.ui.editacademicinfo.state.AcademicUiState
-import org.sopt.certi.presentation.ui.editacademicinfo.state.EditUnivNameUiState
+import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
+import org.sopt.certi.presentation.ui.myacademicinfo.state.EditUnivNameUiState
 import javax.inject.Inject
 
 @HiltViewModel

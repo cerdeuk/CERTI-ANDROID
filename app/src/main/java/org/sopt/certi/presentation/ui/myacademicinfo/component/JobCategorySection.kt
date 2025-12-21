@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo.component
+package org.sopt.certi.presentation.ui.myacademicinfo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo
+package org.sopt.certi.presentation.ui.myacademicinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.component.header.EditInfoHeader
-import org.sopt.certi.presentation.ui.editacademicinfo.state.EditUnivNameUiState
+import org.sopt.certi.presentation.ui.myacademicinfo.state.EditUnivNameUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 

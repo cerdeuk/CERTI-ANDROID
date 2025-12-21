@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo.state
+package org.sopt.certi.presentation.ui.myacademicinfo.state
 
 import org.sopt.certi.domain.type.CategoryType
 

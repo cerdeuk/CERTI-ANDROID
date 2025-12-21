@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo.component
+package org.sopt.certi.presentation.ui.myacademicinfo.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MySchoolSection(
+fun MyUnivSection(
     onSchoolManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -68,7 +68,7 @@ private fun MySchoolManageItem(
 @Composable
 private fun MySchoolManagePreview() {
     CERTITheme {
-        MySchoolSection(
+        MyUnivSection(
             onSchoolManageClick = {},
             onMajorManageClick = {}
         )

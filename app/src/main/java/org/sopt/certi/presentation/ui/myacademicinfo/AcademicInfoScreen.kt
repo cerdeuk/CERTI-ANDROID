@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.editacademicinfo
+package org.sopt.certi.presentation.ui.myacademicinfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,10 +26,10 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.header.EditInfoHeader
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.presentation.ui.editacademicinfo.component.JobCategorySection
-import org.sopt.certi.presentation.ui.editacademicinfo.component.MySchoolSection
-import org.sopt.certi.presentation.ui.editacademicinfo.component.SelectJobCategoryBottomSheet
-import org.sopt.certi.presentation.ui.editacademicinfo.state.AcademicUiState
+import org.sopt.certi.presentation.ui.myacademicinfo.component.JobCategorySection
+import org.sopt.certi.presentation.ui.myacademicinfo.component.MyUnivSection
+import org.sopt.certi.presentation.ui.myacademicinfo.component.SelectJobCategoryBottomSheet
+import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -54,7 +54,7 @@ fun UnivInfoScreen(
             headerTitle = stringResource(R.string.my_academic_info_title),
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
-        MySchoolSection(
+        MyUnivSection(
             onSchoolManageClick = onSchoolManageClick,
             onMajorManageClick = onMajorManageClick,
             modifier = Modifier
