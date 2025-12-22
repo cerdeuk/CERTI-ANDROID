@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
@@ -51,6 +52,8 @@ fun CertificationScreen(
     selectedTab: MyCertType,
     certifications: ImmutableList<CertificationData>,
     onTabSelected: (MyCertType) -> Unit,
+    onPlannedCertEditClick: () -> Unit,
+    onAcquiredCertEditClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -61,59 +64,87 @@ fun CertificationScreen(
         )
 
         when (selectedTab) {
+            MyCertType.PLANNED -> {
+                CertList(
+                    certifications = certifications,
+                    onEditClick = onPlannedCertEditClick
+                )
+            }
+            MyCertType.ACQUIRED -> {
+                CertList(
+                    certifications = certifications,
+                    onEditClick = onAcquiredCertEditClick
+                )
+            }
             MyCertType.FAVORITE -> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        start = screenWidthDp(20.dp),
-                        top = screenWidthDp(24.dp),
-                        end = screenWidthDp(20.dp),
-                        bottom = screenWidthDp(20.dp)
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
-                ) {
-                    items(
-                        items = certifications,
-                        key = { it.certificationId }
-                    ) { certification ->
-                        FavoriteCertItem(
-                            certificationData = certification,
-                            onFavoriteClick = {}
-                        )
-                    }
-                }
+                FavoriteCertList(certifications)
             }
-            else -> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        start = screenWidthDp(20.dp),
-                        top = screenWidthDp(16.dp),
-                        end = screenWidthDp(20.dp),
-                        bottom = screenWidthDp(20.dp)
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
-                ) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.edit),
-                            style = CertiTheme.typography.body.semibold_16,
-                            color = CertiTheme.colors.gray400,
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
+        }
+    }
+}
 
-                    items(
-                        items = certifications,
-                        key = { it.certificationId }
-                    ) { certification ->
-                        MyCertItem(
-                            certificationData = certification
-                        )
-                    }
-                }
-            }
+@Composable
+private fun CertList(
+    certifications: ImmutableList<CertificationData>,
+    onEditClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            start = screenWidthDp(20.dp),
+            top = screenWidthDp(16.dp),
+            end = screenWidthDp(20.dp),
+            bottom = screenWidthDp(20.dp)
+        ),
+        verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
+    ) {
+        item {
+            Text(
+                text = stringResource(R.string.edit),
+                style = CertiTheme.typography.body.semibold_16,
+                color = CertiTheme.colors.gray400,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .noRippleClickable(onEditClick)
+            )
+        }
+
+        items(
+            items = certifications,
+            key = { it.certificationId }
+        ) { certification ->
+            MyCertItem(
+                certificationData = certification
+            )
+        }
+    }
+}
+
+@Composable
+private fun FavoriteCertList(
+    certifications: ImmutableList<CertificationData>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            start = screenWidthDp(20.dp),
+            top = screenWidthDp(24.dp),
+            end = screenWidthDp(20.dp),
+            bottom = screenWidthDp(20.dp)
+        ),
+        verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
+    ) {
+        items(
+            items = certifications,
+            key = { it.certificationId }
+        ) { certification ->
+            FavoriteCertItem(
+                certificationData = certification,
+                onFavoriteClick = {}
+            )
         }
     }
 }
@@ -200,7 +231,9 @@ private fun PreviewResumeMyCertScreen() {
         CertificationScreen(
             selectedTab = selectedTab,
             certifications = dummyCertifications.toImmutableList(),
-            onTabSelected = { selectedTab = it }
+            onTabSelected = { selectedTab = it },
+            onPlannedCertEditClick = {},
+            onAcquiredCertEditClick = {}
         )
     }
 }
