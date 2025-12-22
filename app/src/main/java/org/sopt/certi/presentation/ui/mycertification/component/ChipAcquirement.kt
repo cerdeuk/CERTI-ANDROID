@@ -25,19 +25,13 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ChipAcquirement(
-    selectedType: MyCertType,
+    isAcquired: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = when (selectedType) {
-        MyCertType.PLANNED -> CertiTheme.colors.purpleBlue
-        MyCertType.ACQUIRED -> CertiTheme.colors.mainBlue
-        else -> Color.Transparent
-    }
-
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(100.dp))
-            .background(backgroundColor)
+            .background(if (isAcquired) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue)
             .padding(vertical = 4.dp, horizontal = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -49,7 +43,7 @@ fun ChipAcquirement(
         )
 
         Text(
-            text = stringResource(selectedType.titleResId),
+            text = stringResource(if (isAcquired) MyCertType.ACQUIRED.titleResId else MyCertType.PLANNED.titleResId),
             style = CertiTheme.typography.caption.semibold_10,
             color = CertiTheme.colors.white
         )
@@ -62,10 +56,10 @@ private fun ChipAcquirementPreview() {
     CERTITheme {
         Column {
             ChipAcquirement(
-                selectedType = MyCertType.PLANNED
+                isAcquired = true
             )
             ChipAcquirement(
-                selectedType = MyCertType.ACQUIRED
+                isAcquired = false
             )
         }
     }
