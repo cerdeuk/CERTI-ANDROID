@@ -40,9 +40,9 @@
 
     <!-- MainBottomNavBar -->
     <string name="main_bottom_navbar_home">홈</string>
-    <string name="main_bottom_navbar_category">카테고리</string>
-    <string name="main_bottom_navbar_recommend">추천</string>
+    <string name="main_bottom_navbar_certification">자격증</string>
     <string name="main_bottom_navbar_resume">이력서</string>
+    <string name="main_bottom_navbar_mypage">내 정보</string>
 
     <!-- Textfield -->
     <string name="textfield_placeholder">검색어를 입력해주세요.</string>
