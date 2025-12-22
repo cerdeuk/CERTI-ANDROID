@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -47,22 +49,11 @@ fun MyCertItem(
             modifier = Modifier.padding(bottom = screenWidthDp(8.dp))
         )
 
-        Row(
-            modifier = Modifier.padding(bottom = screenWidthDp(4.dp)),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
-        ) {
-            Text(
-                text = certificationData.certificationName,
-                style = CertiTheme.typography.subtitle.semibold_20,
-                color = CertiTheme.colors.black
-            )
-            Text(
-                text = certificationData.certificationType,
-                style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.black
-            )
-        }
+        CertItemTitle(
+            certName = certificationData.certificationName,
+            certType = certificationData.certificationType,
+            modifier = Modifier.padding(bottom = screenWidthDp(4.dp))
+        )
 
         Text(
             text = certificationData.description,
@@ -79,20 +70,20 @@ fun MyCertItem(
             horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
         ) {
             if (certificationData.isAcquired) {
-                TestInfo(
+                CertInfo(
                     iconRes = R.drawable.ic_date_16,
                     testInfo = certificationData.createdAt.toString()
                 )
-                TestInfo(
+                CertInfo(
                     iconRes = R.drawable.ic_level,
                     testInfo = certificationData.level
                 )
             } else {
-                TestInfo(
+                CertInfo(
                     iconRes = R.drawable.ic_placemark,
                     testInfo = certificationData.placement
                 )
-                TestInfo(
+                CertInfo(
                     iconRes = R.drawable.ic_time,
                     testInfo = certificationData.testTime
                 )
@@ -102,7 +93,44 @@ fun MyCertItem(
 }
 
 @Composable
-private fun TestInfo(
+fun CertItemTitle(
+    certName: String,
+    certType: String,
+    modifier: Modifier = Modifier,
+    onFavoriteClick: (() -> Unit)? = null,
+    isFavorite: Boolean = false
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
+    ) {
+        Text(
+            text = certName,
+            style = CertiTheme.typography.subtitle.semibold_20,
+            color = CertiTheme.colors.black
+        )
+        Text(
+            text = certType,
+            style = CertiTheme.typography.caption.regular_12,
+            color = CertiTheme.colors.black
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        if (onFavoriteClick != null) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_star_24),
+                contentDescription = null,
+                tint = if (isFavorite) CertiTheme.colors.subYellow else CertiTheme.colors.gray100,
+                modifier = Modifier.noRippleClickable(onFavoriteClick)
+            )
+        }
+    }
+}
+
+@Composable
+fun CertInfo(
     @DrawableRes iconRes: Int,
     testInfo: String,
     modifier: Modifier = Modifier
