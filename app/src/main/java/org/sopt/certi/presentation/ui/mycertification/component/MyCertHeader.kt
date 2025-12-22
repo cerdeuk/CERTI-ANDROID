@@ -26,9 +26,9 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MyCertHeader(
+    selectedType: MyCertType,
     onTabSelected: (MyCertType) -> Unit,
-    modifier: Modifier = Modifier,
-    selectedType: MyCertType = MyCertType.PLANNED
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -94,8 +94,8 @@ private fun MyCertHeaderPreview() {
     var myCertTab by remember { mutableStateOf(MyCertType.PLANNED) }
     CERTITheme {
         MyCertHeader(
-            onTabSelected = { myCertTab = it },
-            selectedType = myCertTab
+            selectedType = myCertTab,
+            onTabSelected = { myCertTab = it }
         )
     }
 }

@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
 import org.sopt.certi.core.util.pressedClickable
-import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -45,7 +45,7 @@ fun CertiDeleteDialog(
             color = CertiTheme.colors.white
         ) {
             Column(
-                modifier = Modifier.padding(top = screenHeightDp(32.dp)),
+                modifier = Modifier.padding(top = screenWidthDp(32.dp)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -53,13 +53,13 @@ fun CertiDeleteDialog(
                     style = CertiTheme.typography.body.semibold_18,
                     color = CertiTheme.colors.gray600
                 )
-                Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
+                Spacer(modifier = Modifier.height(screenWidthDp(16.dp)))
                 Text(
                     text = description,
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray600
                 )
-                Spacer(modifier = Modifier.height(screenHeightDp(24.dp)))
+                Spacer(modifier = Modifier.height(screenWidthDp(24.dp)))
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
@@ -113,7 +113,7 @@ fun DialogButton(
             text = text,
             style = CertiTheme.typography.body.semibold_18,
             color = textColor,
-            modifier = Modifier.padding(vertical = screenHeightDp(20.dp))
+            modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
     }
 }

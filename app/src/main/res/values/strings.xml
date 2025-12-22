@@ -216,4 +216,7 @@
     <string name="personal_birthday_label">생년월일</string>
     <string name="personal_birthday_placeholder">생년월일을 선택해주세요.</string>
 
+    <!-- MyCertification -->
+    <string name="edit">편집</string>
+
 </resources>
