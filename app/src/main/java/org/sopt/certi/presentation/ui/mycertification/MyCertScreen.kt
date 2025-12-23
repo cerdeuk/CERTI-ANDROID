@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.mycertification
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -44,9 +43,9 @@ fun MyCertRoute(
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CertificationScreen(
     selectedTab: MyCertType,

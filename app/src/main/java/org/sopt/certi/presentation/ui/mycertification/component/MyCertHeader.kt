@@ -66,7 +66,7 @@ private fun MyCertCategory(
     isSelected: Boolean = false
 ) {
     Text(
-        text = stringResource(category.titleResId),
+        text = stringResource(category.label),
         style = CertiTheme.typography.body.bold_16,
         color = if (isSelected) CertiTheme.colors.gray600 else CertiTheme.colors.gray300,
         modifier = modifier

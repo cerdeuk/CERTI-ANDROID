@@ -74,7 +74,7 @@ private fun ChipAcquirement(
         )
 
         Text(
-            text = stringResource(if (isAcquired) MyCertType.ACQUIRED.titleResId else MyCertType.PLANNED.titleResId),
+            text = stringResource(if (isAcquired) MyCertType.ACQUIRED.label else MyCertType.PLANNED.label),
             style = CertiTheme.typography.caption.semibold_10,
             color = CertiTheme.colors.white
         )
