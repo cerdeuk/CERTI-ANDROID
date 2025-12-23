@@ -22,18 +22,18 @@ enum class MainTab(
     ),
     CERTLIST(
         defaultIconResId = R.drawable.ic_category_24,
-        label = R.string.main_bottom_navbar_category,
+        label = R.string.main_bottom_navbar_certification,
         route = MainTabRoute.CertList
-    ),
-    CERTRECOMMEND(
-        defaultIconResId = R.drawable.ic_recommendation_24,
-        label = R.string.main_bottom_navbar_recommend,
-        route = MainTabRoute.CertRecommend
     ),
     RESUME(
         defaultIconResId = R.drawable.ic_resume_24,
         label = R.string.main_bottom_navbar_resume,
         route = MainTabRoute.Resume
+    ),
+    MYPAGE(
+        defaultIconResId = R.drawable.ic_person_24,
+        label = R.string.main_bottom_navbar_mypage,
+        route = MainTabRoute.MyPage
     );
 
     companion object {
