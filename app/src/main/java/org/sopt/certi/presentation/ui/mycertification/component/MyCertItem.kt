@@ -25,9 +25,10 @@ import java.time.LocalDate
 @Composable
 fun MyCertItem(
     certificationData: CertificationData,
+    isEditMode: Boolean,
     modifier: Modifier = Modifier,
-    isEditClick: (() -> Unit)? = null,
-    isDeleteClick: (() -> Unit)? = null
+    onEditClick: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -43,8 +44,9 @@ fun MyCertItem(
         CertStatus(
             isAcquired = certificationData.isAcquired,
             modifier = Modifier.padding(bottom = screenWidthDp(8.dp)),
-            isEditClick = isEditClick,
-            isDeleteClick = isDeleteClick
+            isEditMode = isEditMode,
+            onEditClick = { onEditClick(certificationData.certificationId) },
+            onDeleteClick = { onDeleteClick(certificationData.certificationId) }
         )
 
         CertItemTitle(
@@ -106,7 +108,10 @@ private fun MyCertItemPreview() {
                     testTime = "09:00",
                     createdAt = LocalDate.of(2025, 11, 23),
                     level = "IM3"
-                )
+                ),
+                isEditMode = false,
+                onEditClick = {},
+                onDeleteClick = {}
             )
             MyCertItem(
                 certificationData = CertificationData(
@@ -120,8 +125,9 @@ private fun MyCertItemPreview() {
                     createdAt = LocalDate.of(2025, 11, 23),
                     level = "IM3"
                 ),
-                isEditClick = {},
-                isDeleteClick = {}
+                isEditMode = true,
+                onEditClick = {},
+                onDeleteClick = {}
             )
         }
     }

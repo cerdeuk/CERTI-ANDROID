@@ -5,6 +5,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
 
 data class MyCertUiState(
+    val isEditMode: Boolean,
     val selectedTab: MyCertType,
     val myCertListLoadState: UiState<List<CertificationData>>,
     val selectedCertificationId: Long?

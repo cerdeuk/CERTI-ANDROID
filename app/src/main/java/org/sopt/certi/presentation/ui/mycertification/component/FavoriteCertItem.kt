@@ -23,7 +23,7 @@ import java.time.LocalDate
 @Composable
 fun FavoriteCertItem(
     certificationData: CertificationData,
-    onFavoriteClick: () -> Unit,
+    onFavoriteToggle: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -42,7 +42,7 @@ fun FavoriteCertItem(
             certName = certificationData.certificationName,
             certType = certificationData.certificationType,
             isFavorite = certificationData.isFavorite,
-            onFavoriteClick = onFavoriteClick
+            onFavoriteClick = { onFavoriteToggle(certificationData.certificationId) }
         )
 
         Row(
@@ -81,7 +81,7 @@ private fun FavoriteCertItemPreview() {
                 testType = "실기형",
                 agencyName = "한국산업인력공단"
             ),
-            onFavoriteClick = {}
+            onFavoriteToggle = {}
         )
     }
 }

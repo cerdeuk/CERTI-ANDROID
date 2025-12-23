@@ -16,6 +16,7 @@ import javax.inject.Inject
 class MyCertViewModel @Inject constructor() : ViewModel() {
     private val _myCertUiState = MutableStateFlow(
         MyCertUiState(
+            isEditMode = false,
             selectedTab = MyCertType.PLANNED,
             myCertListLoadState = UiState.Loading,
             selectedCertificationId = null
@@ -28,6 +29,7 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateSelectedTab(tabType: MyCertType) {
+        if (_myCertUiState.value.isEditMode) return
         if (_myCertUiState.value.selectedTab == tabType) return
 
         _myCertUiState.update {
@@ -41,4 +43,17 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
             it.copy(myCertListLoadState = UiState.Success(dummyCertifications))
         }
     }
+
+    fun onFavoriteToggle(id: Long) {}
+
+    fun onEditModeToggle() {
+        val isEditMode = _myCertUiState.value.isEditMode
+
+        _myCertUiState.update {
+            it.copy(isEditMode = !isEditMode)
+        }
+    }
+
+    fun onEditItem(id: Long) {}
+    fun onDeleteItem(id: Long) {}
 }

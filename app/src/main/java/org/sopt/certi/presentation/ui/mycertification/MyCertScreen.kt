@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.mycertification
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -39,16 +43,20 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun MyCertRoute(
     padding: PaddingValues,
-    navigateToEditCert: () -> Unit,
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
+
+    BackHandler(enabled = uiState.isEditMode) { viewModel.onEditModeToggle() }
 
     CertificationScreen(
         uiState = uiState,
         certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
         onTabSelected = viewModel::updateSelectedTab,
-        onEditClick = navigateToEditCert,
+        onEditModeToggle = viewModel::onEditModeToggle,
+        onFavoriteToggle = viewModel::onFavoriteToggle,
+        onEditClick = viewModel::onEditItem,
+        onDeleteClick = viewModel::onDeleteItem,
         modifier = Modifier.padding(padding)
     )
 }
@@ -58,33 +66,52 @@ fun CertificationScreen(
     uiState: MyCertUiState,
     certifications: ImmutableList<CertificationData>,
     onTabSelected: (MyCertType) -> Unit,
-    onEditClick: () -> Unit,
+    onEditModeToggle: () -> Unit,
+    onFavoriteToggle: (Long) -> Unit,
+    onEditClick: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        MyCertHeader(
-            selectedType = uiState.selectedTab,
-            onTabSelected = onTabSelected,
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
+        if (uiState.isEditMode) {
+            MyPageHeader(
+                headerTitle = stringResource(R.string.edit_certification),
+                modifier = Modifier.padding(vertical = screenWidthDp(24.dp))
+            )
+        } else {
+            MyCertHeader(
+                selectedType = uiState.selectedTab,
+                onTabSelected = onTabSelected,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
+        }
 
         when (uiState.selectedTab) {
             MyCertType.PLANNED -> {
                 CertList(
+                    isEditMode = uiState.isEditMode,
                     certifications = certifications,
-                    onEditClick = onEditClick
+                    onEditModeToggle = onEditModeToggle,
+                    onEditClick = onEditClick,
+                    onDeleteClick = onDeleteClick
                 )
             }
 
             MyCertType.ACQUIRED -> {
                 CertList(
+                    isEditMode = uiState.isEditMode,
                     certifications = certifications,
-                    onEditClick = onEditClick
+                    onEditModeToggle = onEditModeToggle,
+                    onEditClick = onEditClick,
+                    onDeleteClick = onDeleteClick
                 )
             }
 
             MyCertType.FAVORITE -> {
-                FavoriteCertList(certifications)
+                FavoriteCertList(
+                    certifications = certifications,
+                    onFavoriteToggle = onFavoriteToggle
+                )
             }
         }
     }
@@ -92,12 +119,22 @@ fun CertificationScreen(
 
 @Composable
 private fun CertList(
+    isEditMode: Boolean,
     certifications: ImmutableList<CertificationData>,
-    onEditClick: () -> Unit,
+    onEditModeToggle: () -> Unit,
+    onEditClick: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(isEditMode) {
+        listState.scrollToItem(0)
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
+        state = listState,
         contentPadding = PaddingValues(
             start = screenWidthDp(20.dp),
             top = screenWidthDp(16.dp),
@@ -106,16 +143,18 @@ private fun CertList(
         ),
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.edit),
-                style = CertiTheme.typography.body.semibold_16,
-                color = CertiTheme.colors.gray400,
-                textAlign = TextAlign.End,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .noRippleClickable(onEditClick)
-            )
+        if (!isEditMode) {
+            item {
+                Text(
+                    text = stringResource(R.string.edit),
+                    style = CertiTheme.typography.body.semibold_16,
+                    color = CertiTheme.colors.gray400,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .noRippleClickable(onEditModeToggle)
+                )
+            }
         }
 
         items(
@@ -123,7 +162,10 @@ private fun CertList(
             key = { it.certificationId }
         ) { certification ->
             MyCertItem(
-                certificationData = certification
+                certificationData = certification,
+                isEditMode = isEditMode,
+                onEditClick = onEditClick,
+                onDeleteClick = onDeleteClick
             )
         }
     }
@@ -132,6 +174,7 @@ private fun CertList(
 @Composable
 private fun FavoriteCertList(
     certifications: ImmutableList<CertificationData>,
+    onFavoriteToggle: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -150,7 +193,7 @@ private fun FavoriteCertList(
         ) { certification ->
             FavoriteCertItem(
                 certificationData = certification,
-                onFavoriteClick = {}
+                onFavoriteToggle = onFavoriteToggle
             )
         }
     }
@@ -163,6 +206,7 @@ private fun PreviewResumeMyCertScreen() {
     val uiState by remember {
         mutableStateOf(
             MyCertUiState(
+                isEditMode = false,
                 selectedTab = MyCertType.PLANNED,
                 myCertListLoadState = UiState.Loading,
                 selectedCertificationId = null
@@ -175,7 +219,10 @@ private fun PreviewResumeMyCertScreen() {
             uiState = uiState,
             certifications = dummyCertifications.toImmutableList(),
             onTabSelected = { selectedTab = it },
-            onEditClick = {}
+            onEditModeToggle = {},
+            onFavoriteToggle = {},
+            onEditClick = {},
+            onDeleteClick = {}
         )
     }
 }

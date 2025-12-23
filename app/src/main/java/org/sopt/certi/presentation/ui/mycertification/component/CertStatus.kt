@@ -32,23 +32,24 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CertStatus(
     isAcquired: Boolean,
     modifier: Modifier = Modifier,
-    isEditClick: (() -> Unit)? = null,
-    isDeleteClick: (() -> Unit)? = null
+    isEditMode: Boolean,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     Row(
         modifier = modifier
     ) {
         ChipAcquirement(isAcquired = isAcquired)
-        if (isEditClick != null && isDeleteClick != null) {
+        if (isEditMode) {
             Spacer(modifier = Modifier.weight(1f))
             CertChipButton(
                 text = stringResource(R.string.my_certification_modify),
-                onClick = isEditClick,
+                onClick = onEditClick,
                 modifier = Modifier.padding(end = screenWidthDp(12.dp))
             )
             CertChipButton(
                 text = stringResource(R.string.my_certification_delete),
-                onClick = isDeleteClick
+                onClick = onDeleteClick
             )
         }
     }
@@ -84,12 +85,12 @@ private fun ChipAcquirement(
 @Composable
 private fun CertChipButton(
     text: String,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .noRippleClickable(onClick)
+            .noRippleClickable { onClick?.invoke() }
             .border(
                 width = 1.dp,
                 color = CertiTheme.colors.gray300,
@@ -110,11 +111,17 @@ private fun CertChipButton(
 private fun CertStatusPreview() {
     CERTITheme {
         Column {
-            CertStatus(isAcquired = true)
+            CertStatus(
+                isAcquired = true,
+                isEditMode = false,
+                onEditClick = {},
+                onDeleteClick = {}
+            )
             CertStatus(
                 isAcquired = false,
-                isEditClick = {},
-                isDeleteClick = {}
+                isEditMode = true,
+                onEditClick = {},
+                onDeleteClick = {}
             )
         }
     }
