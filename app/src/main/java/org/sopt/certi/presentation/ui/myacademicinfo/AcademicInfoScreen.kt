@@ -35,6 +35,7 @@ import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AcademicInfoRoute(
     padding: PaddingValues,
@@ -45,13 +46,31 @@ fun AcademicInfoRoute(
     val uiState by viewModel.academicUiState.collectAsStateWithLifecycle()
     val editingList by viewModel.editingCategoryList.collectAsStateWithLifecycle()
 
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     AcademicInfoScreen(
         uiState = uiState,
         onUnivManageClick = navigateToEditUniv,
         onMajorManageClick = navigateToEditMajor,
-        onReselectCategoryClick = {},
+        onReselectCategoryClick = {
+            viewModel.startEditing()
+            showBottomSheet = !showBottomSheet
+        },
         modifier = Modifier.padding(padding)
     )
+
+    if (showBottomSheet) {
+        SelectJobCategoryBottomSheet(
+            sheetState = sheetState,
+            selectedList = editingList,
+            onItemClick = viewModel::editJobCategory,
+            changeBottomSheetVisibility = { showBottomSheet = it },
+            onConfirmClick = viewModel::saveChanges
+        )
+    }
 }
 
 @Composable
