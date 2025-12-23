@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.myacademicinfo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.header.EditInfoHeader
@@ -34,12 +36,27 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun UnivInfoRoute() { }
+fun AcademicInfoRoute(
+    padding: PaddingValues,
+    navigateToEditUniv: () -> Unit,
+    viewModel: AcademicInfoViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.academicUiState.collectAsStateWithLifecycle()
+    val editingList by viewModel.editingCategoryList.collectAsStateWithLifecycle()
+
+    AcademicInfoScreen(
+        uiState = uiState,
+        onUnivManageClick = navigateToEditUniv,
+        onMajorManageClick = navigateToEditUniv,
+        onReselectCategoryClick = {},
+        modifier = Modifier.padding(padding)
+    )
+}
 
 @Composable
-fun UnivInfoScreen(
+fun AcademicInfoScreen(
     uiState: AcademicUiState,
-    onSchoolManageClick: () -> Unit,
+    onUnivManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
     onReselectCategoryClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -55,7 +72,7 @@ fun UnivInfoScreen(
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
         MyUnivSection(
-            onSchoolManageClick = onSchoolManageClick,
+            onUnivManageClick = onUnivManageClick,
             onMajorManageClick = onMajorManageClick,
             modifier = Modifier
                 .padding(top = screenHeightDp(32.dp), bottom = screenHeightDp(24.dp))
@@ -89,9 +106,9 @@ private fun AcademicInfoPreview() {
                 .background(CertiTheme.colors.white)
                 .statusBarsPadding()
         ) {
-            UnivInfoScreen(
+            AcademicInfoScreen(
                 uiState = uiState,
-                onSchoolManageClick = {},
+                onUnivManageClick = {},
                 onMajorManageClick = {},
                 onReselectCategoryClick = {
                     viewModel.startEditing()

@@ -20,7 +20,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MyUnivSection(
-    onSchoolManageClick: () -> Unit,
+    onUnivManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -33,16 +33,21 @@ fun MyUnivSection(
             color = CertiTheme.colors.gray400,
             modifier = Modifier.padding(bottom = screenHeightDp(24.dp))
         )
-        MySchoolManageItem(
-            onClick = onSchoolManageClick,
+        MyUnivManageItem(
+            text = stringResource(R.string.my_school_info_modify),
+            onClick = onUnivManageClick,
             modifier = Modifier.padding(bottom = screenHeightDp(16.dp))
         )
-        MySchoolManageItem(onClick = onMajorManageClick)
+        MyUnivManageItem(
+            text = stringResource(R.string.my_school_major_modify),
+            onClick = onMajorManageClick
+        )
     }
 }
 
 @Composable
-private fun MySchoolManageItem(
+private fun MyUnivManageItem(
+    text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,7 +55,7 @@ private fun MySchoolManageItem(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.my_school_info_modify),
+            text = text,
             style = CertiTheme.typography.body.semibold_16,
             color = CertiTheme.colors.black,
             modifier = Modifier.weight(1f)
@@ -69,7 +74,7 @@ private fun MySchoolManageItem(
 private fun MySchoolManagePreview() {
     CERTITheme {
         MyUnivSection(
-            onSchoolManageClick = {},
+            onUnivManageClick = {},
             onMajorManageClick = {}
         )
     }
