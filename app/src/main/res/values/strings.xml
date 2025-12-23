@@ -220,5 +220,6 @@
 
     <!-- MyCertification -->
     <string name="edit">편집</string>
+    <string name="edit_certification">자격증 편집</string>
 
 </resources>

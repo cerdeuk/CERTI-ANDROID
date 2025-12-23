@@ -4,72 +4,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
-import org.sopt.certi.domain.model.certification.CertificationData
-import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
-import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
+import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import javax.inject.Inject
 
 @HiltViewModel
-class MyCertViewModel @Inject constructor(
-    private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
-    private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
-) : ViewModel() {
-    private val _myCertListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    private val _selectedCertificationId = MutableStateFlow<Long?>(null)
-
-    val myCertUiState: StateFlow<MyCertUiState> =
-        combine(
-            _myCertListLoadState,
-            _selectedCertificationId
-        ) { listState, selectedId ->
-            MyCertUiState(
-                myCertListLoadState = listState,
-                selectedCertificationId = selectedId
-            )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = MyCertUiState(
-                myCertListLoadState = UiState.Loading,
-                selectedCertificationId = null
-            )
+class MyCertViewModel @Inject constructor() : ViewModel() {
+    private val _myCertUiState = MutableStateFlow(
+        MyCertUiState(
+            selectedTab = MyCertType.PLANNED,
+            myCertListLoadState = UiState.Loading,
+            selectedCertificationId = null
         )
+    )
+    val myCertUiState = _myCertUiState.asStateFlow()
+
+    init {
+        getMyCertList()
+    }
+
+    fun updateSelectedTab(tabType: MyCertType) {
+        if (_myCertUiState.value.selectedTab == tabType) return
+
+        _myCertUiState.update {
+            it.copy(selectedTab = tabType)
+        }
+        getMyCertList()
+    }
 
     fun getMyCertList() = viewModelScope.launch {
-        _myCertListLoadState.value = UiState.Loading
-        getAcquisitionListUseCase.invoke().fold(
-            onSuccess = {
-                val acquiredCertificationList = it
-                _myCertListLoadState.emit(UiState.Success(acquiredCertificationList))
-            },
-            onFailure = {
-                _myCertListLoadState.emit(UiState.Failure(it.message.toString()))
-            }
-        )
-    }
-
-    fun onConfirmDelete() = viewModelScope.launch {
-        _selectedCertificationId.value?.let {
-            deleteAcquisitionUseCase.invoke(it).fold(
-                onSuccess = {
-                    _selectedCertificationId.value = null
-                    getMyCertList()
-                },
-                onFailure = {
-                    _selectedCertificationId.value = null
-                }
-            )
+        _myCertUiState.update {
+            it.copy(myCertListLoadState = UiState.Success(dummyCertifications))
         }
-    }
-
-    fun onDismissDelete() {
-        _selectedCertificationId.value = null
     }
 }

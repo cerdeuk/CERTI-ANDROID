@@ -20,11 +20,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
@@ -32,48 +32,57 @@ import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.component.FavoriteCertItem
 import org.sopt.certi.presentation.ui.mycertification.component.MyCertHeader
 import org.sopt.certi.presentation.ui.mycertification.component.MyCertItem
+import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
-import java.time.LocalDate
 
 @Composable
 fun MyCertRoute(
     padding: PaddingValues,
+    navigateToEditCert: () -> Unit,
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
-    val lifecycleOwner = LocalLifecycleOwner.current
+
+    CertificationScreen(
+        uiState = uiState,
+        certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
+        onTabSelected = viewModel::updateSelectedTab,
+        onEditClick = navigateToEditCert,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
 fun CertificationScreen(
-    selectedTab: MyCertType,
+    uiState: MyCertUiState,
     certifications: ImmutableList<CertificationData>,
     onTabSelected: (MyCertType) -> Unit,
-    onPlannedCertEditClick: () -> Unit,
-    onAcquiredCertEditClick: () -> Unit,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         MyCertHeader(
-            selectedType = selectedTab,
+            selectedType = uiState.selectedTab,
             onTabSelected = onTabSelected,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
 
-        when (selectedTab) {
+        when (uiState.selectedTab) {
             MyCertType.PLANNED -> {
                 CertList(
                     certifications = certifications,
-                    onEditClick = onPlannedCertEditClick
+                    onEditClick = onEditClick
                 )
             }
+
             MyCertType.ACQUIRED -> {
                 CertList(
                     certifications = certifications,
-                    onEditClick = onAcquiredCertEditClick
+                    onEditClick = onEditClick
                 )
             }
+
             MyCertType.FAVORITE -> {
                 FavoriteCertList(certifications)
             }
@@ -150,88 +159,23 @@ private fun FavoriteCertList(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewResumeMyCertScreen() {
-    val dummyCertifications = listOf(
-        CertificationData(
-            certificationId = 1,
-            certificationName = "정보처리기사",
-            certificationType = "국가기술자격",
-            description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
-            isAcquired = false,
-            placement = "고양시",
-            testTime = "09:00",
-            createdAt = LocalDate.of(2025, 11, 23),
-            level = "IM3",
-            isFavorite = true,
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        ),
-        CertificationData(
-            certificationId = 2,
-            certificationName = "정보처리기사",
-            certificationType = "국가기술자격",
-            description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
-            isAcquired = false,
-            placement = "고양시",
-            testTime = "09:00",
-            createdAt = LocalDate.of(2025, 11, 23),
-            level = "IM3",
-            isFavorite = true,
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        ),
-        CertificationData(
-            certificationId = 3,
-            certificationName = "정보처리기사",
-            certificationType = "국가기술자격",
-            description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
-            isAcquired = false,
-            placement = "고양시",
-            testTime = "09:00",
-            createdAt = LocalDate.of(2025, 11, 23),
-            level = "IM3",
-            isFavorite = true,
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        ),
-        CertificationData(
-            certificationId = 4,
-            certificationName = "정보처리기사",
-            certificationType = "국가기술자격",
-            description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
-            isAcquired = false,
-            placement = "고양시",
-            testTime = "09:00",
-            createdAt = LocalDate.of(2025, 11, 23),
-            level = "IM3",
-            isFavorite = true,
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        ),
-        CertificationData(
-            certificationId = 5,
-            certificationName = "정보처리기사",
-            certificationType = "국가기술자격",
-            description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
-            isAcquired = false,
-            placement = "고양시",
-            testTime = "09:00",
-            createdAt = LocalDate.of(2025, 11, 23),
-            level = "IM3",
-            isFavorite = true,
-            testType = "실기형",
-            agencyName = "한국산업인력공단"
-        )
-    )
-
     var selectedTab by remember { mutableStateOf(MyCertType.PLANNED) }
+    val uiState by remember {
+        mutableStateOf(
+            MyCertUiState(
+                selectedTab = MyCertType.PLANNED,
+                myCertListLoadState = UiState.Loading,
+                selectedCertificationId = null
+            )
+        )
+    }
 
     CERTITheme {
         CertificationScreen(
-            selectedTab = selectedTab,
+            uiState = uiState,
             certifications = dummyCertifications.toImmutableList(),
             onTabSelected = { selectedTab = it },
-            onPlannedCertEditClick = {},
-            onAcquiredCertEditClick = {}
+            onEditClick = {}
         )
     }
 }
