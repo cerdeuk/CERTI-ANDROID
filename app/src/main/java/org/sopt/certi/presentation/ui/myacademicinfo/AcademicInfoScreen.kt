@@ -39,6 +39,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun AcademicInfoRoute(
     padding: PaddingValues,
     navigateToEditUniv: () -> Unit,
+    navigateToEditMajor: () -> Unit,
     viewModel: AcademicInfoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.academicUiState.collectAsStateWithLifecycle()
@@ -47,7 +48,7 @@ fun AcademicInfoRoute(
     AcademicInfoScreen(
         uiState = uiState,
         onUnivManageClick = navigateToEditUniv,
-        onMajorManageClick = navigateToEditUniv,
+        onMajorManageClick = navigateToEditMajor,
         onReselectCategoryClick = {},
         modifier = Modifier.padding(padding)
     )

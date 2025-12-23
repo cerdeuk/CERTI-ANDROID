@@ -29,7 +29,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.component.header.EditInfoHeader
-import org.sopt.certi.presentation.ui.myacademicinfo.state.EditUnivNameUiState
+import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -40,11 +40,12 @@ fun EditUnivRoute(
 ) {
     val uiState by viewModel.editUnivUiState.collectAsStateWithLifecycle()
 
-    EditUnivScreen(
+    EditSearchScreen(
+        pageTitle = stringResource(R.string.onboarding_univ_title),
         uiState = uiState,
         onValueChange = viewModel::onUnivSearchTextChanged,
         onSearchClick = viewModel::onSearchUnivClick,
-        univList = (uiState.univListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+        univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
         onUnivSelected = viewModel::onUnivSelected,
         onSaveClick = viewModel::onUnivSaveClick,
         modifier = Modifier.padding(padding)
@@ -52,8 +53,28 @@ fun EditUnivRoute(
 }
 
 @Composable
-fun EditUnivScreen(
-    uiState: EditUnivNameUiState,
+fun EditMajorRoute(
+    padding: PaddingValues,
+    viewModel: AcademicInfoViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.editMajorUiState.collectAsStateWithLifecycle()
+
+    EditSearchScreen(
+        pageTitle = stringResource(R.string.onboarding_major_title),
+        uiState = uiState,
+        onValueChange = {},
+        onSearchClick = {},
+        univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+        onUnivSelected = {},
+        onSaveClick = {},
+        modifier = Modifier.padding(padding)
+    )
+}
+
+@Composable
+fun EditSearchScreen(
+    pageTitle: String,
+    uiState: EditSearchUiState,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     univList: ImmutableList<String>,
@@ -72,13 +93,13 @@ fun EditUnivScreen(
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )
         Text(
-            text = stringResource(R.string.onboarding_univ_title),
+            text = pageTitle,
             style = CertiTheme.typography.subtitle.bold_20,
             color = CertiTheme.colors.gray600,
             modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
         )
         CertiBasicTextField(
-            value = uiState.univSearchText,
+            value = uiState.searchText,
             onValueChange = onValueChange,
             onSearchClick = onSearchClick,
             modifier = Modifier.padding(top = screenHeightDp(14.dp))
@@ -125,11 +146,12 @@ private fun EditUnivNamePreview() {
     val uiState by viewModel.editUnivUiState.collectAsStateWithLifecycle()
 
     CERTITheme {
-        EditUnivScreen(
+        EditSearchScreen(
+            pageTitle = stringResource(R.string.onboarding_univ_title),
             uiState = uiState,
             onValueChange = viewModel::onUnivSearchTextChanged,
             onSearchClick = viewModel::onSearchUnivClick,
-            univList = (uiState.univListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+            univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
             onUnivSelected = viewModel::onUnivSelected,
             onSaveClick = viewModel::onUnivSaveClick,
             modifier = Modifier

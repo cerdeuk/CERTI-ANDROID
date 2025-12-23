@@ -102,4 +102,7 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object EditUniv : MyPageRoute
+
+    @Serializable
+    data object EditMajor : MyPageRoute
 }
