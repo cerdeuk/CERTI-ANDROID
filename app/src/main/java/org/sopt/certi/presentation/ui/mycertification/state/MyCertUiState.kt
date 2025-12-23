@@ -8,7 +8,7 @@ data class MyCertUiState(
     val isEditMode: Boolean,
     val selectedTab: MyCertType,
     val myCertListLoadState: UiState<List<CertificationData>>,
-    val selectedCertificationId: Long?
+    val deleteTargetId: Long?
 ) {
     val loadState: UiState<Unit>
         get() = when (myCertListLoadState) {

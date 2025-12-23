@@ -19,7 +19,7 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
             isEditMode = false,
             selectedTab = MyCertType.PLANNED,
             myCertListLoadState = UiState.Loading,
-            selectedCertificationId = null
+            deleteTargetId = null
         )
     )
     val myCertUiState = _myCertUiState.asStateFlow()
@@ -32,16 +32,12 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
         if (_myCertUiState.value.isEditMode) return
         if (_myCertUiState.value.selectedTab == tabType) return
 
-        _myCertUiState.update {
-            it.copy(selectedTab = tabType)
-        }
+        _myCertUiState.update { it.copy(selectedTab = tabType) }
         getMyCertList()
     }
 
     fun getMyCertList() = viewModelScope.launch {
-        _myCertUiState.update {
-            it.copy(myCertListLoadState = UiState.Success(dummyCertifications))
-        }
+        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyCertifications)) }
     }
 
     fun onFavoriteToggle(id: Long) {}
@@ -49,11 +45,18 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
     fun onEditModeToggle() {
         val isEditMode = _myCertUiState.value.isEditMode
 
-        _myCertUiState.update {
-            it.copy(isEditMode = !isEditMode)
-        }
+        _myCertUiState.update { it.copy(isEditMode = !isEditMode) }
     }
 
-    fun onEditItem(id: Long) {}
-    fun onDeleteItem(id: Long) {}
+    fun editItem(id: Long) {}
+
+    fun openDeleteDialog(id: Long) {
+        _myCertUiState.update { it.copy(deleteTargetId = id) }
+    }
+
+    fun closeDeleteDialog() {
+        _myCertUiState.update { it.copy(deleteTargetId = null) }
+    }
+
+    fun deleteItem() {}
 }

@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
@@ -49,14 +50,24 @@ fun MyCertRoute(
 
     BackHandler(enabled = uiState.isEditMode) { viewModel.onEditModeToggle() }
 
+    uiState.deleteTargetId?.let {
+        CertiDeleteDialog(
+            onConfirmClick = {
+                viewModel.deleteItem()
+                viewModel.closeDeleteDialog()
+            },
+            onDismissClick = { viewModel.closeDeleteDialog() }
+        )
+    }
+
     CertificationScreen(
         uiState = uiState,
         certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
         onTabSelected = viewModel::updateSelectedTab,
         onEditModeToggle = viewModel::onEditModeToggle,
         onFavoriteToggle = viewModel::onFavoriteToggle,
-        onEditClick = viewModel::onEditItem,
-        onDeleteClick = viewModel::onDeleteItem,
+        onEditClick = viewModel::editItem,
+        onDeleteClick = viewModel::openDeleteDialog,
         modifier = Modifier.padding(padding)
     )
 }
@@ -209,7 +220,7 @@ private fun PreviewResumeMyCertScreen() {
                 isEditMode = false,
                 selectedTab = MyCertType.PLANNED,
                 myCertListLoadState = UiState.Loading,
-                selectedCertificationId = null
+                deleteTargetId = null
             )
         )
     }
