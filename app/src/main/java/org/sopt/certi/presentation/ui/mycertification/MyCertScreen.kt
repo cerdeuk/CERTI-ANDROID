@@ -33,6 +33,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 @Composable
 fun MyCertRoute(
     padding: PaddingValues,
+    navigateToCertDetail: (Long) -> Unit,
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
@@ -55,7 +56,7 @@ fun MyCertRoute(
             certifications = state.data.toImmutableList(),
             onTabSelected = viewModel::updateSelectedTab,
             onEditModeToggle = viewModel::onEditModeToggle,
-            onCertificationClick = {}, // TODO: 자격증 연결 추가
+            onCertificationClick = navigateToCertDetail,
             onFavoriteToggle = viewModel::onFavoriteToggle,
             onEditClick = viewModel::editItem,
             onDeleteClick = viewModel::openDeleteDialog,

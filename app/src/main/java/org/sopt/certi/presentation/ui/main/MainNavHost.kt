@@ -91,7 +91,8 @@ fun MainNavHost(
             )
 
             myCertificationNavGraph(
-                padding = padding
+                padding = padding,
+                navController = navigator.navController
             )
 
             activityNavGraph(
