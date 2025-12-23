@@ -45,6 +45,13 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
                     savedText = "기존대학교"
                 )
             }
+            _editMajorUiState.update {
+                it.copy(
+                    searchText = "컴퓨터공학부",
+                    submittedSearchText = "컴퓨터공학부",
+                    savedText = "컴퓨터공학부"
+                )
+            }
         }
     }
 
