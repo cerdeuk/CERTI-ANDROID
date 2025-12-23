@@ -32,7 +32,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyCertificationSection(
+fun MyCertificationListItemSection(
     certificationData: CertificationData,
     isEditMode: Boolean,
     onCertificationClick: () -> Unit,
@@ -163,7 +163,7 @@ private fun PreviewMyCertificationListSection() {
         description = "savhufhviufhdsuihvfhdishviufhdsivhiusd",
         tags = listOf("컴퓨터공학", "시각디자인", "경영")
     )
-    MyCertificationSection(
+    MyCertificationListItemSection(
         certificationData = testData,
         isEditMode = true,
         onCertificationClick = {}

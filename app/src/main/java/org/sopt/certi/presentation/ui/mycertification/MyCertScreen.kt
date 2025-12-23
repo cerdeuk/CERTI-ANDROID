@@ -29,7 +29,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.component.header.MyPageHeader
-import org.sopt.certi.core.component.section.MyCertificationSection
+import org.sopt.certi.core.component.section.MyCertificationListItemSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -178,7 +178,7 @@ private fun CertList(
             items = certifications,
             key = { it.certificationId }
         ) { certification ->
-            MyCertificationSection(
+            MyCertificationListItemSection(
                 certificationData = certification,
                 isEditMode = isEditMode,
                 onCertificationClick = {},  // TODO: 자격증 이동 추가

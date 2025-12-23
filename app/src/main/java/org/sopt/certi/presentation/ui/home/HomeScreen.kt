@@ -40,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
-import org.sopt.certi.core.component.section.MyCertificationSection
+import org.sopt.certi.core.component.section.MyCertificationListItemSection
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.findActivity
@@ -237,7 +237,7 @@ fun HomeScreen(
                             .padding(horizontal = screenWidthDp(20.dp))
                             .padding(bottom = screenHeightDp(16.dp))
                     ) {
-                        MyCertificationSection(
+                        MyCertificationListItemSection(
                             certificationData = certificationData,
                             isEditMode = false,
                             onCertificationClick = {
