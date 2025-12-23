@@ -43,7 +43,6 @@ fun MyCertRoute(
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-
 }
 
 @Composable
