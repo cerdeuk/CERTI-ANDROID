@@ -29,6 +29,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.component.header.EditInfoHeader
+import org.sopt.certi.presentation.type.AcademicInfoType
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -43,11 +44,11 @@ fun EditUnivRoute(
     EditSearchScreen(
         pageTitle = stringResource(R.string.onboarding_univ_title),
         uiState = uiState,
-        onValueChange = viewModel::onUnivSearchTextChanged,
-        onSearchClick = viewModel::onSearchUnivClick,
         univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
-        onUnivSelected = viewModel::onUnivSelected,
-        onSaveClick = viewModel::onUnivSaveClick,
+        onValueChange = { text -> viewModel.onSearchTextChanged(AcademicInfoType.UNIV, text) },
+        onSearchClick = { viewModel.onSearchClick(AcademicInfoType.UNIV) },
+        onItemSelected = { item -> viewModel.onItemSelected(AcademicInfoType.UNIV, item) },
+        onSaveClick = { viewModel.onSaveClick(AcademicInfoType.UNIV) },
         modifier = Modifier.padding(padding)
     )
 }
@@ -62,11 +63,11 @@ fun EditMajorRoute(
     EditSearchScreen(
         pageTitle = stringResource(R.string.onboarding_major_title),
         uiState = uiState,
-        onValueChange = {},
-        onSearchClick = {},
         univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
-        onUnivSelected = {},
-        onSaveClick = {},
+        onValueChange = { text -> viewModel.onSearchTextChanged(AcademicInfoType.MAJOR, text) },
+        onSearchClick = { viewModel.onSearchClick(AcademicInfoType.MAJOR) },
+        onItemSelected = { item -> viewModel.onItemSelected(AcademicInfoType.MAJOR, item) },
+        onSaveClick = { viewModel.onSaveClick(AcademicInfoType.MAJOR) },
         modifier = Modifier.padding(padding)
     )
 }
@@ -75,10 +76,10 @@ fun EditMajorRoute(
 fun EditSearchScreen(
     pageTitle: String,
     uiState: EditSearchUiState,
+    univList: ImmutableList<String>,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
-    univList: ImmutableList<String>,
-    onUnivSelected: (String) -> Unit,
+    onItemSelected: (String) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -113,7 +114,7 @@ fun EditSearchScreen(
                 ) {
                     items(univList) { univ ->
                         Column(
-                            modifier = Modifier.noRippleClickable { onUnivSelected(univ) }
+                            modifier = Modifier.noRippleClickable { onItemSelected(univ) }
                         ) {
                             Text(
                                 text = univ,
@@ -149,11 +150,11 @@ private fun EditUnivNamePreview() {
         EditSearchScreen(
             pageTitle = stringResource(R.string.onboarding_univ_title),
             uiState = uiState,
-            onValueChange = viewModel::onUnivSearchTextChanged,
-            onSearchClick = viewModel::onSearchUnivClick,
+            onValueChange = {},
+            onSearchClick = {},
             univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
-            onUnivSelected = viewModel::onUnivSelected,
-            onSaveClick = viewModel::onUnivSaveClick,
+            onItemSelected = {},
+            onSaveClick = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.white)

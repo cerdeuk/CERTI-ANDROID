@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
+import org.sopt.certi.presentation.type.AcademicInfoType
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun startEditing() {
+    fun startCategoryEditing() {
         _editingCategoryList.value = _academicUiState.value.selectedCategoryList.toList()
     }
 
@@ -61,40 +62,54 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         _editingCategoryList.value = currentList
     }
 
-    fun saveChanges() {
+    fun saveCategoryChanges() {
         _academicUiState.update {
             it.copy(selectedCategoryList = _editingCategoryList.value)
         }
     }
 
-    fun onUnivSearchTextChanged(text: String) {
-        _editUnivUiState.update {
-            it.copy(searchText = text)
+    private fun getTargetStateFlow(type: AcademicInfoType): MutableStateFlow<EditSearchUiState> {
+        return when (type) {
+            AcademicInfoType.UNIV -> _editUnivUiState
+            AcademicInfoType.MAJOR -> _editMajorUiState
         }
     }
 
-    fun onSearchUnivClick() {
-        if (_editUnivUiState.value.searchText.isEmpty()) return
+    fun onSearchTextChanged(type: AcademicInfoType, text: String) {
+        val targetState = getTargetStateFlow(type)
+        targetState.update { it.copy(searchText = text) }
+    }
+
+    fun onSearchClick(type: AcademicInfoType) {
+        val targetState = getTargetStateFlow(type)
+        if (targetState.value.searchText.isEmpty()) return
 
         viewModelScope.launch {
-            _editUnivUiState.update {
-                it.copy(searchListLoadState = UiState.Success(listOf("서울대학교", "연세대학교", "고려대학교")))
+            val resultList = when (type) {
+                AcademicInfoType.UNIV -> listOf("서울대학교", "연세대학교", "고려대학교")
+                AcademicInfoType.MAJOR -> listOf("컴퓨터공학과", "경영학과", "시각디자인학과")
+            }
+
+            targetState.update {
+                it.copy(searchListLoadState = UiState.Success(resultList))
             }
         }
     }
 
-    fun onUnivSelected(univName: String) {
-        _editUnivUiState.update {
+    fun onItemSelected(type: AcademicInfoType, itemName: String) {
+        val targetState = getTargetStateFlow(type)
+        targetState.update {
             it.copy(
-                searchText = univName,
-                submittedSearchText = univName
+                searchText = itemName,
+                submittedSearchText = itemName
             )
         }
     }
 
-    fun onUnivSaveClick() {
-        _editUnivUiState.update {
-            it.copy(savedText = _editUnivUiState.value.submittedSearchText)
+    fun onSaveClick(type: AcademicInfoType) {
+        val targetState = getTargetStateFlow(type)
+        targetState.update {
+            it.copy(savedText = targetState.value.submittedSearchText)
         }
     }
 }

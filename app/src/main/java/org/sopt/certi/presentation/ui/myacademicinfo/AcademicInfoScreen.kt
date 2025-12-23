@@ -56,7 +56,7 @@ fun AcademicInfoRoute(
         onUnivManageClick = navigateToEditUniv,
         onMajorManageClick = navigateToEditMajor,
         onReselectCategoryClick = {
-            viewModel.startEditing()
+            viewModel.startCategoryEditing()
             showBottomSheet = !showBottomSheet
         },
         modifier = Modifier.padding(padding)
@@ -68,7 +68,7 @@ fun AcademicInfoRoute(
             selectedList = editingList,
             onItemClick = viewModel::editJobCategory,
             changeBottomSheetVisibility = { showBottomSheet = it },
-            onConfirmClick = viewModel::saveChanges
+            onConfirmClick = viewModel::saveCategoryChanges
         )
     }
 }
@@ -131,7 +131,7 @@ private fun AcademicInfoPreview() {
                 onUnivManageClick = {},
                 onMajorManageClick = {},
                 onReselectCategoryClick = {
-                    viewModel.startEditing()
+                    viewModel.startCategoryEditing()
                     showBottomSheet = !showBottomSheet
                 }
             )
@@ -142,7 +142,7 @@ private fun AcademicInfoPreview() {
                     selectedList = editingList,
                     onItemClick = viewModel::editJobCategory,
                     changeBottomSheetVisibility = { showBottomSheet = it },
-                    onConfirmClick = viewModel::saveChanges
+                    onConfirmClick = viewModel::saveCategoryChanges
                 )
             }
         }
