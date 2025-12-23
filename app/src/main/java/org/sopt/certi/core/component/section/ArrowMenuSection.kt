@@ -29,7 +29,7 @@ fun ArrowMenuSection(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
             contentDescription = null,
-            tint = CertiTheme.colors.black,
+            tint = CertiTheme.colors.gray600,
             modifier = Modifier.noRippleClickable { onClick() }
         )
     }

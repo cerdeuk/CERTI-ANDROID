@@ -27,7 +27,6 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,11 +40,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -56,12 +53,10 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.sopt.certi.R
+import org.sopt.certi.core.component.section.DropdownTextField
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.roundedBackgroundWithBorder
-import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -193,15 +188,17 @@ private fun DateDropdown(
         }
     }
 
-    fun toggleDropdown() {
-        if (showPopup) {
-            closeDropdown()
-        } else {
-            focusManager.clearFocus()
-            scope.launch {
-                showPopup = true
-                delay(100)
-                isExpanded = true
+    val toggleDropdown: () -> Unit = remember {
+        {
+            if (showPopup) {
+                closeDropdown()
+            } else {
+                focusManager.clearFocus()
+                scope.launch {
+                    showPopup = true
+                    delay(100)
+                    isExpanded = true
+                }
             }
         }
     }
@@ -216,38 +213,16 @@ private fun DateDropdown(
             .bringIntoViewRequester(bringIntoViewRequester)
             .navigationBarsPadding()
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .roundedBackgroundWithBorder(
-                    cornerRadius = 8.dp,
-                    backgroundColor = backgroundColor,
-                    borderColor = CertiTheme.colors.gray200,
-                    borderWidth = 1.dp
-                )
-                .noRippleClickable { toggleDropdown() }
-                .onSizeChanged {
-                    rowWidth = with(density) { it.width.toDp() }
-                    rowHeight = it.height
-                }
-                .padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(12.dp)),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = if (value.isEmpty()) placeholder else value,
-                style = CertiTheme.typography.caption.semibold_12,
-                color = if (value.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
-
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_arrowdown_24),
-                contentDescription = null,
-                tint = CertiTheme.colors.gray400
-            )
-        }
+        DropdownTextField(
+            value = value,
+            placeholder = placeholder,
+            onClick = toggleDropdown,
+            modifier = Modifier.onSizeChanged {
+                rowWidth = with(density) { it.width.toDp() }
+                rowHeight = it.height
+            },
+            backgroundColor = backgroundColor
+        )
         if (showPopup) {
             Popup(
                 alignment = Alignment.TopStart,
