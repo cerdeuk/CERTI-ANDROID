@@ -40,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
-import org.sopt.certi.core.component.section.MyCertificationListSection
+import org.sopt.certi.core.component.section.MyCertificationSection
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.findActivity
@@ -237,9 +237,9 @@ fun HomeScreen(
                             .padding(horizontal = screenWidthDp(20.dp))
                             .padding(bottom = screenHeightDp(16.dp))
                     ) {
-                        MyCertificationListSection(
-                            certificationListData = certificationData,
-                            isForEdit = false,
+                        MyCertificationSection(
+                            certificationData = certificationData,
+                            isEditMode = false,
                             onCertificationClick = {
                                 // TODO 자격증 이동
                             }

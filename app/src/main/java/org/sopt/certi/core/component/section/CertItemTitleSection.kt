@@ -1,6 +1,5 @@
-package org.sopt.certi.presentation.ui.mycertification.component
+package org.sopt.certi.core.component.section
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertItemTitle(
+fun CertItemTitleSection(
     certName: String,
     certType: String,
     modifier: Modifier = Modifier,
@@ -43,7 +42,7 @@ fun CertItemTitle(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (onFavoriteClick != null) {
+        onFavoriteClick?.let {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_star_24),
                 contentDescription = null,
@@ -51,29 +50,5 @@ fun CertItemTitle(
                 modifier = Modifier.noRippleClickable(onFavoriteClick)
             )
         }
-    }
-}
-
-@Composable
-fun CertInfo(
-    @DrawableRes iconRes: Int,
-    testInfo: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp)),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(iconRes),
-            contentDescription = null,
-            tint = CertiTheme.colors.gray300
-        )
-        Text(
-            text = testInfo,
-            style = CertiTheme.typography.caption.regular_14,
-            color = CertiTheme.colors.black
-        )
     }
 }

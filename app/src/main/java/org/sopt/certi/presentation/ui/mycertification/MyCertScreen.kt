@@ -29,6 +29,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.component.header.MyPageHeader
+import org.sopt.certi.core.component.section.MyCertificationSection
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -36,7 +37,6 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.component.FavoriteCertItem
 import org.sopt.certi.presentation.ui.mycertification.component.MyCertHeader
-import org.sopt.certi.presentation.ui.mycertification.component.MyCertItem
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -178,10 +178,11 @@ private fun CertList(
             items = certifications,
             key = { it.certificationId }
         ) { certification ->
-            MyCertItem(
+            MyCertificationSection(
                 certificationData = certification,
                 isEditMode = isEditMode,
-                onEditClick = onEditClick,
+                onCertificationClick = {},  // TODO: 자격증 이동 추가
+                onModifyClick = onEditClick,
                 onDeleteClick = onDeleteClick
             )
         }
@@ -210,6 +211,7 @@ private fun FavoriteCertList(
         ) { certification ->
             FavoriteCertItem(
                 certificationData = certification,
+                onCertificationClick = {},  // TODO: 자격증 이동 추가
                 onFavoriteToggle = onFavoriteToggle
             )
         }

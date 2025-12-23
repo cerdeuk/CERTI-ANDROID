@@ -14,6 +14,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.component.section.CertInfoSection
+import org.sopt.certi.core.component.section.CertItemTitleSection
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -23,6 +26,7 @@ import java.time.LocalDate
 @Composable
 fun FavoriteCertItem(
     certificationData: CertificationData,
+    onCertificationClick: (Long) -> Unit,
     onFavoriteToggle: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -30,6 +34,7 @@ fun FavoriteCertItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
+            .noRippleClickable { onCertificationClick(certificationData.certificationId) }
             .border(
                 width = 1.dp,
                 color = CertiTheme.colors.lightPurple,
@@ -38,7 +43,7 @@ fun FavoriteCertItem(
             .padding(screenWidthDp(16.dp)),
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
     ) {
-        CertItemTitle(
+        CertItemTitleSection(
             certName = certificationData.certificationName,
             certType = certificationData.certificationType,
             isFavorite = certificationData.isFavorite,
@@ -50,11 +55,11 @@ fun FavoriteCertItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
         ) {
-            CertInfo(
+            CertInfoSection(
                 iconRes = R.drawable.ic_paper_16,
                 testInfo = certificationData.testType
             )
-            CertInfo(
+            CertInfoSection(
                 iconRes = R.drawable.ic_certification_16,
                 testInfo = certificationData.agencyName
             )
@@ -81,6 +86,7 @@ private fun FavoriteCertItemPreview() {
                 testType = "실기형",
                 agencyName = "한국산업인력공단"
             ),
+            onCertificationClick = {},
             onFavoriteToggle = {}
         )
     }
