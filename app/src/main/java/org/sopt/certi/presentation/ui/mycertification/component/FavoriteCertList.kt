@@ -16,6 +16,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 fun FavoriteCertList(
     certifications: ImmutableList<CertificationData>,
     onFavoriteToggle: (Long) -> Unit,
+    onCertificationClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -34,7 +35,7 @@ fun FavoriteCertList(
         ) { certification ->
             FavoriteCertItem(
                 certificationData = certification,
-                onCertificationClick = {}, // TODO: 자격증 이동 추가
+                onCertificationClick = onCertificationClick,
                 onFavoriteToggle = onFavoriteToggle
             )
         }

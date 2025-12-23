@@ -99,7 +99,8 @@ fun CertificationScreen(
             MyCertType.FAVORITE -> {
                 FavoriteCertList(
                     certifications = certifications,
-                    onFavoriteToggle = onFavoriteToggle
+                    onFavoriteToggle = onFavoriteToggle,
+                    onCertificationClick = onCertificationClick
                 )
             }
             else -> {
