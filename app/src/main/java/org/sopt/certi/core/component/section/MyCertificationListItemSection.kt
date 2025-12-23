@@ -35,7 +35,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun MyCertificationListItemSection(
     certificationData: CertificationData,
     isEditMode: Boolean,
-    onCertificationClick: () -> Unit,
+    onCertificationClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     onModifyClick: (Long) -> Unit = {},
     onDeleteClick: (Long) -> Unit = {}
@@ -50,9 +50,7 @@ fun MyCertificationListItemSection(
                 borderWidth = 1.dp
             )
             .padding(screenWidthDp(16.dp))
-            .noRippleClickable {
-                onCertificationClick()
-            }
+            .noRippleClickable { onCertificationClick(certificationData.certificationId) }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
