@@ -60,9 +60,6 @@ sealed interface HomeRoute : Route {
 
 sealed interface ResumeRoute : Route {
     @Serializable
-    data object MyCert : ResumeRoute
-
-    @Serializable
     data object WorkExperience : ResumeRoute
 
     @Serializable
@@ -91,4 +88,9 @@ sealed interface CertListRoute : Route {
 
     @Serializable
     data object Search : CertListRoute
+}
+
+sealed interface MyPageRoute : Route {
+    @Serializable
+    data object MyCertification : MyPageRoute
 }

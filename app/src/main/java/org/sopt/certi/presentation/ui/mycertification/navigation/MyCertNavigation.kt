@@ -4,14 +4,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import org.sopt.certi.core.navigation.ResumeRoute
+import org.sopt.certi.core.navigation.MyPageRoute
 import org.sopt.certi.presentation.ui.mycertification.MyCertRoute
 
-fun NavGraphBuilder.myCertNavGraph(
+fun NavGraphBuilder.myCertificationNavGraph(
     padding: PaddingValues,
     navController: NavController
 ) {
-    composable<ResumeRoute.MyCert> {
-        MyCertRoute(padding = padding)
+    composable<MyPageRoute.MyCertification> {
+        MyCertRoute(
+            padding = padding
+        )
     }
 }

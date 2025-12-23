@@ -14,9 +14,8 @@ import org.sopt.certi.presentation.ui.certdetail.navigation.certDetailNavGraph
 import org.sopt.certi.presentation.ui.certlist.navigation.certListNavGraph
 import org.sopt.certi.presentation.ui.home.navigation.homeNavGraph
 import org.sopt.certi.presentation.ui.login.navigation.loginNavGraph
-import org.sopt.certi.presentation.ui.myCert.navigation.myCertNavGraph
 import org.sopt.certi.presentation.ui.mypage.navigation.myPageNavGraph
-import org.sopt.certi.presentation.ui.mycertification.navigation.myCertNavGraph
+import org.sopt.certi.presentation.ui.mycertification.navigation.myCertificationNavGraph
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingViewModel
 import org.sopt.certi.presentation.ui.onboarding.navigation.onBoardingNavGraph
 import org.sopt.certi.presentation.ui.resume.navigation.resumeNavGraph
@@ -91,7 +90,7 @@ fun MainNavHost(
                 navController = navigator.navController
             )
 
-            myCertNavGraph(
+            myCertificationNavGraph(
                 padding = padding,
                 navController = navigator.navController
             )

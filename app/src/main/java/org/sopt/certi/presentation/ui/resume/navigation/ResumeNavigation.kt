@@ -7,14 +7,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
+import org.sopt.certi.presentation.ui.mypage.navigation.navigateToMyCertification
 import org.sopt.certi.presentation.ui.resume.ResumeRoute
 
 fun NavController.navigateToResume(navOptions: NavOptions) {
     navigate(MainTabRoute.Resume, navOptions)
-}
-
-fun NavController.navigateToMyCert() {
-    navigate(ResumeRoute.MyCert)
 }
 
 fun NavController.navigateToWorkExperience() {
@@ -32,7 +29,7 @@ fun NavGraphBuilder.resumeNavGraph(
     composable<MainTabRoute.Resume> {
         ResumeRoute(
             padding = padding,
-            navigateToMyCert = navController::navigateToMyCert,
+            navigateToMyCert = navController::navigateToMyCertification,
             navigateToWorkExperience = navController::navigateToWorkExperience,
             navigateToActivities = navController::navigateToActivities
         )
