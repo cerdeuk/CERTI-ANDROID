@@ -13,6 +13,7 @@ import org.sopt.certi.core.navigation.Route
 import org.sopt.certi.presentation.ui.certlist.navigation.navigateToCertList
 import org.sopt.certi.presentation.ui.home.navigation.navigateToHome
 import org.sopt.certi.presentation.ui.login.navigation.navigateToLogin
+import org.sopt.certi.presentation.ui.mypage.navigation.navigateToMyPage
 import org.sopt.certi.presentation.ui.onboarding.navigation.navigateToOnBoarding
 import org.sopt.certi.presentation.ui.resume.navigation.navigateToResume
 
@@ -44,8 +45,8 @@ class MainNavigator(
         when (tab) {
             MainTab.HOME -> navController.navigateToHome(navOptions)
             MainTab.CERTLIST -> navController.navigateToCertList(navOptions)
-            MainTab.CERTRECOMMEND -> {}
             MainTab.RESUME -> navController.navigateToResume(navOptions)
+            MainTab.MYPAGE -> navController.navigateToMyPage(navOptions)
         }
     }
 
