@@ -1,4 +1,4 @@
-package org.sopt.certi.core.component.section
+package org.sopt.certi.core.component.textfield
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
