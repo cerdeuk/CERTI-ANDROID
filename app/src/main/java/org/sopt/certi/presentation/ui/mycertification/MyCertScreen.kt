@@ -60,16 +60,22 @@ fun MyCertRoute(
         )
     }
 
-    CertificationScreen(
-        uiState = uiState,
-        certifications = (uiState.myCertListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
-        onTabSelected = viewModel::updateSelectedTab,
-        onEditModeToggle = viewModel::onEditModeToggle,
-        onFavoriteToggle = viewModel::onFavoriteToggle,
-        onEditClick = viewModel::editItem,
-        onDeleteClick = viewModel::openDeleteDialog,
-        modifier = Modifier.padding(padding)
-    )
+    when (val state = uiState.myCertListLoadState) {
+        is UiState.Success -> CertificationScreen(
+            uiState = uiState,
+            certifications = state.data.toImmutableList(),
+            onTabSelected = viewModel::updateSelectedTab,
+            onEditModeToggle = viewModel::onEditModeToggle,
+            onFavoriteToggle = viewModel::onFavoriteToggle,
+            onEditClick = viewModel::editItem,
+            onDeleteClick = viewModel::openDeleteDialog,
+            modifier = Modifier.padding(padding)
+        )
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Init -> {}
+        is UiState.Loading -> {}
+    }
 }
 
 @Composable

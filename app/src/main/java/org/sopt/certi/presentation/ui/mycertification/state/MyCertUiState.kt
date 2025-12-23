@@ -9,12 +9,4 @@ data class MyCertUiState(
     val selectedTab: MyCertType,
     val myCertListLoadState: UiState<List<CertificationData>>,
     val deleteTargetId: Long?
-) {
-    val loadState: UiState<Unit>
-        get() = when (myCertListLoadState) {
-            is UiState.Success -> UiState.Success(Unit)
-            is UiState.Failure -> UiState.Failure("fail to load data")
-            is UiState.Loading -> UiState.Loading
-            else -> UiState.Empty
-        }
-}
+)
