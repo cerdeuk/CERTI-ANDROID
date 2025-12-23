@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
-import org.sopt.certi.core.component.header.EditInfoHeader
+import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.myacademicinfo.component.JobCategorySection
@@ -87,7 +87,7 @@ fun AcademicInfoScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EditInfoHeader(
+        MyPageHeader(
             headerTitle = stringResource(R.string.my_academic_info_title),
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
         )

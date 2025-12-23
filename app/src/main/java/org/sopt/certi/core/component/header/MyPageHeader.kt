@@ -19,7 +19,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun EditInfoHeader(
+fun MyPageHeader(
     modifier: Modifier = Modifier,
     headerTitle: String? = null,
     isSaveEnable: Boolean = false,
@@ -30,7 +30,7 @@ fun EditInfoHeader(
             .fillMaxWidth()
             .background(CertiTheme.colors.white)
     ) {
-        if (headerTitle != null) {
+        headerTitle?.let {
             Text(
                 text = headerTitle,
                 style = CertiTheme.typography.subtitle.semibold_20,
@@ -39,7 +39,7 @@ fun EditInfoHeader(
             )
         }
 
-        if (onSaveClick != null) {
+        onSaveClick?.let {
             Text(
                 text = stringResource(R.string.personal_save),
                 style = CertiTheme.typography.body.semibold_18,
@@ -60,8 +60,8 @@ fun EditInfoHeader(
 @Composable
 private fun EditPersonalInfoHeaderPreview() {
     CERTITheme {
-        EditInfoHeader(
-            headerTitle = "",
+        MyPageHeader(
+            headerTitle = "헤더",
             isSaveEnable = false,
             onSaveClick = {},
             modifier = Modifier.padding(vertical = screenHeightDp(22.dp), horizontal = screenWidthDp(20.dp))

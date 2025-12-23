@@ -28,7 +28,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.component.header.EditInfoHeader
+import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.presentation.type.AcademicInfoType
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import org.sopt.certi.ui.theme.CERTITheme
@@ -88,7 +88,7 @@ fun EditSearchScreen(
             .fillMaxSize()
             .padding(horizontal = screenWidthDp(20.dp))
     ) {
-        EditInfoHeader(
+        MyPageHeader(
             isSaveEnable = uiState.isSaveEnable,
             onSaveClick = onSaveClick,
             modifier = Modifier.padding(vertical = screenWidthDp(20.dp))

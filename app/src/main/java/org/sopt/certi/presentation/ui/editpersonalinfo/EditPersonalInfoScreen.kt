@@ -31,7 +31,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.DateInputField
-import org.sopt.certi.core.component.header.EditInfoHeader
+import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditNicknameTextField
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditPersonalInfoTextField
@@ -87,7 +87,7 @@ fun EditPersonalInfoScreen(
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EditInfoHeader(
+        MyPageHeader(
             isSaveEnable = uiState.isSaveButtonEnabled,
             onSaveClick = onSaveClick,
             headerTitle = stringResource(R.string.mypage_personal_info),
