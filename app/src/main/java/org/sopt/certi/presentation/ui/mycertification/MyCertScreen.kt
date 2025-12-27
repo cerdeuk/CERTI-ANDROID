@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
-import org.sopt.certi.core.component.header.MyPageHeader
+import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
@@ -83,7 +83,7 @@ fun CertificationScreen(
 ) {
     Column(modifier = modifier) {
         if (uiState.isEditMode) {
-            MyPageHeader(
+            MyPageTopBar(
                 headerTitle = stringResource(R.string.edit_certification),
                 modifier = Modifier.padding(vertical = screenWidthDp(24.dp))
             )

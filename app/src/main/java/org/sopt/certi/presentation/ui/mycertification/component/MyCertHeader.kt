@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.component.header.MyPageHeader
+import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.util.bottomBorder
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -33,7 +33,7 @@ fun MyCertHeader(
     Column(
         modifier = modifier
     ) {
-        MyPageHeader(
+        MyPageTopBar(
             headerTitle = stringResource(R.string.mypage_certification),
             modifier = Modifier.padding(vertical = screenWidthDp(24.dp))
         )
