@@ -26,7 +26,6 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun SettingNotificationRoute(padding: PaddingValues) {
-
 }
 
 @Composable
@@ -41,7 +40,7 @@ fun SettingNotificationScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
         )
 
-        Row (
+        Row(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {

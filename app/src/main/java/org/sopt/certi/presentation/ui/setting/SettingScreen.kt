@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.header.MyPageHeader
-import org.sopt.certi.core.component.section.ArrowMenuSection
+import org.sopt.certi.core.component.listitem.MenuRow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -52,22 +52,22 @@ fun SettingScreen(modifier: Modifier = Modifier) {
         Column(
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(36.dp))
         ) {
-            ArrowMenuSection(
+            MenuRow(
                 text = stringResource(R.string.settings_notification),
                 onClick = {}
             )
 
-            ArrowMenuSection(
+            MenuRow(
                 text = stringResource(R.string.privacy_policy),
                 onClick = {}
             )
 
-            ArrowMenuSection(
+            MenuRow(
                 text = stringResource(R.string.delete_account),
                 onClick = {}
             )
 
-            ArrowMenuSection(
+            MenuRow(
                 text = stringResource(R.string.app_version),
                 onClick = {}
             )
