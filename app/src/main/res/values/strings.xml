@@ -218,4 +218,11 @@
     <string name="personal_birthday_label">생년월일</string>
     <string name="personal_birthday_placeholder">생년월일을 선택해주세요.</string>
 
+    <!--  SettingScreen  -->
+    <string name="other_settings">기타설정</string>
+    <string name="settings_notification">알림 설정</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="delete_account">회원 탈퇴</string>
+    <string name="app_version">앱버전</string>
+
 </resources>
