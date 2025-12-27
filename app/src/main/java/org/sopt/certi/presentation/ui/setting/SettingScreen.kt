@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.component.header.MyPageHeader
+import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.component.listitem.MenuRow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -36,7 +36,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState())
             .padding(horizontal = screenWidthDp(20.dp))
     ) {
-        MyPageHeader(
+        MyPageTopBar(
             headerTitle = stringResource(R.string.mypage_setting),
             modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
         )

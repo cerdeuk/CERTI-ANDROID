@@ -1,4 +1,4 @@
-package org.sopt.certi.core.component.header
+package org.sopt.certi.core.component.topbar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageHeader(
+fun MyPageTopBar(
     modifier: Modifier = Modifier,
     headerTitle: String? = null,
     isSaveEnable: Boolean = false,
