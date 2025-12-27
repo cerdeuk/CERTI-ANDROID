@@ -2,9 +2,12 @@ package org.sopt.certi.presentation.ui.setting
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +25,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun SettingRoute(modifier: Modifier = Modifier) {
+fun SettingRoute(padding: PaddingValues) {
 }
 
 @Composable
@@ -30,6 +33,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = screenWidthDp(20.dp))
     ) {
         MyPageHeader(
@@ -75,7 +79,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun SettingScreenPreview() {
+private fun SettingPreview() {
     CERTITheme {
         SettingScreen()
     }

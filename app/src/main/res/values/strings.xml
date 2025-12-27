@@ -225,5 +225,6 @@
     <string name="delete_account">회원 탈퇴</string>
     <string name="app_version">앱버전</string>
     <string name="logout">로그아웃</string>
+    <string name="settings_marketing">광고성 정보 수신 동의</string>
 
 </resources>
