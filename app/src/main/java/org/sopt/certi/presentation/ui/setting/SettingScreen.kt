@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.setting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +28,15 @@ fun SettingRoute(modifier: Modifier = Modifier) {
 @Composable
 fun SettingScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(horizontal = screenWidthDp(20.dp))
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = screenWidthDp(20.dp))
     ) {
         MyPageHeader(
             headerTitle = stringResource(R.string.mypage_setting),
             modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
         )
+        Spacer(modifier = Modifier.heightForScreenPercentage(12.dp))
 
         Text(
             text = stringResource(R.string.other_settings),
