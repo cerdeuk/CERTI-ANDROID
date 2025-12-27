@@ -16,6 +16,7 @@ import org.sopt.certi.core.component.section.ArrowMenuSection
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.ui.setting.component.LogoutButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -63,6 +64,8 @@ fun SettingScreen(modifier: Modifier = Modifier) {
                 onClick = {}
             )
         }
+
+        LogoutButton(modifier = Modifier.padding(vertical = screenHeightDp(36.dp))) {}
     }
 }
 

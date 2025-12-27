@@ -224,5 +224,6 @@
     <string name="privacy_policy">개인정보 처리방침</string>
     <string name="delete_account">회원 탈퇴</string>
     <string name="app_version">앱버전</string>
+    <string name="logout">로그아웃</string>
 
 </resources>
