@@ -3,15 +3,23 @@ package org.sopt.certi.presentation.ui.setting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -21,6 +29,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -29,7 +38,11 @@ fun SettingNotificationRoute(padding: PaddingValues) {
 }
 
 @Composable
-fun SettingNotificationScreen(modifier: Modifier = Modifier) {
+fun SettingNotificationScreen(
+    checked: Boolean,
+    onCheckChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -49,10 +62,25 @@ fun SettingNotificationScreen(modifier: Modifier = Modifier) {
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.black
             )
+            Spacer(modifier = Modifier.widthForScreenPercentage(4.dp))
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_question_24),
                 contentDescription = null,
                 tint = CertiTheme.colors.gray300
+            )
+            Spacer(modifier = Modifier.weight(1f))
+
+            Switch(
+                checked = checked,
+                onCheckedChange = onCheckChange,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = CertiTheme.colors.white,
+                    checkedTrackColor = CertiTheme.colors.purpleBlue,
+                    checkedBorderColor = Color.Unspecified,
+                    uncheckedThumbColor = CertiTheme.colors.white,
+                    uncheckedTrackColor = CertiTheme.colors.gray300,
+                    uncheckedBorderColor = Color.Unspecified
+                )
             )
         }
     }
@@ -62,6 +90,10 @@ fun SettingNotificationScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun SettingNotificationPreview() {
     CERTITheme {
-        SettingNotificationScreen()
+        var checked by remember { mutableStateOf(false) }
+        SettingNotificationScreen(
+            checked = checked,
+            onCheckChange = { checked = it }
+        )
     }
 }
