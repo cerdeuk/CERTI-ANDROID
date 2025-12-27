@@ -71,11 +71,7 @@ fun MyCertificationListItemSection(
             }
         }
 
-        if (!isEditMode) {
-            Spacer(Modifier.heightForScreenPercentage(8.dp))
-        } else {
-            Spacer(Modifier.heightForScreenPercentage(4.dp))
-        }
+        Spacer(Modifier.heightForScreenPercentage(if (!isEditMode) 8.dp else 4.dp))
 
         CertItemTitleSection(
             certName = certificationData.certificationName,
