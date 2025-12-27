@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
+import org.sopt.certi.core.component.header.MyPageHeader
 import org.sopt.certi.core.component.section.ArrowMenuSection
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -25,8 +26,13 @@ fun SettingRoute(modifier: Modifier = Modifier) {
 @Composable
 fun SettingScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(screenWidthDp(20.dp))
+        modifier = modifier.padding(horizontal = screenWidthDp(20.dp))
     ) {
+        MyPageHeader(
+            headerTitle = stringResource(R.string.mypage_setting),
+            modifier = Modifier.padding(vertical = screenHeightDp(24.dp))
+        )
+
         Text(
             text = stringResource(R.string.other_settings),
             style = CertiTheme.typography.caption.regular_14,
