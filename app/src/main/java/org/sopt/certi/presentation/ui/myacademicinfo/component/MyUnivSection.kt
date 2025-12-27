@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.component.section.ArrowMenuSection
+import org.sopt.certi.core.component.listitem.MenuRow
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -29,12 +29,12 @@ fun MyUnivSection(
             color = CertiTheme.colors.gray400,
             modifier = Modifier.padding(bottom = screenHeightDp(24.dp))
         )
-        ArrowMenuSection(
+        MenuRow(
             text = stringResource(R.string.my_school_info_modify),
             onClick = onUnivManageClick,
             modifier = Modifier.padding(bottom = screenHeightDp(16.dp))
         )
-        ArrowMenuSection(
+        MenuRow(
             text = stringResource(R.string.my_school_major_modify),
             onClick = onMajorManageClick
         )

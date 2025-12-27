@@ -1,4 +1,4 @@
-package org.sopt.certi.core.component.header
+package org.sopt.certi.core.component.topbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageHeader(
+fun MyPageTopBar(
     modifier: Modifier = Modifier,
     headerTitle: String? = null,
     isSaveEnable: Boolean = false,
@@ -60,7 +60,7 @@ fun MyPageHeader(
 @Composable
 private fun EditPersonalInfoHeaderPreview() {
     CERTITheme {
-        MyPageHeader(
+        MyPageTopBar(
             headerTitle = "헤더",
             isSaveEnable = false,
             onSaveClick = {},
