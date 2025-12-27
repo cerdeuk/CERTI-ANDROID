@@ -69,7 +69,13 @@ fun SettingScreen(modifier: Modifier = Modifier) {
 
             MenuRow(
                 text = stringResource(R.string.app_version),
-                onClick = {}
+                trailingContent = {
+                    Text(
+                        text = "v 1.14",
+                        style = CertiTheme.typography.caption.regular_14,
+                        color = CertiTheme.colors.gray500
+                    )
+                }
             )
         }
 
