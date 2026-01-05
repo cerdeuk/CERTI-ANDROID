@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -35,10 +36,15 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun CommentItem(
     commentData: CommentData,
     myUserId: Long,
+    likeOnClick: (like: Boolean) -> Unit = {},
+    reportOnClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var acquireStateText by remember { mutableStateOf("") }
     var acquireStateTextColor by remember { mutableStateOf(Color.Black) }
+
+    var isLikeStatus by remember { mutableStateOf(commentData.isLike) }
+    var likeCountStatus by remember { mutableStateOf(commentData.likeCount) }
 
     when (commentData.state) {
         CertAcquireStateType.ACQUIRED -> {
@@ -101,18 +107,23 @@ fun CommentItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(if (commentData.isLike) R.drawable.ic_like else R.drawable.ic_like),
+                painter = painterResource(if (isLikeStatus) R.drawable.ic_like_filled else R.drawable.ic_like),
                 tint = Color.Unspecified,
                 modifier = Modifier
                     .widthForScreenPercentage(12.dp)
-                    .heightForScreenPercentage(12.dp),
+                    .heightForScreenPercentage(12.dp)
+                    .noRippleClickable {
+                        isLikeStatus = !isLikeStatus
+                        likeCountStatus = if (isLikeStatus) likeCountStatus + 1 else likeCountStatus - 1
+                        likeOnClick(isLikeStatus)
+                    },
                 contentDescription = null
             )
 
             Spacer(Modifier.widthForScreenPercentage(4.dp))
 
             Text(
-                text = stringResource(R.string.comment_like_count, commentData.likeCount),
+                text = stringResource(R.string.comment_like_count, likeCountStatus),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray400
             )
@@ -126,7 +137,10 @@ fun CommentItem(
             Text(
                 text = stringResource(R.string.comment_report),
                 style = CertiTheme.typography.caption.semibold_12,
-                color = CertiTheme.colors.gray400
+                color = CertiTheme.colors.gray400,
+                modifier = Modifier.noRippleClickable {
+                    reportOnClick()
+                }
             )
 
             Spacer(Modifier.widthForScreenPercentage(8.dp))
