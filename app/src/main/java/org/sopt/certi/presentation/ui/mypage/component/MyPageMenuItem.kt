@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my.component
+package org.sopt.certi.presentation.ui.mypage.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

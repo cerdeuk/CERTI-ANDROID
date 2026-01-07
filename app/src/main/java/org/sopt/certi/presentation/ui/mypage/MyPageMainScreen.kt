@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my
+package org.sopt.certi.presentation.ui.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +18,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
-import org.sopt.certi.presentation.ui.my.component.MyPageCertMenuItem
-import org.sopt.certi.presentation.ui.my.component.MyPageMenuItem
-import org.sopt.certi.presentation.ui.my.component.MyPageProfile
-import org.sopt.certi.presentation.ui.my.state.MyPageUiSate
+import org.sopt.certi.presentation.ui.mypage.component.MyPageCertMenuItem
+import org.sopt.certi.presentation.ui.mypage.component.MyPageMenuItem
+import org.sopt.certi.presentation.ui.mypage.component.MyPageProfile
+import org.sopt.certi.presentation.ui.mypage.state.MyPageUiSate
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 

@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my.component
+package org.sopt.certi.presentation.ui.editpersonalinfo.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +30,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun PersonalInfoTextField(
+fun EditPersonalInfoTextField(
     label: String,
     placeholder: String,
     value: String,
@@ -36,6 +39,8 @@ fun PersonalInfoTextField(
     nickNameValidType: NickNameValidType = NickNameValidType.DEFAULT,
     imeAction: ImeAction = ImeAction.Next
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
@@ -47,7 +52,12 @@ fun PersonalInfoTextField(
         )
         BasicTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = { newValue ->
+                if (newValue.contains("\n") || newValue.contains("\r")) {
+                    return@BasicTextField
+                }
+                onValueChange(newValue)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
@@ -64,6 +74,10 @@ fun PersonalInfoTextField(
             maxLines = 1,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() },
+                onNext = { focusManager.moveFocus(FocusDirection.Down) }
             ),
             decorationBox = { innerTextField ->
                 if (value.isEmpty()) {
@@ -89,14 +103,14 @@ fun PersonalInfoTextField(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPageTextFieldPreview() {
+private fun EditPersonalInfoTextFieldPreview() {
     var value by remember { mutableStateOf("") }
 
     CERTITheme {
         Column(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp), vertical = screenWidthDp(40.dp))
         ) {
-            PersonalInfoTextField(
+            EditPersonalInfoTextField(
                 label = "이름",
                 placeholder = "이름을 입력해주세요.",
                 value = value,
