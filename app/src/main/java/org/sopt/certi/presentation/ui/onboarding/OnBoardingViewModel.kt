@@ -28,7 +28,7 @@ class OnBoardingViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val tokenManager: TokenManager,
     private val searchUnivUseCase: SearchUnivUseCase,
-    private val searchMajorUseCase: SearchMajorUseCase
+    private val searchMajorUseCase: SearchMajorUseCase,
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
@@ -167,29 +167,45 @@ class OnBoardingViewModel @Inject constructor(
         _track.value = track
     }
 
+    private fun updateJobCategory(reducer: (OnBoardingJobCategoryUiState) -> OnBoardingJobCategoryUiState) {
+        _onBoardingJobCategoryUiState.value = reducer(_onBoardingJobCategoryUiState.value)
+    }
+
     fun onJobCategorySelected(selected: String) {
-        val current = _onBoardingJobCategoryUiState.value
-        when (current.step) {
-            JobCategoryStep.FIRST -> {
-                _onBoardingJobCategoryUiState.value = current.copy(first = selected)
+        updateJobCategory { it.copy(draft = selected) }
+    }
+
+    fun onJobCategoryNextClicked() {
+        updateJobCategory { current ->
+            val draft = current.draft ?: return@updateJobCategory current
+
+            val committed = when (current.step) {
+                JobCategoryStep.FIRST -> current.copy(first = draft)
+                JobCategoryStep.SECOND -> current.copy(second = draft)
+                JobCategoryStep.THIRD -> current.copy(third = draft)
             }
 
-            JobCategoryStep.SECOND -> {
-                _onBoardingJobCategoryUiState.value = current.copy(second = selected)
-            }
+            val cleared = committed.copy(draft = null)
 
-            JobCategoryStep.THIRD -> {
-                _onBoardingJobCategoryUiState.value = current.copy(third = selected)
+            when (cleared.step) {
+                JobCategoryStep.FIRST -> cleared.copy(step = JobCategoryStep.SECOND)
+                JobCategoryStep.SECOND -> cleared.copy(step = JobCategoryStep.THIRD)
+                JobCategoryStep.THIRD -> cleared
             }
         }
     }
 
-    fun onJobCategoryNextClicked() {
-        val current = _onBoardingJobCategoryUiState.value
-        when (current.step) {
-            JobCategoryStep.FIRST -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.SECOND)
-            JobCategoryStep.SECOND -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.THIRD)
-            JobCategoryStep.THIRD -> {}
+    fun onJobCategorySkipClicked() {
+        updateJobCategory { it.copy(draft = null) }
+    }
+
+    fun onJobCategoryPrevClicked() {
+        updateJobCategory { current ->
+            when (current.step) {
+                JobCategoryStep.FIRST -> current.copy(draft = null)
+                JobCategoryStep.SECOND -> current.copy(step = JobCategoryStep.FIRST, second = null, draft = null)
+                JobCategoryStep.THIRD -> current.copy(step = JobCategoryStep.SECOND, third = null, draft = null)
+            }
         }
     }
 
@@ -223,6 +239,7 @@ class OnBoardingViewModel @Inject constructor(
             signUpUseCase(
                 preSignupToken = preSignUpToken,
                 userInformation = userInfo,
+                nickname = _nickname.value,
                 university = _submittedUnivSearchText.value,
                 grade = grade.value.toString(),
                 track = track.value.toString(),
