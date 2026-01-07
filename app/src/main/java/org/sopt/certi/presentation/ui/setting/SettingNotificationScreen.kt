@@ -58,7 +58,7 @@ fun SettingNotificationScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.settings_marketing),
+                text = stringResource(R.string.setting_marketing),
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.black
             )
@@ -82,6 +82,17 @@ fun SettingNotificationScreen(
                     uncheckedBorderColor = Color.Unspecified
                 )
             )
+        }
+
+        Text(
+            text = stringResource(R.string.setting_marketing_description),
+            style = CertiTheme.typography.caption.regular_14,
+            color = CertiTheme.colors.gray400,
+            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
+        )
+
+        Column {
+            Row {  }
         }
     }
 }

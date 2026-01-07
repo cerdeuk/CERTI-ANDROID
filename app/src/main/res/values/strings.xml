@@ -225,6 +225,8 @@
     <string name="delete_account">회원 탈퇴</string>
     <string name="app_version">앱버전</string>
     <string name="logout">로그아웃</string>
-    <string name="settings_marketing">광고성 정보 수신 동의</string>
+    <string name="setting_marketing">광고성 정보 수신 동의</string>
+    <string name="setting_marketing_description">마케팅을 위한 이벤트, 공지사항 등의 소식 알림 받기</string>
+    <string name="setting_privacy_consent">개인정보 수집 및 이용 동의</string>
 
 </resources>
