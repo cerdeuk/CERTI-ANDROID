@@ -46,6 +46,7 @@ class AuthRepositoryImpl @Inject constructor(
             grade = grade,
             track = track,
             major = major,
+            nickname = nickname,
             jobs = jobs
         )
         authRemoteDataSource.signUp(
