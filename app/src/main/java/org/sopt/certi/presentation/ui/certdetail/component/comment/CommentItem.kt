@@ -1,10 +1,14 @@
 package org.sopt.certi.presentation.ui.certdetail.component.comment
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -16,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.comment.CommentData
 import org.sopt.certi.domain.type.CertAcquireStateType
-import org.sopt.certi.presentation.ui.certdetail.component.button.CommentDeleteButton
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -38,6 +43,7 @@ fun CommentItem(
     myUserId: Long,
     likeOnClick: (like: Boolean) -> Unit = {},
     reportOnClick: () -> Unit = {},
+    deleteOnClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var acquireStateText by remember { mutableStateOf("") }
@@ -81,7 +87,7 @@ fun CommentItem(
             )
 
             Text(
-                text = "(${commentData.userMajor}, ${commentData.userJob})",
+                text = stringResource(R.string.comment_user_info, commentData.userMajor, commentData.userJob),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray400
             )
@@ -90,7 +96,7 @@ fun CommentItem(
 
             if (commentData.userId == myUserId) {
                 CommentDeleteButton {
-                    // TODO delete comment
+                    deleteOnClick()
                 }
             }
         }
@@ -153,6 +159,37 @@ fun CommentItem(
         }
 
         HorizontalDivider(thickness = 1.dp, color = CertiTheme.colors.gray100)
+    }
+}
+
+@Composable
+fun CommentDeleteButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    var isPressed by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+            .background(
+                color = if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.gray0,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .clip(RoundedCornerShape(16.dp))
+            .padding(horizontal = screenWidthDp(8.dp), vertical = screenHeightDp(2.dp))
+            .pressedClickable(
+                changePressed = {
+                    isPressed = it
+                },
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.comment_delete_button),
+            style = CertiTheme.typography.caption.regular_12,
+            color = CertiTheme.colors.black
+        )
     }
 }
 
