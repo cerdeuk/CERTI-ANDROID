@@ -10,6 +10,7 @@ class SignUpUseCase(
     suspend operator fun invoke(
         preSignupToken: String,
         userInformation: UserInformationAuth?,
+        nickname: String,
         university: String,
         grade: String,
         track: String,
@@ -19,6 +20,7 @@ class SignUpUseCase(
         authRepository.signUp(
             preSignupToken = preSignupToken,
             userInformation = userInformation,
+            nickname = nickname,
             university = university,
             grade = grade,
             track = track,

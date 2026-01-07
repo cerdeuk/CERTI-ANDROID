@@ -26,6 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun signUp(
         preSignupToken: String,
         userInformation: UserInformationAuth?,
+        nickname: String,
         university: String,
         grade: String,
         track: String,
@@ -33,8 +34,10 @@ class AuthRepositoryImpl @Inject constructor(
         jobs: List<String>
     ): Result<SignUpResult> = safeApiCall {
         val userInfoDto = UserInformationDto(
+            socialId = userInformation?.socialId ?: "",
+            socialType = userInformation?.socialType ?: "",
             email = userInformation?.email ?: "",
-            nickname = userInformation?.nickname ?: "",
+            name = userInformation?.name ?: "",
             profileImageUrl = userInformation?.profileImageUrl ?: ""
         )
         val signUpRequestDto = SignUpRequestDto(
