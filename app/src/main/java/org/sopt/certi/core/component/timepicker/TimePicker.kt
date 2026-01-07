@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -78,7 +78,13 @@ fun CustomTimePicker(
 
         // 시간 Picker
         TimePickerColumn(
-            items = (1..12).map { it.toString() },
+            items = (1..12).map {
+                if (it.toString().length == 1) {
+                    "0$it"
+                } else {
+                    it.toString()
+                }
+            },
             selectedItem = selectedHour.toString(),
             onItemSelected = {
                 selectedHour = it.toInt()
@@ -95,7 +101,7 @@ fun CustomTimePicker(
         )
 
         Text(
-            text = ":",
+            text = stringResource(R.string.test_info_bottomsheet_time_picker_colon),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(horizontal = 22.dp)
@@ -173,19 +179,20 @@ fun TimePickerColumn(
                 .heightForScreenPercentage(40.dp)
         ) {
             // 상단 파란색 라인
-            Box(
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = CertiTheme.colors.purpleBlue,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(2.dp)
-                    .background(CertiTheme.colors.purpleBlue)
                     .align(Alignment.TopCenter)
             )
+
             // 하단 파란색 라인
-            Box(
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = CertiTheme.colors.purpleBlue,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(2.dp)
-                    .background(CertiTheme.colors.purpleBlue)
                     .align(Alignment.BottomCenter)
             )
         }
@@ -268,19 +275,19 @@ fun TimePeriodPickerColumn(
                 .heightForScreenPercentage(40.dp)
         ) {
             // 상단 파란색 라인
-            Box(
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = CertiTheme.colors.purpleBlue,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(2.dp)
-                    .background(CertiTheme.colors.purpleBlue)
                     .align(Alignment.TopCenter)
             )
             // 하단 파란색 라인
-            Box(
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = CertiTheme.colors.purpleBlue,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(2.dp)
-                    .background(CertiTheme.colors.purpleBlue)
                     .align(Alignment.BottomCenter)
             )
         }

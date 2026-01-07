@@ -229,5 +229,6 @@
     <string name="test_info_bottomsheet_time_afternoon">오후</string>
     <string name="test_info_bottomsheet_confirm_later">나중에 입력하기</string>
     <string name="test_info_bottomsheet_confirm">적용하기</string>
+    <string name="test_info_bottomsheet_time_picker_colon">:</string>
 
 </resources>

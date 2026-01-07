@@ -63,6 +63,8 @@ fun RegisterTestInfoBottomSheet(
     forModify: Boolean,
     certTitle: String,
     modifier: Modifier = Modifier,
+    place1List: List<String> = emptyList(),
+    place2List: List<String> = emptyList(),
     certificationData: CertificationData? = null,
     onDismissClick: () -> Unit = {},
     changeBottomSheetVisibility: (Boolean) -> Unit = {}
@@ -82,10 +84,6 @@ fun RegisterTestInfoBottomSheet(
     // Place
     var showPlaceP1List by remember { mutableStateOf(false) }
     var showPlaceP2List by remember { mutableStateOf(false) }
-
-    // FIXME Sample 서버데이터
-    val place1List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
-    val place2List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
 
     var placeItemWidth by remember { mutableStateOf(0.dp) }
 
@@ -141,14 +139,14 @@ fun RegisterTestInfoBottomSheet(
                 text = stringResource(R.string.test_info_bottomsheet_title),
                 style = CertiTheme.typography.body.bold_18,
                 color = CertiTheme.colors.black,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             )
 
             Text(
                 text = certTitle,
                 style = CertiTheme.typography.caption.semibold_14,
                 color = CertiTheme.colors.gray400,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             )
 
             Spacer(Modifier.heightForScreenPercentage(32.dp))
@@ -156,7 +154,7 @@ fun RegisterTestInfoBottomSheet(
             // Date Title
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
@@ -178,12 +176,12 @@ fun RegisterTestInfoBottomSheet(
             // Date Box
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = screenWidthDp(20.dp))
                     .fillMaxWidth()
                     .heightForScreenPercentage(40.dp)
                     .border(width = 1.dp, color = CertiTheme.colors.gray200, shape = RoundedCornerShape(4.dp))
                     .clip(RoundedCornerShape(4.dp))
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = screenWidthDp(12.dp))
                     .noRippleClickable {
                         showCalendar = true
                     },
@@ -221,14 +219,14 @@ fun RegisterTestInfoBottomSheet(
                         onMonthChanged = {},
                         modifier = Modifier
                             .zIndex(1f)
-                            .padding(horizontal = 6.dp)
+                            .padding(horizontal = screenWidthDp(6.dp))
                     )
                 }
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
+                        .padding(horizontal = screenWidthDp(20.dp))
                 ) {
                     Spacer(Modifier.heightForScreenPercentage(18.dp))
 
@@ -499,9 +497,15 @@ fun RegisterTestInfoBottomSheetPreview() {
         skipPartiallyExpanded = true
     )
 
+    // FIXME Sample 서버데이터
+    val place1List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
+    val place2List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
+
     RegisterTestInfoBottomSheet(
         sheetState = sheetState,
         certTitle = "자격증 이름",
+        place1List = place1List,
+        place2List = place2List,
         forModify = false,
         certificationData = null
     )
