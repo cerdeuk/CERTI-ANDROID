@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.usecase
+package org.sopt.certi.domain.usecase.auth
 
 import org.sopt.certi.domain.model.user.UserAuth
 import org.sopt.certi.domain.repository.AuthRepository
