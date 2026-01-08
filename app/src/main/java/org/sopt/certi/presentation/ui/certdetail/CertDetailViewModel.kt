@@ -87,4 +87,7 @@ class CertDetailViewModel @Inject constructor(
             onFailure = {}
         )
     }
+
+    fun getCommentList() = viewModelScope.launch {
+    }
 }

@@ -240,4 +240,10 @@
     <string name="comment_like_count">좋아요 %s</string>
     <string name="comment_report">신고</string>
     <string name="comment_user_info">(%s, %s)</string>
+    <string name="comment_label_famous">인기순</string>
+    <string name="comment_label_recent">최신순</string>
+    <string name="comment_count">댓글(%s)</string>
+    <string name="comment_hint">댓글을 입력하세요</string>
+    
+    
 </resources>
