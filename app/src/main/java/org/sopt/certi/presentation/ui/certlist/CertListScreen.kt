@@ -58,12 +58,14 @@ fun CertListRoute(
     viewModel: CertListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
+    val nickname by viewModel.nickname.collectAsStateWithLifecycle()
 
     when (uiState.loadState) {
         is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Success -> {
             CertListScreen(
+                nickname = nickname,
                 certListState = uiState,
                 navigateToSearch = navigateToSearch,
                 navigateToCertDetail = navigateToCertDetail,
@@ -80,6 +82,7 @@ fun CertListRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CertListScreen(
+    nickname: String,
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
@@ -106,7 +109,7 @@ private fun CertListScreen(
 
         item {
             CertListRecommendSection(
-                nickname = "김서티",
+                nickname = nickname,
                 recommendedList = (certListState.recommendListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 onDetailClick = { certId ->
                     navigateToCertDetail(certId)
@@ -322,6 +325,7 @@ private fun PreviewCertListScreen() {
         )
 
         CertListScreen(
+            nickname = "김서티",
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },
