@@ -16,15 +16,15 @@ data class OnBoardingJobCategoryUiState(
     val selectedList: List<String>
         get() = listOfNotNull(first, second, third)
 
-    fun currentConfirmed(): String? = when(step){
+    fun currentConfirmed(): String? = when (step) {
         JobCategoryStep.FIRST -> first
         JobCategoryStep.SECOND -> second
         JobCategoryStep.THIRD -> third
     }
 
-    fun currentUiSelection(): String? = draft?: currentConfirmed()
+    fun currentUiSelection(): String? = draft ?: currentConfirmed()
 
-    fun disabledOptions(): List<String>{
+    fun disabledOptions(): List<String> {
         val currentSelection = currentConfirmed()
         return selectedList.filterNot { it == currentSelection }
     }

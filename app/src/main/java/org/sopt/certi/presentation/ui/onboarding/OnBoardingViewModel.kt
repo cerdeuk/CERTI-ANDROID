@@ -30,7 +30,7 @@ class OnBoardingViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val searchUnivUseCase: SearchUnivUseCase,
     private val searchMajorUseCase: SearchMajorUseCase,
-    private val checkNicknameValidationUseCase: CheckNicknameValidationUseCase,
+    private val checkNicknameValidationUseCase: CheckNicknameValidationUseCase
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")

@@ -41,7 +41,7 @@ fun OnBoardingJobCategoryRoute(
     padding: PaddingValues,
     popBackStack: () -> Unit,
     navigateToOnBoardingNickName: () -> Unit,
-    viewModel: OnBoardingViewModel,
+    viewModel: OnBoardingViewModel
 ) {
     val jobCategory by viewModel.onBoardingJobCategoryUiState.collectAsStateWithLifecycle()
 
@@ -82,7 +82,7 @@ fun OnBoardingJobCategoryScreen(
     onSelect: (String) -> Unit,
     onNextClick: () -> Unit,
     onSkipClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
