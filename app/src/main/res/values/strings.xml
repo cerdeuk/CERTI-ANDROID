@@ -40,9 +40,9 @@
 
     <!-- MainBottomNavBar -->
     <string name="main_bottom_navbar_home">홈</string>
-    <string name="main_bottom_navbar_category">카테고리</string>
-    <string name="main_bottom_navbar_recommend">추천</string>
+    <string name="main_bottom_navbar_certification">자격증</string>
     <string name="main_bottom_navbar_resume">이력서</string>
+    <string name="main_bottom_navbar_mypage">내 정보</string>
 
     <!-- Textfield -->
     <string name="textfield_placeholder">검색어를 입력해주세요.</string>
@@ -206,9 +206,11 @@
     <string name="mypage_questions">문의사항</string>
     <string name="mypage_questions_description">오픈채팅 바로가기</string>
 
-    <!-- MyPagePersonalInfo -->
+    <!-- EditPersonalInfo -->
     <string name="personal_save">저장</string>
     <string name="personal_nickname_textfield_duplicate">닉네임 중복확인을 해주세요.</string>
+    <string name="personal_nickname_duplicate_check">중복확인</string>
+    <string name="personal_nickname_char_count">%d/7</string>
     <string name="personal_name_label">이름</string>
     <string name="personal_name_placeholder">이름을 입력해주세요.</string>
     <string name="personal_email_label">이메일</string>
@@ -231,4 +233,11 @@
     <string name="test_info_bottomsheet_confirm">적용하기</string>
     <string name="test_info_bottomsheet_time_picker_colon">:</string>
 
+    <!-- Comment -->
+    <string name="comment_state_acquired">취득 완료</string>
+    <string name="comment_state_pre">취득 예장</string>
+    <string name="comment_delete_button">삭제</string>
+    <string name="comment_like_count">좋아요 %s</string>
+    <string name="comment_report">신고</string>
+    <string name="comment_user_info">(%s, %s)</string>
 </resources>

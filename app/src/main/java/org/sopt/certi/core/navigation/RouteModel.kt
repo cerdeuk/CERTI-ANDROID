@@ -41,10 +41,10 @@ sealed interface MainTabRoute : Route {
     data object CertList : MainTabRoute
 
     @Serializable
-    data object CertRecommend : MainTabRoute
+    data object Resume : MainTabRoute
 
     @Serializable
-    data object Resume : MainTabRoute
+    data object MyPage : MainTabRoute
 }
 
 sealed interface HomeRoute : Route {

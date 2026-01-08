@@ -1,4 +1,4 @@
-package org.sopt.certi.presentation.ui.my.state
+package org.sopt.certi.presentation.ui.mypage.state
 
 // 나중에 서버 나오면 바뀔 예정
 data class MyPageUiSate(
