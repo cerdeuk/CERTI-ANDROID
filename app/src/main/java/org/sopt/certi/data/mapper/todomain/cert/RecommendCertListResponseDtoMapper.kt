@@ -13,7 +13,8 @@ fun GetRecommendCertResponseDto.toDomain() = CertificationListData(
             testType = it.testType,
             tags = it.tags,
             recommendScore = it.recommendationScore,
-            isFavorite = it.isFavorite
+            isFavorite = it.isFavorite,
+            description = it.description
         )
     }
 )
