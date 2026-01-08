@@ -6,7 +6,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
-import org.sopt.certi.domain.usecase.SignInUseCase
+import org.sopt.certi.domain.usecase.auth.SignInUseCase
 import org.sopt.certi.presentation.type.SocialLoginType
 import timber.log.Timber
 import java.util.Locale
