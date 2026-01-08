@@ -65,7 +65,7 @@ fun CertificationListSection(
                 )
 
                 Text(
-                    text = certificationListData.agencyName,
+                    text = certificationListData.certificationType,
                     style = CertiTheme.typography.caption.regular_12,
                     color = CertiTheme.colors.mainBlue,
                     modifier = Modifier.padding(start = screenWidthDp(8.dp))
