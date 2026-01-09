@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -38,11 +40,22 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun SettingNotificationRoute(padding: PaddingValues) {
+fun SettingNotificationRoute(
+    padding: PaddingValues,
+    viewModel: SettingViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SettingNotificationScreen(
+        uiState = uiState,
+        onSwitchCheckChange = viewModel::onSwitchCheckChange,
+        onCheckboxCheckChange = viewModel::onCheckboxCheckChange,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
-fun SettingNotificationScreen(
+private fun SettingNotificationScreen(
     uiState: SettingUiState,
     onSwitchCheckChange: (Boolean) -> Unit,
     onCheckboxCheckChange: (Boolean) -> Unit,
@@ -88,7 +101,7 @@ fun SettingNotificationScreen(
             modifier = Modifier
                 .padding(top = screenHeightDp(24.dp))
                 .background(CertiTheme.colors.gray0)
-                .padding(horizontal = 20.dp, vertical = 16.dp),
+                .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(16.dp)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
         ) {
             Row {

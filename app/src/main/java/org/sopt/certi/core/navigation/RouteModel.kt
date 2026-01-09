@@ -92,3 +92,8 @@ sealed interface CertListRoute : Route {
     @Serializable
     data object Search : CertListRoute
 }
+
+sealed interface MyPageRoute : Route {
+    @Serializable
+    data object Setting : MyPageRoute
+}
