@@ -19,6 +19,7 @@ import org.sopt.certi.domain.usecase.HomeRecommendUseCase
 import org.sopt.certi.domain.usecase.certification.Top3JobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.user.UserTrackUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class CertListViewModel @Inject constructor(
     private val top3TrackCertListUseCase: Top3TrackCertListUseCase,
     private val top3JobCertListUseCase: Top3JobCertListUseCase,
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
+    private val userTrackUseCase: UserTrackUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
     val nickname: StateFlow<String> =
@@ -67,8 +69,9 @@ class CertListViewModel @Inject constructor(
 
     init {
         getRecommendCertificationList()
-        getUserJob()
+        getUserTrack()
         getTrackTop3CertificationList()
+        getUserJob()
         getCategoryTop3CertificationList()
     }
 
@@ -80,6 +83,16 @@ class CertListViewModel @Inject constructor(
             }
             .onFailure {
                 _recommendCertListLoadState.value = UiState.Failure(it.toString())
+            }
+    }
+
+    private fun getUserTrack() = viewModelScope.launch {
+        userTrackUseCase()
+            .onSuccess {
+                _track.value = it
+            }
+            .onFailure {
+                _track.value = ""
             }
     }
 

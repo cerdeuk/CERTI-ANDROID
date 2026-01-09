@@ -61,6 +61,7 @@ fun CertListRoute(
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
     val nickname by viewModel.nickname.collectAsStateWithLifecycle()
     val job by viewModel.job.collectAsStateWithLifecycle()
+    val track by viewModel.track.collectAsStateWithLifecycle()
 
     when (uiState.loadState) {
         is UiState.Loading -> {}
@@ -68,7 +69,7 @@ fun CertListRoute(
         is UiState.Success -> {
             CertListScreen(
                 nickname = nickname,
-                track = "공학계열",
+                track = track,
                 job = job,
                 certListState = uiState,
                 navigateToSearch = navigateToSearch,
