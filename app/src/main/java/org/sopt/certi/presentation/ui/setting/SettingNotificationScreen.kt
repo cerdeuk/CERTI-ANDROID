@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,17 +29,22 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDialog
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.presentation.ui.setting.component.CustomCheckbox
 import org.sopt.certi.presentation.ui.setting.component.CustomSwitch
+import org.sopt.certi.presentation.ui.setting.component.MarketingConfirmSnackbar
 import org.sopt.certi.presentation.ui.setting.component.MarketingInfoBox
+import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 import org.sopt.certi.presentation.ui.setting.state.SettingUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -46,6 +55,19 @@ fun SettingNotificationRoute(
     viewModel: SettingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                is SettingSideEffect.ShowMarketingConfirmSnackbar -> {
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    snackbarHostState.showSnackbar(message = "")
+                }
+            }
+        }
+    }
 
     if (uiState.isDialogVisible) {
         CertiDialog(
@@ -55,12 +77,24 @@ fun SettingNotificationRoute(
         )
     }
 
-    SettingNotificationScreen(
-        uiState = uiState,
-        onSwitchCheckChange = viewModel::onSwitchCheckChange,
-        onCheckboxCheckChange = viewModel::onCheckboxCheckChange,
-        modifier = Modifier.padding(padding)
-    )
+    Scaffold(
+        modifier = Modifier.padding(padding),
+        containerColor = CertiTheme.colors.white,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) {
+                MarketingConfirmSnackbar()
+            }
+        }
+    ) { innerPadding ->
+        SettingNotificationScreen(
+            uiState = uiState,
+            onSwitchCheckChange = viewModel::onSwitchCheckChange,
+            onCheckboxCheckChange = { checked ->
+                viewModel.onCheckboxCheckChange(checked)
+            },
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
 }
 
 @Composable
@@ -135,7 +169,8 @@ private fun SettingNotificationScreen(
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.noRippleClickable({})
                 )
             }
 

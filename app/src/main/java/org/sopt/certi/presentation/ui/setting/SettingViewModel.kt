@@ -1,10 +1,15 @@
 package org.sopt.certi.presentation.ui.setting
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 import org.sopt.certi.presentation.ui.setting.state.SettingUiState
 import javax.inject.Inject
 
@@ -12,6 +17,9 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(SettingUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _sideEffect = Channel<SettingSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun onSwitchCheckChange(checked: Boolean) {
         if (checked) {
@@ -37,5 +45,11 @@ class SettingViewModel @Inject constructor() : ViewModel() {
 
     fun onCheckboxCheckChange(checked: Boolean) {
         _uiState.update { it.copy(checkboxChecked = checked) }
+
+        if (checked) {
+            viewModelScope.launch {
+                _sideEffect.send(SettingSideEffect.ShowMarketingConfirmSnackbar)
+            }
+        }
     }
 }
