@@ -27,6 +27,12 @@ interface CertService {
         @Query("jobs") jobs: String
     ): ApiResponse<CertListResponseDto>
 
+    @GET("/api/v1/certification/tracks")
+    suspend fun getTrackCertList(
+        @Query("isFavorite") isFavorite: Boolean,
+        @Query("tracks") tracks: String
+    ): ApiResponse<CertListResponseDto>
+
     @GET("/api/v1/certification/track")
     suspend fun getTop3TrackCertList(): ApiResponse<List<Top3CertListResponseDto>>
 

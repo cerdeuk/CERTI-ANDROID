@@ -24,6 +24,9 @@ class CertRemoteDataSourceImpl @Inject constructor(
     override suspend fun getCategoryCertList(isFavorite: Boolean, jobs: String): ApiResponse<CertListResponseDto> =
         certService.getJobCertList(isFavorite, jobs)
 
+    override suspend fun getTrackCertList(isFavorite: Boolean, tracks: String): ApiResponse<CertListResponseDto> =
+        certService.getTrackCertList(isFavorite, tracks)
+
     override suspend fun getTop3TrackCertList(): ApiResponse<List<Top3CertListResponseDto>> =
         certService.getTop3TrackCertList()
 
