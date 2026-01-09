@@ -221,8 +221,11 @@
     <!-- MyCertification -->
     <string name="edit">편집</string>
     <string name="edit_certification">자격증 편집</string>
-    <string name="edit_acquired_certification_bottomsheet_title">자격증 취득 정보를 입력해주세요</string>
-    <string name="edit_acquired_date">취득 날짜</string>
+    <string name="edit_acquired_bottomsheet_title">자격증 취득 정보를 입력해주세요</string>
+    <string name="edit_acquired_bottomsheet_date">취득 날짜</string>
+    <string name="edit_acquired_bottomsheet_date_placeholder">취득 날짜를 선택해주세요.</string>
+    <string name="edit_acquired_bottomsheet_score">취득 점수 (선택)</string>
+    <string name="edit_acquired_bottomsheet_score_placerholder">점수 입력</string>
 
     <!-- RegisterTestInfoBottomSheet -->
     <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>
