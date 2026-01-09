@@ -18,15 +18,15 @@ interface CertService {
 
     @GET("/api/v1/certification/search")
     suspend fun searchCertList(
-        @Query("keyword") keyword: String,
+        @Query("keyword") keyword: String
     ): ApiResponse<CertListResponseDto>
 
     @GET("/api/v1/certification")
     suspend fun getCategoryCertList(
         @Query("isFavorite") isFavorite: Boolean,
-        @Query("jobs") jobs: String,
+        @Query("jobs") jobs: String
     ): ApiResponse<CertListResponseDto>
 
     @GET("/api/v1/certification/track")
-    suspend fun getTrackCertListTop3(): ApiResponse<Top3CertListResponseDto>
+    suspend fun getTop3TrackCertList(): ApiResponse<List<Top3CertListResponseDto>>
 }

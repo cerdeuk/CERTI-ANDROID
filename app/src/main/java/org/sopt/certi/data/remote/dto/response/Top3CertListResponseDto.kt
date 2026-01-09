@@ -10,5 +10,5 @@ data class Top3CertListResponseDto(
     @SerialName("certificationName")
     val certificationName: String,
     @SerialName("certificationType")
-    val certificationType: String,
+    val certificationType: String
 )

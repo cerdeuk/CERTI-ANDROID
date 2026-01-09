@@ -67,7 +67,7 @@ fun Top3CertificationItem(
                     )
 
                     Text(
-                        text = item.agencyName,
+                        text = item.certificationType,
                         style = CertiTheme.typography.caption.regular_12,
                         color = CertiTheme.colors.gray500
                     )

@@ -38,6 +38,7 @@ import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
+import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
@@ -203,4 +204,10 @@ object UseCaseModule {
     fun providePreCertEditUseCase(
         preCertEditRepository: PreCertEditRepository
     ): PreCertEditUseCase = PreCertEditUseCase(preCertEditRepository)
+
+    @Provides
+    @Singleton
+    fun provideTop3TrackCertListUseCase(
+        certRepository: CertRepository
+    ): Top3TrackCertListUseCase = Top3TrackCertListUseCase(certRepository)
 }

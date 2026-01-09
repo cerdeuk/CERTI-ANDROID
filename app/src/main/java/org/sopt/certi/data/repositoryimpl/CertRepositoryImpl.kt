@@ -40,4 +40,11 @@ class CertRepositoryImpl @Inject constructor(
             .getOrThrow()
             .toDomain()
     }
+
+    override suspend fun getTop3TrackCertList(): Result<List<CertificationData>> = safeApiCall {
+        certRemoteDataSource.getTop3TrackCertList()
+            .handleApiResponse()
+            .getOrThrow()
+            .map { it.toDomain() }
+    }
 }
