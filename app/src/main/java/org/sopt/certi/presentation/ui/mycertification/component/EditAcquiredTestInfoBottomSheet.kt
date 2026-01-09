@@ -1,6 +1,7 @@
 package org.sopt.certi.presentation.ui.mycertification.component
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -78,25 +80,31 @@ fun EditAcquiredTextInfoBottomSheet(
         }
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = screenWidthDp(20.dp))
+            modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.heightForScreenPercentage(44.dp))
             Text(
                 text = stringResource(R.string.edit_acquired_bottomsheet_title),
                 style = CertiTheme.typography.body.bold_18,
-                color = CertiTheme.colors.gray600
+                color = CertiTheme.colors.gray600,
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             )
             Spacer(modifier = Modifier.heightForScreenPercentage(8.dp))
             Text(
                 text = certificationData.certificationName,
                 style = CertiTheme.typography.caption.semibold_14,
-                color = CertiTheme.colors.gray400
+                color = CertiTheme.colors.gray400,
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             )
 
-            Spacer(modifier = Modifier.heightForScreenPercentage(32.dp))
-            Row {
+            Spacer(
+                modifier = Modifier.heightForScreenPercentage(32.dp)
+            )
+            Row(
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
+            ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
                     contentDescription = null,
@@ -112,13 +120,17 @@ fun EditAcquiredTextInfoBottomSheet(
             DropdownTextField(
                 value = dateText,
                 placeholder = stringResource(R.string.edit_acquired_bottomsheet_date_placeholder),
-                onClick = { showCalendar = !showCalendar }
+                onClick = { showCalendar = !showCalendar },
+                modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
             )
 
             Box {
-                Column {
+                Column(modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))) {
                     Spacer(modifier = Modifier.heightForScreenPercentage(24.dp))
-                    Row {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
+                    ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
                             contentDescription = null,
@@ -171,7 +183,9 @@ fun EditAcquiredTextInfoBottomSheet(
                             dateText = date.toString().replace("-", ".")
                             showCalendar = false
                         },
-                        modifier = Modifier.padding(top = screenHeightDp(8.dp), bottom = screenHeightDp(44.dp))
+                        modifier = Modifier
+                            .padding(top = screenHeightDp(8.dp), bottom = screenHeightDp(44.dp))
+                            .padding(horizontal = screenWidthDp(8.dp))
                     )
                 }
             }
@@ -184,7 +198,10 @@ fun EditAcquiredTextInfoBottomSheet(
                         if (!sheetState.isVisible) onConfirm()
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = screenWidthDp(20.dp))
+
             )
             Spacer(modifier = Modifier.heightForScreenPercentage(24.dp))
         }

@@ -215,7 +215,7 @@ fun RegisterTestInfoBottomSheet(
                         },
                         modifier = Modifier
                             .zIndex(1f)
-                            .padding(horizontal = screenWidthDp(6.dp))
+                            .padding(horizontal = screenWidthDp(8.dp))
                     )
                 }
 
