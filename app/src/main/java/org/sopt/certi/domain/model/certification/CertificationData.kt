@@ -28,10 +28,11 @@ data class CertificationData(
     val createdAt: LocalDate = LocalDate.now(),
     val testDateInformation: String = "",
     val expirationPeriod: String = "",
+    val acquisitionDate: String = "",
+    val grade: String = "",
 
     // 아직 서버에 없음 근데 필요한것들
     val isAcquired: Boolean = false, // 취득 여부
-    val level: String = "", // 레벨
     val city: String = "", // 시험장소
     val state: String = "",
     val testTime: String = "" // 시험시간

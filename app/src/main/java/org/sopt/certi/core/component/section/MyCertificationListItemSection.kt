@@ -103,7 +103,7 @@ fun MyCertificationListItemSection(
                 CertInfoSection(
                     iconRes = R.drawable.ic_level,
                     iconColor = CertiTheme.colors.gray400,
-                    testInfo = certificationData.level
+                    testInfo = certificationData.grade
                 )
             } else {
                 CertInfoSection(

@@ -68,7 +68,7 @@ fun RegisterTestInfoBottomSheet(
     modifier: Modifier = Modifier,
     place1List: List<String> = emptyList(),
     place2List: List<String> = emptyList(),
-    certificationData: CertificationData? = null,
+    certificationData: CertificationData? = null
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()

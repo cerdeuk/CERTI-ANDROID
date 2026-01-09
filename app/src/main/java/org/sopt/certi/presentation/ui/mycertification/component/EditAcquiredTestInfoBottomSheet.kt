@@ -55,8 +55,8 @@ fun EditAcquiredTextInfoBottomSheet(
 ) {
     val scope = rememberCoroutineScope()
 
-    var dateText by remember { mutableStateOf("") }
-    var scoreText by remember { mutableStateOf("") }
+    var dateText by remember { mutableStateOf(certificationData.acquisitionDate) }
+    var scoreText by remember { mutableStateOf(certificationData.grade) }
     var showCalendar by remember { mutableStateOf(false) }
 
     var isFocused by remember { mutableStateOf(false) }

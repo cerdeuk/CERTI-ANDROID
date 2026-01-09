@@ -81,7 +81,7 @@ private fun FavoriteCertItemPreview() {
                 city = "고양시",
                 testTime = "09:00",
                 createdAt = LocalDate.of(2025, 11, 23),
-                level = "IM3",
+                grade = "IM3",
                 isFavorite = true,
                 testType = "실기형",
                 agencyName = "한국산업인력공단"
