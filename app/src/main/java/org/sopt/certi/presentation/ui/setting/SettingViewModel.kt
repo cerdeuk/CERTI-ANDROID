@@ -10,20 +10,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor() : ViewModel() {
-    private val _uiState = MutableStateFlow(SettingUiState(false, false))
+    private val _uiState = MutableStateFlow(SettingUiState())
     val uiState = _uiState.asStateFlow()
 
     fun onSwitchCheckChange(checked: Boolean) {
         if (checked) {
-            _uiState.update {
-                it.copy(
-                    switchChecked = true,
-                    checkboxChecked = true
-                )
-            }
+            _uiState.update { it.copy(isDialogVisible = true) }
         } else {
             _uiState.update { it.copy(switchChecked = false) }
         }
+    }
+
+    fun onDialogConfirm() {
+        _uiState.update {
+            it.copy(
+                switchChecked = true,
+                checkboxChecked = true,
+                isDialogVisible = false
+            )
+        }
+    }
+
+    fun onDialogDismiss() {
+        _uiState.update { it.copy(isDialogVisible = false) }
     }
 
     fun onCheckboxCheckChange(checked: Boolean) {

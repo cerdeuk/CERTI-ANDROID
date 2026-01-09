@@ -9,6 +9,7 @@ import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.MyPageRoute
 import org.sopt.certi.presentation.ui.mypage.MyPageMainRoute
 import org.sopt.certi.presentation.ui.setting.SettingNotificationRoute
+import org.sopt.certi.presentation.ui.setting.SettingRoute
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -16,6 +17,10 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
 
 fun NavController.navigateToSetting() {
     navigate(MyPageRoute.Setting)
+}
+
+fun NavController.navigateToSettingNotification() {
+    navigate(MyPageRoute.SettingNotification)
 }
 
 fun NavGraphBuilder.myPageNavGraph(
@@ -32,10 +37,13 @@ fun NavGraphBuilder.myPageNavGraph(
             navigateToQuestion = {}
         )
     }
-
     composable<MyPageRoute.Setting> {
-        SettingNotificationRoute(
-            padding = padding
+        SettingRoute(
+            padding = padding,
+            navigateToSettingNotification = navController::navigateToSettingNotification
         )
+    }
+    composable<MyPageRoute.SettingNotification> {
+        SettingNotificationRoute(padding = padding)
     }
 }

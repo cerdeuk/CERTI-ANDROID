@@ -113,7 +113,7 @@ fun DialogButton(
             text = text,
             style = CertiTheme.typography.body.semibold_18,
             color = textColor,
-            modifier = Modifier.padding(vertical = screenHeightDp(20.dp))
+            modifier = Modifier.padding(vertical = screenHeightDp(16.dp))
         )
     }
 }

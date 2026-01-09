@@ -96,4 +96,7 @@ sealed interface CertListRoute : Route {
 sealed interface MyPageRoute : Route {
     @Serializable
     data object Setting : MyPageRoute
+
+    @Serializable
+    data object SettingNotification : MyPageRoute
 }

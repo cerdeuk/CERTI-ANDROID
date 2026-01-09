@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
+import org.sopt.certi.core.component.dialog.CertiDialog
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -45,6 +46,14 @@ fun SettingNotificationRoute(
     viewModel: SettingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.isDialogVisible) {
+        CertiDialog(
+            text = stringResource(R.string.setting_dialog_message),
+            onConfirmClick = viewModel::onDialogConfirm,
+            onDismissClick = viewModel::onDialogDismiss
+        )
+    }
 
     SettingNotificationScreen(
         uiState = uiState,

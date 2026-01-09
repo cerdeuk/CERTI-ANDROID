@@ -25,11 +25,21 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun SettingRoute(padding: PaddingValues) {
+fun SettingRoute(
+    padding: PaddingValues,
+    navigateToSettingNotification: () -> Unit
+) {
+    SettingScreen(
+        onNavigateToSettingNotification = navigateToSettingNotification,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
-fun SettingScreen(modifier: Modifier = Modifier) {
+fun SettingScreen(
+    onNavigateToSettingNotification: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,7 +64,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
         ) {
             MenuRow(
                 text = stringResource(R.string.settings_notification),
-                onClick = {}
+                onClick = onNavigateToSettingNotification
             )
 
             MenuRow(
@@ -87,6 +97,8 @@ fun SettingScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun SettingPreview() {
     CERTITheme {
-        SettingScreen()
+        SettingScreen(
+            onNavigateToSettingNotification = {}
+        )
     }
 }
