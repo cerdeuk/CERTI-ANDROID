@@ -245,9 +245,6 @@ private fun PreviewDatePickerCalendar() {
                 selectedDate = selectedDate,
                 onDateSelected = { newDate ->
                     selectedDate = newDate
-                },
-                onMonthChanged = { newMonth ->
-                    currentMonth = newMonth
                 }
             )
         }
