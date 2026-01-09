@@ -135,7 +135,7 @@ private fun PreviewResumeMyCertScreen() {
     CERTITheme {
         CertificationScreen(
             uiState = uiState,
-            certifications = dummyCertifications.toImmutableList(),
+            certifications = dummyPlannedCertifications.toImmutableList(),
             onTabSelected = { selectedTab = it },
             onEditModeToggle = {},
             onCertificationClick = {},

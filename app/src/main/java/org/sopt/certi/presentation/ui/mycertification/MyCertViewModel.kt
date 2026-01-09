@@ -25,19 +25,37 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
     val myCertUiState = _myCertUiState.asStateFlow()
 
     init {
-        getMyCertList()
+        getPlannedCertificationList()
     }
 
     fun updateSelectedTab(tabType: MyCertType) {
         if (_myCertUiState.value.isEditMode) return
         if (_myCertUiState.value.selectedTab == tabType) return
 
-        _myCertUiState.update { it.copy(selectedTab = tabType) }
-        getMyCertList()
+        _myCertUiState.update {
+            it.copy(
+                selectedTab = tabType,
+                myCertListLoadState = UiState.Loading
+            )
+        }
+
+        when (tabType) {
+            MyCertType.PLANNED -> getPlannedCertificationList()
+            MyCertType.ACQUIRED -> getAcquiredCertificationList()
+            MyCertType.FAVORITE -> getFavoriteCertificationList()
+        }
     }
 
-    fun getMyCertList() = viewModelScope.launch {
-        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyCertifications)) }
+    private fun getPlannedCertificationList() = viewModelScope.launch {
+        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyPlannedCertifications)) }
+    }
+
+    private fun getAcquiredCertificationList() = viewModelScope.launch {
+        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyAcquiredCertification)) }
+    }
+
+    private fun getFavoriteCertificationList() = viewModelScope.launch {
+        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyPlannedCertifications)) }
     }
 
     fun onFavoriteToggle(id: Long) {}
