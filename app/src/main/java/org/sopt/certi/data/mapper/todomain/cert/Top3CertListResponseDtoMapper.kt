@@ -5,7 +5,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 
 fun Top3CertListResponseDto.toDomain(): CertificationData =
     CertificationData(
-        certificationId = 0,
+        certificationId = certificationId,
         certificationName = certificationName,
         certificationType = certificationType
     )
