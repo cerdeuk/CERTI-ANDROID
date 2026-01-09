@@ -23,10 +23,10 @@ import org.sopt.certi.domain.usecase.DummyUseCase
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertEditUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
-import org.sopt.certi.domain.usecase.SearchMajorUseCase
-import org.sopt.certi.domain.usecase.SearchUnivUseCase
-import org.sopt.certi.domain.usecase.SignInUseCase
-import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
+import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
+import org.sopt.certi.domain.usecase.auth.SignInUseCase
+import org.sopt.certi.domain.usecase.auth.SignUpUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase

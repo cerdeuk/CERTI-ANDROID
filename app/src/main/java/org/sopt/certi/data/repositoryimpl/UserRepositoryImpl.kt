@@ -13,6 +13,12 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource
 ) : UserRepository {
+    override suspend fun checkNicknameValidation(keyword: String): Result<Unit> = safeApiCall {
+        userRemoteDataSource.checkNicknameValidation(keyword)
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
     override suspend fun getInterestedJobList(): Result<InterestedJobListData> = safeApiCall {
         userRemoteDataSource.getInterestedJobList()
             .handleApiResponse()

@@ -22,5 +22,7 @@ data class CertificationSimple(
     @SerialName("testType")
     val testType: String,
     @SerialName("tags")
-    val tags: List<String>
+    val tags: List<String>,
+    @SerialName("description")
+    val description: String
 )

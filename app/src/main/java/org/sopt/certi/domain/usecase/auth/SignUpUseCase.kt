@@ -1,4 +1,4 @@
-package org.sopt.certi.domain.usecase
+package org.sopt.certi.domain.usecase.auth
 
 import org.sopt.certi.domain.model.user.SignUpResult
 import org.sopt.certi.domain.model.user.UserInformationAuth
@@ -10,6 +10,7 @@ class SignUpUseCase(
     suspend operator fun invoke(
         preSignupToken: String,
         userInformation: UserInformationAuth?,
+        nickname: String,
         university: String,
         grade: String,
         track: String,
@@ -19,6 +20,7 @@ class SignUpUseCase(
         authRepository.signUp(
             preSignupToken = preSignupToken,
             userInformation = userInformation,
+            nickname = nickname,
             university = university,
             grade = grade,
             track = track,
