@@ -1,5 +1,7 @@
 package org.sopt.certi.presentation.ui.setting
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -27,9 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.MyPageTopBar
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.presentation.ui.setting.component.CustomCheckbox
+import org.sopt.certi.presentation.ui.setting.component.CustomSwitch
+import org.sopt.certi.presentation.ui.setting.component.MarketingInfoBox
+import org.sopt.certi.presentation.ui.setting.state.SettingUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -39,8 +43,9 @@ fun SettingNotificationRoute(padding: PaddingValues) {
 
 @Composable
 fun SettingNotificationScreen(
-    checked: Boolean,
-    onCheckChange: (Boolean) -> Unit,
+    uiState: SettingUiState,
+    onSwitchCheckChange: (Boolean) -> Unit,
+    onCheckboxCheckChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -63,26 +68,14 @@ fun SettingNotificationScreen(
                 color = CertiTheme.colors.black
             )
             Spacer(modifier = Modifier.widthForScreenPercentage(4.dp))
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_question_24),
-                contentDescription = null,
-                tint = CertiTheme.colors.gray300
-            )
+            MarketingInfoBox()
             Spacer(modifier = Modifier.weight(1f))
-
-            Switch(
-                checked = checked,
-                onCheckedChange = onCheckChange,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = CertiTheme.colors.white,
-                    checkedTrackColor = CertiTheme.colors.purpleBlue,
-                    checkedBorderColor = Color.Unspecified,
-                    uncheckedThumbColor = CertiTheme.colors.white,
-                    uncheckedTrackColor = CertiTheme.colors.gray300,
-                    uncheckedBorderColor = Color.Unspecified
-                )
+            CustomSwitch(
+                checked = uiState.switchChecked,
+                onCheckedChange = onSwitchCheckChange
             )
         }
+        Spacer(modifier = Modifier.heightForScreenPercentage(12.dp))
 
         Text(
             text = stringResource(R.string.setting_marketing_description),
@@ -91,8 +84,44 @@ fun SettingNotificationScreen(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
         )
 
-        Column {
-            Row {  }
+        Column(
+            modifier = Modifier
+                .padding(top = screenHeightDp(24.dp))
+                .background(CertiTheme.colors.gray0)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
+        ) {
+            Row {
+                CustomCheckbox(
+                    checked = uiState.checkboxChecked,
+                    onCheckedChange = onCheckboxCheckChange
+                )
+                Spacer(modifier = Modifier.widthForScreenPercentage(12.dp))
+
+                Text(
+                    text = "선택",
+                    style = CertiTheme.typography.body.regular_16,
+                    color = CertiTheme.colors.gray400
+                )
+                Spacer(modifier = Modifier.widthForScreenPercentage(4.dp))
+                Text(
+                    text = "서티 개인정보 수집 및 이용 동의",
+                    style = CertiTheme.typography.body.semibold_16,
+                    color = CertiTheme.colors.black
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
+                    contentDescription = null
+                )
+            }
+
+            Text(
+                text = "이벤트 소식 알림을 받으려면 먼저 개인정보 수집 및 이용에 동의해주세요.",
+                style = CertiTheme.typography.caption.regular_14,
+                color = CertiTheme.colors.gray400
+            )
         }
     }
 }
@@ -101,10 +130,18 @@ fun SettingNotificationScreen(
 @Composable
 private fun SettingNotificationPreview() {
     CERTITheme {
-        var checked by remember { mutableStateOf(false) }
+        var uiState by remember {
+            mutableStateOf(
+                SettingUiState(
+                    switchChecked = false,
+                    checkboxChecked = false
+                )
+            )
+        }
         SettingNotificationScreen(
-            checked = checked,
-            onCheckChange = { checked = it }
+            uiState = uiState,
+            onSwitchCheckChange = { },
+            onCheckboxCheckChange = {}
         )
     }
 }
