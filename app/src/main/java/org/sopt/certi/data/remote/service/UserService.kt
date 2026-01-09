@@ -7,8 +7,14 @@ import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface UserService {
+    @GET("/api/v1/user/validation")
+    suspend fun checkNicknameValidation(
+        @Query("keyword") keyword: String
+    ): NullableApiResponse<Unit>
+
     @GET("/api/v1/user/job")
     suspend fun getInterestedJobList(): ApiResponse<GetInterestJobListResponseDto>
 

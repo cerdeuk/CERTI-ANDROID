@@ -11,6 +11,7 @@ fun CertListResponseDto.toDomain(): List<CertificationData> =
             certificationType = cert.certificationType,
             testType = cert.testType,
             tags = cert.tags,
+            description = cert.description,
             isFavorite = cert.isFavorite
         )
     }

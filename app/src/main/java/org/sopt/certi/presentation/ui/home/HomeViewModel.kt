@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
@@ -18,7 +17,7 @@ import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.HomeRecommendUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
-import org.sopt.certi.domain.usecase.WithDrawUseCase
+import org.sopt.certi.domain.usecase.auth.WithDrawUseCase
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
 import javax.inject.Inject
 
