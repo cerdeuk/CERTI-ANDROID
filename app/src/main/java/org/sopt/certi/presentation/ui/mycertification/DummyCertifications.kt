@@ -13,7 +13,9 @@ val dummyPlannedCertifications = listOf(
         state = "고양시",
         testTime = "09:00",
         testDateInformation = "2025.12.11",
-        isFavorite = true
+        isFavorite = true,
+        testType = "실기형",
+        agencyName = "한국산업인력공단"
     ),
     CertificationData(
         certificationId = 2,
@@ -25,7 +27,9 @@ val dummyPlannedCertifications = listOf(
         state = "고양시",
         testTime = "09:00",
         testDateInformation = "2025.12.11",
-        isFavorite = true
+        isFavorite = true,
+        testType = "실기형",
+        agencyName = "한국산업인력공단"
     ),
     CertificationData(
         certificationId = 3,
@@ -37,7 +41,9 @@ val dummyPlannedCertifications = listOf(
         state = "고양시",
         testTime = "09:00",
         testDateInformation = "2025.12.11",
-        isFavorite = true
+        isFavorite = true,
+        testType = "실기형",
+        agencyName = "한국산업인력공단"
     )
 )
 
