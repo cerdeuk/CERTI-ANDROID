@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.domain.usecase.SearchMajorUseCase
-import org.sopt.certi.domain.usecase.SearchUnivUseCase
+import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
+import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import javax.inject.Inject
