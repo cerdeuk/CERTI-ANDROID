@@ -6,6 +6,7 @@ import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 
 interface UserRemoteDataSource {
+    suspend fun checkNicknameValidation(keyword: String): NullableApiResponse<Unit>
     suspend fun getInterestedJobList(): ApiResponse<GetInterestJobListResponseDto>
     suspend fun modifyInterestedJobList(jobNameList: ModifyInterestedJobRequestDto): NullableApiResponse<Unit>
 }

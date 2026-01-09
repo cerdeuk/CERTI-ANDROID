@@ -131,7 +131,7 @@ private fun OnBoardingNickNameScreen(
 
         CertiBasicButton(
             buttonText = stringResource(R.string.button_start),
-            onClick = { },
+            onClick = onSignUpClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment = Alignment.BottomCenter),

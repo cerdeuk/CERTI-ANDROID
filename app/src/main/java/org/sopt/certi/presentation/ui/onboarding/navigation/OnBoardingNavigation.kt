@@ -83,6 +83,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
     composable<OnBoardingRoute.JobCategory> {
         OnBoardingJobCategoryRoute(
             padding = padding,
+            popBackStack = navController::popBackStack,
             navigateToOnBoardingNickName = navController::navigateToNickName,
             viewModel = viewModel
         )

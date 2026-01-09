@@ -16,6 +16,8 @@ data class SignUpRequestDto(
     val track: String,
     @SerialName("major")
     val major: String,
+    @SerialName("nickname")
+    val nickname: String,
     @SerialName("jobs")
     val jobs: List<String>
 )

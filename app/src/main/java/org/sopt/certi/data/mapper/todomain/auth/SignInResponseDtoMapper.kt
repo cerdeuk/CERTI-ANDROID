@@ -9,8 +9,10 @@ fun SignInResponseDto.toDomain() = UserAuth(
     needSignUp = needSignUp,
     preSignupToken = preSignupToken.toString(),
     userInformation = UserInformationAuth(
+        socialId = userInformation?.socialId ?: "",
+        socialType = userInformation?.socialType ?: "",
         email = userInformation?.email ?: "",
-        nickname = userInformation?.nickname ?: "",
+        name = userInformation?.name ?: "",
         profileImageUrl = userInformation?.profileImageUrl ?: ""
     ),
     jwtResponse = tokenResponse?.let {

@@ -11,6 +11,8 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(
     private val userService: UserService
 ) : UserRemoteDataSource {
+    override suspend fun checkNicknameValidation(keyword: String): NullableApiResponse<Unit> = userService.checkNicknameValidation(keyword)
+
     override suspend fun getInterestedJobList(): ApiResponse<GetInterestJobListResponseDto> {
         return userService.getInterestedJobList()
     }
