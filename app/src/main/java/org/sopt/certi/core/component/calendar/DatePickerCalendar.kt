@@ -18,8 +18,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +35,7 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.core.yearMonth
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -51,30 +52,28 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun DatePickerCalendar(
     selectedDate: LocalDate?,
-    currentMonth: YearMonth,
     onDateSelected: (LocalDate) -> Unit,
-    onMonthChanged: (YearMonth) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val initialMonth = remember { currentMonth }
+    val currentMonth = remember(selectedDate) {
+        selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()
+    }
     val startMonth = remember { currentMonth.minusMonths(100) }
     val endMonth = remember { currentMonth.plusMonths(100) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
+    val coroutineScope = rememberCoroutineScope()
 
     val state = rememberCalendarState(
         startMonth = startMonth,
         endMonth = endMonth,
-        firstVisibleMonth = initialMonth,
+        firstVisibleMonth = currentMonth,
         firstDayOfWeek = firstDayOfWeek
     )
 
+    val visibleMonth = remember(state) { state.firstVisibleMonth.yearMonth }
+
     LaunchedEffect(currentMonth) {
         state.animateScrollToMonth(currentMonth)
-    }
-
-    LaunchedEffect(state) {
-        snapshotFlow { state.firstVisibleMonth.yearMonth }
-            .collect { month -> onMonthChanged(month) }
     }
 
     Column(
@@ -89,9 +88,17 @@ fun DatePickerCalendar(
             .padding(screenWidthDp(12.dp))
     ) {
         CalendarHeader(
-            currentMonth = currentMonth,
-            goToPreviousMonth = { onMonthChanged(currentMonth.minusMonths(1)) },
-            goToNextMonth = { onMonthChanged(currentMonth.plusMonths(1)) },
+            currentMonth = visibleMonth,
+            goToPreviousMonth = {
+                coroutineScope.launch {
+                    state.animateScrollToMonth(visibleMonth.minusMonths(1))
+                }
+            },
+            goToNextMonth = {
+                coroutineScope.launch {
+                    state.animateScrollToMonth(visibleMonth.plusMonths(1))
+                }
+            },
             modifier = Modifier.padding(bottom = screenHeightDp(12.dp))
         )
 
@@ -105,7 +112,9 @@ fun DatePickerCalendar(
                     isSelected = selectedDate == day.date,
                     onDateClick = {
                         if (day.position != DayPosition.MonthDate) {
-                            onMonthChanged(day.date.yearMonth)
+                            coroutineScope.launch {
+                                state.animateScrollToMonth(day.date.yearMonth)
+                            }
                         }
                         onDateSelected(day.date)
                     }
@@ -225,7 +234,6 @@ private fun DaysOfWeekTitle() {
 @Composable
 private fun PreviewDatePickerCalendar() {
     var selectedDate by remember { mutableStateOf<LocalDate?>(LocalDate.now()) }
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     CERTITheme {
         Box(
@@ -235,7 +243,6 @@ private fun PreviewDatePickerCalendar() {
         ) {
             DatePickerCalendar(
                 selectedDate = selectedDate,
-                currentMonth = currentMonth,
                 onDateSelected = { newDate ->
                     selectedDate = newDate
                 },

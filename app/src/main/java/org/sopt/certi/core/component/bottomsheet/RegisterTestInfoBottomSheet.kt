@@ -56,7 +56,6 @@ import org.sopt.certi.core.util.toLocalDateOrMin
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
-import java.time.YearMonth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +81,6 @@ fun RegisterTestInfoBottomSheet(
 
     // Date
     var showCalendar by remember { mutableStateOf(false) }
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     // Place
     var showPlaceP1List by remember { mutableStateOf(false) }
@@ -124,7 +122,7 @@ fun RegisterTestInfoBottomSheet(
         dragHandle = {
             Box(
                 modifier = Modifier
-                    .padding(top = screenHeightDp(24.dp))
+                    .padding(top = screenHeightDp(20.dp))
                     .widthForScreenPercentage(80.dp)
                     .heightForScreenPercentage(5.dp)
                     .roundedBackgroundWithBorder(12.dp, CertiTheme.colors.gray200)
@@ -214,12 +212,10 @@ fun RegisterTestInfoBottomSheet(
                     // Calendar
                     DatePickerCalendar(
                         selectedDate = dateText.toLocalDateOrMin(),
-                        currentMonth = currentMonth,
                         onDateSelected = { date ->
                             dateText = date.toString().replace("-", ".")
                             showCalendar = false
                         },
-                        onMonthChanged = {},
                         modifier = Modifier
                             .zIndex(1f)
                             .padding(horizontal = screenWidthDp(6.dp))
