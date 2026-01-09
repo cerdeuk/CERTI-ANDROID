@@ -30,8 +30,9 @@ data class CertificationData(
     val expirationPeriod: String = "",
 
     // 아직 서버에 없음 근데 필요한것들
-    var isAcquired: Boolean = false, // 취득 여부
-    var level: String = "", // 레벨
-    var placement: String = "", // 시험장소
-    var testTime: String = "" // 시험시간
+    val isAcquired: Boolean = false, // 취득 여부
+    val level: String = "", // 레벨
+    val city: String = "", // 시험장소
+    val state: String = "",
+    val testTime: String = "" // 시험시간
 )

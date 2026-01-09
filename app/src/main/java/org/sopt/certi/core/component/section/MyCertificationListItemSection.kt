@@ -108,7 +108,7 @@ fun MyCertificationListItemSection(
             } else {
                 CertInfoSection(
                     iconRes = R.drawable.ic_placemark,
-                    testInfo = certificationData.placement
+                    testInfo = certificationData.city
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_time,

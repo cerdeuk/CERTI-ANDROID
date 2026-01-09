@@ -18,7 +18,8 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
         MyCertUiState(
             isEditMode = false,
             selectedTab = MyCertType.PLANNED,
-            myCertListLoadState = UiState.Loading,
+            myCertListLoadState = UiState.Init,
+            editTargetCertification = null,
             deleteTargetId = null
         )
     )
@@ -66,7 +67,17 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
         _myCertUiState.update { it.copy(isEditMode = !isEditMode) }
     }
 
-    fun editItem(id: Long) {}
+    fun editItem(id: Long) {
+        val currentList = (_myCertUiState.value.myCertListLoadState as? UiState.Success)?.data
+        val targetData = currentList?.find { it.certificationId == id }
+        _myCertUiState.update {
+            it.copy(editTargetCertification = targetData)
+        }
+    }
+
+    fun closeEditSheet() {
+        _myCertUiState.update { it.copy(editTargetCertification = null) }
+    }
 
     fun openDeleteDialog(id: Long) {
         _myCertUiState.update { it.copy(deleteTargetId = id) }

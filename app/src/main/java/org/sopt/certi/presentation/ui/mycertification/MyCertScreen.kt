@@ -4,6 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
+import org.sopt.certi.core.component.bottomsheet.RegisterTestInfoBottomSheet
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.state.UiState
@@ -30,6 +33,7 @@ import org.sopt.certi.presentation.ui.mycertification.component.MyCertHeader
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import org.sopt.certi.ui.theme.CERTITheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCertRoute(
     padding: PaddingValues,
@@ -37,6 +41,10 @@ fun MyCertRoute(
     viewModel: MyCertViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     BackHandler(enabled = uiState.isEditMode) { viewModel.onEditModeToggle() }
 
@@ -47,6 +55,18 @@ fun MyCertRoute(
                 viewModel.closeDeleteDialog()
             },
             onDismissClick = { viewModel.closeDeleteDialog() }
+        )
+    }
+
+    uiState.editTargetCertification?.let { data ->
+        RegisterTestInfoBottomSheet(
+            sheetState = sheetState,
+            certTitle = data.certificationName,
+            place1List = emptyList(),
+            place2List = emptyList(),
+            forModify = true,
+            onDismissClick = viewModel::closeEditSheet,
+            certificationData = data
         )
     }
 
@@ -127,6 +147,7 @@ private fun PreviewResumeMyCertScreen() {
                 isEditMode = false,
                 selectedTab = MyCertType.PLANNED,
                 myCertListLoadState = UiState.Loading,
+                editTargetCertification = null,
                 deleteTargetId = null
             )
         )

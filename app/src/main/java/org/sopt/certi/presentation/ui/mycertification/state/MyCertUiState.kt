@@ -8,5 +8,6 @@ data class MyCertUiState(
     val isEditMode: Boolean,
     val selectedTab: MyCertType,
     val myCertListLoadState: UiState<List<CertificationData>>,
+    val editTargetCertification: CertificationData?,
     val deleteTargetId: Long?
 )

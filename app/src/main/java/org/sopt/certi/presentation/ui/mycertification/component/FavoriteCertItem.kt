@@ -78,7 +78,7 @@ private fun FavoriteCertItemPreview() {
                 certificationType = "국가기술자격",
                 description = "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구...",
                 isAcquired = true,
-                placement = "고양시",
+                city = "고양시",
                 testTime = "09:00",
                 createdAt = LocalDate.of(2025, 11, 23),
                 level = "IM3",

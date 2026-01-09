@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -102,8 +102,8 @@ fun RegisterTestInfoBottomSheet(
             // TODO data 형식에 맞게 여기서 삽입
 
             dateText = certificationData.testDateInformation
-//            placeTextP1 = certificationData.
-//            placeTextP2 = certificationData.
+            placeTextP1 = certificationData.city
+            placeTextP2 = certificationData.state
 //            timeData = certificationData.testTime
         }
     }
@@ -410,30 +410,34 @@ fun RegisterTestInfoBottomSheet(
                                 timeData = Pair(hour, minute)
                             }
 
-                            Spacer(modifier = Modifier.heightIn(min = screenHeightDp(48.dp)))
+                            if (forModify) {
+                                Spacer(modifier = Modifier.height(screenHeightDp(86.dp)))
+                            } else {
+                                Spacer(modifier = Modifier.heightIn(min = screenHeightDp(48.dp)))
 
-                            Text(
-                                text = stringResource(R.string.test_info_bottomsheet_confirm_later),
-                                style = CertiTheme.typography.caption.semibold_12,
-                                color = CertiTheme.colors.gray300,
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .noRippleClickable {
-                                        onDismissClick()
-                                    }
-                            )
+                                Text(
+                                    text = stringResource(R.string.test_info_bottomsheet_confirm_later),
+                                    style = CertiTheme.typography.caption.semibold_12,
+                                    color = CertiTheme.colors.gray300,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .noRippleClickable {
+                                            onDismissClick()
+                                        }
+                                )
 
-                            Spacer(Modifier.heightForScreenPercentage(4.dp))
+                                Spacer(Modifier.heightForScreenPercentage(4.dp))
 
-                            HorizontalDivider(
-                                thickness = 1.dp,
-                                color = CertiTheme.colors.gray200,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(100.dp)
-                                    .align(Alignment.CenterHorizontally)
-                            )
+                                HorizontalDivider(
+                                    thickness = 1.dp,
+                                    color = CertiTheme.colors.gray200,
+                                    modifier = Modifier
+                                        .widthForScreenPercentage(100.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                )
 
-                            Spacer(Modifier.heightForScreenPercentage(12.dp))
+                                Spacer(Modifier.heightForScreenPercentage(12.dp))
+                            }
 
                             CertiBasicButton(
                                 buttonText = stringResource(R.string.test_info_bottomsheet_confirm),
