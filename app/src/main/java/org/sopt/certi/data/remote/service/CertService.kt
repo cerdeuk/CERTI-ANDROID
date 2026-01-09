@@ -21,8 +21,8 @@ interface CertService {
         @Query("keyword") keyword: String
     ): ApiResponse<CertListResponseDto>
 
-    @GET("/api/v1/certification")
-    suspend fun getCategoryCertList(
+    @GET("/api/v1/certification/jobs")
+    suspend fun getJobCertList(
         @Query("isFavorite") isFavorite: Boolean,
         @Query("jobs") jobs: String
     ): ApiResponse<CertListResponseDto>
