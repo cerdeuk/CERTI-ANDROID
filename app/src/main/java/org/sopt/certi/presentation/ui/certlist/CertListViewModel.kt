@@ -86,7 +86,7 @@ class CertListViewModel @Inject constructor(
     private fun getCategoryTop3CertificationList() = viewModelScope.launch {
         _categoryTop3CertListLoadState.value = UiState.Loading
         top3JobCertListUseCase()
-            .onSuccess{
+            .onSuccess {
                 _categoryTop3CertListLoadState.value = UiState.Success(it.toImmutableList())
             }
             .onFailure {
