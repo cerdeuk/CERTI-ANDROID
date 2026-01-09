@@ -74,7 +74,7 @@ fun AcademicInfoRoute(
 }
 
 @Composable
-fun AcademicInfoScreen(
+private fun AcademicInfoScreen(
     uiState: AcademicUiState,
     onUnivManageClick: () -> Unit,
     onMajorManageClick: () -> Unit,
@@ -115,9 +115,6 @@ private fun AcademicInfoPreview() {
         skipPartiallyExpanded = true
     )
     var showBottomSheet by remember { mutableStateOf(false) }
-    val viewModel = remember { AcademicInfoViewModel() }
-    val uiState by viewModel.academicUiState.collectAsStateWithLifecycle()
-    val editingList by viewModel.editingCategoryList.collectAsStateWithLifecycle()
 
     CERTITheme {
         Box(
@@ -127,22 +124,19 @@ private fun AcademicInfoPreview() {
                 .statusBarsPadding()
         ) {
             AcademicInfoScreen(
-                uiState = uiState,
+                uiState = AcademicUiState(),
                 onUnivManageClick = {},
                 onMajorManageClick = {},
-                onReselectCategoryClick = {
-                    viewModel.startCategoryEditing()
-                    showBottomSheet = !showBottomSheet
-                }
+                onReselectCategoryClick = {}
             )
 
             if (showBottomSheet) {
                 SelectJobCategoryBottomSheet(
                     sheetState = sheetState,
-                    selectedList = editingList,
-                    onItemClick = viewModel::editJobCategory,
+                    selectedList = emptyList(),
+                    onItemClick = {},
                     changeBottomSheetVisibility = { showBottomSheet = it },
-                    onConfirmClick = viewModel::saveCategoryChanges
+                    onConfirmClick = {}
                 )
             }
         }

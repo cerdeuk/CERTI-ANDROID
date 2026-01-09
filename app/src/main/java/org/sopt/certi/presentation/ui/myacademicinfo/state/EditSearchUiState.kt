@@ -5,8 +5,7 @@ import org.sopt.certi.core.state.UiState
 data class EditSearchUiState(
     val searchText: String = "",
     val searchListLoadState: UiState<List<String>> = UiState.Init,
-    val submittedSearchText: String = "",
-    val savedText: String = ""
+    val submittedSearchText: String = ""
 ) {
     val loadState: UiState<Unit>
         get() = when (searchListLoadState) {
@@ -16,5 +15,5 @@ data class EditSearchUiState(
         }
 
     val isSaveEnable: Boolean
-        get() = submittedSearchText.isNotBlank() && submittedSearchText != savedText
+        get() = submittedSearchText.isNotBlank()
 }

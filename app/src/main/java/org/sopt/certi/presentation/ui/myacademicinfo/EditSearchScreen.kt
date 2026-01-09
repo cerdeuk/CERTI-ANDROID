@@ -13,7 +13,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.textfield.CertiBasicTextField
@@ -29,7 +29,6 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.component.topbar.MyPageTopBar
-import org.sopt.certi.presentation.type.AcademicInfoType
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -44,11 +43,11 @@ fun EditUnivRoute(
     EditSearchScreen(
         pageTitle = stringResource(R.string.onboarding_univ_title),
         uiState = uiState,
-        univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
-        onValueChange = { text -> viewModel.onSearchTextChanged(AcademicInfoType.UNIV, text) },
-        onSearchClick = { viewModel.onSearchClick(AcademicInfoType.UNIV) },
-        onItemSelected = { item -> viewModel.onItemSelected(AcademicInfoType.UNIV, item) },
-        onSaveClick = { viewModel.onSaveClick(AcademicInfoType.UNIV) },
+        itemList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+        onValueChange = viewModel::onUnivSearchTextChange,
+        onSearchClick = { viewModel.getUnivList(uiState.searchText) },
+        onItemSelected = viewModel::selectUniv,
+        onSaveClick = viewModel::onUnivSaveClick,
         modifier = Modifier.padding(padding)
     )
 }
@@ -63,20 +62,20 @@ fun EditMajorRoute(
     EditSearchScreen(
         pageTitle = stringResource(R.string.onboarding_major_title),
         uiState = uiState,
-        univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
-        onValueChange = { text -> viewModel.onSearchTextChanged(AcademicInfoType.MAJOR, text) },
-        onSearchClick = { viewModel.onSearchClick(AcademicInfoType.MAJOR) },
-        onItemSelected = { item -> viewModel.onItemSelected(AcademicInfoType.MAJOR, item) },
-        onSaveClick = { viewModel.onSaveClick(AcademicInfoType.MAJOR) },
+        itemList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+        onValueChange = viewModel::onMajorSearchTextChange,
+        onSearchClick = { viewModel.getMajorList(uiState.searchText) },
+        onItemSelected = viewModel::selectMajor,
+        onSaveClick = viewModel::onMajorSaveClick,
         modifier = Modifier.padding(padding)
     )
 }
 
 @Composable
-fun EditSearchScreen(
+private fun EditSearchScreen(
     pageTitle: String,
     uiState: EditSearchUiState,
-    univList: ImmutableList<String>,
+    itemList: ImmutableList<String>,
     onValueChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     onItemSelected: (String) -> Unit,
@@ -112,7 +111,7 @@ fun EditSearchScreen(
                 LazyColumn(
                     modifier = Modifier.padding(bottom = screenHeightDp(60.dp))
                 ) {
-                    items(univList) { univ ->
+                    items(itemList) { univ ->
                         Column(
                             modifier = Modifier.noRippleClickable { onItemSelected(univ) }
                         ) {
@@ -143,16 +142,13 @@ fun EditSearchScreen(
 @Preview(showBackground = true)
 @Composable
 private fun EditUnivNamePreview() {
-    val viewModel = remember { AcademicInfoViewModel() }
-    val uiState by viewModel.editUnivUiState.collectAsStateWithLifecycle()
-
     CERTITheme {
         EditSearchScreen(
             pageTitle = stringResource(R.string.onboarding_univ_title),
-            uiState = uiState,
+            uiState = EditSearchUiState(),
             onValueChange = {},
             onSearchClick = {},
-            univList = (uiState.searchListLoadState as? UiState.Success)?.data.orEmpty().toImmutableList(),
+            itemList = persistentListOf(),
             onItemSelected = {},
             onSaveClick = {},
             modifier = Modifier

@@ -9,13 +9,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.presentation.type.AcademicInfoType
+import org.sopt.certi.domain.usecase.SearchMajorUseCase
+import org.sopt.certi.domain.usecase.SearchUnivUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import javax.inject.Inject
 
 @HiltViewModel
-class AcademicInfoViewModel @Inject constructor() : ViewModel() {
+class AcademicInfoViewModel @Inject constructor(
+    private val searchUnivUseCase: SearchUnivUseCase,
+    private val searchMajorUseCase: SearchMajorUseCase
+) : ViewModel() {
     private val _academicUiState = MutableStateFlow(AcademicUiState())
     val academicUiState = _academicUiState.asStateFlow()
 
@@ -27,33 +31,6 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
 
     private val _editingCategoryList = MutableStateFlow<List<CategoryType>>(emptyList())
     val editingCategoryList = _editingCategoryList.asStateFlow()
-
-    init {
-        loadAcademicInfo()
-    }
-
-    private fun loadAcademicInfo() {
-        viewModelScope.launch {
-            val initialList = listOf(CategoryType.RND, CategoryType.MEDIA, CategoryType.CONSTRUCTION)
-            _academicUiState.update {
-                AcademicUiState(selectedCategoryList = initialList)
-            }
-            _editUnivUiState.update {
-                it.copy(
-                    searchText = "기존대학교",
-                    submittedSearchText = "기존대학교",
-                    savedText = "기존대학교"
-                )
-            }
-            _editMajorUiState.update {
-                it.copy(
-                    searchText = "컴퓨터공학부",
-                    submittedSearchText = "컴퓨터공학부",
-                    savedText = "컴퓨터공학부"
-                )
-            }
-        }
-    }
 
     fun startCategoryEditing() {
         _editingCategoryList.value = _academicUiState.value.selectedCategoryList.toList()
@@ -75,48 +52,73 @@ class AcademicInfoViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun getTargetStateFlow(type: AcademicInfoType): MutableStateFlow<EditSearchUiState> {
-        return when (type) {
-            AcademicInfoType.UNIV -> _editUnivUiState
-            AcademicInfoType.MAJOR -> _editMajorUiState
-        }
-    }
-
-    fun onSearchTextChanged(type: AcademicInfoType, text: String) {
-        val targetState = getTargetStateFlow(type)
-        targetState.update { it.copy(searchText = text) }
-    }
-
-    fun onSearchClick(type: AcademicInfoType) {
-        val targetState = getTargetStateFlow(type)
-        if (targetState.value.searchText.isEmpty()) return
-
+    fun getUnivList(univSearchText: String) {
         viewModelScope.launch {
-            val resultList = when (type) {
-                AcademicInfoType.UNIV -> listOf("서울대학교", "연세대학교", "고려대학교")
-                AcademicInfoType.MAJOR -> listOf("컴퓨터공학과", "경영학과", "시각디자인학과")
-            }
+            _editUnivUiState.update { it.copy(searchListLoadState = UiState.Loading) }
+            searchUnivUseCase(univSearchText)
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _editUnivUiState.update { it.copy(searchListLoadState = UiState.Empty) }
+                    } else {
+                        _editUnivUiState.update { it.copy(searchListLoadState = UiState.Success(result)) }
+                    }
+                }.onFailure {
+                    _editUnivUiState.update { it.copy(searchListLoadState = UiState.Failure(it.toString())) }
+                }
+        }
+        _editUnivUiState.update { it.copy(searchText = univSearchText) }
+    }
 
-            targetState.update {
-                it.copy(searchListLoadState = UiState.Success(resultList))
-            }
+    fun onUnivSearchTextChange(univSearchText: String) {
+        _editUnivUiState.update { it.copy(searchText = univSearchText) }
+        if (univSearchText.isBlank()) {
+            _editUnivUiState.update { it.copy(searchListLoadState = UiState.Init) }
         }
     }
 
-    fun onItemSelected(type: AcademicInfoType, itemName: String) {
-        val targetState = getTargetStateFlow(type)
-        targetState.update {
+    fun selectUniv(univName: String) {
+        _editUnivUiState.update {
             it.copy(
-                searchText = itemName,
-                submittedSearchText = itemName
+                searchText = univName,
+                submittedSearchText = univName
             )
         }
     }
 
-    fun onSaveClick(type: AcademicInfoType) {
-        val targetState = getTargetStateFlow(type)
-        targetState.update {
-            it.copy(savedText = targetState.value.submittedSearchText)
+    fun onUnivSaveClick() {}
+
+    fun getMajorList(majorSearchText: String) {
+        viewModelScope.launch {
+            _editMajorUiState.update { it.copy(searchListLoadState = UiState.Loading) }
+            searchMajorUseCase(majorSearchText)
+                .onSuccess { result ->
+                    if (result.isEmpty()) {
+                        _editMajorUiState.update { it.copy(searchListLoadState = UiState.Empty) }
+                    } else {
+                        _editMajorUiState.update { it.copy(searchListLoadState = UiState.Success(result)) }
+                    }
+                }.onFailure {
+                    _editMajorUiState.update { it.copy(searchListLoadState = UiState.Failure(it.toString())) }
+                }
+        }
+        _editMajorUiState.update { it.copy(searchText = majorSearchText) }
+    }
+
+    fun onMajorSearchTextChange(majorSearchText: String) {
+        _editMajorUiState.update { it.copy(searchText = majorSearchText) }
+        if (majorSearchText.isBlank()) {
+            _editMajorUiState.update { it.copy(searchListLoadState = UiState.Init) }
         }
     }
+
+    fun selectMajor(majorName: String) {
+        _editMajorUiState.update {
+            it.copy(
+                searchText = majorName,
+                submittedSearchText = majorName
+            )
+        }
+    }
+
+    fun onMajorSaveClick() {}
 }
