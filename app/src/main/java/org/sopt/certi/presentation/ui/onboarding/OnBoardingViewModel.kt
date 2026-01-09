@@ -13,9 +13,10 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.user.UserInfoData
-import org.sopt.certi.domain.usecase.SearchMajorUseCase
-import org.sopt.certi.domain.usecase.SearchUnivUseCase
-import org.sopt.certi.domain.usecase.SignUpUseCase
+import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
+import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
+import org.sopt.certi.domain.usecase.auth.SignUpUseCase
+import org.sopt.certi.domain.usecase.user.CheckNicknameValidationUseCase
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.onboarding.state.JobCategoryStep
 import org.sopt.certi.presentation.ui.onboarding.state.OnBoardingJobCategoryUiState
@@ -28,7 +29,8 @@ class OnBoardingViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val tokenManager: TokenManager,
     private val searchUnivUseCase: SearchUnivUseCase,
-    private val searchMajorUseCase: SearchMajorUseCase
+    private val searchMajorUseCase: SearchMajorUseCase,
+    private val checkNicknameValidationUseCase: CheckNicknameValidationUseCase
 ) : ViewModel() {
     private val _onBoardingUnivLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Init)
     private val _univSearchText = MutableStateFlow("")
@@ -167,29 +169,45 @@ class OnBoardingViewModel @Inject constructor(
         _track.value = track
     }
 
+    private fun updateJobCategory(reducer: (OnBoardingJobCategoryUiState) -> OnBoardingJobCategoryUiState) {
+        _onBoardingJobCategoryUiState.value = reducer(_onBoardingJobCategoryUiState.value)
+    }
+
     fun onJobCategorySelected(selected: String) {
-        val current = _onBoardingJobCategoryUiState.value
-        when (current.step) {
-            JobCategoryStep.FIRST -> {
-                _onBoardingJobCategoryUiState.value = current.copy(first = selected)
+        updateJobCategory { it.copy(draft = selected) }
+    }
+
+    fun onJobCategoryNextClicked() {
+        updateJobCategory { current ->
+            val draft = current.draft ?: return@updateJobCategory current
+
+            val committed = when (current.step) {
+                JobCategoryStep.FIRST -> current.copy(first = draft)
+                JobCategoryStep.SECOND -> current.copy(second = draft)
+                JobCategoryStep.THIRD -> current.copy(third = draft)
             }
 
-            JobCategoryStep.SECOND -> {
-                _onBoardingJobCategoryUiState.value = current.copy(second = selected)
-            }
+            val cleared = committed.copy(draft = null)
 
-            JobCategoryStep.THIRD -> {
-                _onBoardingJobCategoryUiState.value = current.copy(third = selected)
+            when (cleared.step) {
+                JobCategoryStep.FIRST -> cleared.copy(step = JobCategoryStep.SECOND)
+                JobCategoryStep.SECOND -> cleared.copy(step = JobCategoryStep.THIRD)
+                JobCategoryStep.THIRD -> cleared
             }
         }
     }
 
-    fun onJobCategoryNextClicked() {
-        val current = _onBoardingJobCategoryUiState.value
-        when (current.step) {
-            JobCategoryStep.FIRST -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.SECOND)
-            JobCategoryStep.SECOND -> _onBoardingJobCategoryUiState.value = current.copy(step = JobCategoryStep.THIRD)
-            JobCategoryStep.THIRD -> {}
+    fun onJobCategorySkipClicked() {
+        updateJobCategory { it.copy(draft = null) }
+    }
+
+    fun onJobCategoryPrevClicked() {
+        updateJobCategory { current ->
+            when (current.step) {
+                JobCategoryStep.FIRST -> current.copy(draft = null)
+                JobCategoryStep.SECOND -> current.copy(step = JobCategoryStep.FIRST, second = null, draft = null)
+                JobCategoryStep.THIRD -> current.copy(step = JobCategoryStep.SECOND, third = null, draft = null)
+            }
         }
     }
 
@@ -203,15 +221,32 @@ class OnBoardingViewModel @Inject constructor(
 
     fun onNicknameChange(nickname: String) {
         _nickname.value = nickname
+
+        _nicknameValidState.value = when {
+            nickname.isBlank() -> NickNameValidType.IDLE
+            else -> NickNameValidType.UNCHECKED
+        }
     }
 
     fun onDuplicateCheckClick() {
-        // 추후 서버 통신에 따라 로직 변경
-        _nicknameValidState.value = when {
-            _nickname.value.isBlank() -> NickNameValidType.EMPTY
-            _nickname.value == "ㅅㅂ" -> NickNameValidType.INVALID
-            _nickname.value == "북북" -> NickNameValidType.DUPLICATE
-            else -> NickNameValidType.VALID
+        viewModelScope.launch {
+            if (_nickname.value.isBlank()) {
+                _nicknameValidState.value = NickNameValidType.EMPTY
+                return@launch
+            }
+
+            checkNicknameValidationUseCase(_nickname.value)
+                .onSuccess {
+                    _nicknameValidState.value = NickNameValidType.VALID
+                }.onFailure { throwable ->
+                    val msg = throwable.message
+
+                    _nicknameValidState.value = when {
+                        msg!!.contains("이미 존재하는 닉네임입니다.") -> NickNameValidType.DUPLICATE
+                        msg.contains("닉네임에 비속어를 포함할 수 없습니다.") -> NickNameValidType.INVALID
+                        else -> NickNameValidType.DEFAULT
+                    }
+                }
         }
     }
 
@@ -223,6 +258,7 @@ class OnBoardingViewModel @Inject constructor(
             signUpUseCase(
                 preSignupToken = preSignUpToken,
                 userInformation = userInfo,
+                nickname = _nickname.value,
                 university = _submittedUnivSearchText.value,
                 grade = grade.value.toString(),
                 track = track.value.toString(),
