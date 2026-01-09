@@ -30,7 +30,7 @@ fun LogoutButton(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.logout),
+            text = stringResource(R.string.setting_logout),
             style = CertiTheme.typography.caption.semibold_14,
             color = CertiTheme.colors.black
         )

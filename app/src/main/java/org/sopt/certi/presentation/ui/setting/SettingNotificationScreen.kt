@@ -112,13 +112,13 @@ private fun SettingNotificationScreen(
                 Spacer(modifier = Modifier.widthForScreenPercentage(12.dp))
 
                 Text(
-                    text = "선택",
+                    text = stringResource(R.string.setting_select),
                     style = CertiTheme.typography.body.regular_16,
                     color = CertiTheme.colors.gray400
                 )
                 Spacer(modifier = Modifier.widthForScreenPercentage(4.dp))
                 Text(
-                    text = "서티 개인정보 수집 및 이용 동의",
+                    text = stringResource(R.string.setting_privacy_consent),
                     style = CertiTheme.typography.body.semibold_16,
                     color = CertiTheme.colors.black
                 )
@@ -131,7 +131,7 @@ private fun SettingNotificationScreen(
             }
 
             Text(
-                text = "이벤트 소식 알림을 받으려면 먼저 개인정보 수집 및 이용에 동의해주세요.",
+                text = stringResource(R.string.setting_privacy_description),
                 style = CertiTheme.typography.caption.regular_14,
                 color = CertiTheme.colors.gray400
             )

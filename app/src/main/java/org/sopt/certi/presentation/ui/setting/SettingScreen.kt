@@ -43,7 +43,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.heightForScreenPercentage(12.dp))
 
         Text(
-            text = stringResource(R.string.other_settings),
+            text = stringResource(R.string.setting_other),
             style = CertiTheme.typography.caption.regular_14,
             color = CertiTheme.colors.gray400
         )
@@ -58,17 +58,17 @@ fun SettingScreen(modifier: Modifier = Modifier) {
             )
 
             MenuRow(
-                text = stringResource(R.string.privacy_policy),
+                text = stringResource(R.string.setting_privacy_policy),
                 onClick = {}
             )
 
             MenuRow(
-                text = stringResource(R.string.delete_account),
+                text = stringResource(R.string.setting_delete_account),
                 onClick = {}
             )
 
             MenuRow(
-                text = stringResource(R.string.app_version),
+                text = stringResource(R.string.setting_app_version),
                 trailingContent = {
                     Text(
                         text = "v 1.14",

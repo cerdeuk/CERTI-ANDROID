@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -84,7 +85,7 @@ fun TooltipContent(onClose: () -> Unit) {
             verticalAlignment = Alignment.Top
         ) {
             Text(
-                text = "광고성 정보 수신 동의",
+                text = stringResource(R.string.setting_marketing),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray500,
                 modifier = Modifier.weight(1f)
@@ -92,16 +93,16 @@ fun TooltipContent(onClose: () -> Unit) {
 
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "닫기",
+                contentDescription = null,
                 tint = CertiTheme.colors.gray300,
-                modifier = Modifier.noRippleClickable { onClose() }
+                modifier = Modifier.noRippleClickable(onClose)
             )
         }
 
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "회원이 수집 및 이용에 동의한 개인정보를 서티에서 활용하는 것에 동의하며, 해당 개인정보를 활용하여 이메일/SMS를 통해 서비스에 대한 개인 맞춤형 광고 정보(혜택·소식 메일, 광고메일, 문자알림)를 전송할 수 있어요.",
+            text = stringResource(R.string.setting_privacy_tooltip_text),
             style = CertiTheme.typography.caption.regular_12,
             color = CertiTheme.colors.gray400
         )

@@ -219,15 +219,18 @@
     <string name="personal_birthday_placeholder">생년월일을 선택해주세요.</string>
 
     <!--  SettingScreen  -->
-    <string name="other_settings">기타설정</string>
+    <string name="setting_other">기타설정</string>
     <string name="settings_notification">알림 설정</string>
-    <string name="privacy_policy">개인정보 처리방침</string>
-    <string name="delete_account">회원 탈퇴</string>
-    <string name="app_version">앱버전</string>
-    <string name="logout">로그아웃</string>
+    <string name="setting_privacy_policy">개인정보 처리방침</string>
+    <string name="setting_delete_account">회원 탈퇴</string>
+    <string name="setting_app_version">앱버전</string>
+    <string name="setting_logout">로그아웃</string>
     <string name="setting_marketing">광고성 정보 수신 동의</string>
     <string name="setting_marketing_description">마케팅을 위한 이벤트, 공지사항 등의 소식 알림 받기</string>
     <string name="setting_privacy_consent">개인정보 수집 및 이용 동의</string>
+    <string name="setting_select">(선택)</string>
+    <string name="setting_privacy_description">이벤트 소식 알림을 받으려면 먼저 개인정보 수집 및 이용에 동의해주세요.</string>
+    <string name="setting_privacy_tooltip_text">회원이 수집 및 이용에 동의한 개인정보를 서티에서 활용하는 것에 동의하며, 해당 개인정보를 활용하여 이메일/SMS를 통해 서비스에 대한 개인 맞춤형 광고 정보(혜택·소식 메일, 광고메일, 문자알림)를 전송할 수 있어요.</string>
 
 
     <!-- RegisterTestInfoBottomSheet -->
