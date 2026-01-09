@@ -60,6 +60,7 @@ fun CertListRoute(
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
     val nickname by viewModel.nickname.collectAsStateWithLifecycle()
+    val job by viewModel.job.collectAsStateWithLifecycle()
 
     when (uiState.loadState) {
         is UiState.Loading -> {}
@@ -67,6 +68,8 @@ fun CertListRoute(
         is UiState.Success -> {
             CertListScreen(
                 nickname = nickname,
+                track = "공학계열",
+                job = job,
                 certListState = uiState,
                 navigateToSearch = navigateToSearch,
                 navigateToCertDetail = navigateToCertDetail,
@@ -84,6 +87,8 @@ fun CertListRoute(
 @Composable
 private fun CertListScreen(
     nickname: String,
+    track: String,
+    job: String,
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
@@ -122,7 +127,7 @@ private fun CertListScreen(
         item {
             CertListTop3Section(
                 type = TrackCategoryType.TRACK.name.lowercase(),
-                titleLabel = "공학계열",
+                titleLabel = track,
                 top3List = (certListState.trackTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -135,7 +140,7 @@ private fun CertListScreen(
         item {
             CertListTop3Section(
                 type = TrackCategoryType.CATEGORY.name.lowercase(),
-                titleLabel = "금융",
+                titleLabel = job,
                 top3List = (certListState.categoryTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -327,6 +332,8 @@ private fun PreviewCertListScreen() {
 
         CertListScreen(
             nickname = "김서티",
+            track = "공학계열",
+            job = "안드로이드",
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },

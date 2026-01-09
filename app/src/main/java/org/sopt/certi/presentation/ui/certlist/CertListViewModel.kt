@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.HomeRecommendUseCase
 import org.sopt.certi.domain.usecase.certification.Top3JobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
+import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
 
@@ -25,6 +27,7 @@ class CertListViewModel @Inject constructor(
     private val homeRecommendUseCase: HomeRecommendUseCase,
     private val top3TrackCertListUseCase: Top3TrackCertListUseCase,
     private val top3JobCertListUseCase: Top3JobCertListUseCase,
+    private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
     val nickname: StateFlow<String> =
@@ -34,6 +37,13 @@ class CertListViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = tokenManager.getNickName()
             )
+
+    private val _job = MutableStateFlow("")
+    val job = _job.asStateFlow()
+
+    private val _track = MutableStateFlow("")
+    val track = _track.asStateFlow()
+
     private val _recommendCertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
     private val _trackTop3CertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
     private val _categoryTop3CertListLoadState = MutableStateFlow<UiState<ImmutableList<CertificationData>>>(UiState.Loading)
@@ -57,6 +67,7 @@ class CertListViewModel @Inject constructor(
 
     init {
         getRecommendCertificationList()
+        getUserJob()
         getTrackTop3CertificationList()
         getCategoryTop3CertificationList()
     }
@@ -80,6 +91,16 @@ class CertListViewModel @Inject constructor(
             }
             .onFailure {
                 _trackTop3CertListLoadState.value = UiState.Failure(it.toString())
+            }
+    }
+
+    private fun getUserJob() = viewModelScope.launch {
+        getInterestedJobListUseCase()
+            .onSuccess {
+                _job.value = it.jobList.first()
+            }
+            .onFailure {
+                _job.value = ""
             }
     }
 
