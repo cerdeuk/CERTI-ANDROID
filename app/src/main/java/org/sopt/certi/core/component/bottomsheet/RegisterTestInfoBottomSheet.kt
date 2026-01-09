@@ -52,7 +52,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.util.toLocalDateOrMin
+import org.sopt.certi.core.util.toLocalDateOrNull
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
@@ -63,11 +63,12 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     place1List: List<String> = emptyList(),
     place2List: List<String> = emptyList(),
     certificationData: CertificationData? = null,
-    onDismissClick: () -> Unit = {},
     changeBottomSheetVisibility: (Boolean) -> Unit = {}
 ) {
     val density = LocalDensity.current
@@ -112,7 +113,7 @@ fun RegisterTestInfoBottomSheet(
     ModalBottomSheet(
         onDismissRequest = {
             changeBottomSheetVisibility(false)
-            onDismissClick()
+            onDismiss()
         },
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
@@ -211,7 +212,7 @@ fun RegisterTestInfoBottomSheet(
                 if (showCalendar) {
                     // Calendar
                     DatePickerCalendar(
-                        selectedDate = dateText.toLocalDateOrMin(),
+                        selectedDate = dateText.toLocalDateOrNull(),
                         onDateSelected = { date ->
                             dateText = date.toString().replace("-", ".")
                             showCalendar = false
@@ -421,7 +422,7 @@ fun RegisterTestInfoBottomSheet(
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
                                         .noRippleClickable {
-                                            onDismissClick()
+                                            onDismiss()
                                         }
                                 )
 
@@ -443,7 +444,7 @@ fun RegisterTestInfoBottomSheet(
                                 enabled = buttonEnable,
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) onDismissClick()
+                                        if (!sheetState.isVisible) onConfirm()
                                     }
                                 },
                                 modifier = Modifier
@@ -512,6 +513,8 @@ fun RegisterTestInfoBottomSheetPreview() {
         place1List = place1List,
         place2List = place2List,
         forModify = false,
-        certificationData = null
+        certificationData = null,
+        onDismiss = {},
+        onConfirm = {}
     )
 }
