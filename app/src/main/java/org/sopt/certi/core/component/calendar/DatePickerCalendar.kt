@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,9 +54,7 @@ fun DatePickerCalendar(
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val initialMonth = remember(selectedDate) {
-        selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()
-    }
+    val initialMonth = remember { YearMonth.now() }
     val startMonth = remember { initialMonth.minusMonths(100) }
     val endMonth = remember { initialMonth.plusMonths(100) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
@@ -71,10 +68,6 @@ fun DatePickerCalendar(
     )
 
     val visibleMonth = state.firstVisibleMonth.yearMonth
-
-    LaunchedEffect(initialMonth) {
-        state.animateScrollToMonth(initialMonth)
-    }
 
     Column(
         modifier = modifier
