@@ -86,7 +86,8 @@ sealed interface CertRecommendRoute : Route {
 sealed interface CertListRoute : Route {
     @Serializable
     data class TrackCategoryCertList(
-        val mode: String
+        val mode: String,
+        val default: String
     ) : CertListRoute
 
     @Serializable

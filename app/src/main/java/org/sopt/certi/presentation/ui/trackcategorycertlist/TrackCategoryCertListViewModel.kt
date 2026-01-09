@@ -30,6 +30,7 @@ class TrackCategoryCertListViewModel @Inject constructor(
 ) : ViewModel() {
     val mode: TrackCategoryType =
         TrackCategoryType.fromRouteArg(savedStateHandle.get<String>("mode"))
+    private val default: String = savedStateHandle.get<String>("default").orEmpty()
 
     private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _selectedCategory = MutableStateFlow(0)
@@ -51,6 +52,15 @@ class TrackCategoryCertListViewModel @Inject constructor(
                 isFavorite = false
             )
         )
+
+    init {
+        _selectedCategory.value = when (mode) {
+            TrackCategoryType.CATEGORY ->
+                CategoryType.getByDescription(default)?.ordinal ?: 0
+            TrackCategoryType.TRACK ->
+                TrackType.getByDescription(default)?.ordinal ?: 0
+        }
+    }
 
     fun getCertificationList(
         isFavorite: Boolean,
