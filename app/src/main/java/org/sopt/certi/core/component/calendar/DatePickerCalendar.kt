@@ -55,25 +55,25 @@ fun DatePickerCalendar(
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val currentMonth = remember(selectedDate) {
+    val initialMonth = remember(selectedDate) {
         selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()
     }
-    val startMonth = remember { currentMonth.minusMonths(100) }
-    val endMonth = remember { currentMonth.plusMonths(100) }
+    val startMonth = remember { initialMonth.minusMonths(100) }
+    val endMonth = remember { initialMonth.plusMonths(100) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
     val coroutineScope = rememberCoroutineScope()
 
     val state = rememberCalendarState(
         startMonth = startMonth,
         endMonth = endMonth,
-        firstVisibleMonth = currentMonth,
+        firstVisibleMonth = initialMonth,
         firstDayOfWeek = firstDayOfWeek
     )
 
-    val visibleMonth = remember(state) { state.firstVisibleMonth.yearMonth }
+    val visibleMonth = state.firstVisibleMonth.yearMonth
 
-    LaunchedEffect(currentMonth) {
-        state.animateScrollToMonth(currentMonth)
+    LaunchedEffect(initialMonth) {
+        state.animateScrollToMonth(initialMonth)
     }
 
     Column(
