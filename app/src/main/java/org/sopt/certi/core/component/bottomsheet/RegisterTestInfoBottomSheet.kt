@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.calendar.DatePickerCalendar
@@ -70,6 +72,7 @@ fun RegisterTestInfoBottomSheet(
     changeBottomSheetVisibility: (Boolean) -> Unit = {}
 ) {
     val density = LocalDensity.current
+    val scope = rememberCoroutineScope()
 
     // Data
     var dateText by remember { mutableStateOf("") }
@@ -159,7 +162,7 @@ fun RegisterTestInfoBottomSheet(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
                     contentDescription = null,
-                    tint = CertiTheme.colors.black
+                    tint = CertiTheme.colors.gray500
                 )
 
                 Spacer(Modifier.widthForScreenPercentage(4.dp))
@@ -443,7 +446,9 @@ fun RegisterTestInfoBottomSheet(
                                 buttonText = stringResource(R.string.test_info_bottomsheet_confirm),
                                 enabled = buttonEnable,
                                 onClick = {
-                                    onDismissClick()
+                                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                        if (!sheetState.isVisible) onDismissClick()
+                                    }
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()

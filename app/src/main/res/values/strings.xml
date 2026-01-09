@@ -221,7 +221,8 @@
     <!-- MyCertification -->
     <string name="edit">편집</string>
     <string name="edit_certification">자격증 편집</string>
-
+    <string name="edit_acquired_certification_bottomsheet_title">자격증 취득 정보를 입력해주세요</string>
+    <string name="edit_acquired_date">취득 날짜</string>
 
     <!-- RegisterTestInfoBottomSheet -->
     <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>

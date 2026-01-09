@@ -59,15 +59,19 @@ fun MyCertRoute(
     }
 
     uiState.editTargetCertification?.let { data ->
-        RegisterTestInfoBottomSheet(
-            sheetState = sheetState,
-            certTitle = data.certificationName,
-            place1List = emptyList(),
-            place2List = emptyList(),
-            forModify = true,
-            onDismissClick = viewModel::closeEditSheet,
-            certificationData = data
-        )
+        if (data.isAcquired) {
+
+        } else {
+            RegisterTestInfoBottomSheet(
+                sheetState = sheetState,
+                certTitle = data.certificationName,
+                place1List = emptyList(),
+                place2List = emptyList(),
+                forModify = true,
+                onDismissClick = viewModel::closeEditSheet,
+                certificationData = data
+            )
+        }
     }
 
     when (val state = uiState.myCertListLoadState) {
