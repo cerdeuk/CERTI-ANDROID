@@ -12,4 +12,5 @@ interface CertRemoteDataSource {
     suspend fun getCategoryCertList(isFavorite: Boolean, jobs: String): ApiResponse<CertListResponseDto>
     suspend fun getCertInfo(certificationId: Long): ApiResponse<GetCertInfoResponseDto>
     suspend fun getTop3TrackCertList(): ApiResponse<List<Top3CertListResponseDto>>
+    suspend fun getTop3JobCertList(): ApiResponse<List<Top3CertListResponseDto>>
 }

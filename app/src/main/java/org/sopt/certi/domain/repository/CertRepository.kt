@@ -9,4 +9,5 @@ interface CertRepository {
     suspend fun getCategoryCertList(isFavorite: Boolean, jobs: String): Result<List<CertificationData>>
     suspend fun getCertInfo(certificationId: Long): Result<CertificationData>
     suspend fun getTop3TrackCertList(): Result<List<CertificationData>>
+    suspend fun getTop3JobCertList(): Result<List<CertificationData>>
 }

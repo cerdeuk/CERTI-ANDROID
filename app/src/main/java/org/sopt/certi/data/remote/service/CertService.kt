@@ -29,4 +29,7 @@ interface CertService {
 
     @GET("/api/v1/certification/track")
     suspend fun getTop3TrackCertList(): ApiResponse<List<Top3CertListResponseDto>>
+
+    @GET("/api/v1/certification/job")
+    suspend fun getTop3JobCertList(): ApiResponse<List<Top3CertListResponseDto>>
 }

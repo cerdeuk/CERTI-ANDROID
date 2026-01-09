@@ -15,6 +15,7 @@ import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.HomeRecommendUseCase
+import org.sopt.certi.domain.usecase.certification.Top3JobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import javax.inject.Inject
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class CertListViewModel @Inject constructor(
     private val homeRecommendUseCase: HomeRecommendUseCase,
     private val top3TrackCertListUseCase: Top3TrackCertListUseCase,
+    private val top3JobCertListUseCase: Top3JobCertListUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
     val nickname: StateFlow<String> =
@@ -83,40 +85,12 @@ class CertListViewModel @Inject constructor(
 
     private fun getCategoryTop3CertificationList() = viewModelScope.launch {
         _categoryTop3CertListLoadState.value = UiState.Loading
-        // 직무 카테고리 서버통신 로직
-        _categoryTop3CertListLoadState.value = UiState.Success(
-            listOf(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 20,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = false,
-                    testType = "실기형",
-                    recommendScore = 90,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "TOEIC 900+",
-                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 80,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                )
-            ).toImmutableList()
-        )
+        top3JobCertListUseCase()
+            .onSuccess{
+                _categoryTop3CertListLoadState.value = UiState.Success(it.toImmutableList())
+            }
+            .onFailure {
+                _categoryTop3CertListLoadState.value = UiState.Failure(it.toString())
+            }
     }
 }
