@@ -69,11 +69,11 @@ fun SettingNotificationRoute(
         }
     }
 
-    if (uiState.isDialogVisible) {
+    if (uiState.isMarketingConfirmDialogVisible) {
         CertiDialog(
             text = stringResource(R.string.setting_dialog_message),
-            onConfirmClick = viewModel::onDialogConfirm,
-            onDismissClick = viewModel::onDialogDismiss
+            onConfirmClick = viewModel::onMarketingConfirmDialogConfirm,
+            onDismissClick = viewModel::onMarketingConfirmDialogDismiss
         )
     }
 

@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.component.listitem.MenuRow
@@ -23,14 +25,29 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.setting.component.LogoutButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
+import androidx.compose.runtime.getValue
+import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 
 @Composable
 fun SettingRoute(
     padding: PaddingValues,
-    navigateToSettingNotification: () -> Unit
+    navigateToSettingNotification: () -> Unit,
+    viewModel: SettingViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.isLogoutDialogVisible) {
+        CertiDeleteDialog(
+            onConfirmClick = viewModel::onLogoutDialogConfirm,
+            onDismissClick = viewModel::onLogoutDialogDismiss,
+            title = stringResource(R.string.setting_logout_dialog_message),
+            description = stringResource(R.string.setting_logout_dialog_description)
+        )
+    }
+
     SettingScreen(
         onNavigateToSettingNotification = navigateToSettingNotification,
+        onLogoutClick = viewModel::onLogoutClick,
         modifier = Modifier.padding(padding)
     )
 }
@@ -38,6 +55,7 @@ fun SettingRoute(
 @Composable
 fun SettingScreen(
     onNavigateToSettingNotification: () -> Unit,
+    onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -89,7 +107,10 @@ fun SettingScreen(
             )
         }
 
-        LogoutButton(modifier = Modifier.padding(vertical = screenHeightDp(36.dp))) {}
+        LogoutButton(
+            modifier = Modifier.padding(vertical = screenHeightDp(36.dp)),
+            onClick = onLogoutClick
+        )
     }
 }
 
@@ -98,7 +119,8 @@ fun SettingScreen(
 private fun SettingPreview() {
     CERTITheme {
         SettingScreen(
-            onNavigateToSettingNotification = {}
+            onNavigateToSettingNotification = {},
+            onLogoutClick = {}
         )
     }
 }

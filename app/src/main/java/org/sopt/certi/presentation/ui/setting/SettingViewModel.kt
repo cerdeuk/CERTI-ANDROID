@@ -23,24 +23,24 @@ class SettingViewModel @Inject constructor() : ViewModel() {
 
     fun onSwitchCheckChange(checked: Boolean) {
         if (checked) {
-            _uiState.update { it.copy(isDialogVisible = true) }
+            _uiState.update { it.copy(isMarketingConfirmDialogVisible = true) }
         } else {
             _uiState.update { it.copy(switchChecked = false) }
         }
     }
 
-    fun onDialogConfirm() {
+    fun onMarketingConfirmDialogConfirm() {
         _uiState.update {
             it.copy(
                 switchChecked = true,
                 checkboxChecked = true,
-                isDialogVisible = false
+                isMarketingConfirmDialogVisible = false
             )
         }
     }
 
-    fun onDialogDismiss() {
-        _uiState.update { it.copy(isDialogVisible = false) }
+    fun onMarketingConfirmDialogDismiss() {
+        _uiState.update { it.copy(isMarketingConfirmDialogVisible = false) }
     }
 
     fun onCheckboxCheckChange(checked: Boolean) {
@@ -51,5 +51,17 @@ class SettingViewModel @Inject constructor() : ViewModel() {
                 _sideEffect.send(SettingSideEffect.ShowMarketingConfirmSnackbar)
             }
         }
+    }
+
+    fun onLogoutClick() {
+        _uiState.update { it.copy(isLogoutDialogVisible = true) }
+    }
+
+    fun onLogoutDialogConfirm() {
+        _uiState.update { it.copy(isLogoutDialogVisible = false) }
+    }
+
+    fun onLogoutDialogDismiss() {
+        _uiState.update { it.copy(isLogoutDialogVisible = false) }
     }
 }
