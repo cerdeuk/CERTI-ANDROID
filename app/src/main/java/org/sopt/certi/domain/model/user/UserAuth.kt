@@ -8,8 +8,10 @@ data class UserAuth(
 )
 
 data class UserInformationAuth(
+    val socialId: String,
+    val socialType: String,
     val email: String,
-    val nickname: String,
+    val name: String?,
     val profileImageUrl: String
 )
 

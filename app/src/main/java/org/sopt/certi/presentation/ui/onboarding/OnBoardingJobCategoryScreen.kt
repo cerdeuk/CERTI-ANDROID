@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.onboarding
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,11 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,26 +39,36 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun OnBoardingJobCategoryRoute(
     padding: PaddingValues,
+    popBackStack: () -> Unit,
     navigateToOnBoardingNickName: () -> Unit,
     viewModel: OnBoardingViewModel
 ) {
     val jobCategory by viewModel.onBoardingJobCategoryUiState.collectAsStateWithLifecycle()
 
+    BackHandler {
+        if (jobCategory.step == JobCategoryStep.FIRST) {
+            popBackStack()
+        } else {
+            viewModel.onJobCategoryPrevClicked()
+        }
+    }
+
     OnBoardingJobCategoryScreen(
         step = jobCategory.step,
-        selectedJobCategory = jobCategory.selectedList,
-        onNextClick = { selected ->
-            val curStep = jobCategory.step
-            viewModel.onJobCategorySelected(selected)
-
-            if (curStep == JobCategoryStep.THIRD) {
+        currentSelection = jobCategory.currentUiSelection(),
+        disabledOptions = jobCategory.disabledOptions(),
+        onSelect = viewModel::onJobCategorySelected,
+        onNextClick = {
+            if (jobCategory.step == JobCategoryStep.THIRD) {
+                viewModel.onJobCategoryNextClicked()
                 navigateToOnBoardingNickName()
             } else {
                 viewModel.onJobCategoryNextClicked()
             }
         },
         onSkipClick = {
-            viewModel.onJobCategoryNextClicked()
+            viewModel.onJobCategorySkipClicked()
+            navigateToOnBoardingNickName()
         },
         modifier = Modifier.padding(padding)
     )
@@ -70,17 +77,13 @@ fun OnBoardingJobCategoryRoute(
 @Composable
 fun OnBoardingJobCategoryScreen(
     step: JobCategoryStep,
-    selectedJobCategory: List<String>,
-    onNextClick: (String) -> Unit,
+    currentSelection: String?,
+    disabledOptions: List<String>,
+    onSelect: (String) -> Unit,
+    onNextClick: () -> Unit,
     onSkipClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var candidate by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(step) {
-        candidate = null
-    }
-
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -111,21 +114,22 @@ fun OnBoardingJobCategoryScreen(
 
             Spacer(modifier = Modifier.padding(top = screenHeightDp(18.dp)))
 
-            OnBoardingJobCategorySection(
-                candidate = candidate,
-                onCandidateChanged = { candidate = it },
-                disabledOptions = selectedJobCategory
+            OnBoardingSelectableButtons(
+                selectableButtonType = SelectableButtonType.CATEGORY,
+                selectedOption = currentSelection,
+                onOptionChanged = onSelect,
+                disabledOptions = disabledOptions
             )
         }
 
         if (step == JobCategoryStep.FIRST) {
             CertiBasicButton(
                 buttonText = stringResource(R.string.button_next),
-                onClick = { candidate?.let { onNextClick(it) } },
+                onClick = onNextClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(alignment = Alignment.BottomCenter),
-                enabled = candidate != null
+                enabled = currentSelection != null
             )
         } else {
             Row(
@@ -151,33 +155,17 @@ fun OnBoardingJobCategoryScreen(
                         modifier = Modifier.padding(vertical = screenHeightDp(18.dp))
                     )
                 }
-                Spacer(modifier = Modifier.padding(end = screenWidthDp(16.dp)))
+                Spacer(modifier = Modifier.padding(screenWidthDp(16.dp)))
 
                 CertiBasicButton(
                     buttonText = stringResource(R.string.button_next),
-                    onClick = { candidate?.let { onNextClick(it) } },
+                    onClick = onNextClick,
                     modifier = Modifier.weight(1f),
-                    enabled = candidate != null
+                    enabled = currentSelection != null
                 )
             }
         }
     }
-}
-
-@Composable
-private fun OnBoardingJobCategorySection(
-    candidate: String?,
-    onCandidateChanged: (String) -> Unit,
-    disabledOptions: List<String>,
-    modifier: Modifier = Modifier
-) {
-    OnBoardingSelectableButtons(
-        selectableButtonType = SelectableButtonType.CATEGORY,
-        selectedOption = candidate,
-        onOptionChanged = onCandidateChanged,
-        modifier = modifier,
-        disabledOptions = disabledOptions
-    )
 }
 
 @Preview(showBackground = true)
@@ -185,7 +173,9 @@ private fun OnBoardingJobCategorySection(
 private fun PreviewOnBoardingJobCategoryScreen() {
     CERTITheme {
         OnBoardingJobCategoryScreen(
-            selectedJobCategory = listOf(),
+            currentSelection = null,
+            disabledOptions = listOf(),
+            onSelect = {},
             onSkipClick = {},
             onNextClick = {},
             step = JobCategoryStep.FIRST

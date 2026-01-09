@@ -9,6 +9,7 @@ interface AuthRepository {
     suspend fun signUp(
         preSignupToken: String,
         userInformation: UserInformationAuth?,
+        nickname: String,
         university: String,
         grade: String,
         track: String,

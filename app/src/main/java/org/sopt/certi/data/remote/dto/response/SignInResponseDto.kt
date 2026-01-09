@@ -21,10 +21,14 @@ data class SignInResponseDto(
 
 @Serializable
 data class UserInformationDto(
+    @SerialName("socialId")
+    val socialId: String,
+    @SerialName("socialType")
+    val socialType: String,
     @SerialName("email")
     val email: String,
-    @SerialName("nickname")
-    val nickname: String,
+    @SerialName("name")
+    val name: String?,
     @SerialName("profileImageUrl")
     val profileImageUrl: String
 )
