@@ -67,12 +67,16 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
         _myCertUiState.update { it.copy(isEditMode = !isEditMode) }
     }
 
-    fun editItem(id: Long) {
+    fun onEditClick(id: Long) {
         val currentList = (_myCertUiState.value.myCertListLoadState as? UiState.Success)?.data
         val targetData = currentList?.find { it.certificationId == id }
         _myCertUiState.update {
             it.copy(editTargetCertification = targetData)
         }
+    }
+
+    fun editItem() {
+        closeEditSheet()
     }
 
     fun closeEditSheet() {

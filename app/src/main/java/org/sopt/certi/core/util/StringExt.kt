@@ -13,3 +13,7 @@ fun String.toLocalDateOrMin(): LocalDate =
             it.printStackTrace()
             LocalDate.MIN
         }
+
+fun String.toLocalDateOrNull(): LocalDate? =
+    runCatching { LocalDate.parse(this, DateFormatters.dotDate) }
+        .getOrElse { null }

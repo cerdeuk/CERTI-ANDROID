@@ -69,7 +69,6 @@ fun RegisterTestInfoBottomSheet(
     place1List: List<String> = emptyList(),
     place2List: List<String> = emptyList(),
     certificationData: CertificationData? = null,
-    changeBottomSheetVisibility: (Boolean) -> Unit = {}
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
@@ -111,10 +110,7 @@ fun RegisterTestInfoBottomSheet(
     }
 
     ModalBottomSheet(
-        onDismissRequest = {
-            changeBottomSheetVisibility(false)
-            onDismiss()
-        },
+        onDismissRequest = onDismiss,
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
         sheetState = sheetState,

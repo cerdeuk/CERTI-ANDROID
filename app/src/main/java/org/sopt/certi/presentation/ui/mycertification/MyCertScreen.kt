@@ -28,6 +28,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.component.CertificationList
+import org.sopt.certi.presentation.ui.mycertification.component.EditAcquiredTextInfoBottomSheet
 import org.sopt.certi.presentation.ui.mycertification.component.FavoriteCertList
 import org.sopt.certi.presentation.ui.mycertification.component.MyCertHeader
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
@@ -42,10 +43,6 @@ fun MyCertRoute(
 ) {
     val uiState by viewModel.myCertUiState.collectAsStateWithLifecycle()
 
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-
     BackHandler(enabled = uiState.isEditMode) { viewModel.onEditModeToggle() }
 
     uiState.deleteTargetId?.let {
@@ -59,8 +56,15 @@ fun MyCertRoute(
     }
 
     uiState.editTargetCertification?.let { data ->
-        if (data.isAcquired) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+        if (data.isAcquired) {
+            EditAcquiredTextInfoBottomSheet(
+                sheetState = sheetState,
+                certificationData = data,
+                onConfirm = viewModel::editItem,
+                onDismiss = viewModel::closeEditSheet
+            )
         } else {
             RegisterTestInfoBottomSheet(
                 sheetState = sheetState,
@@ -68,7 +72,8 @@ fun MyCertRoute(
                 place1List = emptyList(),
                 place2List = emptyList(),
                 forModify = true,
-                onDismissClick = viewModel::closeEditSheet,
+                onConfirm = viewModel::editItem,
+                onDismiss = viewModel::closeEditSheet,
                 certificationData = data
             )
         }
@@ -82,7 +87,7 @@ fun MyCertRoute(
             onEditModeToggle = viewModel::onEditModeToggle,
             onCertificationClick = navigateToCertDetail,
             onFavoriteToggle = viewModel::onFavoriteToggle,
-            onEditClick = viewModel::editItem,
+            onEditClick = viewModel::onEditClick,
             onDeleteClick = viewModel::openDeleteDialog,
             modifier = Modifier.padding(padding)
         )

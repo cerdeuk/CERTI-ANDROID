@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -37,7 +38,7 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.util.toLocalDateOrMin
+import org.sopt.certi.core.util.toLocalDateOrNull
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -45,11 +46,12 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterAcquiredInfoBottomSheet(
+fun EditAcquiredTextInfoBottomSheet(
     sheetState: SheetState,
-    modifier: Modifier = Modifier,
     certificationData: CertificationData,
-    onDismissClick: () -> Unit = {}
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
 
@@ -57,10 +59,10 @@ fun RegisterAcquiredInfoBottomSheet(
     var scoreText by remember { mutableStateOf("") }
     var showCalendar by remember { mutableStateOf(false) }
 
+    var isFocused by remember { mutableStateOf(false) }
+
     ModalBottomSheet(
-        onDismissRequest = {
-            onDismissClick()
-        },
+        onDismissRequest = onDismiss,
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
         sheetState = sheetState,
@@ -137,6 +139,9 @@ fun RegisterAcquiredInfoBottomSheet(
                         ),
                         maxLines = 1,
                         singleLine = true,
+                        modifier = Modifier.onFocusChanged { focusState ->
+                            isFocused = focusState.isFocused
+                        },
                         decorationBox = { innerTextField ->
                             Row(
                                 modifier = Modifier
@@ -145,13 +150,14 @@ fun RegisterAcquiredInfoBottomSheet(
                                     .border(1.dp, CertiTheme.colors.gray200, RoundedCornerShape(4.dp))
                                     .padding(screenWidthDp(12.dp))
                             ) {
-                                if (scoreText.isEmpty()) {
+                                if (scoreText.isEmpty() && !isFocused) {
                                     Text(
                                         text = stringResource(R.string.edit_acquired_bottomsheet_score_placerholder),
                                         style = CertiTheme.typography.caption.semibold_12,
                                         color = CertiTheme.colors.gray300
                                     )
                                 }
+                                innerTextField()
                             }
                         }
                     )
@@ -160,22 +166,22 @@ fun RegisterAcquiredInfoBottomSheet(
 
                 if (showCalendar) {
                     DatePickerCalendar(
-                        selectedDate = dateText.toLocalDateOrMin(),
+                        selectedDate = dateText.toLocalDateOrNull(),
                         onDateSelected = { date ->
                             dateText = date.toString().replace("-", ".")
                             showCalendar = false
                         },
-                        modifier = Modifier.padding(bottom = screenHeightDp(44.dp))
+                        modifier = Modifier.padding(top = screenHeightDp(8.dp), bottom = screenHeightDp(44.dp))
                     )
                 }
             }
 
             CertiBasicButton(
                 buttonText = stringResource(R.string.test_info_bottomsheet_confirm),
-                enabled = true,
+                enabled = dateText.isNotEmpty(),
                 onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) onDismissClick()
+                        if (!sheetState.isVisible) onConfirm()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -188,18 +194,20 @@ fun RegisterAcquiredInfoBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-private fun RegisterAcquiredInfoBottomSheetPreview() {
+private fun EditAcquiredTextInfoBottomSheetPreview() {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
 
     CERTITheme {
-        RegisterAcquiredInfoBottomSheet(
+        EditAcquiredTextInfoBottomSheet(
             sheetState = sheetState,
             certificationData = CertificationData(
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격)"
-            )
+            ),
+            onConfirm = {},
+            onDismiss = {}
         )
     }
 }
