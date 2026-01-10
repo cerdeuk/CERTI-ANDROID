@@ -82,7 +82,7 @@ fun TooltipContent(onClose: () -> Unit) {
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = stringResource(R.string.setting_marketing),
