@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -92,7 +90,7 @@ fun TooltipContent(onClose: () -> Unit) {
             )
 
             Icon(
-                imageVector = Icons.Default.Close,
+                imageVector = ImageVector.vectorResource(R.drawable.ic_close_20),
                 contentDescription = null,
                 tint = CertiTheme.colors.gray300,
                 modifier = Modifier.noRippleClickable(onClose)
