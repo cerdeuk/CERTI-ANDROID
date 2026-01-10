@@ -235,6 +235,9 @@
     <string name="setting_snackbar_message">광고성 정보를 받는 것에 동의했어요. %1$s</string>
     <string name="setting_logout_dialog_message">로그아웃하시겠습니까?</string>
     <string name="setting_logout_dialog_description">로그아웃 시 재로그인이 필요합니다.</string>
+    <string name="setting_delete_account_dialog_message">회원 탈퇴를 진행하시겠습니까?</string>
+    <string name="setting_delete_account_dialog_description">탈퇴 시 모든 개인 정보와 자격증, 학습 데이터, 저장된 이력서 정보가 영구적으로 삭제되며 이후 복구가 불가능합니다.</string>
+    <string name="setting_delete_account_dialog_confirm">탈퇴</string>
 
     <!-- RegisterTestInfoBottomSheet -->
     <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>

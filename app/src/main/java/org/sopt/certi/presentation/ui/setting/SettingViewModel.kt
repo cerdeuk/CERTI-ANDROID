@@ -64,4 +64,16 @@ class SettingViewModel @Inject constructor() : ViewModel() {
     fun onLogoutDialogDismiss() {
         _uiState.update { it.copy(isLogoutDialogVisible = false) }
     }
+
+    fun onDeleteAccountClick() {
+        _uiState.update { it.copy(isDeleteAccountDialogVisible = true) }
+    }
+
+    fun onDeleteAccountDialogConfirm() {
+        _uiState.update { it.copy(isDeleteAccountDialogVisible = false) }
+    }
+
+    fun onDeleteAccountDialogDismiss() {
+        _uiState.update { it.copy(isDeleteAccountDialogVisible = false) }
+    }
 }
