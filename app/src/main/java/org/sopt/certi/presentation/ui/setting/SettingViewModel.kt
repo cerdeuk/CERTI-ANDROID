@@ -37,6 +37,7 @@ class SettingViewModel @Inject constructor() : ViewModel() {
                 isMarketingConfirmDialogVisible = false
             )
         }
+        showMarketingSnackbar()
     }
 
     fun onMarketingConfirmDialogDismiss() {
@@ -47,9 +48,13 @@ class SettingViewModel @Inject constructor() : ViewModel() {
         _uiState.update { it.copy(checkboxChecked = checked) }
 
         if (checked) {
-            viewModelScope.launch {
-                _sideEffect.send(SettingSideEffect.ShowMarketingConfirmSnackbar)
-            }
+            showMarketingSnackbar()
+        }
+    }
+
+    private fun showMarketingSnackbar() {
+        viewModelScope.launch {
+            _sideEffect.send(SettingSideEffect.ShowMarketingConfirmSnackbar)
         }
     }
 
