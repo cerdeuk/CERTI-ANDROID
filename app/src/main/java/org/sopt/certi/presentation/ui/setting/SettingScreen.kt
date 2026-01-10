@@ -27,6 +27,7 @@ import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
+import org.sopt.certi.presentation.ui.setting.component.DeleteAccountDialog
 
 @Composable
 fun SettingRoute(
@@ -45,8 +46,16 @@ fun SettingRoute(
         )
     }
 
+    if (uiState.isDeleteAccountDialogVisible) {
+        DeleteAccountDialog(
+            onConfirmClick = viewModel::onDeleteAccountDialogConfirm,
+            onDismissClick = viewModel::onDeleteAccountDialogDismiss
+        )
+    }
+
     SettingScreen(
         onNavigateToSettingNotification = navigateToSettingNotification,
+        onDeleteAccountClick = viewModel::onDeleteAccountClick,
         onLogoutClick = viewModel::onLogoutClick,
         modifier = Modifier.padding(padding)
     )
@@ -55,6 +64,7 @@ fun SettingRoute(
 @Composable
 fun SettingScreen(
     onNavigateToSettingNotification: () -> Unit,
+    onDeleteAccountClick: () -> Unit,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -92,7 +102,7 @@ fun SettingScreen(
 
             MenuRow(
                 text = stringResource(R.string.setting_delete_account),
-                onClick = {}
+                onClick = onDeleteAccountClick
             )
 
             MenuRow(
@@ -120,6 +130,7 @@ private fun SettingPreview() {
     CERTITheme {
         SettingScreen(
             onNavigateToSettingNotification = {},
+            onDeleteAccountClick = {},
             onLogoutClick = {}
         )
     }
