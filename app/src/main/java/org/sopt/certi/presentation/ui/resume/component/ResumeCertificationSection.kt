@@ -62,7 +62,8 @@ fun ResumeCertificationSection(
         }
         if (acquiredCertificationList.isEmpty()) {
             CertiEmptySection(
-                text = stringResource(R.string.resume_empty_certification_message)
+                text = stringResource(R.string.resume_empty_certification_message),
+                modifier = Modifier.padding(bottom = screenHeightDp(60.dp))
             )
         } else {
             ResumeCertificationContent(

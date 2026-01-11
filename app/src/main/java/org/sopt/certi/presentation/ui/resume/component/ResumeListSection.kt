@@ -55,7 +55,8 @@ fun ResumeListSection(
         }
         if (resumeListItems.isEmpty()) {
             CertiEmptySection(
-                text = emptyText
+                text = emptyText,
+                modifier = Modifier.padding(bottom = screenHeightDp(60.dp))
             )
         } else {
             ResumeListContent(resumeListItems = resumeListItems)

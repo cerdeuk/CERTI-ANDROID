@@ -28,6 +28,7 @@ import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ActivityData
@@ -116,7 +117,7 @@ fun ResumeScreen(
                     university = userInfo.university,
                     major = userInfo.major,
                     birthday = userInfo.birthday,
-                    modifier = Modifier.padding(top = screenHeightDp(16.dp), bottom = screenHeightDp(36.dp))
+                    modifier = Modifier.padding(top = screenHeightDp(16.dp))
                 )
             }
 
@@ -161,6 +162,7 @@ fun ResumeScreen(
                     emptyText = stringResource(R.string.resume_empty_activity_message),
                     resumeListItems = activityList
                 )
+                Spacer(modifier = Modifier.heightForScreenPercentage(13.dp))
             }
 
             item {
