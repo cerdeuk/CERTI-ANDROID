@@ -92,3 +92,17 @@ sealed interface CertListRoute : Route {
     @Serializable
     data object Search : CertListRoute
 }
+
+sealed interface MyPageRoute : Route {
+    @Serializable
+    data object PersonalInfo : MyPageRoute
+
+    @Serializable
+    data object AcademicInfo : MyPageRoute
+
+    @Serializable
+    data object EditUniv : MyPageRoute
+
+    @Serializable
+    data object EditMajor : MyPageRoute
+}
