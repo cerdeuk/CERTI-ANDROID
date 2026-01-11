@@ -26,7 +26,6 @@ import org.sopt.certi.presentation.ui.setting.component.LogoutButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import org.sopt.certi.BuildConfig
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.presentation.ui.setting.component.DeleteAccountDialog
@@ -70,8 +69,6 @@ fun SettingScreen(
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     Column(
         modifier = modifier
             .fillMaxSize()
