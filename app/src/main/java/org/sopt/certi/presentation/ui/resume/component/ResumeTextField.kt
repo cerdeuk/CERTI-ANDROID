@@ -15,17 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.focus.FocusDirection
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
@@ -48,20 +42,7 @@ fun ResumeTextField(
             val newText = input.replace("\n", "").take(maxLength)
             onValueChange(newText)
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .onPreviewKeyEvent { event ->
-                if (event.key == Key.Enter && event.type == KeyEventType.KeyDown) {
-                    if (imeAction == ImeAction.Done) {
-                        focusManager.clearFocus()
-                    } else {
-                        focusManager.moveFocus(FocusDirection.Down)
-                    }
-                    true
-                } else {
-                    false
-                }
-            },
+        modifier = modifier.fillMaxWidth(),
         textStyle = CertiTheme.typography.caption.semibold_14.copy(
             color = CertiTheme.colors.gray600
         ),
