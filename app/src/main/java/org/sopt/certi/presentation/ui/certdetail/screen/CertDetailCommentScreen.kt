@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -30,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -71,6 +73,7 @@ fun CertDetailCommentRoute() {
 fun CertDetailCommentScreen(
     commentData: CommentData,
     myUserId: Long,
+    writeComment: (content: String) -> Unit = {},
     likeOnClick: (like: Boolean, commentId: Long) -> Unit = { _, _ -> },
     reportOnClick: (commentId: Long) -> Unit = {},
     deleteOnClick: (commentId: Long) -> Unit = {}
@@ -163,6 +166,7 @@ fun CertDetailCommentScreen(
                             color = CertiTheme.colors.gray300
                         )
                     },
+                    singleLine = true,
                     maxLines = 1,
                     textStyle = CertiTheme.typography.caption.semibold_14.copy(color = CertiTheme.colors.black),
                     colors = TextFieldDefaults.colors(
@@ -172,17 +176,21 @@ fun CertDetailCommentScreen(
                         errorContainerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
-                    )
+                    ),
+                    modifier = Modifier.weight(1f)
                 )
 
-                Spacer(Modifier.weight(1f))
+                Spacer(Modifier.widthForScreenPercentage(12.dp))
 
                 Icon(
                     painter = painterResource(R.drawable.ic_send),
                     tint = if (commentText.isEmpty()) Color.Unspecified else CertiTheme.colors.purpleBlue,
                     modifier = Modifier
                         .widthForScreenPercentage(24.dp)
-                        .heightForScreenPercentage(24.dp),
+                        .heightForScreenPercentage(24.dp)
+                        .noRippleClickable{
+                            writeComment(commentText)
+                        },
                     contentDescription = null
                 )
             }
