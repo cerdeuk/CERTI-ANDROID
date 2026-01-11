@@ -224,6 +224,14 @@
     <string name="job_category_bottomsheet_content">차례대로 1~3지망을 선택할 수 있습니다. (최대 3개)</string>
     <string name="job_category_bottomsheet_confirm_button">적용하기</string>
 
+    <!-- MyCertification -->
+    <string name="edit">편집</string>
+    <string name="edit_certification">자격증 편집</string>
+    <string name="edit_acquired_bottomsheet_title">자격증 취득 정보를 입력해주세요</string>
+    <string name="edit_acquired_bottomsheet_date">취득 날짜</string>
+    <string name="edit_acquired_bottomsheet_date_placeholder">취득 날짜를 선택해주세요.</string>
+    <string name="edit_acquired_bottomsheet_score">취득 점수 (선택)</string>
+    <string name="edit_acquired_bottomsheet_score_placerholder">점수 입력</string>
 
     <!-- RegisterTestInfoBottomSheet -->
     <string name="test_info_bottomsheet_title">자격증 시험 정보를 입력해주세요</string>

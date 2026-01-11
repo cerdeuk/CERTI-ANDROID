@@ -1,5 +1,6 @@
 package org.sopt.certi.core.component.chip
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -19,13 +20,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
-import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.pressedClickable
+import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
-enum class CertiEditChipType {
-    MODIFY, DELETE
+enum class CertiEditChipType(
+    @StringRes val label: Int
+) {
+    MODIFY(R.string.my_certification_modify),
+    DELETE(R.string.my_certification_delete)
 }
 
 @Composable
@@ -38,17 +43,16 @@ fun CertiEditChip(
 
     Box(
         modifier = modifier
-            .heightForScreenPercentage(26.dp)
             .background(
                 color = if (isPressed) {
-                    CertiTheme.colors.white
-                } else {
                     CertiTheme.colors.gray100
+                } else {
+                    CertiTheme.colors.white
                 },
                 shape = RoundedCornerShape(100.dp)
             )
             .border(width = 1.dp, color = CertiTheme.colors.gray300, shape = RoundedCornerShape(100.dp))
-            .padding(vertical = 4.dp, horizontal = 12.dp)
+            .padding(vertical = screenHeightDp(4.dp), horizontal = screenWidthDp(12.dp))
             .pressedClickable(
                 changePressed = {
                     isPressed = it
@@ -60,7 +64,7 @@ fun CertiEditChip(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = if (type == CertiEditChipType.MODIFY) stringResource(R.string.my_certification_modify) else stringResource(R.string.my_certification_delete),
+            text = stringResource(type.label),
             style = CertiTheme.typography.caption.regular_12,
             color = CertiTheme.colors.gray600
         )

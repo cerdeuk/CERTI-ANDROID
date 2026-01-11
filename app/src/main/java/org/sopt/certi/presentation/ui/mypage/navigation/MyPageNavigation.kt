@@ -21,6 +21,10 @@ fun NavController.navigateToAcademicInfo() {
     navigate(MyPageRoute.AcademicInfo)
 }
 
+fun NavController.navigateToMyCertification() {
+    navigate(MyPageRoute.MyCertification)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     padding: PaddingValues,
     navController: NavController
@@ -30,7 +34,7 @@ fun NavGraphBuilder.myPageNavGraph(
             padding = padding,
             navigateToPersonalInfo = navController::navigateToPersonalInfo,
             navigateToSchoolInfo = navController::navigateToAcademicInfo,
-            navigateToCertManage = {},
+            navigateToCertManage = navController::navigateToMyCertification,
             navigateToSetting = {},
             navigateToQuestion = {}
         )

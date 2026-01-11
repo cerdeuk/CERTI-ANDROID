@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -132,3 +133,20 @@ fun Modifier.widthForScreenPercentage(width: Dp): Modifier {
     val ratio = screenWidth / figmaScreenWidth
     return this.width(width * ratio)
 }
+
+fun Modifier.bottomBorder(
+    strokeWidth: Dp,
+    color: Color
+): Modifier =
+    this.drawBehind {
+        val strokeWidthPx = strokeWidth.toPx()
+        val width = size.width
+        val height = size.height - strokeWidthPx / 2
+
+        drawLine(
+            color = color,
+            start = Offset(x = 0f, y = height),
+            end = Offset(x = width, y = height),
+            strokeWidth = strokeWidthPx
+        )
+    }
