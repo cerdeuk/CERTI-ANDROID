@@ -1,14 +1,14 @@
 package org.sopt.certi.data.remote.dto.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserInfoResponseDto(
-    @SerializedName("name")
+    @SerialName("nickname")
     val name: String,
-    @SerializedName("university")
+    @SerialName("university")
     val university: String,
-    @SerializedName("major")
+    @SerialName("major")
     val major: String
 )

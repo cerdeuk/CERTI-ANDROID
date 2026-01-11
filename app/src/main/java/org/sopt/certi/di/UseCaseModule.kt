@@ -34,10 +34,12 @@ import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.activity.DeleteActivityUseCase
 import org.sopt.certi.domain.usecase.career.DeleteCareerUseCase
-import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
+import org.sopt.certi.domain.usecase.certification.GetJobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
+import org.sopt.certi.domain.usecase.certification.Top3JobCertListUseCase
+import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
@@ -104,7 +106,7 @@ object UseCaseModule {
     @Singleton
     fun provideGetCategoryCertListUseCase(
         certRepository: CertRepository
-    ): GetCategoryCertListUseCase = GetCategoryCertListUseCase(certRepository)
+    ): GetJobCertListUseCase = GetJobCertListUseCase(certRepository)
 
     @Provides
     fun provideGetUserInfoUseCase(
@@ -203,4 +205,16 @@ object UseCaseModule {
     fun providePreCertEditUseCase(
         preCertEditRepository: PreCertEditRepository
     ): PreCertEditUseCase = PreCertEditUseCase(preCertEditRepository)
+
+    @Provides
+    @Singleton
+    fun provideTop3TrackCertListUseCase(
+        certRepository: CertRepository
+    ): Top3TrackCertListUseCase = Top3TrackCertListUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideTop3JobCertListUseCase(
+        certRepository: CertRepository
+    ): Top3JobCertListUseCase = Top3JobCertListUseCase(certRepository)
 }

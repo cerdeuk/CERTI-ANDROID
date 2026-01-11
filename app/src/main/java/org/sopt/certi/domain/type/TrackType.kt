@@ -23,5 +23,10 @@ enum class TrackType(
     ),
     ARTS(
         description = "예체능계열"
-    )
+    );
+
+    companion object {
+        fun getByDescription(description: String): TrackType? =
+            entries.firstOrNull { it.description == description }
+    }
 }

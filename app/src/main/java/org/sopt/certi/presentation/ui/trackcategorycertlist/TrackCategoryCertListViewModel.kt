@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +15,8 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.domain.type.TrackType
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
-import org.sopt.certi.domain.usecase.certification.GetCategoryCertListUseCase
+import org.sopt.certi.domain.usecase.certification.GetJobCertListUseCase
+import org.sopt.certi.domain.usecase.certification.GetTrackCertListUseCase
 import org.sopt.certi.presentation.ui.trackcategorycertlist.state.TrackCategoryCertListUiState
 import org.sopt.certi.presentation.ui.trackcategorycertlist.model.TrackCategoryType
 import javax.inject.Inject
@@ -24,16 +24,22 @@ import javax.inject.Inject
 @HiltViewModel
 class TrackCategoryCertListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCategoryCertListUseCase: GetCategoryCertListUseCase,
-//    private val getTrackCertListUseCase: GetTrackCertListUseCase,
+    private val getJobCertListUseCase: GetJobCertListUseCase,
+    private val getTrackCertListUseCase: GetTrackCertListUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
     val mode: TrackCategoryType =
         TrackCategoryType.fromRouteArg(savedStateHandle.get<String>("mode"))
+    private val default: String = savedStateHandle.get<String>("default").orEmpty()
 
     private val _certListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
-    private val _selectedCategory = MutableStateFlow(0)
     private val _isFavorite = MutableStateFlow(false)
+
+    private val defaultIndex: Int = when (mode) {
+        TrackCategoryType.CATEGORY -> CategoryType.getByDescription(default)?.ordinal ?: 0
+        TrackCategoryType.TRACK -> TrackType.getByDescription(default)?.ordinal ?: 0
+    }
+    private val _selectedCategory = MutableStateFlow(defaultIndex)
 
     val certificationListUiState: StateFlow<TrackCategoryCertListUiState> =
         combine(_certListLoadState, _selectedCategory, _isFavorite) { certListLoadState, selectedCategory, isFavorite ->
@@ -47,7 +53,7 @@ class TrackCategoryCertListViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = TrackCategoryCertListUiState(
                 certificationListLoadState = UiState.Loading,
-                selectedCategory = 0,
+                selectedCategory = defaultIndex,
                 isFavorite = false
             )
         )
@@ -71,44 +77,9 @@ class TrackCategoryCertListViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _certListLoadState.value = UiState.Loading
         val jobs = CategoryType.entries.getOrNull(category)?.description ?: ""
-//        getCategoryCertListUseCase(isFavorite, jobs)
-//            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
-//            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
-
-        _certListLoadState.value = UiState.Success(
-            listOf(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 20,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = false,
-                    testType = "실기형",
-                    recommendScore = 90,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "TOEIC 900+",
-                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 80,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                )
-            ).toImmutableList()
-        )
+        getJobCertListUseCase(isFavorite, jobs)
+            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
+            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
     }
 
     private fun getTrackCertificationList(
@@ -117,43 +88,9 @@ class TrackCategoryCertListViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _certListLoadState.value = UiState.Loading
         val tracks = TrackType.entries.getOrNull(track)?.description ?: ""
-//        getTrackCertListUseCase(isFavorite, tracks)
-//            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
-//            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
-        _certListLoadState.value = UiState.Success(
-            listOf(
-                CertificationData(
-                    certificationId = 1,
-                    certificationName = "정보처리기사",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 20,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 2,
-                    certificationName = "GTQ 1급 (그래픽 기술 자격)",
-                    tags = listOf("시각디자인", "컴퓨터공학", "경영"),
-                    isFavorite = false,
-                    testType = "실기형",
-                    recommendScore = 90,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                ),
-                CertificationData(
-                    certificationId = 3,
-                    certificationName = "TOEIC 900+",
-                    tags = listOf("경영", "시각디자인", "컴퓨터공학"),
-                    isFavorite = true,
-                    testType = "실기형",
-                    recommendScore = 80,
-                    agencyName = "국가기술자격",
-                    description = "자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다.자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다. 자격증 설명입니다."
-                )
-            ).toImmutableList()
-        )
+        getTrackCertListUseCase(isFavorite, tracks)
+            .onSuccess { list -> _certListLoadState.value = if (list.isEmpty()) UiState.Empty else UiState.Success(list) }
+            .onFailure { _certListLoadState.value = UiState.Failure(it.toString()) }
     }
 
     fun onCategorySelected(index: Int) {

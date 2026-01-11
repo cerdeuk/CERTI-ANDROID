@@ -9,9 +9,10 @@ import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
 import org.sopt.certi.presentation.ui.trackcategorycertlist.TrackCategoryCertListRoute
 
 fun NavController.navigateToTrackCategoryCertList(
-    mode: String
+    mode: String,
+    default: String
 ) {
-    navigate(CertListRoute.TrackCategoryCertList(mode = mode))
+    navigate(CertListRoute.TrackCategoryCertList(mode = mode, default = default))
 }
 
 fun NavGraphBuilder.trackCategoryCertListNavGraph(

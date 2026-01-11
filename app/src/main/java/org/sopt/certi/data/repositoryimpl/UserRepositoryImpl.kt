@@ -33,4 +33,11 @@ class UserRepositoryImpl @Inject constructor(
             .handleNullableApiResponse()
             .getOrThrow()
     }
+
+    override suspend fun getUserTrack(): Result<String> = safeApiCall {
+        userRemoteDataSource.getUserTrack()
+            .handleApiResponse()
+            .getOrThrow()
+            .track
+    }
 }

@@ -24,5 +24,7 @@ data class RecommendCertInfoDto(
     @SerializedName("recommendationScore")
     val recommendationScore: Int,
     @SerializedName("isFavorite")
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    @SerializedName("description")
+    val description: String
 )

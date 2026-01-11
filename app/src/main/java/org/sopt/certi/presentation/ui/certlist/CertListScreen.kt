@@ -46,6 +46,7 @@ import org.sopt.certi.presentation.ui.certlist.component.CategoryTopBar
 import org.sopt.certi.presentation.ui.certlist.component.Top3CertificationItem
 import org.sopt.certi.presentation.ui.certlist.state.CertListUiState
 import org.sopt.certi.presentation.ui.home.component.RecommendedCertificationListSection
+import org.sopt.certi.presentation.ui.trackcategorycertlist.model.TrackCategoryType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -54,16 +55,22 @@ fun CertListRoute(
     padding: PaddingValues,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (certId: Long) -> Unit,
-    navigateToMore: (mode: String) -> Unit,
+    navigateToMore: (mode: String, default: String) -> Unit,
     viewModel: CertListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.certificationListUiState.collectAsStateWithLifecycle()
+    val nickname by viewModel.nickname.collectAsStateWithLifecycle()
+    val job by viewModel.job.collectAsStateWithLifecycle()
+    val track by viewModel.track.collectAsStateWithLifecycle()
 
     when (uiState.loadState) {
         is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Success -> {
             CertListScreen(
+                nickname = nickname,
+                track = track,
+                job = job,
                 certListState = uiState,
                 navigateToSearch = navigateToSearch,
                 navigateToCertDetail = navigateToCertDetail,
@@ -80,10 +87,13 @@ fun CertListRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CertListScreen(
+    nickname: String,
+    track: String,
+    job: String,
     certListState: CertListUiState,
     navigateToSearch: () -> Unit,
     navigateToCertDetail: (Long) -> Unit,
-    navigateToMore: (mode: String) -> Unit,
+    navigateToMore: (mode: String, default: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -106,7 +116,7 @@ private fun CertListScreen(
 
         item {
             CertListRecommendSection(
-                nickname = "김서티",
+                nickname = nickname,
                 recommendedList = (certListState.recommendListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 onDetailClick = { certId ->
                     navigateToCertDetail(certId)
@@ -117,8 +127,8 @@ private fun CertListScreen(
 
         item {
             CertListTop3Section(
-                type = "track",
-                titleLabel = "공학계열",
+                type = TrackCategoryType.TRACK.name.lowercase(),
+                titleLabel = track,
                 top3List = (certListState.trackTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -130,8 +140,8 @@ private fun CertListScreen(
 
         item {
             CertListTop3Section(
-                type = "category",
-                titleLabel = "경영사무",
+                type = TrackCategoryType.CATEGORY.name.lowercase(),
+                titleLabel = job,
                 top3List = (certListState.categoryTop3ListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf(),
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -235,7 +245,7 @@ private fun CertListTop3Section(
     type: String,
     titleLabel: String,
     top3List: ImmutableList<CertificationData>,
-    navigateToMore: (String) -> Unit,
+    navigateToMore: (mode: String, default: String) -> Unit,
     navigateToCertDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -260,7 +270,7 @@ private fun CertListTop3Section(
                 style = CertiTheme.typography.caption.regular_12,
                 color = CertiTheme.colors.gray400,
                 modifier = Modifier.noRippleClickable {
-                    navigateToMore(type)
+                    navigateToMore(type, titleLabel)
                 }
             )
         }
@@ -322,10 +332,13 @@ private fun PreviewCertListScreen() {
         )
 
         CertListScreen(
+            nickname = "김서티",
+            track = "공학계열",
+            job = "안드로이드",
             certListState = uiState,
             navigateToSearch = { },
             navigateToCertDetail = { },
-            navigateToMore = { }
+            navigateToMore = { } as (String, String) -> Unit
         )
     }
 }
