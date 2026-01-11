@@ -13,6 +13,14 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
 }
 
+fun NavController.navigateToPersonalInfo() {
+    navigate(MyPageRoute.PersonalInfo)
+}
+
+fun NavController.navigateToAcademicInfo() {
+    navigate(MyPageRoute.AcademicInfo)
+}
+
 fun NavController.navigateToMyCertification() {
     navigate(MyPageRoute.MyCertification)
 }
@@ -24,8 +32,8 @@ fun NavGraphBuilder.myPageNavGraph(
     composable<MainTabRoute.MyPage> {
         MyPageMainRoute(
             padding = padding,
-            navigateToPersonalInfo = {},
-            navigateToSchoolInfo = {},
+            navigateToPersonalInfo = navController::navigateToPersonalInfo,
+            navigateToSchoolInfo = navController::navigateToAcademicInfo,
             navigateToCertManage = navController::navigateToMyCertification,
             navigateToSetting = {},
             navigateToQuestion = {}

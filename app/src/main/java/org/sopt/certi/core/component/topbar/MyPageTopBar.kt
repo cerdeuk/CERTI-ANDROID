@@ -1,5 +1,6 @@
 package org.sopt.certi.core.component.topbar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,9 @@ fun MyPageTopBar(
     onSaveClick: (() -> Unit)? = null
 ) {
     Box(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .background(CertiTheme.colors.white)
     ) {
         headerTitle?.let {
             Text(

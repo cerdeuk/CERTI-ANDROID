@@ -12,8 +12,11 @@ import androidx.navigation.compose.NavHost
 import org.sopt.certi.presentation.ui.activity.navigation.activityNavGraph
 import org.sopt.certi.presentation.ui.certdetail.navigation.certDetailNavGraph
 import org.sopt.certi.presentation.ui.certlist.navigation.certListNavGraph
+import org.sopt.certi.presentation.ui.editpersonalinfo.navigation.personalInfoGraph
 import org.sopt.certi.presentation.ui.home.navigation.homeNavGraph
 import org.sopt.certi.presentation.ui.login.navigation.loginNavGraph
+import org.sopt.certi.presentation.ui.myCert.navigation.myCertNavGraph
+import org.sopt.certi.presentation.ui.myacademicinfo.navigation.academicInfoNavGraph
 import org.sopt.certi.presentation.ui.mypage.navigation.myPageNavGraph
 import org.sopt.certi.presentation.ui.mycertification.navigation.myCertificationNavGraph
 import org.sopt.certi.presentation.ui.onboarding.OnBoardingViewModel
@@ -106,6 +109,15 @@ fun MainNavHost(
             )
 
             myPageNavGraph(
+                padding = padding,
+                navController = navigator.navController
+            )
+
+            personalInfoGraph(
+                padding = padding
+            )
+
+            academicInfoNavGraph(
                 padding = padding,
                 navController = navigator.navController
             )
