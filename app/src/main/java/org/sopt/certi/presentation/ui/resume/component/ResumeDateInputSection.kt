@@ -31,7 +31,6 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 private enum class EditingField {
@@ -49,7 +48,6 @@ fun ResumeDateInputSection(
 ) {
     var editingField by remember { mutableStateOf(EditingField.NONE) }
     val formatter = remember { DateTimeFormatter.ofPattern("yyyy.MM.dd") }
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     Column(
         modifier = modifier
@@ -99,7 +97,6 @@ fun ResumeDateInputSection(
         ) {
             DatePickerCalendar(
                 selectedDate = null,
-                currentMonth = currentMonth,
                 onDateSelected = { selectedLocalDate ->
                     val formattedDate = selectedLocalDate.format(formatter)
                     when (editingField) {
@@ -108,9 +105,6 @@ fun ResumeDateInputSection(
                         EditingField.NONE -> {}
                     }
                     editingField = EditingField.NONE
-                },
-                onMonthChanged = { newMonth ->
-                    currentMonth = newMonth
                 },
                 modifier = Modifier.padding(top = screenWidthDp(12.dp))
             )

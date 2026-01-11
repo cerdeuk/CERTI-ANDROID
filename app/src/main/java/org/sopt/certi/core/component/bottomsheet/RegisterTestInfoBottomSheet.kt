@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.calendar.DatePickerCalendar
@@ -50,11 +52,10 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.util.toLocalDateOrMin
+import org.sopt.certi.core.util.toLocalDateOrNull
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
-import java.time.YearMonth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,14 +63,15 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     place1List: List<String> = emptyList(),
     place2List: List<String> = emptyList(),
-    certificationData: CertificationData? = null,
-    onDismissClick: () -> Unit = {},
-    changeBottomSheetVisibility: (Boolean) -> Unit = {}
+    certificationData: CertificationData? = null
 ) {
     val density = LocalDensity.current
+    val scope = rememberCoroutineScope()
 
     // Data
     var dateText by remember { mutableStateOf("") }
@@ -79,7 +81,6 @@ fun RegisterTestInfoBottomSheet(
 
     // Date
     var showCalendar by remember { mutableStateOf(false) }
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     // Place
     var showPlaceP1List by remember { mutableStateOf(false) }
@@ -102,17 +103,14 @@ fun RegisterTestInfoBottomSheet(
             // TODO data 형식에 맞게 여기서 삽입
 
             dateText = certificationData.testDateInformation
-//            placeTextP1 = certificationData.
-//            placeTextP2 = certificationData.
+            placeTextP1 = certificationData.city
+            placeTextP2 = certificationData.state
 //            timeData = certificationData.testTime
         }
     }
 
     ModalBottomSheet(
-        onDismissRequest = {
-            changeBottomSheetVisibility(false)
-            onDismissClick()
-        },
+        onDismissRequest = onDismiss,
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         containerColor = CertiTheme.colors.white,
         sheetState = sheetState,
@@ -121,7 +119,7 @@ fun RegisterTestInfoBottomSheet(
         dragHandle = {
             Box(
                 modifier = Modifier
-                    .padding(top = screenHeightDp(24.dp))
+                    .padding(top = screenHeightDp(20.dp))
                     .widthForScreenPercentage(80.dp)
                     .heightForScreenPercentage(5.dp)
                     .roundedBackgroundWithBorder(12.dp, CertiTheme.colors.gray200)
@@ -159,7 +157,7 @@ fun RegisterTestInfoBottomSheet(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_check_24),
                     contentDescription = null,
-                    tint = CertiTheme.colors.black
+                    tint = CertiTheme.colors.gray500
                 )
 
                 Spacer(Modifier.widthForScreenPercentage(4.dp))
@@ -210,16 +208,14 @@ fun RegisterTestInfoBottomSheet(
                 if (showCalendar) {
                     // Calendar
                     DatePickerCalendar(
-                        selectedDate = dateText.toLocalDateOrMin(),
-                        currentMonth = currentMonth,
+                        selectedDate = dateText.toLocalDateOrNull(),
                         onDateSelected = { date ->
                             dateText = date.toString().replace("-", ".")
                             showCalendar = false
                         },
-                        onMonthChanged = {},
                         modifier = Modifier
                             .zIndex(1f)
-                            .padding(horizontal = screenWidthDp(6.dp))
+                            .padding(horizontal = screenWidthDp(8.dp))
                     )
                 }
 
@@ -410,36 +406,42 @@ fun RegisterTestInfoBottomSheet(
                                 timeData = Pair(hour, minute)
                             }
 
-                            Spacer(modifier = Modifier.heightIn(min = screenHeightDp(48.dp)))
+                            if (forModify) {
+                                Spacer(modifier = Modifier.height(screenHeightDp(86.dp)))
+                            } else {
+                                Spacer(modifier = Modifier.heightIn(min = screenHeightDp(48.dp)))
 
-                            Text(
-                                text = stringResource(R.string.test_info_bottomsheet_confirm_later),
-                                style = CertiTheme.typography.caption.semibold_12,
-                                color = CertiTheme.colors.gray300,
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .noRippleClickable {
-                                        onDismissClick()
-                                    }
-                            )
+                                Text(
+                                    text = stringResource(R.string.test_info_bottomsheet_confirm_later),
+                                    style = CertiTheme.typography.caption.semibold_12,
+                                    color = CertiTheme.colors.gray300,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .noRippleClickable {
+                                            onDismiss()
+                                        }
+                                )
 
-                            Spacer(Modifier.heightForScreenPercentage(4.dp))
+                                Spacer(Modifier.heightForScreenPercentage(4.dp))
 
-                            HorizontalDivider(
-                                thickness = 1.dp,
-                                color = CertiTheme.colors.gray200,
-                                modifier = Modifier
-                                    .widthForScreenPercentage(100.dp)
-                                    .align(Alignment.CenterHorizontally)
-                            )
+                                HorizontalDivider(
+                                    thickness = 1.dp,
+                                    color = CertiTheme.colors.gray200,
+                                    modifier = Modifier
+                                        .widthForScreenPercentage(100.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                )
 
-                            Spacer(Modifier.heightForScreenPercentage(12.dp))
+                                Spacer(Modifier.heightForScreenPercentage(12.dp))
+                            }
 
                             CertiBasicButton(
                                 buttonText = stringResource(R.string.test_info_bottomsheet_confirm),
                                 enabled = buttonEnable,
                                 onClick = {
-                                    onDismissClick()
+                                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                        if (!sheetState.isVisible) onConfirm()
+                                    }
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -507,6 +509,8 @@ fun RegisterTestInfoBottomSheetPreview() {
         place1List = place1List,
         place2List = place2List,
         forModify = false,
-        certificationData = null
+        certificationData = null,
+        onDismiss = {},
+        onConfirm = {}
     )
 }

@@ -4,12 +4,14 @@ import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,7 +31,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.presentation.type.NickNameValidType
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.DateInputField
-import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditPersonalInfoHeader
+import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditNicknameTextField
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.PersonalInfoProfileImage
 import org.sopt.certi.presentation.ui.editpersonalinfo.component.EditPersonalInfoTextField
@@ -75,71 +77,62 @@ fun EditPersonalInfoScreen(
 ) {
     val focusManager = LocalFocusManager.current
 
-    LazyColumn(
+    Column(
         modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .noRippleClickable { focusManager.clearFocus() }
-            .imePadding(),
-        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp)),
+            .imePadding()
+            .padding(horizontal = screenWidthDp(20.dp)),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        stickyHeader {
-            EditPersonalInfoHeader(
-                isSaveEnable = uiState.isSaveButtonEnabled,
-                onSaveClick = onSaveClick,
-                headerTitle = stringResource(R.string.mypage_personal_info)
-            )
-        }
+        MyPageTopBar(
+            isSaveEnable = uiState.isSaveButtonEnabled,
+            onSaveClick = onSaveClick,
+            headerTitle = stringResource(R.string.mypage_personal_info),
+            modifier = Modifier.padding(vertical = screenWidthDp(20.dp))
+        )
 
-        item {
-            PersonalInfoProfileImage(
-                selectedImageUri = uiState.profileUri,
-                onImageUriChange = onProfileUriChange,
-                modifier = Modifier.padding(bottom = screenHeightDp(12.dp), top = screenHeightDp(4.dp))
-            )
-        }
+        PersonalInfoProfileImage(
+            selectedImageUri = uiState.profileUri,
+            onImageUriChange = onProfileUriChange,
+            modifier = Modifier.padding(bottom = screenHeightDp(12.dp), top = screenHeightDp(4.dp))
+        )
 
-        item {
-            EditNicknameTextField(
-                value = uiState.nickname,
-                onValueChange = onNickNameChange,
-                isEnable = uiState.isNicknameChanged,
-                onButtonClick = onNickNameCheckButtonClick,
-                nickNameValidType = nickNameValidType
-            )
-        }
+        EditNicknameTextField(
+            value = uiState.nickname,
+            onValueChange = onNickNameChange,
+            isEnable = uiState.isNicknameChanged,
+            onButtonClick = onNickNameCheckButtonClick,
+            nickNameValidType = nickNameValidType
+        )
 
-        item {
-            EditPersonalInfoTextField(
-                label = stringResource(R.string.personal_name_label),
-                placeholder = stringResource(R.string.personal_name_placeholder),
-                value = uiState.name,
-                onValueChange = onNameChange
-            )
-        }
+        EditPersonalInfoTextField(
+            label = stringResource(R.string.personal_name_label),
+            placeholder = stringResource(R.string.personal_name_placeholder),
+            value = uiState.name,
+            onValueChange = onNameChange
+        )
 
-        item {
-            EditPersonalInfoTextField(
-                label = stringResource(R.string.personal_email_label),
-                placeholder = stringResource(R.string.personal_email_placeholder),
-                value = uiState.email,
-                onValueChange = onEmailChange,
-                imeAction = ImeAction.Done
-            )
-        }
+        EditPersonalInfoTextField(
+            label = stringResource(R.string.personal_email_label),
+            placeholder = stringResource(R.string.personal_email_placeholder),
+            value = uiState.email,
+            onValueChange = onEmailChange,
+            imeAction = ImeAction.Done
+        )
 
-        item {
-            DateInputField(
-                label = stringResource(R.string.personal_birthday_label),
-                value = uiState.birth,
-                onValueChange = onBirthChange,
-                inputFieldBackgroundColor = when {
-                    uiState.birth.isAllEmpty -> CertiTheme.colors.white
-                    uiState.isBirthChanged -> CertiTheme.colors.white
-                    else -> CertiTheme.colors.gray0
-                }
-            )
-        }
+        DateInputField(
+            label = stringResource(R.string.personal_birthday_label),
+            value = uiState.birth,
+            onValueChange = onBirthChange,
+            inputFieldBackgroundColor = when {
+                uiState.birth.isAllEmpty -> CertiTheme.colors.white
+                uiState.isBirthChanged -> CertiTheme.colors.white
+                else -> CertiTheme.colors.gray0
+            }
+        )
     }
 }
 
