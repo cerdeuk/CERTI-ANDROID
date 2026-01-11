@@ -1,7 +1,5 @@
-package org.sopt.certi.core.component.dialog
+package org.sopt.certi.presentation.ui.setting.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -21,23 +19,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
-import org.sopt.certi.core.util.pressedClickable
+import org.sopt.certi.core.component.dialog.DialogButton
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertiDeleteDialog(
+fun DeleteAccountDialog(
     onConfirmClick: () -> Unit,
-    onDismissClick: () -> Unit,
-    title: String = stringResource(R.string.delete_dialog_title),
-    description: String = stringResource(R.string.delete_dialog_description)
+    onDismissClick: () -> Unit
 ) {
     Dialog(onDismissRequest = onDismissClick) {
         Surface(
@@ -45,25 +41,31 @@ fun CertiDeleteDialog(
             color = CertiTheme.colors.white
         ) {
             Column(
-                modifier = Modifier.padding(top = screenWidthDp(32.dp)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = title,
-                    style = CertiTheme.typography.body.semibold_18,
-                    color = CertiTheme.colors.gray600
-                )
-                Spacer(modifier = Modifier.height(screenWidthDp(16.dp)))
-                Text(
-                    text = description,
-                    style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.gray600
-                )
-                Spacer(modifier = Modifier.height(screenWidthDp(24.dp)))
+                Column(
+                    modifier = Modifier.padding(horizontal = screenWidthDp(34.dp), vertical = screenHeightDp(24.dp)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.setting_delete_account_dialog_message),
+                        style = CertiTheme.typography.body.semibold_18,
+                        color = CertiTheme.colors.gray600
+                    )
+
+                    Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))
+                    Text(
+                        text = stringResource(R.string.setting_delete_account_dialog_description),
+                        style = CertiTheme.typography.caption.regular_14,
+                        color = CertiTheme.colors.gray600
+                    )
+                }
+
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = CertiTheme.colors.gray100
                 )
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -80,8 +82,8 @@ fun CertiDeleteDialog(
                         color = CertiTheme.colors.gray100
                     )
                     DialogButton(
-                        text = stringResource(R.string.delete_dialog_confirm),
-                        textColor = CertiTheme.colors.purpleBlue,
+                        text = stringResource(R.string.setting_delete_account_dialog_confirm),
+                        textColor = CertiTheme.colors.error,
                         onClick = onConfirmClick,
                         modifier = Modifier.weight(1f)
                     )
@@ -91,40 +93,13 @@ fun CertiDeleteDialog(
     }
 }
 
-@Composable
-fun DialogButton(
-    text: String,
-    textColor: Color,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var isPressed by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = modifier
-            .background(if (isPressed) CertiTheme.colors.gray0 else CertiTheme.colors.white)
-            .pressedClickable(
-                changePressed = { isPressed = it },
-                onClick = onClick
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            style = CertiTheme.typography.body.semibold_18,
-            color = textColor,
-            modifier = Modifier.padding(vertical = screenWidthDp(16.dp))
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
-fun DeleteDialogPreview() {
+fun DeleteAccountDialogPreview() {
     var showDialog by remember { mutableStateOf(true) }
     CERTITheme {
         if (showDialog) {
-            CertiDeleteDialog(
+            DeleteAccountDialog(
                 onConfirmClick = { },
                 onDismissClick = { showDialog = false }
             )

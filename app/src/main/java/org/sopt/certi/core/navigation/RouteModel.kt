@@ -105,4 +105,10 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object MyCertification : MyPageRoute
+
+    @Serializable
+    data object Setting : MyPageRoute
+
+    @Serializable
+    data object SettingNotification : MyPageRoute
 }

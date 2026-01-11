@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.MyPageRoute
 import org.sopt.certi.presentation.ui.mypage.MyPageMainRoute
+import org.sopt.certi.presentation.ui.setting.SettingNotificationRoute
+import org.sopt.certi.presentation.ui.setting.SettingRoute
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -25,6 +27,14 @@ fun NavController.navigateToMyCertification() {
     navigate(MyPageRoute.MyCertification)
 }
 
+fun NavController.navigateToSetting() {
+    navigate(MyPageRoute.Setting)
+}
+
+fun NavController.navigateToSettingNotification() {
+    navigate(MyPageRoute.SettingNotification)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     padding: PaddingValues,
     navController: NavController
@@ -35,8 +45,17 @@ fun NavGraphBuilder.myPageNavGraph(
             navigateToPersonalInfo = navController::navigateToPersonalInfo,
             navigateToSchoolInfo = navController::navigateToAcademicInfo,
             navigateToCertManage = navController::navigateToMyCertification,
-            navigateToSetting = {},
+            navigateToSetting = navController::navigateToSetting,
             navigateToQuestion = {}
         )
+    }
+    composable<MyPageRoute.Setting> {
+        SettingRoute(
+            padding = padding,
+            navigateToSettingNotification = navController::navigateToSettingNotification
+        )
+    }
+    composable<MyPageRoute.SettingNotification> {
+        SettingNotificationRoute(padding = padding)
     }
 }
