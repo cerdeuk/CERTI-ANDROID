@@ -37,7 +37,7 @@ fun ResumeProfile(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = screenWidthDp(20.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -50,9 +50,9 @@ fun ResumeProfile(
         Spacer(modifier = Modifier.width(screenWidthDp(16.dp)))
 
         Column(
-            modifier = Modifier
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(8.dp))
         ) {
-            Row (
+            Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -102,7 +102,7 @@ private fun ResumeProfileItem(
     value: String,
     modifier: Modifier = Modifier
 ) {
-    Row (
+    Row(
         modifier = modifier.height(IntrinsicSize.Min),
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
         verticalAlignment = Alignment.CenterVertically
@@ -130,6 +130,6 @@ private fun ResumeProfilePreview() {
         name = "김서티",
         university = "서티대학교",
         major = "시각디자인학과",
-        birthday = "2001. 03. 26 (만 24세)",
+        birthday = "2001. 03. 26 (만 24세)"
     )
 }

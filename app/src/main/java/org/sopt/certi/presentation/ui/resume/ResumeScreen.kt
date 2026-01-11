@@ -29,10 +29,10 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.CertiTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
-import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.showIf
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
@@ -73,7 +73,7 @@ fun ResumeRoute(
 
     when (uiState.loadState) {
         is UiState.Success -> ResumeScreen(
-            jobCategory = (uiState.jobCategoryLoadState as UiState.Success<List<String>>).data.toImmutableList(),
+            userInfo = (uiState.userInfoLoadState as UiState.Success<UserInfoData>).data,
             acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
             experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
@@ -94,7 +94,7 @@ fun ResumeRoute(
 
 @Composable
 fun ResumeScreen(
-    jobCategory: ImmutableList<String>,
+    userInfo: UserInfoData,
     acquiredCertificationList: ImmutableList<CertificationData>,
     experienceList: ImmutableList<ActivityData>,
     activityList: ImmutableList<ActivityData>,
@@ -112,10 +112,11 @@ fun ResumeScreen(
         LazyColumn {
             item {
                 ResumeProfile(
-                    modifier = Modifier
-                        .padding(horizontal = screenWidthDp(20.dp))
-                        .padding(top = screenHeightDp(32.dp)),
-                    category = jobCategory
+                    name = userInfo.name,
+                    university = userInfo.university,
+                    major = userInfo.major,
+                    birthday = userInfo.birthday,
+                    modifier = Modifier.padding(top = screenHeightDp(16.dp), bottom = screenHeightDp(36.dp))
                 )
             }
 
