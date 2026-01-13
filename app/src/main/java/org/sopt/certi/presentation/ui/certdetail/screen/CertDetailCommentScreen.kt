@@ -10,13 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +55,59 @@ fun CertDetailCommentRoute() {
                 commentId = 57,
                 userId = 1,
                 nickName = "이성민",
-                content = "댓글입니다.",
+                content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
+                userMajor = "전산학/컴퓨터공학",
+                userJob = "IT/인터넷",
+                state = CertAcquireStateType.ACQUIRED,
+                likeCount = 3,
+                createdTime = "2025-11-15T23:00:38.042089",
+                lastModifiedTime = "2025-11-15T23:00:38.042089",
+                isLike = false
+            ),
+            CommentItemData(
+                commentId = 58,
+                userId = 1,
+                nickName = "이성민2",
+                content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
+                userMajor = "전산학/컴퓨터공학",
+                userJob = "IT/인터넷",
+                state = CertAcquireStateType.ACQUIRED,
+                likeCount = 3,
+                createdTime = "2025-11-15T23:00:38.042089",
+                lastModifiedTime = "2025-11-15T23:00:38.042089",
+                isLike = false
+            ),
+            CommentItemData(
+                commentId = 59,
+                userId = 1,
+                nickName = "이성민3",
+                content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
+                userMajor = "전산학/컴퓨터공학",
+                userJob = "IT/인터넷",
+                state = CertAcquireStateType.ACQUIRED,
+                likeCount = 3,
+                createdTime = "2025-11-15T23:00:38.042089",
+                lastModifiedTime = "2025-11-15T23:00:38.042089",
+                isLike = false
+            ),
+            CommentItemData(
+                commentId = 60,
+                userId = 1,
+                nickName = "이성민4",
+                content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
+                userMajor = "전산학/컴퓨터공학",
+                userJob = "IT/인터넷",
+                state = CertAcquireStateType.ACQUIRED,
+                likeCount = 3,
+                createdTime = "2025-11-15T23:00:38.042089",
+                lastModifiedTime = "2025-11-15T23:00:38.042089",
+                isLike = false
+            ),
+            CommentItemData(
+                commentId = 61,
+                userId = 1,
+                nickName = "이성민5",
+                content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertAcquireStateType.ACQUIRED,
@@ -62,7 +118,7 @@ fun CertDetailCommentRoute() {
             )
         ),
         totalPages = 1,
-        totalElements = 2,
+        totalElements = 5,
         isLast = false
     )
 
@@ -86,98 +142,120 @@ fun CertDetailCommentScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = screenHeightDp(36.dp))
-            .padding(horizontal = screenWidthDp(20.dp))
     ) {
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = screenWidthDp(20.dp))
         ) {
-            CommentArrayButton(
-                commentArrayButtonType = CommentArrayButtonType.Famous,
-                isSelected = commentSortType == CommentArrayButtonType.Famous,
-                selectOnClick = {
-                    commentSortType = CommentArrayButtonType.Famous
-                }
-            )
-
-            Spacer(Modifier.widthForScreenPercentage(8.dp))
-
-            CommentArrayButton(
-                commentArrayButtonType = CommentArrayButtonType.Recent,
-                isSelected = commentSortType == CommentArrayButtonType.Recent,
-                selectOnClick = {
-                    commentSortType = CommentArrayButtonType.Recent
-                }
-            )
-
-            Spacer(Modifier.weight(1f))
-
-            Text(
-                text = stringResource(R.string.comment_count, commentData.totalElements),
-                style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray400
-            )
-        }
-
-        LazyColumn(
-            contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
-        ) {
-            items(commentData.content.size) { index ->
-                CommentItem(
-                    commentData = commentData.content[index],
-                    myUserId = myUserId,
-                    likeOnClick = { like ->
-                        likeOnClick(like, commentData.content[index].commentId)
-                    },
-                    reportOnClick = {
-                        reportOnClick(commentData.content[index].commentId)
-                    },
-                    deleteOnClick = {
-                        deleteOnClick(commentData.content[index].commentId)
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CommentArrayButton(
+                    commentArrayButtonType = CommentArrayButtonType.Famous,
+                    isSelected = commentSortType == CommentArrayButtonType.Famous,
+                    selectOnClick = {
+                        commentSortType = CommentArrayButtonType.Famous
                     }
                 )
+
+                Spacer(Modifier.widthForScreenPercentage(8.dp))
+
+                CommentArrayButton(
+                    commentArrayButtonType = CommentArrayButtonType.Recent,
+                    isSelected = commentSortType == CommentArrayButtonType.Recent,
+                    selectOnClick = {
+                        commentSortType = CommentArrayButtonType.Recent
+                    }
+                )
+
+                Spacer(Modifier.weight(1f))
+
+                Text(
+                    text = stringResource(R.string.comment_count, commentData.totalElements),
+                    style = CertiTheme.typography.caption.regular_14,
+                    color = CertiTheme.colors.gray400
+                )
+            }
+
+            LazyColumn(
+                contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
+                verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
+            ) {
+                itemsIndexed(commentData.content) { _, item ->
+                    CommentItem(
+                        commentData = item,
+                        myUserId = myUserId,
+                        likeOnClick = { like ->
+                            likeOnClick(like, item.commentId)
+                        },
+                        reportOnClick = {
+                            reportOnClick(item.commentId)
+                        },
+                        deleteOnClick = {
+                            deleteOnClick(item.commentId)
+                        }
+                    )
+                }
             }
         }
-
-        Spacer(Modifier.weight(1f))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightForScreenPercentage(83.dp)
-                .padding(vertical = screenHeightDp(20.dp))
+                .drawBehind {
+                    // 위쪽 그림자만 그리기
+                    val shadowHeight = 4.dp.toPx()
+                    val shadowColor = Color.Black.copy(alpha = 0.025f)
+
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                shadowColor,
+                                Color.Transparent
+                            ),
+                            startY = 0f,
+                            endY = shadowHeight
+                        ),
+                        topLeft = Offset(0f, -shadowHeight),
+                        size = Size(size.width, shadowHeight)
+                    )
+                }
+                .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(20.dp))
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .heightForScreenPercentage(40.dp)
                     .background(color = CertiTheme.colors.gray100, shape = RoundedCornerShape(18.dp))
                     .padding(end = screenWidthDp(12.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TextField(
+                BasicTextField(
                     value = commentText,
                     onValueChange = { commentText = it },
-                    placeholder = {
-                        Text(
-                            text = stringResource(R.string.comment_hint),
-                            style = CertiTheme.typography.caption.semibold_14,
-                            color = CertiTheme.colors.gray300
-                        )
-                    },
                     singleLine = true,
                     maxLines = 1,
-                    textStyle = CertiTheme.typography.caption.semibold_14.copy(color = CertiTheme.colors.black),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        errorContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
+                    textStyle = CertiTheme.typography.caption.regular_14.copy(
+                        color = CertiTheme.colors.black
                     ),
-                    modifier = Modifier.weight(1f)
+                    cursorBrush = SolidColor(CertiTheme.colors.black),
+                    decorationBox = { innerTextField ->
+                        if (commentText.isEmpty()) {
+                            Text(
+                                text = stringResource(R.string.comment_hint),
+                                style = CertiTheme.typography.caption.semibold_14,
+                                color = CertiTheme.colors.gray300
+                            )
+                        }
+
+                        innerTextField()
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = screenWidthDp(10.dp))
                 )
 
                 Spacer(Modifier.widthForScreenPercentage(12.dp))
@@ -188,7 +266,7 @@ fun CertDetailCommentScreen(
                     modifier = Modifier
                         .widthForScreenPercentage(24.dp)
                         .heightForScreenPercentage(24.dp)
-                        .noRippleClickable{
+                        .noRippleClickable {
                             writeComment(commentText)
                         },
                     contentDescription = null
@@ -207,7 +285,7 @@ private fun PreviewCertDetailCommentScreen() {
                 commentId = 57,
                 userId = 1,
                 nickName = "이성민",
-                content = "댓글입니다.",
+                content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertAcquireStateType.ACQUIRED,
@@ -220,7 +298,7 @@ private fun PreviewCertDetailCommentScreen() {
                 commentId = 58,
                 userId = 1,
                 nickName = "이성민2",
-                content = "댓글입니다.2",
+                content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertAcquireStateType.ACQUIRED,
@@ -233,7 +311,7 @@ private fun PreviewCertDetailCommentScreen() {
                 commentId = 59,
                 userId = 1,
                 nickName = "이성민3",
-                content = "댓글입니다.3",
+                content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertAcquireStateType.ACQUIRED,
@@ -246,7 +324,20 @@ private fun PreviewCertDetailCommentScreen() {
                 commentId = 60,
                 userId = 1,
                 nickName = "이성민4",
-                content = "댓글입니다.4",
+                content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
+                userMajor = "전산학/컴퓨터공학",
+                userJob = "IT/인터넷",
+                state = CertAcquireStateType.ACQUIRED,
+                likeCount = 3,
+                createdTime = "2025-11-15T23:00:38.042089",
+                lastModifiedTime = "2025-11-15T23:00:38.042089",
+                isLike = false
+            ),
+            CommentItemData(
+                commentId = 61,
+                userId = 1,
+                nickName = "이성민5",
+                content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertAcquireStateType.ACQUIRED,

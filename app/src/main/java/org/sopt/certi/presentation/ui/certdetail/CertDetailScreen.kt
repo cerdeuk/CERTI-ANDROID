@@ -3,7 +3,10 @@ package org.sopt.certi.presentation.ui.certdetail
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -141,9 +144,12 @@ fun CertDetailScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = screenWidthDp(20.dp))
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .imePadding()
     ) {
         CertDetailTab(
+            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp)),
             tabClicked = { tab ->
                 selectedTab = tab
             }

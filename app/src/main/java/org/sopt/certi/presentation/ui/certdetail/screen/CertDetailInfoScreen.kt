@@ -43,7 +43,8 @@ fun CertDetailInfoScreen(
     acquiredCert: () -> Unit = {}
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(top = screenHeightDp(36.dp), bottom = screenHeightDp(36.dp))
+        contentPadding = PaddingValues(top = screenHeightDp(36.dp), bottom = screenHeightDp(36.dp)),
+        modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
     ) {
         item {
             Text(
