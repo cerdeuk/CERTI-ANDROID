@@ -33,13 +33,13 @@ import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.comment.CommentData
+import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.domain.type.CertAcquireStateType
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CommentItem(
-    commentData: CommentData,
+    commentData: CommentItemData,
     myUserId: Long,
     likeOnClick: (like: Boolean) -> Unit = {},
     reportOnClick: () -> Unit = {},
@@ -196,7 +196,7 @@ fun CommentDeleteButton(
 @Preview(showBackground = true)
 @Composable
 fun CommentItemPreview() {
-    val sampleComment = CommentData(
+    val sampleComment = CommentItemData(
         commentId = 1L,
         userId = 1L,
         nickName = "SOPT",
@@ -207,9 +207,6 @@ fun CommentItemPreview() {
         createdTime = "2024.07.21",
         lastModifiedTime = "2024.07.21",
         isLike = true,
-        totalPages = 1,
-        totalElements = 1,
-        isLast = true,
         likeCount = 15
     )
 
