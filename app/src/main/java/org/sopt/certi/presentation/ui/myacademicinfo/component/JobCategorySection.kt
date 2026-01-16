@@ -39,7 +39,7 @@ fun JobCategorySection(
         modifier = modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(R.string.resume_profile_title),
+            text = stringResource(R.string.my_academic_job_category),
             style = CertiTheme.typography.body.semibold_16,
             color = CertiTheme.colors.gray400
         )

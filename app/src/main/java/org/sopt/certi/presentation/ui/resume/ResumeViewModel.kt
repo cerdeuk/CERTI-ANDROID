@@ -15,11 +15,11 @@ import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
-import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
 import javax.inject.Inject
@@ -27,13 +27,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ResumeViewModel @Inject constructor(
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
-    private val getInterestJobListUseCase: GetInterestedJobListUseCase,
     private val getCareerListUseCase: GetCareerListUseCase,
     private val getActivityListUseCase: GetActivityListUseCase,
     private val getAcquisitionDetailUseCase: GetAcquisitionDetailUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
-    private val _jobCategoryLoadState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
+    private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _acquiredCertificationListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _experienceListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
     private val _activityListLoadState = MutableStateFlow<UiState<List<ActivityData>>>(UiState.Loading)
@@ -41,14 +40,14 @@ class ResumeViewModel @Inject constructor(
 
     val resumeUiState: StateFlow<ResumeUiState> =
         combine(
-            _jobCategoryLoadState,
+            _userInfoLoadState,
             _acquiredCertificationListLoadState,
             _experienceListLoadState,
             _activityListLoadState,
             _selectedCertDetail
-        ) { jobCategory, certList, experience, activity, certDetail ->
+        ) { userInfo, certList, experience, activity, certDetail ->
             ResumeUiState(
-                jobCategoryLoadState = jobCategory,
+                userInfoLoadState = userInfo,
                 acquiredCertificationListLoadState = certList,
                 experienceListLoadState = experience,
                 activityListLoadState = activity,
@@ -58,7 +57,7 @@ class ResumeViewModel @Inject constructor(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ResumeUiState(
-                jobCategoryLoadState = UiState.Loading,
+                userInfoLoadState = UiState.Loading,
                 acquiredCertificationListLoadState = UiState.Loading,
                 experienceListLoadState = UiState.Loading,
                 activityListLoadState = UiState.Loading,
@@ -70,22 +69,23 @@ class ResumeViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     fun getResumeData() {
-        getJobCategory()
+        getUserInfo()
         getAcquiredCertificationList()
         getExperienceList()
         getActivityList()
     }
 
-    private fun getJobCategory() = viewModelScope.launch {
-        _jobCategoryLoadState.value = UiState.Loading
-        getInterestJobListUseCase.invoke().fold(
-            onSuccess = {
-                val jobCategory = it.jobList
-                _jobCategoryLoadState.emit(UiState.Success(jobCategory))
-            },
-            onFailure = {
-                _jobCategoryLoadState.emit(UiState.Failure(it.message.toString()))
-            }
+    private fun getUserInfo() = viewModelScope.launch {
+        _userInfoLoadState.value = UiState.Loading
+        _userInfoLoadState.emit(
+            UiState.Success(
+                UserInfoData(
+                    name = "김서티",
+                    university = "서티대학교",
+                    major = "시각디자인학과",
+                    birthday = "2001. 03. 26 (만 24세)"
+                )
+            )
         )
     }
 
