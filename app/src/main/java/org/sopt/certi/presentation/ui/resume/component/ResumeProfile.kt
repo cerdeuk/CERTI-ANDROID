@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -39,6 +40,7 @@ fun ResumeProfile(
     major: String,
     birthday: String,
     profileImageUrl: String?,
+    navigateToMyPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -82,19 +84,23 @@ fun ResumeProfile(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_edit_16),
-                    contentDescription = null,
-                    tint = CertiTheme.colors.gray400
-                )
+                Row(
+                    modifier = Modifier.noRippleClickable(navigateToMyPage)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_edit_16),
+                        contentDescription = null,
+                        tint = CertiTheme.colors.gray400
+                    )
 
-                Spacer(modifier = Modifier.widthForScreenPercentage(3.dp))
+                    Spacer(modifier = Modifier.widthForScreenPercentage(3.dp))
 
-                Text(
-                    text = stringResource(R.string.resume_profile_edit),
-                    style = CertiTheme.typography.caption.semibold_12,
-                    color = CertiTheme.colors.gray400
-                )
+                    Text(
+                        text = stringResource(R.string.resume_profile_edit),
+                        style = CertiTheme.typography.caption.semibold_12,
+                        color = CertiTheme.colors.gray400
+                    )
+                }
             }
 
             ResumeProfileItem(
@@ -150,6 +156,7 @@ private fun ResumeProfilePreview() {
         university = "서티대학교",
         major = "시각디자인학과",
         birthday = "2001. 03. 26 (만 24세)",
-        profileImageUrl = null
+        profileImageUrl = null,
+        navigateToMyPage = {}
     )
 }

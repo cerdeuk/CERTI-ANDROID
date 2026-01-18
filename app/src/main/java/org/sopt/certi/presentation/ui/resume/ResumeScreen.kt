@@ -43,6 +43,7 @@ import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 @Composable
 fun ResumeRoute(
     padding: PaddingValues,
+    navigateToMyPage: () -> Unit,
     navigateToMyCert: () -> Unit,
     navigateToWorkExperience: () -> Unit,
     navigateToActivities: () -> Unit,
@@ -81,6 +82,7 @@ fun ResumeRoute(
             onCertificationClick = { certificationId ->
                 viewModel.onCertificationClick(certificationId)
             },
+            navigateToMyPage = navigateToMyPage,
             navigateToMyCert = navigateToMyCert,
             navigateToWorkExperience = navigateToWorkExperience,
             navigateToActivities = navigateToActivities,
@@ -96,6 +98,7 @@ fun ResumeRoute(
 @Composable
 fun ResumeScreen(
     userInfo: UserInfoData,
+    navigateToMyPage: () -> Unit,
     acquiredCertificationList: ImmutableList<CertificationData>,
     experienceList: ImmutableList<ActivityData>,
     activityList: ImmutableList<ActivityData>,
@@ -118,6 +121,7 @@ fun ResumeScreen(
                     major = userInfo.major,
                     birthday = userInfo.birthday ?: stringResource(R.string.resume_certification_birthday_empty),
                     profileImageUrl = userInfo.profileImageUrl,
+                    navigateToMyPage = navigateToMyPage,
                     modifier = Modifier.padding(top = screenHeightDp(16.dp))
                 )
             }
