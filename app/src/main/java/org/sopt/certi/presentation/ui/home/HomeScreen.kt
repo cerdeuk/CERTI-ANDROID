@@ -306,7 +306,7 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = stringResource(R.string.home_recommend_title, userInfo.name),
+                            text = stringResource(R.string.home_recommend_title, userInfo.nickname),
                             style = CertiTheme.typography.subtitle.semibold_20,
                             color = CertiTheme.colors.gray600
                         )

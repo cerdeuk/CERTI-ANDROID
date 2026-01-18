@@ -30,10 +30,10 @@ fun UserInfoSection(
     userInfoData: UserInfoData,
     modifier: Modifier = Modifier
 ) {
-    val displayName = if (userInfoData.name.length >= 4) {
-        userInfoData.name.take(3) + "…"
+    val displayName = if (userInfoData.nickname.length >= 4) {
+        userInfoData.nickname.take(3) + "…"
     } else {
-        userInfoData.name
+        userInfoData.nickname
     }
 
     Column(

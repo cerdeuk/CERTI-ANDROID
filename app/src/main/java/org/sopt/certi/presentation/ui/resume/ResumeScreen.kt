@@ -116,7 +116,7 @@ fun ResumeScreen(
                     name = userInfo.name,
                     university = userInfo.university,
                     major = userInfo.major,
-                    birthday = userInfo.birthday,
+                    birthday = userInfo.birthday ?: "",
                     modifier = Modifier.padding(top = screenHeightDp(16.dp))
                 )
             }
