@@ -107,6 +107,7 @@
     <!-- ResumeCertificationCard -->
     <string name="resume_certification_card_small">%s년 %s월 %s일 획득</string>
     <string name="resume_certification_card_nickname">서티</string>
+    <string name="resume_certification_birthday_empty"> -</string>
 
     <!-- ResumeTextField -->
     <string name="resume_textfield_placeholder">텍스트를 작성해주세요.</string>

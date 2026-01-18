@@ -116,7 +116,8 @@ fun ResumeScreen(
                     name = userInfo.name,
                     university = userInfo.university,
                     major = userInfo.major,
-                    birthday = userInfo.birthday ?: "",
+                    birthday = userInfo.birthday ?: stringResource(R.string.resume_certification_birthday_empty),
+                    profileImageUrl = userInfo.profileImageUrl,
                     modifier = Modifier.padding(top = screenHeightDp(16.dp))
                 )
             }

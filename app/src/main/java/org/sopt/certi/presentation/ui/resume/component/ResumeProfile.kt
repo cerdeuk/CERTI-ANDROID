@@ -9,18 +9,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -34,19 +38,34 @@ fun ResumeProfile(
     university: String,
     major: String,
     birthday: String,
+    profileImageUrl: String?,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.padding(horizontal = screenWidthDp(20.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(R.drawable.img_profile),
-            contentDescription = null,
-            modifier = Modifier
-                .widthForScreenPercentage(80.dp)
-                .heightForScreenPercentage(80.dp)
-        )
+        if (profileImageUrl == null) {
+            Image(
+                painter = painterResource(R.drawable.img_profile),
+                contentDescription = null,
+                modifier = Modifier
+                    .widthForScreenPercentage(80.dp)
+                    .heightForScreenPercentage(80.dp)
+            )
+        } else {
+            AsyncImage(
+                model = profileImageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .widthForScreenPercentage(80.dp)
+                    .heightForScreenPercentage(80.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.img_profile),
+                error = painterResource(R.drawable.img_profile)
+            )
+        }
         Spacer(modifier = Modifier.width(screenWidthDp(16.dp)))
 
         Column(
@@ -130,6 +149,7 @@ private fun ResumeProfilePreview() {
         name = "김서티",
         university = "서티대학교",
         major = "시각디자인학과",
-        birthday = "2001. 03. 26 (만 24세)"
+        birthday = "2001. 03. 26 (만 24세)",
+        profileImageUrl = null
     )
 }
