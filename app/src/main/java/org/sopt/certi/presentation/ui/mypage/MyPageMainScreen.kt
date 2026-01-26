@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +22,6 @@ import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.presentation.ui.mypage.component.MyPageCertMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageProfile
-import org.sopt.certi.presentation.ui.mypage.state.MyPageUiSate
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -40,7 +37,7 @@ fun MyPageMainRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when(val state = uiState.myPageInfoLoadState) {
+    when (val state = uiState.myPageInfoLoadState) {
         is UiState.Success -> {
             MyPageMainScreen(
                 uiState = state.data,
