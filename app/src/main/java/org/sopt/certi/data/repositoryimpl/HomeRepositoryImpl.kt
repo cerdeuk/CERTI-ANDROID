@@ -9,6 +9,7 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.repository.HomeRepository
 import javax.inject.Inject
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
+import org.sopt.certi.domain.model.certification.PreCertDayData
 
 class HomeRepositoryImpl @Inject constructor(
     private val homeRemoteDataSource: HomeRemoteDataSource,
@@ -56,6 +57,24 @@ class HomeRepositoryImpl @Inject constructor(
         return runCatching {
             homeRemoteDataSource.toggleFavorite(certificationId)
             Unit
+        }
+    }
+
+    override suspend fun getPreCertMonth(year: Int, month: Int): Result<List<Int>> {
+        return runCatching {
+            homeRemoteDataSource.getPreCertMonth(year, month)
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
+        }
+    }
+
+    override suspend fun getPreCertDay(date: String): Result<PreCertDayData> {
+        return runCatching {
+            homeRemoteDataSource.getPreCertDay(date)
+                .handleApiResponse()
+                .getOrThrow()
+                .toDomain()
         }
     }
 }

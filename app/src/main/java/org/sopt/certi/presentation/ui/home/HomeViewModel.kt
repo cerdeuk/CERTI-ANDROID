@@ -6,18 +6,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.certification.PreCertDayData
 import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.HomeRecommendUseCase
 import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.auth.WithDrawUseCase
+import org.sopt.certi.domain.usecase.certification.GetPreCertDayUseCase
+import org.sopt.certi.domain.usecase.certification.GetPreCertMonthUseCase
 import org.sopt.certi.presentation.ui.home.state.HomeUiState
 import javax.inject.Inject
 
@@ -28,8 +32,18 @@ class HomeViewModel @Inject constructor(
     private val favoriteUseCase: FavoriteUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val withDrawUseCase: WithDrawUseCase,
+    private val getPreCertMonthUseCase: GetPreCertMonthUseCase,
+    private val getPreCertDayUseCase: GetPreCertDayUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
+
+    private val _preCertMonthData = MutableStateFlow<UiState<List<Int>>>(UiState.Loading)
+    val preCertMonthData = _preCertMonthData.asStateFlow()
+
+    private val _preCertDayData = MutableStateFlow<UiState<PreCertDayData>>(UiState.Loading)
+    val preCertDayData = _preCertDayData.asStateFlow()
+
+
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
@@ -108,6 +122,26 @@ class HomeViewModel @Inject constructor(
                 _favoriteListLoadState.value = UiState.Success(updated)
             }
         }
+    }
+
+    fun getPreCertMonth(year: Int, month: Int) = viewModelScope.launch {
+        getPreCertMonthUseCase.invoke(year, month)
+            .onSuccess {
+                _preCertMonthData.emit(UiState.Success(it))
+            }
+            .onFailure {
+                _preCertMonthData.emit(UiState.Failure(it.toString()))
+            }
+    }
+
+    fun getPreCertDay(date: String) = viewModelScope.launch {
+        getPreCertDayUseCase.invoke(date)
+            .onSuccess {
+                _preCertDayData.emit(UiState.Success(it))
+            }
+            .onFailure {
+                _preCertDayData.emit(UiState.Failure(it.toString()))
+            }
     }
 
     fun withDraw() = viewModelScope.launch {
