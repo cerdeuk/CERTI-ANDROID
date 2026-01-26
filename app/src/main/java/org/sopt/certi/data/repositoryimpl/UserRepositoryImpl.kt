@@ -7,6 +7,7 @@ import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.user.InterestedJobListData
+import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -39,5 +40,12 @@ class UserRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .track
+    }
+
+    override suspend fun getMyPageInfo(): Result<MyPageInfo> = safeApiCall {
+        userRemoteDataSource.getMyPageInfo()
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 }

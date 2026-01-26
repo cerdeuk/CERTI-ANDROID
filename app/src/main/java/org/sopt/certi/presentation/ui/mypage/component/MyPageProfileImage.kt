@@ -9,12 +9,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import org.sopt.certi.R
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun MyPageEmptyProfileImage(
+fun MyPageProfileImage(
+    imageUrl: String,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -27,6 +33,15 @@ fun MyPageEmptyProfileImage(
             imageVector = ImageVector.vectorResource(R.drawable.ic_image_24),
             contentDescription = null,
             tint = CertiTheme.colors.gray300
+        )
+
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
         )
     }
 }
