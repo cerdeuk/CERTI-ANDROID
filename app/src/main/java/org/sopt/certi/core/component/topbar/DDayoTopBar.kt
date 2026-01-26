@@ -17,7 +17,7 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun CertiTopBar(
+fun DDayoTopBar(
     modifier: Modifier = Modifier,
     logoutOnClick: () -> Unit = {}
 ) {
@@ -27,7 +27,7 @@ fun CertiTopBar(
             .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
     ) {
         Image(
-            painter = painterResource(R.drawable.img_logo_black),
+            painter = painterResource(R.drawable.image_logo_black),
             contentDescription = null,
             modifier = Modifier
                 .widthForScreenPercentage(76.dp)
@@ -40,9 +40,9 @@ fun CertiTopBar(
 
 @Preview(showBackground = true)
 @Composable
-private fun CertiTopBarPreview() {
+private fun DDayoTopBarPreview() {
     CERTITheme {
-        CertiTopBar() {
+        DDayoTopBar() {
         }
     }
 }

@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.component.section.MyCertificationListItemSection
-import org.sopt.certi.core.component.topbar.CertiTopBar
+import org.sopt.certi.core.component.topbar.DDayoTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.findActivity
 import org.sopt.certi.core.util.heightForScreenPercentage
@@ -161,7 +161,7 @@ fun HomeScreen(
             .fillMaxSize()
             .background(CertiTheme.colors.white)
     ) {
-        CertiTopBar(
+        DDayoTopBar(
             logoutOnClick = {
                 navigateToLogin()
             },
