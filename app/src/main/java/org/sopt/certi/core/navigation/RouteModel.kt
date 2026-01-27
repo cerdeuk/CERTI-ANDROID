@@ -66,6 +66,9 @@ sealed interface ResumeRoute : Route {
     data object AddWorkExperience : ResumeRoute
 
     @Serializable
+    data class EditWorkExperience(val activityId: Long) : ResumeRoute
+
+    @Serializable
     data object Activities : ResumeRoute
 
     @Serializable

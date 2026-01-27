@@ -37,6 +37,7 @@
     <string name="button_start">시작하기</string>
     <string name="button_apply">적용하기</string>
     <string name="button_add">추가하기</string>
+    <string name="button_edit">수정하기</string>
 
     <!-- MainBottomNavBar -->
     <string name="main_bottom_navbar_home">홈</string>

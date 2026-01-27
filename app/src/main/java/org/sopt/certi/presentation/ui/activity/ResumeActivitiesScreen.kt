@@ -115,6 +115,7 @@ fun ResumeActivitiesScreen(
             ResumeEditListItem(
                 resumeListItem = resumeData,
                 onDeleteClick = onDeleteClick,
+                onClick = {},
                 modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
             )
         }
