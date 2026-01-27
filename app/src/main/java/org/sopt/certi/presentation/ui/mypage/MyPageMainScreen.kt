@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,11 +15,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.domain.model.user.CertificationCount
+import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.presentation.ui.mypage.component.MyPageCertMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageProfile
-import org.sopt.certi.presentation.ui.mypage.state.MyPageUiSate
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -37,20 +37,25 @@ fun MyPageMainRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    MyPageMainScreen(
-        uiState = uiState,
-        onPersonalInfoClick = navigateToPersonalInfo,
-        onSchoolInfoClick = navigateToSchoolInfo,
-        onCertManageClick = navigateToCertManage,
-        onSettingClick = navigateToSetting,
-        onQuestionsClick = navigateToQuestion,
-        modifier = Modifier.padding(padding)
-    )
+    when (val state = uiState.myPageInfoLoadState) {
+        is UiState.Success -> {
+            MyPageMainScreen(
+                uiState = state.data,
+                onPersonalInfoClick = navigateToPersonalInfo,
+                onSchoolInfoClick = navigateToSchoolInfo,
+                onCertManageClick = navigateToCertManage,
+                onSettingClick = navigateToSetting,
+                onQuestionsClick = navigateToQuestion,
+                modifier = Modifier.padding(padding)
+            )
+        }
+        else -> {}
+    }
 }
 
 @Composable
 fun MyPageMainScreen(
-    uiState: MyPageUiSate,
+    uiState: MyPageInfo,
     onPersonalInfoClick: () -> Unit,
     onSchoolInfoClick: () -> Unit,
     onCertManageClick: () -> Unit,
@@ -62,9 +67,10 @@ fun MyPageMainScreen(
         modifier = modifier
     ) {
         MyPageProfile(
-            name = uiState.name,
+            name = uiState.nickname,
             email = uiState.email,
-            jobList = uiState.jobList
+            jobList = uiState.jobs,
+            profileImageUrl = uiState.profileImageUrl
         )
         LazyColumn(
             modifier = Modifier
@@ -74,9 +80,9 @@ fun MyPageMainScreen(
         ) {
             item {
                 MyPageCertMenuItem(
-                    acquireExpectedCertCount = uiState.acquireExpectedCertCount,
-                    acquiredCertCount = uiState.acquiredCertCount,
-                    favoriteCertCount = uiState.favoriteCertCount,
+                    acquireExpectedCertCount = uiState.certificationCount.planned,
+                    acquiredCertCount = uiState.certificationCount.acquired,
+                    favoriteCertCount = uiState.certificationCount.favorite,
                     onClick = onCertManageClick
                 )
             }
@@ -119,18 +125,17 @@ fun MyPageMainScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyPageMainPreview() {
-    val uiState by remember {
-        mutableStateOf(
-            MyPageUiSate(
-                name = "김서티",
-                email = "certification@gmail.com",
-                jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
-                acquireExpectedCertCount = 0,
-                acquiredCertCount = 0,
-                favoriteCertCount = 0
-            )
+    val uiState = MyPageInfo(
+        nickname = "김서티",
+        email = "certification@gamil.com",
+        profileImageUrl = "",
+        jobs = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
+        certificationCount = CertificationCount(
+            planned = 0,
+            acquired = 0,
+            favorite = 0
         )
-    }
+    )
 
     CERTITheme {
         MyPageMainScreen(
