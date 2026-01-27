@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.domain.usecase.career.EditCareerUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
 import org.sopt.certi.presentation.ui.workExperience.state.AddWorkExperienceUiState
 import javax.inject.Inject
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditWorkExperienceViewModel @Inject constructor(
     private val getCareerListUseCase: GetCareerListUseCase,
+    private val editCareerUseCase: EditCareerUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -68,9 +70,12 @@ class EditWorkExperienceViewModel @Inject constructor(
                         _organizationValue.value = item.organization
                         _roleValue.value = item.role
                         _descriptionValue.value = item.description
+                    } else {
+                        _editCareerSuccess.value = false
                     }
                 },
                 onFailure = {
+                    _editCareerSuccess.value = false
                 }
             )
         }
@@ -98,7 +103,21 @@ class EditWorkExperienceViewModel @Inject constructor(
 
     fun editCareer() {
         viewModelScope.launch {
-            _editCareerSuccess.value = true
+            editCareerUseCase(
+                careerId = activityId,
+                startAt = _startDate.value,
+                endAt = _endDate.value,
+                place = _organizationValue.value,
+                name = _roleValue.value,
+                description = _descriptionValue.value
+            ).fold(
+                onSuccess = {
+                    _editCareerSuccess.value = true
+                },
+                onFailure = {
+                    _editCareerSuccess.value = false
+                }
+            )
         }
     }
 

@@ -34,6 +34,7 @@ import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.activity.DeleteActivityUseCase
 import org.sopt.certi.domain.usecase.career.DeleteCareerUseCase
+import org.sopt.certi.domain.usecase.career.EditCareerUseCase
 import org.sopt.certi.domain.usecase.certification.GetJobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
@@ -163,6 +164,12 @@ object UseCaseModule {
     fun provideAddCareerUseCase(
         careerRepository: CareerRepository
     ): AddCareerUseCase = AddCareerUseCase(careerRepository)
+
+    @Provides
+    @Singleton
+    fun provideEditCareerUseCase(
+        careerRepository: CareerRepository
+    ): EditCareerUseCase = EditCareerUseCase(careerRepository)
 
     @Provides
     @Singleton
