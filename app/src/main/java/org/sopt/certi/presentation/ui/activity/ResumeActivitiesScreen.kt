@@ -36,6 +36,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeActivitiesRoute(
     padding: PaddingValues,
     onNavigateToAddActivities: () -> Unit,
+    onNavigateToEditActivities: (Long) -> Unit,
     viewModel: ActivityViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.activityUiState.collectAsStateWithLifecycle()
@@ -59,6 +60,7 @@ fun ResumeActivitiesRoute(
             onNavigateToAdd = onNavigateToAddActivities,
             resumeDataList = (uiState.activityListLoadState as UiState.Success).data.toImmutableList(),
             onDeleteClick = { viewModel.onDeleteClick(it) },
+            onItemClick = onNavigateToEditActivities,
             modifier = Modifier.padding(padding)
         )
         is UiState.Empty -> {}
@@ -86,6 +88,7 @@ fun ResumeActivitiesScreen(
     onNavigateToAdd: () -> Unit,
     resumeDataList: ImmutableList<ActivityData>,
     onDeleteClick: (Long) -> Unit,
+    onItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -115,7 +118,7 @@ fun ResumeActivitiesScreen(
             ResumeEditListItem(
                 resumeListItem = resumeData,
                 onDeleteClick = onDeleteClick,
-                onClick = {},
+                onClick = onItemClick,
                 modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
             )
         }

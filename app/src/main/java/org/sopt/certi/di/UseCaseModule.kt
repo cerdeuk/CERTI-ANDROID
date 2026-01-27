@@ -33,6 +33,7 @@ import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.activity.DeleteActivityUseCase
+import org.sopt.certi.domain.usecase.activity.EditActivityUseCase
 import org.sopt.certi.domain.usecase.career.DeleteCareerUseCase
 import org.sopt.certi.domain.usecase.career.EditCareerUseCase
 import org.sopt.certi.domain.usecase.certification.GetJobCertListUseCase
@@ -206,6 +207,12 @@ object UseCaseModule {
     fun provideAddActivityUseCase(
         activityRepository: ActivityRepository
     ): AddActivityUseCase = AddActivityUseCase(activityRepository)
+
+    @Provides
+    @Singleton
+    fun provideEditActivityUseCase(
+        activityRepository: ActivityRepository
+    ): EditActivityUseCase = EditActivityUseCase(activityRepository)
 
     @Provides
     @Singleton

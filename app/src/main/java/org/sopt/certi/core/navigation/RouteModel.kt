@@ -73,6 +73,9 @@ sealed interface ResumeRoute : Route {
 
     @Serializable
     data object AddActivities : ResumeRoute
+
+    @Serializable
+    data class EditActivities(val activityId: Long) : ResumeRoute
 }
 
 sealed interface CertRecommendRoute : Route {

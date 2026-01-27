@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import org.sopt.certi.data.remote.dto.response.GetActivityListResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ActivityService {
@@ -22,5 +23,11 @@ interface ActivityService {
     @DELETE("/api/v1/activity/{activity-id}")
     suspend fun deleteActivity(
         @Path("activity-id") activityId: Long
+    ): NullableApiResponse<Unit>
+
+    @PUT("/api/v1/activity/{activity-id}")
+    suspend fun editActivity(
+        @Path("activity-id") activityId: Long,
+        @Body editActivityRequest: ActivityCareerRequestDto
     ): NullableApiResponse<Unit>
 }

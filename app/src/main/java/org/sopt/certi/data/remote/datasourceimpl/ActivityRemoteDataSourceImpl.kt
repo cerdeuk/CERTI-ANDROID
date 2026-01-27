@@ -19,4 +19,7 @@ class ActivityRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun deleteActivity(activityId: Long): NullableApiResponse<Unit> =
         activityService.deleteActivity(activityId)
+
+    override suspend fun editActivity(activityId: Long, startAt: String, endAt: String, place: String, name: String, description: String): NullableApiResponse<Unit> =
+        activityService.editActivity(activityId, ActivityCareerRequestDto(startAt, endAt, place, name, description))
 }
