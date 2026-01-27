@@ -11,12 +11,15 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
+import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class AcademicInfoViewModel @Inject constructor(
+    private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
     private val searchUnivUseCase: SearchUnivUseCase,
     private val searchMajorUseCase: SearchMajorUseCase
 ) : ViewModel() {
@@ -31,6 +34,25 @@ class AcademicInfoViewModel @Inject constructor(
 
     private val _editingCategoryList = MutableStateFlow<List<CategoryType>>(emptyList())
     val editingCategoryList = _editingCategoryList.asStateFlow()
+
+    init {
+        getJobList()
+    }
+
+    fun getJobList() = viewModelScope.launch {
+        getInterestedJobListUseCase()
+            .onSuccess { resultStringList ->
+                val categoryList = resultStringList.jobList.mapNotNull { description ->
+                    CategoryType.getByDescription(description)
+                }
+                _academicUiState.update { currentState ->
+                    currentState.copy(selectedCategoryList = categoryList)
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "Job List 불러오기 실패")
+            }
+    }
 
     fun startCategoryEditing() {
         _editingCategoryList.value = _academicUiState.value.selectedCategoryList.toList()
