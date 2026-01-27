@@ -82,7 +82,7 @@ class EditPersonalInfoViewModel @Inject constructor(
             nickname = savedState.nickname,
             email = savedState.email,
             birth = savedState.birth,
-            profileImageUrl = savedState.profileUri?.toString().toString()
+            profileImageUrl = savedState.profileUri?.toString() ?: ""
         )
 
         putPersonalInfoUseCase(request)
