@@ -9,6 +9,8 @@ data class GetCertInfoResponseDto(
     val certificationId: Long,
     @SerialName("certificationName")
     val certificationName: String,
+    @SerialName("certificationType")
+    val certificationType: String,
     @SerialName("tags")
     val tags: List<String>,
     @SerialName("averagePeriod")
@@ -21,12 +23,18 @@ data class GetCertInfoResponseDto(
     val testType: String,
     @SerialName("description")
     val description: String,
-    @SerialName("testDateInformation")
-    val testDateInformation: String,
+    @SerialName("testDate")
+    val testDate: String,
     @SerialName("applicationMethod")
     val applicationMethod: String,
     @SerialName("applicationUrl")
     val applicationUrl: String,
     @SerialName("expirationPeriod")
-    val expirationPeriod: String
+    val expirationPeriod: String,
+    @SerialName("isAcquired")
+    val isAcquired: Boolean,
+    @SerialName("city")
+    val city: String,
+    @SerialName("state")
+    val state: String,
 )

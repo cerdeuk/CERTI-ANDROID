@@ -189,7 +189,7 @@ private fun PreviewCertDetailScreen() {
         tags = listOf("aa", "bb", "cc"),
         charge = "12000",
         description = "2D 그래픽 툴의 기능을 활용한 사고의 시각화를 통해 이미지 제작, 수정, 편집 및 그래픽 디자인을 창출하는 업무를 수행하고 이를 통해 비지니스 커뮤니케이션을 원활하게 한다. 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이이다.",
-        testDateInformation = "매월 넷째주 토요일 정기시험 시행 (총 12회)",
+        testDate = "매월 넷째주 토요일 정기시험 시행 (총 12회)",
         applicationMethod = "온라인(한국생산성본부 홈페이지)",
         applicationUrl = "asdf",
         expirationPeriod = "1년"

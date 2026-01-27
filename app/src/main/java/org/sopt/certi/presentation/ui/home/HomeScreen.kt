@@ -67,7 +67,7 @@ import java.util.Locale
 fun HomeRoute(
     padding: PaddingValues,
     navigateToCertDetail: (certId: Long) -> Unit,
-    navigateToCertRecommend: () -> Unit,
+    navigateToCertTab: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -75,11 +75,19 @@ fun HomeRoute(
     val coroutineScope = rememberCoroutineScope()
 
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val preCertMonthDataUiState by viewModel.preCertMonthData.collectAsStateWithLifecycle()
+    val preCertDayDataUiState by viewModel.preCertDayData.collectAsStateWithLifecycle()
+
+    val today = LocalDate.now(ZoneId.of("Asia/Seoul"))
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val currentDate = today.format(formatter)
 
     LaunchedEffect(Unit) {
         viewModel.getUserInfo()
         viewModel.getRecommendedList()
         viewModel.getFavoriteList()
+        viewModel.getPreCertMonth(currentDate.split("-")[0].toInt(), currentDate.split("-")[1].toInt())
+        viewModel.getPreCertDay(currentDate)
     }
 
     when (uiState.loadState) {
@@ -93,8 +101,16 @@ fun HomeRoute(
                     userInfo = userInfo,
                     recommendedList = recommendedList,
                     favoriteCertificationList = favoriteList,
+                    preCertDayList = (preCertMonthDataUiState as UiState.Success).data.toImmutableList(),
+                    certListInSelectedMonth = (preCertDayDataUiState as UiState.Success).data.certifications.toImmutableList(),
                     onFavoriteClicked = viewModel::onFavoriteClicked,
-                    navigateToCertRecommend = navigateToCertRecommend,
+                    onCalenderMonthSelected = { year, month ->
+                        viewModel.getPreCertMonth(year, month)
+                    },
+                    onCalenderDaySelected = {
+                        viewModel.getPreCertDay(it)
+                    },
+                    navigateToCertTab = navigateToCertTab,
                     navigateToCertDetail = navigateToCertDetail,
                     navigateToLogin = {
                         coroutineScope.launch {
@@ -121,8 +137,12 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     recommendedList: ImmutableList<CertificationData> = persistentListOf(),
     favoriteCertificationList: ImmutableList<CertificationData> = persistentListOf(),
+    preCertDayList: ImmutableList<Int> = persistentListOf(),
+    certListInSelectedMonth: ImmutableList<CertificationData> = persistentListOf(),
     onFavoriteClicked: (Long) -> Unit = {},
-    navigateToCertRecommend: () -> Unit = {},
+    onCalenderMonthSelected: (Int, Int) -> Unit = {_,_ ->},
+    onCalenderDaySelected: (String) -> Unit = {},
+    navigateToCertTab: () -> Unit = {},
     navigateToCertDetail: (Long) -> Unit = {},
     navigateToLogin: () -> Unit = {}
 ) {
@@ -131,30 +151,6 @@ fun HomeScreen(
     val currentDate = today.format(formatter)
 
     var selectedDate by remember { mutableStateOf(currentDate) }
-    var certListInSelectedData by remember {
-        mutableStateOf(
-            listOf<CertificationData>(
-//                CertificationData(
-//                    certificationId = 1,
-//                    certificationName = "정보처리기사",
-//                    agencyName = "국가기술자격",
-//                    isAcquired = true,
-//                    placement = "강남",
-//                    testTime = "09:00",
-//                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
-//                ),
-//                CertificationData(
-//                    certificationId = 2,
-//                    certificationName = "정보처리기사",
-//                    agencyName = "국가기술자격",
-//                    isAcquired = false,
-//                    testDateInformation = "2025-11-03",
-//                    level = "IM3",
-//                    description = "savhufhviufhdsuihvfhdishviufhdsivhiusd"
-//                )
-            )
-        )
-    }
 
     Column(
         modifier = modifier
@@ -187,12 +183,19 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
                     // TODO 서버에서 날짜 받아서 넣어야댐
-                    HomeCalendar() { day ->
-                        selectedDate = day
-                    }
+                    HomeCalendar(
+                        scheduleExistDayList = preCertDayList.map { "${selectedDate.split("-")[0]}-${selectedDate.split("-")[1]}-$it" },
+                        onMonthMove = { year, month ->
+                            onCalenderMonthSelected(year, month)
+                        },
+                        dayOnClick = { day ->
+                            selectedDate = day
+                            onCalenderDaySelected("")
+                        }
+                    )
                 }
 
-                if (certListInSelectedData.isNotEmpty()) {
+                if (certListInSelectedMonth.isNotEmpty()) {
                     Spacer(Modifier.heightForScreenPercentage(16.dp))
                 }
             }
@@ -201,7 +204,7 @@ fun HomeScreen(
                 // Date Text
                 if (selectedDate.isNotEmpty()) {
                     val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                    val backgroundColor = if (certListInSelectedData.isEmpty()) CertiTheme.colors.white else CertiTheme.colors.purpleWhite
+                    val backgroundColor = if (certListInSelectedMonth.isEmpty()) CertiTheme.colors.white else CertiTheme.colors.purpleWhite
                     val dayName = getDayNameOfWeek(selectedDate)
                     val (_, selectedMonth, selectedDay) = selectedDate.split("-")
 
@@ -227,7 +230,7 @@ fun HomeScreen(
             }
 
             items(
-                items = certListInSelectedData,
+                items = certListInSelectedMonth,
                 key = { it.certificationId }
             ) { certificationData ->
                 if (selectedDate.isNotEmpty()) {
@@ -249,7 +252,7 @@ fun HomeScreen(
             }
 
             item {
-                if (selectedDate.isNotEmpty() && certListInSelectedData.isEmpty()) {
+                if (selectedDate.isNotEmpty() && certListInSelectedMonth.isEmpty()) {
                     NoDataCalendarItem {
                         // TODO 자격증 추가하기 이동
                     }
@@ -317,7 +320,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(screenWidthDp(24.dp))
                                 .height(screenHeightDp(24.dp))
-                                .noRippleClickable { navigateToCertRecommend() }
+                                .noRippleClickable { navigateToCertTab() }
                         )
                     }
                     RecommendedCertificationListSection(

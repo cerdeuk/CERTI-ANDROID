@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.home.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +50,7 @@ import java.time.YearMonth
 fun HomeCalendar(
     // FIXME 서버 데이터 형식 어떻게 올지 몰라서 일단 String으로 해놨어유
     scheduleExistDayList: List<String> = emptyList(),
+    onMonthMove: (Int, Int) -> Unit,
     dayOnClick: (String) -> Unit
 ) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
@@ -76,9 +78,11 @@ fun HomeCalendar(
                 calendarMonth = currentMonth,
                 onPrevMonthClick = {
                     currentMonth = currentMonth.minusMonths(1)
+                    onMonthMove(currentMonth.year, currentMonth.monthValue)
                 },
                 onNextMonthClick = {
                     currentMonth = currentMonth.plusMonths(1)
+                    onMonthMove(currentMonth.year, currentMonth.monthValue)
                 }
             )
             WeekDayHeader()
@@ -163,9 +167,9 @@ private fun Day(
             .background(
                 color =
                 if (day.date == today) {
-                    CertiTheme.colors.mainBlue
+                    if (isSelected) CertiTheme.colors.mainBlue else CertiTheme.colors.gray100
                 } else {
-                    if (isSelected) CertiTheme.colors.gray100 else Color.Transparent
+                    if (isSelected) CertiTheme.colors.mainBlue else Color.Transparent
                 }
             )
             .clickable(
@@ -174,7 +178,7 @@ private fun Day(
         contentAlignment = Alignment.Center
     ) {
         val textColor = when (day.position) {
-            DayPosition.MonthDate -> if (day.date == today) CertiTheme.colors.white else CertiTheme.colors.black
+            DayPosition.MonthDate -> if (isSelected) CertiTheme.colors.white else CertiTheme.colors.black
             DayPosition.InDate, DayPosition.OutDate -> CertiTheme.colors.gray200
         }
 
@@ -227,6 +231,7 @@ private fun WeekDayHeader() {
 @Composable
 private fun PreviewHomeCalendarView() {
     HomeCalendar(
+        onMonthMove = { _, _ ->},
         scheduleExistDayList = listOf("2025-10-06", "2025-10-17", "2025-10-18")
     ) {
     }
