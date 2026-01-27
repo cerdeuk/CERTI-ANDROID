@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
@@ -70,7 +71,7 @@ fun MyPageMainScreen(
             name = uiState.nickname,
             email = uiState.email,
             jobList = uiState.jobs,
-            profileImageUrl = uiState.profileImageUrl
+            profileImageUri = if (uiState.profileImageUrl.isNotBlank())uiState.profileImageUrl.toUri() else null
         )
         LazyColumn(
             modifier = Modifier
