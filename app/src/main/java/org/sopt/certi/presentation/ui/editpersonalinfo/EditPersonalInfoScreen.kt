@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -139,21 +138,17 @@ fun EditPersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun EditPersonalInfoPreview() {
-    val viewModel = remember { EditPersonalInfoViewModel() }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
-
     CERTITheme {
         EditPersonalInfoScreen(
-            uiState = uiState,
-            nickNameValidType = nickNameValidType,
-            onSaveClick = viewModel::onSaveClick,
-            onProfileUriChange = viewModel::onProfileUriChange,
-            onNickNameChange = viewModel::onNickNameChange,
-            onNickNameCheckButtonClick = viewModel::onNickNameCheckButtonClick,
-            onNameChange = viewModel::onNameChange,
-            onEmailChange = viewModel::onEmailChange,
-            onBirthChange = viewModel::onBirthChange,
+            uiState = EditPersonalInfoUiState(),
+            nickNameValidType = NickNameValidType.VALID,
+            onSaveClick = {},
+            onProfileUriChange = {},
+            onNickNameChange = {},
+            onNickNameCheckButtonClick = {},
+            onNameChange = {},
+            onEmailChange = {},
+            onBirthChange = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.white)

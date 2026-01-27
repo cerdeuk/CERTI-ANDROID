@@ -11,6 +11,5 @@ data class DateData(
 
     val isAllEmpty: Boolean get() = year == null && month == null && day == null
     val isComplete: Boolean get() = year != null && month != null && day != null
-
     val isValid: Boolean get() = isAllEmpty || isComplete
 }

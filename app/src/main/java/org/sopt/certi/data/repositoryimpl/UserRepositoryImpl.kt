@@ -1,12 +1,14 @@
 package org.sopt.certi.data.repositoryimpl
 
 import org.sopt.certi.data.mapper.todomain.user.toDomain
+import org.sopt.certi.data.mapper.todto.user.toDto
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.user.InterestedJobListData
+import org.sopt.certi.domain.model.user.PersonalInfo
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -39,5 +41,18 @@ class UserRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .track
+    }
+
+    override suspend fun getPersonalInfo(): Result<PersonalInfo> = safeApiCall {
+        userRemoteDataSource.getPersonalInfo()
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
+    }
+
+    override suspend fun putPersonalInfo(request: PersonalInfo): Result<Unit> = safeApiCall {
+        userRemoteDataSource.putPersonalInfo(request.toDto())
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }
