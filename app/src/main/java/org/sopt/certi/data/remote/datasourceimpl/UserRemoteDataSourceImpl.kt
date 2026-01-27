@@ -6,6 +6,7 @@ import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
+import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
 import org.sopt.certi.data.remote.service.UserService
@@ -26,6 +27,9 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getUserTrack(): ApiResponse<GetUserTrackResponseDto> =
         userService.getUserTrack()
+
+    override suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto> =
+        userService.getMyPageInfo()
 
     override suspend fun getPersonalInfo(): ApiResponse<GetPersonalInfoResponseDto> =
         userService.getPersonalInfo()

@@ -22,6 +22,7 @@ fun MyPageProfile(
     name: String,
     email: String,
     jobList: List<String>,
+    profileImageUrl: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -31,7 +32,8 @@ fun MyPageProfile(
             .padding(top = screenHeightDp(52.dp), bottom = screenHeightDp(20.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MyPageEmptyProfileImage(
+        MyPageProfileImage(
+            imageUrl = profileImageUrl,
             modifier = Modifier.size(screenWidthDp(80.dp))
         )
         Text(
@@ -62,7 +64,8 @@ private fun MyPageProfilePreview() {
         MyPageProfile(
             name = "김서티",
             email = "certification@gmail.com",
-            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보")
+            jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
+            profileImageUrl = ""
         )
     }
 }

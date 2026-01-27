@@ -5,6 +5,7 @@ import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
+import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
 import retrofit2.http.Body
@@ -27,6 +28,9 @@ interface UserService {
 
     @GET("/api/v1/user/track")
     suspend fun getUserTrack(): ApiResponse<GetUserTrackResponseDto>
+
+    @GET("/api/v1/user/mypage")
+    suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
 
     @GET("/api/v1/user/pinfo")
     suspend fun getPersonalInfo(): ApiResponse<GetPersonalInfoResponseDto>
