@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.domain.model.DateData
 import org.sopt.certi.domain.model.user.PersonalInfo
+import org.sopt.certi.domain.usecase.image.GetPresignedUrlUseCase
+import org.sopt.certi.domain.usecase.image.UploadImageToS3UseCase
 import org.sopt.certi.domain.usecase.user.CheckNicknameValidationUseCase
 import org.sopt.certi.domain.usecase.user.GetPersonalInfoUseCase
 import org.sopt.certi.domain.usecase.user.PutPersonalInfoUseCase
@@ -23,6 +25,8 @@ import javax.inject.Inject
 class EditPersonalInfoViewModel @Inject constructor(
     private val getPersonalInfoUseCase: GetPersonalInfoUseCase,
     private val checkNicknameValidationUseCase: CheckNicknameValidationUseCase,
+    private val getPresignedUrlUseCase: GetPresignedUrlUseCase,
+    private val uploadImageToS3UseCase: UploadImageToS3UseCase,
     private val putPersonalInfoUseCase: PutPersonalInfoUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditPersonalInfoUiState())
@@ -38,14 +42,11 @@ class EditPersonalInfoViewModel @Inject constructor(
     }
 
     private fun loadPersonalInfoData() = viewModelScope.launch {
-        _uiState.update { it.copy(isLoading = true) }
-
         getPersonalInfoUseCase()
             .onSuccess { result ->
                 _originalPersonalInfo = result
                 _uiState.update {
                     it.copy(
-                        isLoading = false,
                         name = result.name,
                         nickname = result.nickname,
                         email = result.email,
@@ -54,8 +55,8 @@ class EditPersonalInfoViewModel @Inject constructor(
                     )
                 }
             }
-            .onFailure {
-                _uiState.update { it.copy(isLoading = false) }
+            .onFailure { error ->
+                Timber.e(error, "LoadPersonalInfoData Failed")
             }
     }
 
@@ -76,30 +77,64 @@ class EditPersonalInfoViewModel @Inject constructor(
     }
 
     fun onSaveClick() = viewModelScope.launch {
-        val savedState = _uiState.value
-        val request = PersonalInfo(
-            name = savedState.name,
-            nickname = savedState.nickname,
-            email = savedState.email,
-            birth = savedState.birth,
-            profileImageUrl = savedState.profileUri?.toString() ?: ""
-        )
+        try {
+            val currentState = _uiState.value
+            val original = _originalPersonalInfo ?: return@launch
 
-        putPersonalInfoUseCase(request)
-            .onSuccess {
-                _nickNameValidTypeUiState.value = NickNameValidType.DEFAULT
-                _uiState.update {
-                    it.copy(
-                        isNicknameChanged = false,
-                        isBirthChanged = false,
-                        isSaveButtonEnabled = false
-                    )
+            val finalProfileImageUrl = getFinalProfileImageUrl(currentState, original)
+
+            val request = PersonalInfo(
+                name = currentState.name,
+                nickname = currentState.nickname,
+                email = currentState.email,
+                birth = currentState.birth,
+                profileImageUrl = finalProfileImageUrl
+            )
+
+            putPersonalInfoUseCase(request)
+                .onSuccess {
+                    _nickNameValidTypeUiState.value = NickNameValidType.DEFAULT
+                    _uiState.update {
+                        it.copy(
+                            isNicknameChanged = false,
+                            isBirthChanged = false,
+                            isSaveButtonEnabled = false
+                        )
+                    }
+                    _originalPersonalInfo = request
                 }
-                _originalPersonalInfo = request
+                .onFailure {
+                    Timber.d("정보 수정 실패")
+                }
+        } catch (e: Exception) {
+            Timber.e(e, "정보 수정 실패")
+        }
+    }
+
+    private suspend fun getFinalProfileImageUrl(
+        currentState: EditPersonalInfoUiState,
+        original: PersonalInfo
+    ): String {
+        val currentUriString = currentState.profileUri?.toString() ?: ""
+        val originalUrlString = original.profileImageUrl
+
+        val isProfileChanged = currentUriString != originalUrlString
+
+        return if (isProfileChanged) {
+            if (currentState.profileUri != null) {
+                uploadImageAndGetPublicUrl(currentState.profileUri)
+            } else {
+                ""
             }
-            .onFailure {
-                Timber.d("정보 업데이트 실패")
-            }
+        } else {
+            originalUrlString
+        }
+    }
+
+    private suspend fun uploadImageAndGetPublicUrl(uri: Uri): String {
+        val presignedInfo = getPresignedUrlUseCase().getOrThrow()
+        uploadImageToS3UseCase(presignedInfo.presignedUrl, uri.toString()).getOrThrow()
+        return presignedInfo.publicUrl
     }
 
     fun onProfileUriChange(uri: Uri?) {

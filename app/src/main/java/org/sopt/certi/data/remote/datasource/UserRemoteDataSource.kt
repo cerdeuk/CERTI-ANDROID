@@ -8,6 +8,7 @@ import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
+import org.sopt.certi.data.remote.dto.response.PresignedResponseDto
 
 interface UserRemoteDataSource {
     suspend fun checkNicknameValidation(keyword: String): NullableApiResponse<Unit>
@@ -17,4 +18,5 @@ interface UserRemoteDataSource {
     suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
     suspend fun getPersonalInfo(): ApiResponse<GetPersonalInfoResponseDto>
     suspend fun putPersonalInfo(request: PutPersonalInfoRequestDto): NullableApiResponse<Unit>
+    suspend fun getPresignedUrl(): ApiResponse<PresignedResponseDto>
 }

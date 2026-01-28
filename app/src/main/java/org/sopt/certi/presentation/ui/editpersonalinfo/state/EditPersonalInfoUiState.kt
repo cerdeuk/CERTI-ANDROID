@@ -4,7 +4,6 @@ import android.net.Uri
 import org.sopt.certi.domain.model.DateData
 
 data class EditPersonalInfoUiState(
-    val isLoading: Boolean = true,
     val nickname: String = "",
     val name: String = "",
     val email: String = "",

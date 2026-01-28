@@ -1,5 +1,6 @@
 package org.sopt.certi.data.repositoryimpl
 
+import org.sopt.certi.data.mapper.todomain.image.toDomain
 import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.mapper.todto.user.toDto
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
@@ -7,6 +8,7 @@ import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
+import org.sopt.certi.domain.model.image.PresignedData
 import org.sopt.certi.domain.model.user.InterestedJobListData
 import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.domain.model.user.PersonalInfo
@@ -62,5 +64,12 @@ class UserRepositoryImpl @Inject constructor(
         userRemoteDataSource.putPersonalInfo(request.toDto())
             .handleNullableApiResponse()
             .getOrThrow()
+    }
+
+    override suspend fun getPresignedUrl(): Result<PresignedData> = safeApiCall {
+        userRemoteDataSource.getPresignedUrl()
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 }

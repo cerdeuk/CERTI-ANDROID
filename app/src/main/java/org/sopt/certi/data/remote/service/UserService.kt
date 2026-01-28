@@ -8,6 +8,7 @@ import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
+import org.sopt.certi.data.remote.dto.response.PresignedResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -37,4 +38,7 @@ interface UserService {
 
     @PUT("/api/v1/user/pinfo")
     suspend fun putPersonalInfo(@Body request: PutPersonalInfoRequestDto): NullableApiResponse<Unit>
+
+    @GET("/api/v1/user/presigned-url")
+    suspend fun getPresignedUrl(): ApiResponse<PresignedResponseDto>
 }
