@@ -1,7 +1,8 @@
 package org.sopt.certi.data.mapper.todomain.cert
 
-import org.sopt.certi.data.remote.dto.response.GetPreCertDayResponseDto
+import org.sopt.certi.data.remote.dto.response.GetPreCertDayListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertMonthResponseDto
+import org.sopt.certi.data.remote.dto.response.PreCertDayItemResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertMonthDayItem
 import org.sopt.certi.domain.model.certification.CertificationData
@@ -27,11 +28,31 @@ fun GetPreCertMonthResponseDto.toDomain(): List<Int> =
 
 fun PreCertMonthDayItem.toDomain(): Int = this.day
 
-fun GetPreCertDayResponseDto.toDomain(): PreCertDayData {
+fun GetPreCertDayListResponseDto.toDomain(): PreCertDayData {
     return PreCertDayData(
         date = date,
-        certifications = certifications.map {
+        certifications = certifications?.map {
             it.toDomain()
         }
+    )
+}
+
+fun PreCertDayItemResponseDto.toDomain(): CertificationData {
+    return CertificationData(
+        certificationId = certificationId,
+        certificationName = certificationName,
+        tags = tags,
+        averagePeriod = averagePeriod,
+        charge = charge,
+        agencyName = agencyName,
+        testType = testType,
+        description = description,
+        applicationMethod = applicationMethod,
+        applicationUrl = applicationUrl,
+        expirationPeriod = expirationPeriod,
+        city = city,
+        state = state,
+        testDate = testDate,
+        isAcquired = isAcquired
     )
 }

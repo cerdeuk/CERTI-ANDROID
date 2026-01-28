@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -43,6 +44,7 @@ import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.component.section.MyCertificationListItemSection
 import org.sopt.certi.core.component.topbar.DDayoTopBar
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.core.util.dateString
 import org.sopt.certi.core.util.findActivity
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -75,8 +77,6 @@ fun HomeRoute(
     val coroutineScope = rememberCoroutineScope()
 
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
-    val preCertMonthDataUiState by viewModel.preCertMonthData.collectAsStateWithLifecycle()
-    val preCertDayDataUiState by viewModel.preCertDayData.collectAsStateWithLifecycle()
 
     val today = LocalDate.now(ZoneId.of("Asia/Seoul"))
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -95,14 +95,16 @@ fun HomeRoute(
             val userInfo = (uiState.userInfoLoadState as? UiState.Success)?.data
             val recommendedList = (uiState.recommendedListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
             val favoriteList = (uiState.favoriteListLoadState as? UiState.Success)?.data?.toImmutableList() ?: persistentListOf()
+            val preCertMonthData = (uiState.preCertMonthLoadState as UiState.Success).data.toImmutableList()
+            val preCertDayData = (uiState.preCertDayLoadState as UiState.Success).data.certifications?.toImmutableList() ?: persistentListOf()
 
             if (userInfo != null) {
                 HomeScreen(
                     userInfo = userInfo,
                     recommendedList = recommendedList,
                     favoriteCertificationList = favoriteList,
-                    preCertDayList = (preCertMonthDataUiState as UiState.Success).data.toImmutableList(),
-                    certListInSelectedMonth = (preCertDayDataUiState as UiState.Success).data.certifications.toImmutableList(),
+                    preCertDayList = preCertMonthData,
+                    certListInSelectedMonth = preCertDayData,
                     onFavoriteClicked = viewModel::onFavoriteClicked,
                     onCalenderMonthSelected = { year, month ->
                         viewModel.getPreCertMonth(year, month)
@@ -124,7 +126,9 @@ fun HomeRoute(
                 )
             }
         }
-        is UiState.Failure -> {}
+        is UiState.Failure -> {
+
+        }
         is UiState.Loading -> {}
         is UiState.Empty -> {}
         else -> {}
@@ -150,7 +154,9 @@ fun HomeScreen(
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate = today.format(formatter)
 
-    var selectedDate by remember { mutableStateOf(currentDate) }
+    var selectedDate by rememberSaveable { mutableStateOf(currentDate) }
+    var currentWatchingYear by rememberSaveable { mutableStateOf(currentDate.split("-")[0]) }
+    var currentWatchingMonth by rememberSaveable { mutableStateOf(currentDate.split("-")[1]) }
 
     Column(
         modifier = modifier
@@ -182,15 +188,16 @@ fun HomeScreen(
                 Box(
                     modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
-                    // TODO 서버에서 날짜 받아서 넣어야댐
                     HomeCalendar(
-                        scheduleExistDayList = preCertDayList.map { "${selectedDate.split("-")[0]}-${selectedDate.split("-")[1]}-$it" },
+                        scheduleExistDayList = preCertDayList.map { "${currentWatchingYear}-${currentWatchingMonth.dateString()}-${it.dateString()}" },
                         onMonthMove = { year, month ->
+                            currentWatchingYear = year.toString()
+                            currentWatchingMonth = month.dateString()
                             onCalenderMonthSelected(year, month)
                         },
                         dayOnClick = { day ->
                             selectedDate = day
-                            onCalenderDaySelected("")
+                            onCalenderDaySelected(day)
                         }
                     )
                 }

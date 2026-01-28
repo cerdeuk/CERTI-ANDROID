@@ -4,7 +4,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetCertInfoResponseDto(
+data class GetPreCertDayListResponseDto(
+    @SerialName("date")
+    val date: String,
+    @SerialName("certifications")
+    val certifications: List<PreCertDayItemResponseDto>?
+)
+
+@Serializable
+data class PreCertDayItemResponseDto(
     @SerialName("certificationId")
     val certificationId: Long,
     @SerialName("certificationName")
@@ -27,6 +35,12 @@ data class GetCertInfoResponseDto(
     val applicationUrl: String,
     @SerialName("expirationPeriod")
     val expirationPeriod: String,
-    @SerialName("testDateInformation")
-    val testDateInformation: String,
+    @SerialName("city")
+    val city: String,
+    @SerialName("state")
+    val state: String,
+    @SerialName("testDate")
+    val testDate: String,
+    @SerialName("isAcquired")
+    val isAcquired: Boolean,
 )

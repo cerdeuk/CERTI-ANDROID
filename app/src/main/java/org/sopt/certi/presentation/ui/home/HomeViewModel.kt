@@ -37,26 +37,25 @@ class HomeViewModel @Inject constructor(
     private val tokenManager: TokenManager
 ) : ViewModel() {
 
-    private val _preCertMonthData = MutableStateFlow<UiState<List<Int>>>(UiState.Loading)
-    val preCertMonthData = _preCertMonthData.asStateFlow()
-
-    private val _preCertDayData = MutableStateFlow<UiState<PreCertDayData>>(UiState.Loading)
-    val preCertDayData = _preCertDayData.asStateFlow()
-
-
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _recommendedListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
     private val _favoriteListLoadState = MutableStateFlow<UiState<List<CertificationData>>>(UiState.Loading)
+    private val _preCertMonthData = MutableStateFlow<UiState<List<Int>>>(UiState.Loading)
+    private val _preCertDayData = MutableStateFlow<UiState<PreCertDayData>>(UiState.Loading)
 
     val homeUiState: StateFlow<HomeUiState> = combine(
         _userInfoLoadState,
         _recommendedListLoadState,
-        _favoriteListLoadState
-    ) { userInfo, recommended, favorite ->
+        _favoriteListLoadState,
+        _preCertMonthData,
+        _preCertDayData
+    ) { userInfo, recommended, favorite, preCertMonth, preCertDay ->
         HomeUiState(
             userInfoLoadState = userInfo,
             recommendedListLoadState = recommended,
-            favoriteListLoadState = favorite
+            favoriteListLoadState = favorite,
+            preCertMonthLoadState = preCertMonth,
+            preCertDayLoadState = preCertDay
         )
     }.stateIn(
         scope = viewModelScope,
@@ -64,7 +63,9 @@ class HomeViewModel @Inject constructor(
         initialValue = HomeUiState(
             userInfoLoadState = UiState.Loading,
             recommendedListLoadState = UiState.Loading,
-            favoriteListLoadState = UiState.Loading
+            favoriteListLoadState = UiState.Loading,
+            preCertMonthLoadState = UiState.Loading,
+            preCertDayLoadState = UiState.Loading
         )
     )
 
@@ -127,20 +128,20 @@ class HomeViewModel @Inject constructor(
     fun getPreCertMonth(year: Int, month: Int) = viewModelScope.launch {
         getPreCertMonthUseCase.invoke(year, month)
             .onSuccess {
-                _preCertMonthData.emit(UiState.Success(it))
+                _preCertMonthData.value = UiState.Success(it)
             }
             .onFailure {
-                _preCertMonthData.emit(UiState.Failure(it.toString()))
+                _preCertMonthData.value = UiState.Failure(it.toString())
             }
     }
 
     fun getPreCertDay(date: String) = viewModelScope.launch {
         getPreCertDayUseCase.invoke(date)
             .onSuccess {
-                _preCertDayData.emit(UiState.Success(it))
+                _preCertDayData.value = UiState.Success(it)
             }
             .onFailure {
-                _preCertDayData.emit(UiState.Failure(it.toString()))
+                _preCertDayData.value = UiState.Failure(it.toString())
             }
     }
 

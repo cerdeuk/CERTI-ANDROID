@@ -17,3 +17,11 @@ fun String.toLocalDateOrMin(): LocalDate =
 fun String.toLocalDateOrNull(): LocalDate? =
     runCatching { LocalDate.parse(this, DateFormatters.dotDate) }
         .getOrElse { null }
+
+fun String.dateString() : String {
+    return if (this.length == 1) {
+        "0$this"
+    } else {
+        this
+    }
+}
