@@ -6,8 +6,10 @@ import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
+import org.sopt.certi.data.remote.dto.response.MarketingAgreementResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -28,4 +30,10 @@ interface UserService {
 
     @GET("/api/v1/user/mypage")
     suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
+
+    @GET("/api/v1/user/marketing-agreement")
+    suspend fun getMarketingAgreement(): ApiResponse<MarketingAgreementResponseDto>
+
+    @PATCH("/api/v1/user/marketing-agreement")
+    suspend fun patchMarketingAgreement(): NullableApiResponse<Unit>
 }

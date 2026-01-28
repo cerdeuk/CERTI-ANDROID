@@ -9,35 +9,74 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.sopt.certi.domain.usecase.user.GetMarketingAgreementUseCase
+import org.sopt.certi.domain.usecase.user.PatchMarketingAgreementUseCase
 import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 import org.sopt.certi.presentation.ui.setting.state.SettingUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor() : ViewModel() {
+class SettingViewModel @Inject constructor(
+    private val getMarketingAgreementUseCase: GetMarketingAgreementUseCase,
+    private val patchMarketingAgreementUseCase: PatchMarketingAgreementUseCase
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _sideEffect = Channel<SettingSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun onSwitchCheckChange(checked: Boolean) {
+    init {
+        getMarketingAgreement()
+    }
+
+    private fun getMarketingAgreement() = viewModelScope.launch {
+        getMarketingAgreementUseCase()
+            .onSuccess { result ->
+                if (result) {
+                    _uiState.update {
+                        it.copy(
+                            switchChecked = true,
+                            checkboxChecked = true
+                        )
+                    }
+                }
+            }
+            .onFailure { error ->
+                Timber.d(error, "광고성 정보 수신 동의 정보 불러오기 실패")
+            }
+    }
+
+    fun onSwitchCheckChange(checked: Boolean) = viewModelScope.launch {
         if (checked) {
             _uiState.update { it.copy(isMarketingConfirmDialogVisible = true) }
         } else {
-            _uiState.update { it.copy(switchChecked = false) }
+            patchMarketingAgreementUseCase()
+                .onSuccess {
+                    _uiState.update { it.copy(switchChecked = false) }
+                }
+                .onFailure { error ->
+                    Timber.e(error, "광고성 정보 수신 동의 체크 해제 실패")
+                }
         }
     }
 
-    fun onMarketingConfirmDialogConfirm() {
-        _uiState.update {
-            it.copy(
-                switchChecked = true,
-                checkboxChecked = true,
-                isMarketingConfirmDialogVisible = false
-            )
-        }
-        showMarketingSnackbar()
+    fun onMarketingConfirmDialogConfirm() = viewModelScope.launch {
+        patchMarketingAgreementUseCase()
+            .onSuccess {
+                _uiState.update {
+                    it.copy(
+                        switchChecked = true,
+                        checkboxChecked = true,
+                        isMarketingConfirmDialogVisible = false
+                    )
+                }
+                showMarketingSnackbar()
+            }
+            .onFailure { error ->
+                Timber.e(error, "광고성 수신 정보 동의 실패")
+            }
     }
 
     fun onMarketingConfirmDialogDismiss() {

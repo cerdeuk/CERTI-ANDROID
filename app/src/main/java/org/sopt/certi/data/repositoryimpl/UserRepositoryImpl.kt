@@ -48,4 +48,17 @@ class UserRepositoryImpl @Inject constructor(
             .getOrThrow()
             .toDomain()
     }
+
+    override suspend fun getMarketingAgreement(): Result<Boolean> = safeApiCall {
+        userRemoteDataSource.getMarketingAgreement()
+            .handleApiResponse()
+            .getOrThrow()
+            .isAdAgreed
+    }
+
+    override suspend fun patchMarketingAgreement(): Result<Unit> = safeApiCall {
+        userRemoteDataSource.patchMarketingAgreement()
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
 }
