@@ -65,6 +65,7 @@ fun SettingNotificationRoute(
                     snackbarHostState.currentSnackbarData?.dismiss()
                     snackbarHostState.showSnackbar(message = "")
                 }
+                else -> {}
             }
         }
     }

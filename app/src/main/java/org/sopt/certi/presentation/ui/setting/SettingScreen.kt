@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,17 +27,32 @@ import org.sopt.certi.presentation.ui.setting.component.LogoutButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.BuildConfig
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
 import org.sopt.certi.presentation.ui.setting.component.DeleteAccountDialog
+import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 
 @Composable
 fun SettingRoute(
     padding: PaddingValues,
     navigateToSettingNotification: () -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
+            when (it) {
+                SettingSideEffect.NavigateToLogin -> navigateToLogin()
+                else -> {}
+            }
+        }
+    }
 
     if (uiState.isLogoutDialogVisible) {
         CertiDeleteDialog(

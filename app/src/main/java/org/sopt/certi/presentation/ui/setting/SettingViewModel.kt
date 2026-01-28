@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
+import org.sopt.certi.domain.usecase.auth.WithDrawUseCase
 import org.sopt.certi.domain.usecase.user.GetMarketingAgreementUseCase
 import org.sopt.certi.domain.usecase.user.PatchMarketingAgreementUseCase
 import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
@@ -19,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val getMarketingAgreementUseCase: GetMarketingAgreementUseCase,
-    private val patchMarketingAgreementUseCase: PatchMarketingAgreementUseCase
+    private val patchMarketingAgreementUseCase: PatchMarketingAgreementUseCase,
+    private val withDrawUseCase: WithDrawUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingUiState())
     val uiState = _uiState.asStateFlow()
@@ -102,7 +106,11 @@ class SettingViewModel @Inject constructor(
     }
 
     fun onLogoutDialogConfirm() {
+        tokenManager.clear()
         _uiState.update { it.copy(isLogoutDialogVisible = false) }
+        viewModelScope.launch {
+            _sideEffect.send(SettingSideEffect.NavigateToLogin)
+        }
     }
 
     fun onLogoutDialogDismiss() {
@@ -113,8 +121,16 @@ class SettingViewModel @Inject constructor(
         _uiState.update { it.copy(isDeleteAccountDialogVisible = true) }
     }
 
-    fun onDeleteAccountDialogConfirm() {
-        _uiState.update { it.copy(isDeleteAccountDialogVisible = false) }
+    fun onDeleteAccountDialogConfirm() = viewModelScope.launch {
+        withDrawUseCase()
+            .onSuccess {
+                tokenManager.clear()
+                _uiState.update { it.copy(isDeleteAccountDialogVisible = false) }
+                _sideEffect.send(SettingSideEffect.NavigateToLogin)
+            }
+            .onFailure { error ->
+                Timber.e(error, "회원탈퇴 실패")
+            }
     }
 
     fun onDeleteAccountDialogDismiss() {
