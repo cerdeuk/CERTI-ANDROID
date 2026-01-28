@@ -251,7 +251,7 @@ fun HomeScreen(
                             certificationData = certificationData,
                             isEditMode = false,
                             onCertificationClick = {
-                                // TODO 자격증 이동
+                                navigateToCertDetail(it)
                             }
                         )
                     }
@@ -261,7 +261,7 @@ fun HomeScreen(
             item {
                 if (selectedDate.isNotEmpty() && certListInSelectedMonth.isEmpty()) {
                     NoDataCalendarItem {
-                        // TODO 자격증 추가하기 이동
+                        navigateToCertTab()
                     }
                 }
             }
