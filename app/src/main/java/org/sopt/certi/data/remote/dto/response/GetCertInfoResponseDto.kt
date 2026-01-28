@@ -28,5 +28,5 @@ data class GetCertInfoResponseDto(
     @SerialName("expirationPeriod")
     val expirationPeriod: String,
     @SerialName("testDateInformation")
-    val testDateInformation: String,
+    val testDateInformation: String
 )

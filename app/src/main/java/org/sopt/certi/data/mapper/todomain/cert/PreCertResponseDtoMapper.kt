@@ -25,7 +25,6 @@ fun GetPreCertMonthResponseDto.toDomain(): List<Int> =
         day.toDomain()
     }
 
-
 fun PreCertMonthDayItem.toDomain(): Int = this.day
 
 fun GetPreCertDayListResponseDto.toDomain(): PreCertDayData {

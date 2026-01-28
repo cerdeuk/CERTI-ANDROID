@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.home.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -231,7 +230,7 @@ private fun WeekDayHeader() {
 @Composable
 private fun PreviewHomeCalendarView() {
     HomeCalendar(
-        onMonthMove = { _, _ ->},
+        onMonthMove = { _, _ -> },
         scheduleExistDayList = listOf("2026-02-06", "2025-10-17", "2025-10-18")
     ) {
     }

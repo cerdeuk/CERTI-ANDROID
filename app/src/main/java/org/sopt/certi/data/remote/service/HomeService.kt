@@ -30,7 +30,7 @@ interface HomeService {
     @GET("/api/v1/home/pre-certification/month")
     suspend fun getPreCertMonth(
         @Query("year") year: Int,
-        @Query("month") month: Int,
+        @Query("month") month: Int
     ): ApiResponse<GetPreCertMonthResponseDto>
 
     @GET("/api/v1/home/pre-certification/day")

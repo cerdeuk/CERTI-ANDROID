@@ -15,22 +15,22 @@ data class HomeUiState(
     val loadState: UiState<Unit>
         get() = when {
             userInfoLoadState is UiState.Loading &&
-            recommendedListLoadState is UiState.Loading &&
-            favoriteListLoadState is UiState.Loading &&
-            preCertMonthLoadState is UiState.Loading &&
-            preCertDayLoadState is UiState.Loading -> UiState.Loading
+                recommendedListLoadState is UiState.Loading &&
+                favoriteListLoadState is UiState.Loading &&
+                preCertMonthLoadState is UiState.Loading &&
+                preCertDayLoadState is UiState.Loading -> UiState.Loading
 
             userInfoLoadState is UiState.Failure ||
-            recommendedListLoadState is UiState.Failure ||
-            favoriteListLoadState is UiState.Failure ||
-            preCertMonthLoadState is UiState.Failure ||
-            preCertDayLoadState is UiState.Failure-> UiState.Failure("fail to load data")
+                recommendedListLoadState is UiState.Failure ||
+                favoriteListLoadState is UiState.Failure ||
+                preCertMonthLoadState is UiState.Failure ||
+                preCertDayLoadState is UiState.Failure -> UiState.Failure("fail to load data")
 
             userInfoLoadState is UiState.Success &&
-            recommendedListLoadState is UiState.Success &&
-            favoriteListLoadState is UiState.Success &&
-            preCertMonthLoadState is UiState.Success &&
-            preCertDayLoadState is UiState.Success-> UiState.Success(Unit)
+                recommendedListLoadState is UiState.Success &&
+                favoriteListLoadState is UiState.Success &&
+                preCertMonthLoadState is UiState.Success &&
+                preCertDayLoadState is UiState.Success -> UiState.Success(Unit)
 
             else -> UiState.Loading
         }

@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -127,7 +126,6 @@ fun HomeRoute(
             }
         }
         is UiState.Failure -> {
-
         }
         is UiState.Loading -> {}
         is UiState.Empty -> {}
@@ -144,7 +142,7 @@ fun HomeScreen(
     preCertDayList: ImmutableList<Int> = persistentListOf(),
     certListInSelectedMonth: ImmutableList<CertificationData> = persistentListOf(),
     onFavoriteClicked: (Long) -> Unit = {},
-    onCalenderMonthSelected: (Int, Int) -> Unit = {_,_ ->},
+    onCalenderMonthSelected: (Int, Int) -> Unit = { _, _ -> },
     onCalenderDaySelected: (String) -> Unit = {},
     navigateToCertTab: () -> Unit = {},
     navigateToCertDetail: (Long) -> Unit = {},
@@ -189,7 +187,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
                     HomeCalendar(
-                        scheduleExistDayList = preCertDayList.map { "${currentWatchingYear}-${currentWatchingMonth.dateString()}-${it.dateString()}" },
+                        scheduleExistDayList = preCertDayList.map { "$currentWatchingYear-${currentWatchingMonth.dateString()}-${it.dateString()}" },
                         onMonthMove = { year, month ->
                             currentWatchingYear = year.toString()
                             currentWatchingMonth = month.dateString()

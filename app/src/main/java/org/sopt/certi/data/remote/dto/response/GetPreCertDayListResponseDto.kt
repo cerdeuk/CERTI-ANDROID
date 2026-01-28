@@ -42,5 +42,5 @@ data class PreCertDayItemResponseDto(
     @SerialName("testDate")
     val testDate: String,
     @SerialName("isAcquired")
-    val isAcquired: Boolean,
+    val isAcquired: Boolean
 )
