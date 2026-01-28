@@ -12,6 +12,7 @@ import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import timber.log.Timber
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AcademicInfoViewModel @Inject constructor(
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
+    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
     private val searchUnivUseCase: SearchUnivUseCase,
     private val searchMajorUseCase: SearchMajorUseCase
 ) : ViewModel() {
@@ -68,10 +70,17 @@ class AcademicInfoViewModel @Inject constructor(
         _editingCategoryList.value = currentList
     }
 
-    fun saveCategoryChanges() {
-        _academicUiState.update {
-            it.copy(selectedCategoryList = _editingCategoryList.value)
-        }
+    fun saveCategoryChanges() = viewModelScope.launch {
+        val request = _editingCategoryList.value.map { it.description }
+        modifyInterestedJobListUseCase(request)
+            .onSuccess {
+                _academicUiState.update {
+                    it.copy(selectedCategoryList = _editingCategoryList.value)
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "희망분야 재설정 실패")
+            }
     }
 
     fun getUnivList(univSearchText: String) {
