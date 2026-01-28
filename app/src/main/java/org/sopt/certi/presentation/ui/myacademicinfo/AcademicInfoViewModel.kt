@@ -13,6 +13,7 @@ import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.user.PutMajorUseCase
 import org.sopt.certi.domain.usecase.user.PutUniversityUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
@@ -25,7 +26,8 @@ class AcademicInfoViewModel @Inject constructor(
     private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
     private val searchUnivUseCase: SearchUnivUseCase,
     private val putUniversityUseCase: PutUniversityUseCase,
-    private val searchMajorUseCase: SearchMajorUseCase
+    private val searchMajorUseCase: SearchMajorUseCase,
+    private val putMajorUseCase: PutMajorUseCase
 ) : ViewModel() {
     private val _academicUiState = MutableStateFlow(AcademicUiState())
     val academicUiState = _academicUiState.asStateFlow()
@@ -166,5 +168,18 @@ class AcademicInfoViewModel @Inject constructor(
         }
     }
 
-    fun onMajorSaveClick() {}
+    fun onMajorSaveClick() = viewModelScope.launch {
+        val submittedText = _editMajorUiState.value.submittedSearchText
+        putMajorUseCase(submittedText)
+            .onSuccess {
+                _editMajorUiState.update {
+                    it.copy(
+                        initialValue = submittedText
+                    )
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "학과 변경 실패")
+            }
+    }
 }

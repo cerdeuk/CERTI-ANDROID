@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun getUserTrack(): Result<String>
     suspend fun getMyPageInfo(): Result<MyPageInfo>
     suspend fun putUniversity(university: String): Result<Unit>
+    suspend fun putMajor(major: String): Result<Unit>
 }

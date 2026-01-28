@@ -2,6 +2,7 @@ package org.sopt.certi.data.remote.datasource
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.MajorRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
@@ -15,4 +16,5 @@ interface UserRemoteDataSource {
     suspend fun getUserTrack(): ApiResponse<GetUserTrackResponseDto>
     suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
     suspend fun putUniversity(university: UniversityRequestDto): NullableApiResponse<Unit>
+    suspend fun putMajor(major: MajorRequestDto): NullableApiResponse<Unit>
 }
