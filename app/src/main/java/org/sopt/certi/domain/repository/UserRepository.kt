@@ -9,4 +9,5 @@ interface UserRepository {
     suspend fun modifyInterestedJobList(jobNameList: List<String>): Result<Unit>
     suspend fun getUserTrack(): Result<String>
     suspend fun getMyPageInfo(): Result<MyPageInfo>
+    suspend fun putUniversity(university: String): Result<Unit>
 }

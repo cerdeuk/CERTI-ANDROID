@@ -13,6 +13,7 @@ import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
 import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
+import org.sopt.certi.domain.usecase.user.PutUniversityUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
 import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import timber.log.Timber
@@ -23,6 +24,7 @@ class AcademicInfoViewModel @Inject constructor(
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
     private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
     private val searchUnivUseCase: SearchUnivUseCase,
+    private val putUniversityUseCase: PutUniversityUseCase,
     private val searchMajorUseCase: SearchMajorUseCase
 ) : ViewModel() {
     private val _academicUiState = MutableStateFlow(AcademicUiState())
@@ -41,7 +43,7 @@ class AcademicInfoViewModel @Inject constructor(
         getJobList()
     }
 
-    fun getJobList() = viewModelScope.launch {
+    private fun getJobList() = viewModelScope.launch {
         getInterestedJobListUseCase()
             .onSuccess { resultStringList ->
                 val categoryList = resultStringList.jobList.mapNotNull { description ->
@@ -116,7 +118,20 @@ class AcademicInfoViewModel @Inject constructor(
         }
     }
 
-    fun onUnivSaveClick() {}
+    fun onUnivSaveClick() = viewModelScope.launch {
+        val submittedText = _editUnivUiState.value.submittedSearchText
+        putUniversityUseCase(submittedText)
+            .onSuccess {
+                _editUnivUiState.update {
+                    it.copy(
+                        initialValue = submittedText
+                    )
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "대학교 변경 실패")
+            }
+    }
 
     fun getMajorList(majorSearchText: String) {
         viewModelScope.launch {
