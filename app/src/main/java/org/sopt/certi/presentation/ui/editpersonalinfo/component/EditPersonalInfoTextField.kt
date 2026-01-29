@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.core.util.screenWidthDp
@@ -40,6 +43,21 @@ fun EditPersonalInfoTextField(
     imeAction: ImeAction = ImeAction.Next
 ) {
     val focusManager = LocalFocusManager.current
+    var textFieldValueState by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = value,
+                selection = TextRange(value.length)
+            )
+        )
+    }
+
+    if (value != textFieldValueState.text) {
+        textFieldValueState = textFieldValueState.copy(
+            text = value,
+            selection = TextRange(value.length)
+        )
+    }
 
     Column(
         modifier = modifier,
@@ -51,12 +69,16 @@ fun EditPersonalInfoTextField(
             color = CertiTheme.colors.gray600
         )
         BasicTextField(
-            value = value,
+            value = textFieldValueState,
             onValueChange = { newValue ->
-                if (newValue.contains("\n") || newValue.contains("\r")) {
-                    return@BasicTextField
+                val filteredText = newValue.text.replace("\n", "").replace("\r", "")
+                if (filteredText != newValue.text) {
+                    textFieldValueState = newValue.copy(text = filteredText)
+                    onValueChange(filteredText)
+                } else {
+                    textFieldValueState = newValue
+                    onValueChange(newValue.text)
                 }
-                onValueChange(newValue)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -67,7 +89,15 @@ fun EditPersonalInfoTextField(
                     shape = RoundedCornerShape(8.dp)
                 )
                 .background(CertiTheme.colors.gray0)
-                .padding(screenWidthDp(12.dp)),
+                .padding(screenWidthDp(12.dp))
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused) {
+                        val text = textFieldValueState.text
+                        textFieldValueState = textFieldValueState.copy(
+                            selection = TextRange(text.length)
+                        )
+                    }
+                },
             textStyle = CertiTheme.typography.caption.regular_14.copy(
                 color = CertiTheme.colors.black
             ),

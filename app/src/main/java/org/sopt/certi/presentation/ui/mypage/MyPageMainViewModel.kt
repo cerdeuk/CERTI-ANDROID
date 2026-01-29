@@ -19,11 +19,7 @@ class MyPageMainViewModel@Inject constructor(
     private val _uiState = MutableStateFlow(MyPageUiSate())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        loadMyPageData()
-    }
-
-    private fun loadMyPageData() = viewModelScope.launch {
+    fun loadMyPageData() = viewModelScope.launch {
         myPageUseCase()
             .onSuccess { result ->
                 _uiState.update { it.copy(myPageInfoLoadState = UiState.Success(result)) }

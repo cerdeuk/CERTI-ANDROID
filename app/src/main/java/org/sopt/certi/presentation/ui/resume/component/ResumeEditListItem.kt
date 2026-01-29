@@ -20,10 +20,13 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeEditListItem(
     resumeListItem: ActivityData,
     onDeleteClick: (Long) -> Unit,
+    onClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .noRippleClickable { onClick(resumeListItem.activityId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResumeDescriptionSection(

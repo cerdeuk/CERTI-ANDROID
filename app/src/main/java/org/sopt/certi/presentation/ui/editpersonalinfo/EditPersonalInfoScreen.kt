@@ -6,15 +6,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -57,7 +60,10 @@ fun EditPersonalInfoRoute(
         onEmailChange = viewModel::onEmailChange,
         onBirthChange = viewModel::onBirthChange,
         onSaveClick = viewModel::onSaveClick,
-        modifier = Modifier.padding(padding)
+        modifier = Modifier.padding(
+            top = padding.calculateTopPadding(),
+            bottom = 0.dp
+        )
     )
 }
 
@@ -80,9 +86,11 @@ fun EditPersonalInfoScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .windowInsetsPadding(
+                WindowInsets.navigationBars.union(WindowInsets.ime)
+            )
             .verticalScroll(rememberScrollState())
             .noRippleClickable { focusManager.clearFocus() }
-            .imePadding()
             .padding(horizontal = screenWidthDp(20.dp)),
         verticalArrangement = Arrangement.spacedBy(screenHeightDp(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -139,21 +147,17 @@ fun EditPersonalInfoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun EditPersonalInfoPreview() {
-    val viewModel = remember { EditPersonalInfoViewModel() }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val nickNameValidType by viewModel.nickNameValidTypeUiState.collectAsStateWithLifecycle()
-
     CERTITheme {
         EditPersonalInfoScreen(
-            uiState = uiState,
-            nickNameValidType = nickNameValidType,
-            onSaveClick = viewModel::onSaveClick,
-            onProfileUriChange = viewModel::onProfileUriChange,
-            onNickNameChange = viewModel::onNickNameChange,
-            onNickNameCheckButtonClick = viewModel::onNickNameCheckButtonClick,
-            onNameChange = viewModel::onNameChange,
-            onEmailChange = viewModel::onEmailChange,
-            onBirthChange = viewModel::onBirthChange,
+            uiState = EditPersonalInfoUiState(),
+            nickNameValidType = NickNameValidType.VALID,
+            onSaveClick = {},
+            onProfileUriChange = {},
+            onNickNameChange = {},
+            onNickNameCheckButtonClick = {},
+            onNameChange = {},
+            onEmailChange = {},
+            onBirthChange = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.white)

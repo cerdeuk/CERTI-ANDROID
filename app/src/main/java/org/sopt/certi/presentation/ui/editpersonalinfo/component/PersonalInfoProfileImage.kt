@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenWidthDp
@@ -46,23 +45,12 @@ fun PersonalInfoProfileImage(
     Box(
         modifier = modifier
     ) {
-        if (selectedImageUri == null) {
-            MyPageProfileImage(
-                imageUrl = "",
-                modifier = Modifier
-                    .padding(screenWidthDp(2.dp))
-                    .size(screenWidthDp(100.dp))
-            )
-        } else {
-            AsyncImage(
-                model = selectedImageUri,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(screenWidthDp(2.dp))
-                    .size(screenWidthDp(100.dp))
-                    .clip(CircleShape)
-            )
-        }
+        MyPageProfileImage(
+            imageUri = selectedImageUri,
+            modifier = Modifier
+                .padding(screenWidthDp(2.dp))
+                .size(screenWidthDp(100.dp))
+        )
 
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_24),

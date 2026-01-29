@@ -2,18 +2,19 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
-import org.sopt.certi.data.remote.dto.request.AddActivityCareerRequestDto
+import org.sopt.certi.data.remote.dto.request.ActivityCareerRequestDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 import org.sopt.certi.data.remote.dto.response.GetActivityListResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ActivityService {
     @POST("/api/v1/activity")
     suspend fun addActivity(
-        @Body addActivityRequest: AddActivityCareerRequestDto
+        @Body addActivityRequest: ActivityCareerRequestDto
     ): NullableApiResponse<Unit>
 
     @GET("/api/v1/activity")
@@ -22,5 +23,11 @@ interface ActivityService {
     @DELETE("/api/v1/activity/{activity-id}")
     suspend fun deleteActivity(
         @Path("activity-id") activityId: Long
+    ): NullableApiResponse<Unit>
+
+    @PUT("/api/v1/activity/{activity-id}")
+    suspend fun editActivity(
+        @Path("activity-id") activityId: Long,
+        @Body editActivityRequest: ActivityCareerRequestDto
     ): NullableApiResponse<Unit>
 }

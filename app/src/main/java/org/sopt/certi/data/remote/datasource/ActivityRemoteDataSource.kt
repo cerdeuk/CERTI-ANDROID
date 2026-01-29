@@ -14,4 +14,5 @@ interface ActivityRemoteDataSource {
     ): NullableApiResponse<Unit>
     suspend fun getActivityList(): ApiResponse<GetActivityListResponseDto>
     suspend fun deleteActivity(activityId: Long): NullableApiResponse<Unit>
+    suspend fun editActivity(activityId: Long, startAt: String, endAt: String, place: String, name: String, description: String): NullableApiResponse<Unit>
 }

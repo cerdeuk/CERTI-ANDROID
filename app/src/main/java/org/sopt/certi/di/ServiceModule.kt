@@ -14,8 +14,10 @@ import org.sopt.certi.data.remote.service.DummyService
 import org.sopt.certi.data.remote.service.HomeService
 import org.sopt.certi.data.remote.service.PreCertEditService
 import org.sopt.certi.data.remote.service.PreCertService
+import org.sopt.certi.data.remote.service.S3Service
 import org.sopt.certi.data.remote.service.UserService
 import retrofit2.Retrofit
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -69,4 +71,10 @@ object ServiceModule {
     @Singleton
     fun preCertEditService(retrofit: Retrofit): PreCertEditService =
         retrofit.create(PreCertEditService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideS3Service(@Named("S3Retrofit") retrofit: Retrofit): S3Service {
+        return retrofit.create(S3Service::class.java)
+    }
 }

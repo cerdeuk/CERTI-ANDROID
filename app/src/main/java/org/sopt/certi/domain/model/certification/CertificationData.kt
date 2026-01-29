@@ -26,14 +26,12 @@ data class CertificationData(
     val cardFrontImageUrl: String = "",
     val cardBackImageUrl: String = "",
     val createdAt: LocalDate = LocalDate.now(),
-    val testDateInformation: String = "",
+    val testDate: String = "",
     val expirationPeriod: String = "",
     val acquisitionDate: String = "",
     val grade: String = "",
-
-    // 아직 서버에 없음 근데 필요한것들
-    val isAcquired: Boolean = false, // 취득 여부
-    val city: String = "", // 시험장소
+    val city: String = "",
     val state: String = "",
+    val isAcquired: Boolean = false, // 취득 여부
     val testTime: String = "" // 시험시간
 )

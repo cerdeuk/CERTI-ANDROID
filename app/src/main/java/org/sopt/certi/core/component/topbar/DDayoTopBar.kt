@@ -17,7 +17,7 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CERTITheme
 
 @Composable
-fun CertiTopBar(
+fun DDayoTopBar(
     modifier: Modifier = Modifier,
     logoutOnClick: () -> Unit = {}
 ) {
@@ -40,9 +40,9 @@ fun CertiTopBar(
 
 @Preview(showBackground = true)
 @Composable
-private fun CertiTopBarPreview() {
+private fun DDayoTopBarPreview() {
     CERTITheme {
-        CertiTopBar() {
+        DDayoTopBar() {
         }
     }
 }

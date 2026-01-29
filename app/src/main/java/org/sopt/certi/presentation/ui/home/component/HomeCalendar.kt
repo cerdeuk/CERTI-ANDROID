@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,17 +48,17 @@ import java.time.YearMonth
 
 @Composable
 fun HomeCalendar(
-    // FIXME 서버 데이터 형식 어떻게 올지 몰라서 일단 String으로 해놨어유
     scheduleExistDayList: List<String> = emptyList(),
+    onMonthMove: (Int, Int) -> Unit,
     dayOnClick: (String) -> Unit
 ) {
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    val startMonth by remember { mutableStateOf(currentMonth.minusMonths(100)) }
-    val endMonth by remember { mutableStateOf(currentMonth.plusMonths(100)) }
+    var currentMonth by rememberSaveable { mutableStateOf(YearMonth.now()) }
+    val startMonth by rememberSaveable { mutableStateOf(currentMonth.minusMonths(100)) }
+    val endMonth by rememberSaveable { mutableStateOf(currentMonth.plusMonths(100)) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
     val today = remember { LocalDate.now() }
 
-    var selectedDate by remember { mutableStateOf(CalendarDay(today, DayPosition.MonthDate)) }
+    var selectedDate by rememberSaveable { mutableStateOf(CalendarDay(today, DayPosition.MonthDate)) }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -76,9 +77,11 @@ fun HomeCalendar(
                 calendarMonth = currentMonth,
                 onPrevMonthClick = {
                     currentMonth = currentMonth.minusMonths(1)
+                    onMonthMove(currentMonth.year, currentMonth.monthValue)
                 },
                 onNextMonthClick = {
                     currentMonth = currentMonth.plusMonths(1)
+                    onMonthMove(currentMonth.year, currentMonth.monthValue)
                 }
             )
             WeekDayHeader()
@@ -163,9 +166,9 @@ private fun Day(
             .background(
                 color =
                 if (day.date == today) {
-                    CertiTheme.colors.mainBlue
+                    if (isSelected) CertiTheme.colors.mainBlue else CertiTheme.colors.gray100
                 } else {
-                    if (isSelected) CertiTheme.colors.gray100 else Color.Transparent
+                    if (isSelected) CertiTheme.colors.mainBlue else Color.Transparent
                 }
             )
             .clickable(
@@ -174,7 +177,7 @@ private fun Day(
         contentAlignment = Alignment.Center
     ) {
         val textColor = when (day.position) {
-            DayPosition.MonthDate -> if (day.date == today) CertiTheme.colors.white else CertiTheme.colors.black
+            DayPosition.MonthDate -> if (isSelected) CertiTheme.colors.white else CertiTheme.colors.black
             DayPosition.InDate, DayPosition.OutDate -> CertiTheme.colors.gray200
         }
 
@@ -227,7 +230,8 @@ private fun WeekDayHeader() {
 @Composable
 private fun PreviewHomeCalendarView() {
     HomeCalendar(
-        scheduleExistDayList = listOf("2025-10-06", "2025-10-17", "2025-10-18")
+        onMonthMove = { _, _ -> },
+        scheduleExistDayList = listOf("2026-02-06", "2025-10-17", "2025-10-18")
     ) {
     }
 }
