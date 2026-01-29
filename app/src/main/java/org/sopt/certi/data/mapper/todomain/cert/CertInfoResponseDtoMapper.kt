@@ -12,7 +12,6 @@ fun GetCertInfoResponseDto.toDomain() = CertificationData(
     agencyName = agencyName,
     testType = testType,
     description = description,
-    testDateInformation = testDateInformation,
     applicationMethod = applicationMethod,
     applicationUrl = applicationUrl,
     expirationPeriod = expirationPeriod

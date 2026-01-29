@@ -26,7 +26,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
-import org.sopt.certi.core.component.topbar.CertiTopBar
+import org.sopt.certi.core.component.topbar.DDayoTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
@@ -111,7 +111,7 @@ fun ResumeScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        CertiTopBar()
+        DDayoTopBar()
 
         LazyColumn {
             item {
