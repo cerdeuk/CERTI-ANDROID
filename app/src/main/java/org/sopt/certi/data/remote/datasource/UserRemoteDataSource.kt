@@ -17,4 +17,5 @@ interface UserRemoteDataSource {
     suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
     suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto>
     suspend fun patchMarketingAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit>
+    suspend fun patchPrivacyAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit>
 }

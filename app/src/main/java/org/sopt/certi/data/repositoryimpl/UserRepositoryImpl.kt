@@ -63,4 +63,10 @@ class UserRepositoryImpl @Inject constructor(
             .handleNullableApiResponse()
             .getOrThrow()
     }
+
+    override suspend fun patchPrivacyAgreement(agreement: Boolean): Result<Unit> = safeApiCall {
+        userRemoteDataSource.patchPrivacyAgreement(AgreementRequestDto(agreement))
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
 }

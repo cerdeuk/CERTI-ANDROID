@@ -36,4 +36,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun patchMarketingAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit> =
         userService.patchMarketingAgreement(agreement)
+
+    override suspend fun patchPrivacyAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit> =
+        userService.patchPrivacyAgreement(agreement)
 }

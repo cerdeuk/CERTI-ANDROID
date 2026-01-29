@@ -13,6 +13,7 @@ import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.domain.usecase.auth.WithDrawUseCase
 import org.sopt.certi.domain.usecase.user.GetMarketingPrivacyUseCase
 import org.sopt.certi.domain.usecase.user.PatchMarketingAgreementUseCase
+import org.sopt.certi.domain.usecase.user.PatchPrivacyAgreementUseCase
 import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 import org.sopt.certi.presentation.ui.setting.state.SettingUiState
 import timber.log.Timber
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val getMarketingPrivacyUseCase: GetMarketingPrivacyUseCase,
     private val patchMarketingAgreementUseCase: PatchMarketingAgreementUseCase,
+    private val patchPrivacyAgreementUseCase: PatchPrivacyAgreementUseCase,
     private val withDrawUseCase: WithDrawUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
@@ -38,15 +40,11 @@ class SettingViewModel @Inject constructor(
     private fun getMarketingPrivacyAgreement() = viewModelScope.launch {
         getMarketingPrivacyUseCase()
             .onSuccess { result ->
-                if (result.isAdvertisingAgreement) {
-                    _uiState.update {
-                        it.copy(switchChecked = true)
-                    }
-                }
-                if (result.isPrivacyAgreement) {
-                    _uiState.update {
-                        it.copy(checkboxChecked = true)
-                    }
+                _uiState.update {
+                    it.copy(
+                        switchChecked = result.isAdvertisingAgreement && result.isPrivacyAgreement,
+                        checkboxChecked = result.isPrivacyAgreement
+                    )
                 }
             }
             .onFailure { error ->
@@ -54,36 +52,42 @@ class SettingViewModel @Inject constructor(
             }
     }
 
-    fun onSwitchCheckChange(checked: Boolean) = {
-        if (checked) {
-            _uiState.update { it.copy(isMarketingConfirmDialogVisible = true) }
-        } else {
+    fun onSwitchCheckChange(checked: Boolean) {
+        if (_uiState.value.checkboxChecked) {
             viewModelScope.launch {
-                patchMarketingAgreementUseCase(false)
+                patchMarketingAgreementUseCase(checked)
                     .onSuccess {
-                        _uiState.update { it.copy(switchChecked = false) }
+                        _uiState.update { it.copy(switchChecked = checked) }
                     }
                     .onFailure { error ->
-                        Timber.e(error, "광고성 정보 수신 동의 체크 해제 실패")
+                        Timber.e(error, "광고성 정보 수신 동의 업데이트 실패")
                     }
             }
+        } else {
+            _uiState.update { it.copy(isMarketingConfirmDialogVisible = true) }
         }
     }
 
     fun onMarketingConfirmDialogConfirm() = viewModelScope.launch {
-        patchMarketingAgreementUseCase(true)
+        patchPrivacyAgreementUseCase(true)
             .onSuccess {
-                _uiState.update {
-                    it.copy(
-                        switchChecked = true,
-                        checkboxChecked = true,
-                        isMarketingConfirmDialogVisible = false
-                    )
-                }
-                showMarketingSnackbar()
+                patchMarketingAgreementUseCase(true)
+                    .onSuccess {
+                        _uiState.update {
+                            it.copy(
+                                switchChecked = true,
+                                checkboxChecked = true,
+                                isMarketingConfirmDialogVisible = false
+                            )
+                        }
+                        showMarketingSnackbar()
+                    }
+                    .onFailure { error ->
+                        Timber.e(error, "광고성 정보 수신 동의 실패")
+                    }
             }
             .onFailure { error ->
-                Timber.e(error, "광고성 수신 정보 동의 실패")
+                Timber.e(error, "개인정보 수집 및 이용 동의 실패")
             }
     }
 
@@ -91,12 +95,20 @@ class SettingViewModel @Inject constructor(
         _uiState.update { it.copy(isMarketingConfirmDialogVisible = false) }
     }
 
-    fun onCheckboxCheckChange(checked: Boolean) {
-        _uiState.update { it.copy(checkboxChecked = checked) }
-
-        if (checked) {
-            showMarketingSnackbar()
-        }
+    fun onCheckboxCheckChange(checked: Boolean) = viewModelScope.launch {
+        patchPrivacyAgreementUseCase(checked)
+            .onSuccess {
+                _uiState.update { state ->
+                    state.copy(
+                        checkboxChecked = checked,
+                        switchChecked = if (!checked) false else state.switchChecked
+                    )
+                }
+                if (checked) showMarketingSnackbar()
+            }
+            .onFailure { error ->
+                Timber.e(error, "개인정보 동의 업데이트 실패")
+            }
     }
 
     private fun showMarketingSnackbar() {

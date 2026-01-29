@@ -37,4 +37,7 @@ interface UserService {
 
     @PATCH("/api/v1/user/marketing-agreement")
     suspend fun patchMarketingAgreement(@Body request: AgreementRequestDto): NullableApiResponse<Unit>
+
+    @PATCH("/api/v1/user/privacy-agreement")
+    suspend fun patchPrivacyAgreement(@Body request: AgreementRequestDto): NullableApiResponse<Unit>
 }
