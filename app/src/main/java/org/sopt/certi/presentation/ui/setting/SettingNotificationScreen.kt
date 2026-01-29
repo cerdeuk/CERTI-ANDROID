@@ -35,6 +35,7 @@ import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.dialog.CertiDialog
 import org.sopt.certi.core.component.topbar.MyPageTopBar
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -44,15 +45,15 @@ import org.sopt.certi.presentation.ui.setting.component.CustomCheckbox
 import org.sopt.certi.presentation.ui.setting.component.CustomSwitch
 import org.sopt.certi.presentation.ui.setting.component.MarketingConfirmSnackbar
 import org.sopt.certi.presentation.ui.setting.component.MarketingInfoBox
-import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
-import org.sopt.certi.presentation.ui.setting.state.SettingUiState
+import org.sopt.certi.presentation.ui.setting.sideEffect.SettingNotificationSideEffect
+import org.sopt.certi.presentation.ui.setting.state.SettingNotificationUiState
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun SettingNotificationRoute(
     padding: PaddingValues,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingNotificationViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -61,11 +62,10 @@ fun SettingNotificationRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
-                is SettingSideEffect.ShowMarketingConfirmSnackbar -> {
+                is SettingNotificationSideEffect.ShowMarketingConfirmSnackbar -> {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     snackbarHostState.showSnackbar(message = "")
                 }
-                else -> {}
             }
         }
     }
@@ -87,20 +87,25 @@ fun SettingNotificationRoute(
             }
         }
     ) { innerPadding ->
-        SettingNotificationScreen(
-            uiState = uiState,
-            onSwitchCheckChange = viewModel::onSwitchCheckChange,
-            onCheckboxCheckChange = { checked ->
-                viewModel.onCheckboxCheckChange(checked)
-            },
-            modifier = Modifier.padding(innerPadding)
-        )
+        when (uiState.agreementLoadState) {
+            is UiState.Success -> {
+                SettingNotificationScreen(
+                    uiState = uiState,
+                    onSwitchCheckChange = viewModel::onSwitchCheckChange,
+                    onCheckboxCheckChange = { checked ->
+                        viewModel.onCheckboxCheckChange(checked)
+                    },
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+            else -> {}
+        }
     }
 }
 
 @Composable
 private fun SettingNotificationScreen(
-    uiState: SettingUiState,
+    uiState: SettingNotificationUiState,
     onSwitchCheckChange: (Boolean) -> Unit,
     onCheckboxCheckChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -190,7 +195,7 @@ private fun SettingNotificationPreview() {
     CERTITheme {
         var uiState by remember {
             mutableStateOf(
-                SettingUiState(
+                SettingNotificationUiState(
                     switchChecked = false,
                     checkboxChecked = false
                 )

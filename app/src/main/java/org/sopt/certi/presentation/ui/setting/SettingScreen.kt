@@ -49,7 +49,6 @@ fun SettingRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
             when (it) {
                 SettingSideEffect.NavigateToLogin -> navigateToLogin()
-                else -> {}
             }
         }
     }
