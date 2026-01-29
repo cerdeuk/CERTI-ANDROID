@@ -30,4 +30,10 @@ class CareerRepositoryImpl @Inject constructor(
             .handleNullableApiResponse()
             .getOrThrow()
     }
+
+    override suspend fun editCareer(careerId: Long, startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit> = safeApiCall {
+        careerRemoteDataSource.editCareer(careerId, startAt, endAt, place, name, description)
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
 }

@@ -34,8 +34,8 @@ fun ResumeDescriptionSection(
             Text(
                 text = stringResource(
                     R.string.resume_list_item_period,
-                    resumeListItem.startAt,
-                    resumeListItem.endAt
+                    resumeListItem.startAt.take(7),
+                    resumeListItem.endAt.take(7)
                 ),
                 color = CertiTheme.colors.gray500,
                 style = CertiTheme.typography.caption.regular_12
