@@ -27,7 +27,7 @@ fun DDayoTopBar(
             .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(12.dp))
     ) {
         Image(
-            painter = painterResource(R.drawable.image_logo_black),
+            painter = painterResource(R.drawable.img_logo_black),
             contentDescription = null,
             modifier = Modifier
                 .widthForScreenPercentage(76.dp)

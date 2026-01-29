@@ -9,6 +9,7 @@ import org.sopt.certi.domain.model.user.UserInfoData
 import org.sopt.certi.domain.repository.HomeRepository
 import javax.inject.Inject
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
+import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.certification.PreCertDayData
 
 class HomeRepositoryImpl @Inject constructor(
@@ -60,21 +61,17 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPreCertMonth(year: Int, month: Int): Result<List<Int>> {
-        return runCatching {
-            homeRemoteDataSource.getPreCertMonth(year, month)
-                .handleApiResponse()
-                .getOrThrow()
-                .toDomain()
-        }
+    override suspend fun getPreCertMonth(year: Int, month: Int): Result<List<Int>> = safeApiCall {
+        homeRemoteDataSource.getPreCertMonth(year, month)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 
-    override suspend fun getPreCertDay(date: String): Result<PreCertDayData> {
-        return runCatching {
-            homeRemoteDataSource.getPreCertDay(date)
-                .handleApiResponse()
-                .getOrThrow()
-                .toDomain()
-        }
+    override suspend fun getPreCertDay(date: String): Result<PreCertDayData> = safeApiCall {
+        homeRemoteDataSource.getPreCertDay(date)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 }

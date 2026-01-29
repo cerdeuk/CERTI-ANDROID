@@ -19,9 +19,5 @@ fun String.toLocalDateOrNull(): LocalDate? =
         .getOrElse { null }
 
 fun String.dateString(): String {
-    return if (this.length == 1) {
-        "0$this"
-    } else {
-        this
-    }
+    return this.padStart(2, '0')
 }
