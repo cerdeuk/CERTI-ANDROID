@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -18,7 +19,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
-import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.domain.model.user.CertificationCount
 import org.sopt.certi.domain.model.user.MyPageInfo
@@ -44,20 +44,15 @@ fun MyPageMainRoute(
         viewModel.loadMyPageData()
     }
 
-    when (val state = uiState.myPageInfoLoadState) {
-        is UiState.Success -> {
-            MyPageMainScreen(
-                uiState = state.data,
-                onPersonalInfoClick = navigateToPersonalInfo,
-                onSchoolInfoClick = navigateToSchoolInfo,
-                onCertManageClick = navigateToCertManage,
-                onSettingClick = navigateToSetting,
-                onQuestionsClick = navigateToQuestion,
-                modifier = Modifier.padding(padding)
-            )
-        }
-        else -> {}
-    }
+    MyPageMainScreen(
+        uiState = uiState.myPageInfo,
+        onPersonalInfoClick = navigateToPersonalInfo,
+        onSchoolInfoClick = navigateToSchoolInfo,
+        onCertManageClick = navigateToCertManage,
+        onSettingClick = navigateToSetting,
+        onQuestionsClick = navigateToQuestion,
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
@@ -81,6 +76,7 @@ fun MyPageMainScreen(
         )
         LazyColumn(
             modifier = Modifier
+                .fillMaxSize()
                 .background(CertiTheme.colors.gray0)
                 .padding(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(20.dp)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))

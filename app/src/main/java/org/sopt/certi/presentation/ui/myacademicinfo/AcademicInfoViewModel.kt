@@ -7,36 +7,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.type.CategoryType
-import org.sopt.certi.domain.usecase.auth.SearchMajorUseCase
-import org.sopt.certi.domain.usecase.auth.SearchUnivUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
-import org.sopt.certi.domain.usecase.user.PutMajorUseCase
-import org.sopt.certi.domain.usecase.user.PutUniversityUseCase
 import org.sopt.certi.presentation.ui.myacademicinfo.state.AcademicUiState
-import org.sopt.certi.presentation.ui.myacademicinfo.state.EditSearchUiState
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class AcademicInfoViewModel @Inject constructor(
     private val getInterestedJobListUseCase: GetInterestedJobListUseCase,
-    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase,
-    private val searchUnivUseCase: SearchUnivUseCase,
-    private val putUniversityUseCase: PutUniversityUseCase,
-    private val searchMajorUseCase: SearchMajorUseCase,
-    private val putMajorUseCase: PutMajorUseCase
+    private val modifyInterestedJobListUseCase: ModifyInterestedJobListUseCase
 ) : ViewModel() {
     private val _academicUiState = MutableStateFlow(AcademicUiState())
     val academicUiState = _academicUiState.asStateFlow()
-
-    private val _editUnivUiState = MutableStateFlow(EditSearchUiState())
-    val editUnivUiState = _editUnivUiState.asStateFlow()
-
-    private val _editMajorUiState = MutableStateFlow(EditSearchUiState())
-    val editMajorUiState = _editMajorUiState.asStateFlow()
 
     private val _editingCategoryList = MutableStateFlow<List<CategoryType>>(emptyList())
     val editingCategoryList = _editingCategoryList.asStateFlow()
@@ -84,102 +68,6 @@ class AcademicInfoViewModel @Inject constructor(
             }
             .onFailure { error ->
                 Timber.e(error, "희망분야 재설정 실패")
-            }
-    }
-
-    fun getUnivList(univSearchText: String) {
-        viewModelScope.launch {
-            _editUnivUiState.update { it.copy(searchListLoadState = UiState.Loading) }
-            searchUnivUseCase(univSearchText)
-                .onSuccess { result ->
-                    if (result.isEmpty()) {
-                        _editUnivUiState.update { it.copy(searchListLoadState = UiState.Empty) }
-                    } else {
-                        _editUnivUiState.update { it.copy(searchListLoadState = UiState.Success(result)) }
-                    }
-                }.onFailure {
-                    _editUnivUiState.update { it.copy(searchListLoadState = UiState.Failure(it.toString())) }
-                }
-        }
-        _editUnivUiState.update { it.copy(searchText = univSearchText) }
-    }
-
-    fun onUnivSearchTextChange(univSearchText: String) {
-        _editUnivUiState.update { it.copy(searchText = univSearchText) }
-        if (univSearchText.isBlank()) {
-            _editUnivUiState.update { it.copy(searchListLoadState = UiState.Init) }
-        }
-    }
-
-    fun selectUniv(univName: String) {
-        _editUnivUiState.update {
-            it.copy(
-                searchText = univName,
-                submittedSearchText = univName
-            )
-        }
-    }
-
-    fun onUnivSaveClick() = viewModelScope.launch {
-        val submittedText = _editUnivUiState.value.submittedSearchText
-        putUniversityUseCase(submittedText)
-            .onSuccess {
-                _editUnivUiState.update {
-                    it.copy(
-                        initialValue = submittedText
-                    )
-                }
-            }
-            .onFailure { error ->
-                Timber.e(error, "대학교 변경 실패")
-            }
-    }
-
-    fun getMajorList(majorSearchText: String) {
-        viewModelScope.launch {
-            _editMajorUiState.update { it.copy(searchListLoadState = UiState.Loading) }
-            searchMajorUseCase(majorSearchText)
-                .onSuccess { result ->
-                    if (result.isEmpty()) {
-                        _editMajorUiState.update { it.copy(searchListLoadState = UiState.Empty) }
-                    } else {
-                        _editMajorUiState.update { it.copy(searchListLoadState = UiState.Success(result)) }
-                    }
-                }.onFailure {
-                    _editMajorUiState.update { it.copy(searchListLoadState = UiState.Failure(it.toString())) }
-                }
-        }
-        _editMajorUiState.update { it.copy(searchText = majorSearchText) }
-    }
-
-    fun onMajorSearchTextChange(majorSearchText: String) {
-        _editMajorUiState.update { it.copy(searchText = majorSearchText) }
-        if (majorSearchText.isBlank()) {
-            _editMajorUiState.update { it.copy(searchListLoadState = UiState.Init) }
-        }
-    }
-
-    fun selectMajor(majorName: String) {
-        _editMajorUiState.update {
-            it.copy(
-                searchText = majorName,
-                submittedSearchText = majorName
-            )
-        }
-    }
-
-    fun onMajorSaveClick() = viewModelScope.launch {
-        val submittedText = _editMajorUiState.value.submittedSearchText
-        putMajorUseCase(submittedText)
-            .onSuccess {
-                _editMajorUiState.update {
-                    it.copy(
-                        initialValue = submittedText
-                    )
-                }
-            }
-            .onFailure { error ->
-                Timber.e(error, "학과 변경 실패")
             }
     }
 }
