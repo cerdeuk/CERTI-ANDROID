@@ -8,21 +8,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
+import org.sopt.certi.domain.usecase.FavoriteUseCase
+import org.sopt.certi.domain.usecase.PreCertUseCase
+import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MyCertViewModel @Inject constructor() : ViewModel() {
-    private val _myCertUiState = MutableStateFlow(
-        MyCertUiState(
-            isEditMode = false,
-            selectedTab = MyCertType.PLANNED,
-            myCertListLoadState = UiState.Init,
-            editTargetCertification = null,
-            deleteTargetId = null
-        )
-    )
+class MyCertViewModel @Inject constructor(
+    private val preCertUseCase: PreCertUseCase,
+    private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
+    private val favoriteUseCase: FavoriteUseCase
+) : ViewModel() {
+    private val _myCertUiState = MutableStateFlow(MyCertUiState())
     val myCertUiState = _myCertUiState.asStateFlow()
 
     init {
@@ -35,8 +35,7 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
 
         _myCertUiState.update {
             it.copy(
-                selectedTab = tabType,
-                myCertListLoadState = UiState.Loading
+                selectedTab = tabType
             )
         }
 
@@ -48,15 +47,42 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun getPlannedCertificationList() = viewModelScope.launch {
-        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyPlannedCertifications)) }
+        preCertUseCase()
+            .onSuccess { result ->
+                _myCertUiState.update {
+                    it.copy(plannedCertListState = if (result.isEmpty()) UiState.Empty else UiState.Success(result))
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "취득 예정 자격증 불러오기 실패")
+                _myCertUiState.update { it.copy(plannedCertListState = UiState.Failure(error.message ?: "Failed")) }
+            }
     }
 
     private fun getAcquiredCertificationList() = viewModelScope.launch {
-        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyAcquiredCertification)) }
+        getAcquisitionListUseCase()
+            .onSuccess { result ->
+                _myCertUiState.update {
+                    it.copy(acquiredCertListState = if (result.isEmpty()) UiState.Empty else UiState.Success(result))
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "취득 완료 자격증 불러오기 실패")
+                _myCertUiState.update { it.copy(acquiredCertListState = UiState.Failure(error.message ?: "Failed")) }
+            }
     }
 
     private fun getFavoriteCertificationList() = viewModelScope.launch {
-        _myCertUiState.update { it.copy(myCertListLoadState = UiState.Success(dummyPlannedCertifications)) }
+        favoriteUseCase()
+            .onSuccess { result ->
+                _myCertUiState.update {
+                    it.copy(favoriteCertListState = if (result.isEmpty()) UiState.Empty else UiState.Success(result))
+                }
+            }
+            .onFailure { error ->
+                Timber.e(error, "즐겨찾기 자격증 불러오기 실패")
+                _myCertUiState.update { it.copy(favoriteCertListState = UiState.Failure(error.message ?: "Failed")) }
+            }
     }
 
     fun onFavoriteToggle(id: Long) {}
@@ -68,8 +94,10 @@ class MyCertViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onEditClick(id: Long) {
-        val currentList = (_myCertUiState.value.myCertListLoadState as? UiState.Success)?.data
-        val targetData = currentList?.find { it.certificationId == id }
+        val currentState = _myCertUiState.value
+        val currentList = (currentState.currentListState as? UiState.Success)?.data ?: emptyList()
+        val targetData = currentList.find { it.certificationId == id }
+
         _myCertUiState.update {
             it.copy(editTargetCertification = targetData)
         }
