@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.mypage.component
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
@@ -19,7 +20,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun MyPageProfileImage(
-    imageUrl: String,
+    imageUri: Uri?,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -36,7 +37,7 @@ fun MyPageProfileImage(
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
+                .data(imageUri)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
