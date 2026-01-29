@@ -19,6 +19,10 @@ fun String.toLocalDateOrNull(): LocalDate? =
     runCatching { LocalDate.parse(this, DateFormatters.dotDate) }
         .getOrElse { null }
 
+fun String.dateString(): String {
+    return this.padStart(2, '0')
+}
+
 fun String.toDateData(): DateData {
     val parts = this.split("-")
 

@@ -14,4 +14,5 @@ interface CareerRemoteDataSource {
     ): NullableApiResponse<Unit>
     suspend fun getCareerList(): ApiResponse<GetCareersResponseDto>
     suspend fun deleteCareer(careerId: Long): NullableApiResponse<Unit>
+    suspend fun editCareer(careerId: Long, startAt: String, endAt: String, place: String, name: String, description: String): NullableApiResponse<Unit>
 }

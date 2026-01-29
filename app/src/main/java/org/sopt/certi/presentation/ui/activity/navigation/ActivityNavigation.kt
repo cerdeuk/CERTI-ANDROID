@@ -9,10 +9,15 @@ import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.activity.ResumeActivitiesRoute
 import org.sopt.certi.presentation.ui.activity.ResumeAddActivitiesRoute
+import org.sopt.certi.presentation.ui.activity.ResumeEditActivitiesRoute
 import org.sopt.certi.presentation.ui.resume.navigation.navigateToResume
 
 fun NavController.navigateToAddActivities() {
     navigate(ResumeRoute.AddActivities)
+}
+
+fun NavController.navigateToEditActivities(activityId: Long) {
+    navigate(ResumeRoute.EditActivities(activityId))
 }
 
 fun NavGraphBuilder.activityNavGraph(
@@ -22,7 +27,8 @@ fun NavGraphBuilder.activityNavGraph(
     composable<ResumeRoute.Activities> {
         ResumeActivitiesRoute(
             padding = padding,
-            onNavigateToAddActivities = navController::navigateToAddActivities
+            onNavigateToAddActivities = navController::navigateToAddActivities,
+            onNavigateToEditActivities = navController::navigateToEditActivities
         )
     }
 
@@ -34,6 +40,17 @@ fun NavGraphBuilder.activityNavGraph(
                     navOptions {
                         popUpTo(MainTabRoute.Resume) { inclusive = true }
                     }
+                )
+            }
+        )
+    }
+
+    composable<ResumeRoute.EditActivities> {
+        ResumeEditActivitiesRoute(
+            padding = padding,
+            navigateToResume = {
+                navController.navigateToResume(
+                    navOptions { popUpTo(MainTabRoute.Resume) { inclusive = true } }
                 )
             }
         )

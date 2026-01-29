@@ -12,4 +12,5 @@ interface ActivityRepository {
     ): Result<Unit>
     suspend fun getActivityList(): Result<List<ActivityData>>
     suspend fun deleteActivity(activityId: Long): Result<Unit>
+    suspend fun editActivity(activityId: Long, startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit>
 }

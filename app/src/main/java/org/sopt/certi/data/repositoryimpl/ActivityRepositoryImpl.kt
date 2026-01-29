@@ -30,4 +30,10 @@ class ActivityRepositoryImpl @Inject constructor(
             .handleNullableApiResponse()
             .getOrThrow()
     }
+
+    override suspend fun editActivity(activityId: Long, startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit> = safeApiCall {
+        activityRemoteDataSource.editActivity(activityId, startAt, endAt, place, name, description)
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
 }

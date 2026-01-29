@@ -12,4 +12,5 @@ interface CareerRepository {
     ): Result<Unit>
     suspend fun getCareerList(): Result<List<ActivityData>>
     suspend fun deleteCareer(careerId: Long): Result<Unit>
+    suspend fun editCareer(careerId: Long, startAt: String, endAt: String, place: String, name: String, description: String): Result<Unit>
 }

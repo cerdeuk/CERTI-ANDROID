@@ -7,6 +7,6 @@ data class UserInfoData(
     val major: String = "",
     val category: List<String> = emptyList<String>(),
     val track: String = "",
-    val birthday: String = "",
+    val birthday: String? = null,
     val profileImageUrl: String? = null
 )

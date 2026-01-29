@@ -48,12 +48,44 @@ fun ResumeAddActivitiesRoute(
 
     ResumeAddActivitiesScreen(
         uiState = uiState,
-        onStartDateValueChange = { viewModel.onStartDateChanged(it) },
-        onEndDateValueChange = { viewModel.onEndDateChanged(it) },
-        onOrganizationValueChange = { viewModel.onOrganizationChanged(it) },
-        onActivityValueChange = { viewModel.onActivityChanged(it) },
-        onDescriptionValue = { viewModel.onDescriptionChanged(it) },
-        onAddClick = { viewModel.addActivity() },
+        titleResId = R.string.resume_activities_add_title,
+        buttonTextResId = R.string.button_add,
+        onStartDateValueChange = viewModel::onStartDateChanged,
+        onEndDateValueChange = viewModel::onEndDateChanged,
+        onOrganizationValueChange = viewModel::onOrganizationChanged,
+        onActivityValueChange = viewModel::onActivityChanged,
+        onDescriptionValue = viewModel::onDescriptionChanged,
+        onButtonClick = viewModel::addActivity,
+        modifier = Modifier.padding(padding)
+    )
+}
+
+@Composable
+fun ResumeEditActivitiesRoute(
+    padding: PaddingValues,
+    navigateToResume: () -> Unit,
+    viewModel: EditActivitiesViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.addActivityUiState.collectAsStateWithLifecycle()
+    val editSuccess by viewModel.editActivitySuccess.collectAsStateWithLifecycle()
+
+    LaunchedEffect(editSuccess) {
+        if (editSuccess) {
+            navigateToResume()
+            viewModel.resetEditActivitySuccess()
+        }
+    }
+
+    ResumeAddActivitiesScreen(
+        uiState = uiState,
+        titleResId = R.string.resume_activities_edit_title,
+        buttonTextResId = R.string.button_edit,
+        onStartDateValueChange = viewModel::onStartDateChanged,
+        onEndDateValueChange = viewModel::onEndDateChanged,
+        onOrganizationValueChange = viewModel::onOrganizationChanged,
+        onActivityValueChange = viewModel::onActivityChanged,
+        onDescriptionValue = viewModel::onDescriptionChanged,
+        onButtonClick = viewModel::editActivity,
         modifier = Modifier.padding(padding)
     )
 }
@@ -61,12 +93,14 @@ fun ResumeAddActivitiesRoute(
 @Composable
 fun ResumeAddActivitiesScreen(
     uiState: AddActivityUiState,
+    titleResId: Int,
+    buttonTextResId: Int,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
     onOrganizationValueChange: (String) -> Unit,
     onActivityValueChange: (String) -> Unit,
     onDescriptionValue: (String) -> Unit,
-    onAddClick: () -> Unit,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -80,7 +114,7 @@ fun ResumeAddActivitiesScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.resume_activities_add_title),
+                    text = stringResource(titleResId),
                     style = CertiTheme.typography.subtitle.semibold_20,
                     color = CertiTheme.colors.gray600,
                     modifier = Modifier.padding(
@@ -136,8 +170,8 @@ fun ResumeAddActivitiesScreen(
         }
 
         CertiBasicButton(
-            buttonText = stringResource(R.string.button_add),
-            onClick = onAddClick,
+            buttonText = stringResource(buttonTextResId),
+            onClick = onButtonClick,
             enabled = uiState.addButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
@@ -171,9 +205,9 @@ private fun ResumeAddActivitiesScreen_Preview() {
             onOrganizationValueChange = { uiState = uiState.copy(organizationValue = it) },
             onActivityValueChange = { uiState = uiState.copy(activityValue = it) },
             onDescriptionValue = { uiState = uiState.copy(descriptionValue = it) },
-            onAddClick = {
-                uiState = uiState.copy(addButtonEnabled = !uiState.addButtonEnabled)
-            }
+            onButtonClick = {},
+            titleResId = R.string.resume_activities_add_title,
+            buttonTextResId = R.string.button_add
         )
     }
 }
