@@ -7,6 +7,7 @@ import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.user.InterestedJobListData
+import org.sopt.certi.domain.model.user.MarketingPrivacyData
 import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Inject
@@ -49,11 +50,11 @@ class UserRepositoryImpl @Inject constructor(
             .toDomain()
     }
 
-    override suspend fun getMarketingAgreement(): Result<Boolean> = safeApiCall {
-        userRemoteDataSource.getMarketingAgreement()
+    override suspend fun getMarketingPrivacyAgreement(): Result<MarketingPrivacyData> = safeApiCall {
+        userRemoteDataSource.getMarketingPrivacyAgreement()
             .handleApiResponse()
             .getOrThrow()
-            .isAdAgreed
+            .toDomain()
     }
 
     override suspend fun patchMarketingAgreement(): Result<Unit> = safeApiCall {

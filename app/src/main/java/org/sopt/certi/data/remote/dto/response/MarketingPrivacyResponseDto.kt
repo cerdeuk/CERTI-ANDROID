@@ -4,7 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MarketingAgreementResponseDto(
+data class MarketingPrivacyResponseDto(
     @SerialName("isAdAgreed")
-    val isAdAgreed: Boolean
+    val isAdAgreed: Boolean,
+    @SerialName("isPvAgreed")
+    val isPvAgreed: Boolean
 )

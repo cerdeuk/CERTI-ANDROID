@@ -6,7 +6,7 @@ import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
-import org.sopt.certi.data.remote.dto.response.MarketingAgreementResponseDto
+import org.sopt.certi.data.remote.dto.response.MarketingPrivacyResponseDto
 
 interface UserRemoteDataSource {
     suspend fun checkNicknameValidation(keyword: String): NullableApiResponse<Unit>
@@ -14,6 +14,6 @@ interface UserRemoteDataSource {
     suspend fun modifyInterestedJobList(jobNameList: ModifyInterestedJobRequestDto): NullableApiResponse<Unit>
     suspend fun getUserTrack(): ApiResponse<GetUserTrackResponseDto>
     suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto>
-    suspend fun getMarketingAgreement(): ApiResponse<MarketingAgreementResponseDto>
+    suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto>
     suspend fun patchMarketingAgreement(): NullableApiResponse<Unit>
 }

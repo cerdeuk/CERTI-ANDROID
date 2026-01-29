@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.domain.usecase.auth.WithDrawUseCase
-import org.sopt.certi.domain.usecase.user.GetMarketingAgreementUseCase
+import org.sopt.certi.domain.usecase.user.GetMarketingPrivacyUseCase
 import org.sopt.certi.domain.usecase.user.PatchMarketingAgreementUseCase
 import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 import org.sopt.certi.presentation.ui.setting.state.SettingUiState
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val getMarketingAgreementUseCase: GetMarketingAgreementUseCase,
+    private val getMarketingPrivacyUseCase: GetMarketingPrivacyUseCase,
     private val patchMarketingAgreementUseCase: PatchMarketingAgreementUseCase,
     private val withDrawUseCase: WithDrawUseCase,
     private val tokenManager: TokenManager
@@ -32,18 +32,20 @@ class SettingViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
-        getMarketingAgreement()
+        getMarketingPrivacyAgreement()
     }
 
-    private fun getMarketingAgreement() = viewModelScope.launch {
-        getMarketingAgreementUseCase()
+    private fun getMarketingPrivacyAgreement() = viewModelScope.launch {
+        getMarketingPrivacyUseCase()
             .onSuccess { result ->
-                if (result) {
+                if (result.isAdvertisingAgreement) {
                     _uiState.update {
-                        it.copy(
-                            switchChecked = true,
-                            checkboxChecked = true
-                        )
+                        it.copy(switchChecked = true)
+                    }
+                }
+                if (result.isPrivacyAgreement) {
+                    _uiState.update {
+                        it.copy(checkboxChecked = true)
                     }
                 }
             }
