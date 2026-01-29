@@ -11,5 +11,5 @@ interface UserRepository {
     suspend fun getUserTrack(): Result<String>
     suspend fun getMyPageInfo(): Result<MyPageInfo>
     suspend fun getMarketingPrivacyAgreement(): Result<MarketingPrivacyData>
-    suspend fun patchMarketingAgreement(): Result<Unit>
+    suspend fun patchMarketingAgreement(agreement: Boolean): Result<Unit>
 }

@@ -3,6 +3,7 @@ package org.sopt.certi.data.remote.datasourceimpl
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
@@ -33,6 +34,6 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto> =
         userService.getMarketingPrivacyAgreement()
 
-    override suspend fun patchMarketingAgreement(): NullableApiResponse<Unit> =
-        userService.patchMarketingAgreement()
+    override suspend fun patchMarketingAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit> =
+        userService.patchMarketingAgreement(agreement)
 }

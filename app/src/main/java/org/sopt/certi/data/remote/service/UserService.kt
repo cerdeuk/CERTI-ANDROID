@@ -2,6 +2,7 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
@@ -35,5 +36,5 @@ interface UserService {
     suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto>
 
     @PATCH("/api/v1/user/marketing-agreement")
-    suspend fun patchMarketingAgreement(): NullableApiResponse<Unit>
+    suspend fun patchMarketingAgreement(@Body request: AgreementRequestDto): NullableApiResponse<Unit>
 }

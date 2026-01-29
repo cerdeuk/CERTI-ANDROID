@@ -2,6 +2,7 @@ package org.sopt.certi.data.repositoryimpl
 
 import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
+import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
@@ -57,8 +58,8 @@ class UserRepositoryImpl @Inject constructor(
             .toDomain()
     }
 
-    override suspend fun patchMarketingAgreement(): Result<Unit> = safeApiCall {
-        userRemoteDataSource.patchMarketingAgreement()
+    override suspend fun patchMarketingAgreement(agreement: Boolean): Result<Unit> = safeApiCall {
+        userRemoteDataSource.patchMarketingAgreement(AgreementRequestDto(agreement))
             .handleNullableApiResponse()
             .getOrThrow()
     }

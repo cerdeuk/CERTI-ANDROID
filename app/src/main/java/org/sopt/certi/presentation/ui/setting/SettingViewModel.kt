@@ -54,22 +54,24 @@ class SettingViewModel @Inject constructor(
             }
     }
 
-    fun onSwitchCheckChange(checked: Boolean) = viewModelScope.launch {
+    fun onSwitchCheckChange(checked: Boolean) = {
         if (checked) {
             _uiState.update { it.copy(isMarketingConfirmDialogVisible = true) }
         } else {
-            patchMarketingAgreementUseCase()
-                .onSuccess {
-                    _uiState.update { it.copy(switchChecked = false) }
-                }
-                .onFailure { error ->
-                    Timber.e(error, "광고성 정보 수신 동의 체크 해제 실패")
-                }
+            viewModelScope.launch {
+                patchMarketingAgreementUseCase(false)
+                    .onSuccess {
+                        _uiState.update { it.copy(switchChecked = false) }
+                    }
+                    .onFailure { error ->
+                        Timber.e(error, "광고성 정보 수신 동의 체크 해제 실패")
+                    }
+            }
         }
     }
 
     fun onMarketingConfirmDialogConfirm() = viewModelScope.launch {
-        patchMarketingAgreementUseCase()
+        patchMarketingAgreementUseCase(true)
             .onSuccess {
                 _uiState.update {
                     it.copy(
