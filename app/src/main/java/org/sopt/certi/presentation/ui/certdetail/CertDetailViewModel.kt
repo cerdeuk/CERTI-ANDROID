@@ -60,8 +60,8 @@ class CertDetailViewModel @Inject constructor(
         )
     }
 
-    fun acquireExpectCert(certId: Long) = viewModelScope.launch {
-        acquireExpectCertUseCase.invoke(certId).fold(
+    fun acquireExpectCert(certId: Long, city: String, state: String, timeDate: String) = viewModelScope.launch {
+        acquireExpectCertUseCase.invoke(certId, city, state, timeDate).fold(
             onSuccess = {
                 if (it) {
                     _sideEffect.send(DetailSideEffect.ShowAcquireExpectSuccessToast)

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
+import org.sopt.certi.core.component.bottomsheet.RegisterTestInfoBottomSheet
 import org.sopt.certi.core.component.dialog.CertAcquiredDialog
 import org.sopt.certi.core.component.toast.ShowToastRoute
 import org.sopt.certi.core.component.webview.CertWebView
@@ -34,6 +37,7 @@ import org.sopt.certi.presentation.ui.certdetail.screen.CertDetailInfoScreen
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.ui.theme.CERTITheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CertDetailRoute(
     padding: PaddingValues,
@@ -46,8 +50,13 @@ fun CertDetailRoute(
     var showAcquireExpectSuccessToast by remember { mutableStateOf(false) }
     var showAcquireExpectFailToast by remember { mutableStateOf(false) }
     var showAcquiredFailToast by remember { mutableStateOf(false) }
+    var showRegisterTestInfoBottomSheet by remember { mutableStateOf(false) }
 
     val uiState by viewModel.detailUiState.collectAsStateWithLifecycle()
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     LaunchedEffect(Unit) {
         viewModel.getCertDetailInfo(certId)
@@ -72,8 +81,9 @@ fun CertDetailRoute(
                 showWebView = {
                     showWebView = true
                 },
-                acquireExpectCert = {
-                    viewModel.acquireExpectCert(certId)
+                showRegisterTestInfoBottomSheet = {
+                    certData.certificationType
+                    showRegisterTestInfoBottomSheet = true
                 },
                 acquiredCert = {
                     viewModel.acquiredCert(certId)
@@ -126,6 +136,20 @@ fun CertDetailRoute(
                     )
                 )
             }
+
+            if(showRegisterTestInfoBottomSheet) {
+                RegisterTestInfoBottomSheet(
+                    sheetState = sheetState,
+                    forModify = false,
+                    certTitle = certData.certificationName,
+                    onConfirm = { city, state, timeDate ->
+                        viewModel.acquireExpectCert(certId, city, state, timeDate)
+                    },
+                    onDismiss = {
+                        showRegisterTestInfoBottomSheet = false
+                    }
+                )
+            }
         }
         else -> {}
     }
@@ -136,7 +160,7 @@ fun CertDetailScreen(
     certData: CertificationData,
     modifier: Modifier = Modifier,
     showWebView: () -> Unit = {},
-    acquireExpectCert: () -> Unit = {},
+    showRegisterTestInfoBottomSheet: () -> Unit = {},
     acquiredCert: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(DetailTabType.Info) }
@@ -163,7 +187,7 @@ fun CertDetailScreen(
                         showWebView()
                     },
                     acquireExpectCert = {
-                        acquireExpectCert()
+                        showRegisterTestInfoBottomSheet()
                     },
                     acquiredCert = {
                         acquiredCert()

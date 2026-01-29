@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -49,6 +50,7 @@ import org.sopt.certi.core.component.timepicker.CustomTimePicker
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.region.RegionJsonParser
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -63,21 +65,41 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
-    onConfirm: () -> Unit,
+    onConfirm: (city: String, state: String, timeDate: String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    place1List: List<String> = emptyList(),
-    place2List: List<String> = emptyList(),
     certificationData: CertificationData? = null
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
 
+    val context = LocalContext.current
+    val cityList = remember { RegionJsonParser.getCities(context) }
+
     // Data
     var dateText by remember { mutableStateOf("") }
-    var placeTextP1 by remember { mutableStateOf("") }
-    var placeTextP2 by remember { mutableStateOf("") }
+    var cityText by remember { mutableStateOf("") }
+    var districtText by remember { mutableStateOf("") }
     var timeData by remember { mutableStateOf(Pair(-1, -1)) }
+
+    // District list based on selected city
+    var districtList by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    // Update district list when city is selected
+    LaunchedEffect(cityText) {
+        districtList = if (cityText.isNotEmpty()) {
+            RegionJsonParser.getDistricts(context, cityText)
+        } else {
+            emptyList()
+        }
+        // Reset district selection when city changes
+        if (districtText.isNotEmpty() && cityText.isNotEmpty()) {
+            val isValidDistrict = districtList.contains(districtText)
+            if (!isValidDistrict) {
+                districtText = ""
+            }
+        }
+    }
 
     // Date
     var showCalendar by remember { mutableStateOf(false) }
@@ -90,10 +112,10 @@ fun RegisterTestInfoBottomSheet(
 
     var buttonEnable by remember { mutableStateOf(false) }
 
-    LaunchedEffect(dateText, placeTextP1, placeTextP2, timeData) {
+    LaunchedEffect(dateText, cityText, districtText, timeData) {
         buttonEnable = dateText.isNotEmpty() &&
-            placeTextP1.isNotEmpty() &&
-            placeTextP2.isNotEmpty() &&
+            cityText.isNotEmpty() &&
+            districtText.isNotEmpty() &&
             timeData.first != -1 &&
             timeData.second != -1
     }
@@ -103,8 +125,8 @@ fun RegisterTestInfoBottomSheet(
             // TODO data 형식에 맞게 여기서 삽입
 
             dateText = certificationData.testDate
-            placeTextP1 = certificationData.city
-            placeTextP2 = certificationData.state
+            cityText = certificationData.city
+            districtText = certificationData.state
 //            timeData = certificationData.testTime
         }
     }
@@ -210,7 +232,7 @@ fun RegisterTestInfoBottomSheet(
                     DatePickerCalendar(
                         selectedDate = dateText.toLocalDateOrNull(),
                         onDateSelected = { date ->
-                            dateText = date.toString().replace("-", ".")
+                            dateText = date.toString()
                             showCalendar = false
                         },
                         modifier = Modifier
@@ -270,9 +292,9 @@ fun RegisterTestInfoBottomSheet(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = placeTextP1.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p1_hint) },
+                                text = cityText.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p1_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if (placeTextP1.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (cityText.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -295,16 +317,16 @@ fun RegisterTestInfoBottomSheet(
                                 .clip(RoundedCornerShape(4.dp))
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    if (placeTextP1.isNotEmpty()) {
+                                    if (cityText.isNotEmpty()) {
                                         showPlaceP2List = true
                                     }
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = placeTextP2.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p2_hint) },
+                                text = districtText.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p2_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if (placeTextP2.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (districtText.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -336,13 +358,13 @@ fun RegisterTestInfoBottomSheet(
                                         )
                                         .background(CertiTheme.colors.white)
                                 ) {
-                                    itemsIndexed(place1List) { index, placeName ->
+                                    itemsIndexed(cityList) { index, placeName ->
                                         PlaceItem(
                                             placeName = placeName,
                                             index = index,
-                                            listSize = place1List.size
+                                            listSize = cityList.size
                                         ) {
-                                            placeTextP1 = placeName
+                                            cityText = placeName
                                             showPlaceP1List = false
                                         }
                                     }
@@ -364,13 +386,13 @@ fun RegisterTestInfoBottomSheet(
                                         )
                                         .background(CertiTheme.colors.white)
                                 ) {
-                                    itemsIndexed(place2List) { index, placeName ->
+                                    itemsIndexed(districtList) { index, placeName ->
                                         PlaceItem(
                                             placeName = placeName,
                                             index = index,
-                                            listSize = place2List.size
+                                            listSize = districtList.size
                                         ) {
-                                            placeTextP2 = placeName
+                                            districtText = placeName
                                             showPlaceP2List = false
                                         }
                                     }
@@ -440,7 +462,13 @@ fun RegisterTestInfoBottomSheet(
                                 enabled = buttonEnable,
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) onConfirm()
+                                        if (!sheetState.isVisible) {
+                                            onConfirm(
+                                                cityText,
+                                                districtText,
+                                                "${dateText}T${timeData.first}:${timeData.second}:00.000Z"
+                                            )
+                                        }
                                     }
                                 },
                                 modifier = Modifier
@@ -499,18 +527,12 @@ fun RegisterTestInfoBottomSheetPreview() {
         skipPartiallyExpanded = true
     )
 
-    // FIXME Sample 서버데이터
-    val place1List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
-    val place2List = listOf("서울", "경기", "부산", "인천", "충남", "충북", "강원", "경북")
-
     RegisterTestInfoBottomSheet(
         sheetState = sheetState,
         certTitle = "자격증 이름",
-        place1List = place1List,
-        place2List = place2List,
         forModify = false,
         certificationData = null,
         onDismiss = {},
-        onConfirm = {}
+        onConfirm = {_, _, _ ->}
     )
 }

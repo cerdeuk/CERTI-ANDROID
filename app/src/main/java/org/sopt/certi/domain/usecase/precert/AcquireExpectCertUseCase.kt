@@ -6,7 +6,12 @@ import javax.inject.Inject
 class AcquireExpectCertUseCase @Inject constructor(
     private val preCertRepository: PreCertRepository
 ) {
-    suspend operator fun invoke(certificationId: Long): Result<Boolean> {
-        return preCertRepository.acquireExpectCert(certificationId)
+    suspend operator fun invoke(
+        certificationId: Long,
+        city: String,
+        state: String,
+        testDate: String
+    ): Result<Boolean> {
+        return preCertRepository.acquireExpectCert(certificationId, city, state, testDate)
     }
 }

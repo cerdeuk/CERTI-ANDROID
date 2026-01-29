@@ -1,5 +1,6 @@
 package org.sopt.certi.core.component.timepicker
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -147,7 +148,18 @@ fun TimePickerColumn(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
     val coroutineScope = rememberCoroutineScope()
 
-    // 스크롤이 멈췄을 때 중앙 아이템 감지
+    // 현재 중앙에 있는 아이템 인덱스를 실시간으로 추적
+    var currentCenterIndex by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
+    // 스크롤 중에도 중앙 아이템 인덱스 업데이트
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { index ->
+                currentCenterIndex = index
+            }
+    }
+
+    // 스크롤이 멈췄을 때 선택 확정
     LaunchedEffect(listState) {
         snapshotFlow { listState.isScrollInProgress }
             .filter { !it } // 스크롤이 멈췄을 때
@@ -210,7 +222,11 @@ fun TimePickerColumn(
 
             items(items.size) { index ->
                 val item = items[index]
-                val isSelected = item == selectedItem
+                val isSelected = index == currentCenterIndex
+
+                if(items.size == 12) {
+                    Log.d("Logd", currentCenterIndex.toString())
+                }
 
                 Text(
                     text = item,
@@ -243,7 +259,18 @@ fun TimePeriodPickerColumn(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
     val coroutineScope = rememberCoroutineScope()
 
-    // 스크롤이 멈췄을 때 중앙 아이템 감지
+    // 현재 중앙에 있는 아이템 인덱스를 실시간으로 추적
+    var currentCenterIndex by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
+    // 스크롤 중에도 중앙 아이템 인덱스 업데이트
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { index ->
+                currentCenterIndex = index
+            }
+    }
+
+    // 스크롤이 멈췄을 때 선택 확정
     LaunchedEffect(listState) {
         snapshotFlow { listState.isScrollInProgress }
             .filter { !it } // 스크롤이 멈췄을 때
@@ -305,7 +332,7 @@ fun TimePeriodPickerColumn(
 
             items(items.size) { index ->
                 val item = items[index]
-                val isSelected = item == selectedItem
+                val isSelected = index == currentCenterIndex
                 val itemTitle = when (item) {
                     TimePeriodType.AM -> stringResource(R.string.test_info_bottomsheet_time_morning)
                     TimePeriodType.PM -> stringResource(R.string.test_info_bottomsheet_time_afternoon)
