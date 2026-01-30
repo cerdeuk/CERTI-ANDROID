@@ -237,6 +237,7 @@
     <string name="edit_acquired_bottomsheet_score">취득 점수 (선택)</string>
     <string name="edit_acquired_bottomsheet_score_placerholder">점수 입력</string>
     <string name="my_certification_empty_text">아직 등록된 자격증이 없어요</string>
+    <string name="acquired_grade_empty_text">취득 점수 -</string>
 
     <!--  SettingScreen  -->
     <string name="setting_other">기타설정</string>

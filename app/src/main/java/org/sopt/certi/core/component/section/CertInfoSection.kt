@@ -20,7 +20,8 @@ fun CertInfoSection(
     @DrawableRes iconRes: Int,
     testInfo: String,
     modifier: Modifier = Modifier,
-    iconColor: Color = CertiTheme.colors.gray300
+    iconColor: Color = CertiTheme.colors.gray300,
+    textColor: Color = CertiTheme.colors.black
 ) {
     Row(
         modifier = modifier,
@@ -35,7 +36,7 @@ fun CertInfoSection(
         Text(
             text = testInfo,
             style = CertiTheme.typography.caption.regular_14,
-            color = CertiTheme.colors.black
+            color = textColor
         )
     }
 }

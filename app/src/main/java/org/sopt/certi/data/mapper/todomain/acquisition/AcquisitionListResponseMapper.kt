@@ -1,6 +1,5 @@
 package org.sopt.certi.data.mapper.todomain.acquisition
 
-import org.sopt.certi.core.util.toLocalDateOrMin
 import org.sopt.certi.data.remote.dto.response.GetAcquisitionListResponseDto
 import org.sopt.certi.domain.model.certification.CertificationData
 
@@ -8,11 +7,15 @@ fun GetAcquisitionListResponseDto.toDomain(): List<CertificationData> {
     return acquisitionListDetailResponses.map {
         CertificationData(
             certificationId = it.acquisitionId,
+            certificationType = it.certificationType,
             index = it.index,
             certificationName = it.name,
-            createdAt = it.createdAt.toLocalDateOrMin(),
+            description = it.description,
             cardFrontImageUrl = it.cardFrontImageUrl,
-            tags = it.tags
+            tags = it.tags,
+            acquisitionDate = it.acquisitionDate,
+            grade = it.grade ?: "",
+            isAcquired = true
         )
     }
 }

@@ -32,3 +32,13 @@ fun String.toDateData(): DateData {
         day = parts[2].toInt()
     )
 }
+
+fun String.toDateFormat(): String {
+    return try {
+        val date = LocalDate.parse(this)
+        val formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd")
+        date.format(formatter)
+    } catch (e: Exception) {
+        this
+    }
+}
