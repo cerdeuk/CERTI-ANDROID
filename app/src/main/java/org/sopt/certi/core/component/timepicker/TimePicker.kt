@@ -61,7 +61,7 @@ fun CustomTimePicker(
     ) {
         // 오전/오후 Picker
         TimePeriodPickerColumn(
-            items = listOf(TimePeriodType.AM, TimePeriodType.PM, TimePeriodType.NONE),
+            items = listOf(TimePeriodType.AM, TimePeriodType.PM),
             selectedItem = selectedPeriod,
             onItemSelected = {
                 selectedPeriod = it
@@ -81,7 +81,7 @@ fun CustomTimePicker(
 
         // 시간 Picker
         TimePickerColumn(
-            items = (1..13).map {
+            items = (1..12).map {
                 if (it.toString().length == 1) {
                     "0$it"
                 } else {
@@ -113,7 +113,7 @@ fun CustomTimePicker(
 
         // 분 Picker
         TimePickerColumn(
-            items = (1..61).map {
+            items = (1..60).map {
                 if (it.toString().length == 1) {
                     "0$it"
                 } else {
@@ -167,13 +167,6 @@ fun TimePickerColumn(
             .filter { !it } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
-
-                if(centerIndex == items.size - 2) {
-                    coroutineScope.launch {
-                        listState.scrollToItem(items.size - 2)
-                    }
-                }
-
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }
@@ -291,13 +284,6 @@ fun TimePeriodPickerColumn(
             .filter { !it } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
-
-                if(centerIndex == items.size - 2) {
-                    coroutineScope.launch {
-                        listState.scrollToItem(items.size - 2)
-                    }
-                }
-
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }

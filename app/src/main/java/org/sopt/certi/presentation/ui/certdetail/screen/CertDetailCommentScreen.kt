@@ -1,15 +1,27 @@
 package org.sopt.certi.presentation.ui.certdetail.screen
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +41,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -125,6 +139,7 @@ fun CertDetailCommentRoute() {
     CertDetailCommentScreen(commentData = dummyCommentData, myUserId = 0)
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CertDetailCommentScreen(
     commentData: CommentData,
@@ -137,6 +152,18 @@ fun CertDetailCommentScreen(
     var commentSortType by remember { mutableStateOf(CommentArrayButtonType.Famous) }
 
     var commentText by remember { mutableStateOf("") }
+
+    val imeVisible = if (LocalInspectionMode.current) false else WindowInsets.isImeVisible
+    val navigationBarHeight = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val keyboardHeight = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+
+    val textFieldOffset by animateDpAsState(
+        targetValue = if (imeVisible) {
+            keyboardHeight - navigationBarHeight
+        }
+        else 0.dp,
+        label = "BottomPadding",
+    )
 
     Column(
         modifier = Modifier
@@ -205,6 +232,7 @@ fun CertDetailCommentScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .offset(y = -textFieldOffset)
                 .drawBehind {
                     // 위쪽 그림자만 그리기
                     val shadowHeight = 4.dp.toPx()
@@ -223,6 +251,7 @@ fun CertDetailCommentScreen(
                         size = Size(size.width, shadowHeight)
                     )
                 }
+                .background(CertiTheme.colors.white)
                 .padding(vertical = screenHeightDp(20.dp), horizontal = screenWidthDp(20.dp))
         ) {
             Row(

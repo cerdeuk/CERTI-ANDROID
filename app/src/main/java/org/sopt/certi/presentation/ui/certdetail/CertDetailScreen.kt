@@ -144,9 +144,11 @@ fun CertDetailRoute(
                     certTitle = certData.certificationName,
                     onConfirm = { city, state, timeDate ->
                         viewModel.acquireExpectCert(certId, city, state, timeDate)
+                        showRegisterTestInfoBottomSheet = false
                     },
                     onConfirmWithNoData = {
                         viewModel.acquireExpectCert(certId)
+                        showRegisterTestInfoBottomSheet = false
                     },
                     onDismiss = {
                         showRegisterTestInfoBottomSheet = false
@@ -172,8 +174,6 @@ fun CertDetailScreen(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .navigationBarsPadding()
-            .imePadding()
     ) {
         CertDetailTab(
             modifier = Modifier.padding(horizontal = screenWidthDp(20.dp)),
