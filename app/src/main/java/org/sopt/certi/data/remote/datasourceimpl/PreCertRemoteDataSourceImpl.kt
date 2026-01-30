@@ -11,9 +11,9 @@ class PreCertRemoteDataSourceImpl @Inject constructor(
 ) : PreCertRemoteDataSource {
     override suspend fun acquireExpectCert(
         certificationId: Long,
-        city: String,
-        state: String,
-        testDate: String
+        city: String?,
+        state: String?,
+        testDate: String?
     ): NullableApiResponse<Boolean> =
         preCertService.acquireExpectCert(
             AddPreCertificationRequestDto(certificationId, city, state, testDate)

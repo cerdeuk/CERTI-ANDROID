@@ -11,9 +11,9 @@ class PreCertRepositoryImpl @Inject constructor(
 ) : PreCertRepository {
     override suspend fun acquireExpectCert(
         certificationId: Long,
-        city: String,
-        state: String,
-        testDate: String
+        city: String?,
+        state: String?,
+        testDate: String?
     ): Result<Boolean> = safeApiCall {
         preCertRemoteDataSource.acquireExpectCert(
             certificationId,

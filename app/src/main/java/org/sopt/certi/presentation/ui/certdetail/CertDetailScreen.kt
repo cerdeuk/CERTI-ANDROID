@@ -145,6 +145,9 @@ fun CertDetailRoute(
                     onConfirm = { city, state, timeDate ->
                         viewModel.acquireExpectCert(certId, city, state, timeDate)
                     },
+                    onConfirmWithNoData = {
+                        viewModel.acquireExpectCert(certId)
+                    },
                     onDismiss = {
                         showRegisterTestInfoBottomSheet = false
                     }

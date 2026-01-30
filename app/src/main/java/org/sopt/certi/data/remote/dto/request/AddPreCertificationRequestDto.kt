@@ -8,9 +8,9 @@ data class AddPreCertificationRequestDto(
     @SerialName("certificationId")
     val certificationId: Long,
     @SerialName("city")
-    val city: String,
+    val city: String?,
     @SerialName("state")
-    val state: String,
+    val state: String?,
     @SerialName("testDate")
-    val testDate: String,
+    val testDate: String?,
 )

@@ -60,7 +60,7 @@ class CertDetailViewModel @Inject constructor(
         )
     }
 
-    fun acquireExpectCert(certId: Long, city: String, state: String, timeDate: String) = viewModelScope.launch {
+    fun acquireExpectCert(certId: Long, city: String? = null, state: String? = null, timeDate: String? = null) = viewModelScope.launch {
         acquireExpectCertUseCase.invoke(certId, city, state, timeDate).fold(
             onSuccess = {
                 if (it) {

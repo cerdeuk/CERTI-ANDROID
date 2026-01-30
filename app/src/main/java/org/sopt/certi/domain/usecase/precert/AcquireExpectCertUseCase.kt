@@ -8,9 +8,9 @@ class AcquireExpectCertUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         certificationId: Long,
-        city: String,
-        state: String,
-        testDate: String
+        city: String? = null,
+        state: String? = null,
+        testDate: String? = null
     ): Result<Boolean> {
         return preCertRepository.acquireExpectCert(certificationId, city, state, testDate)
     }

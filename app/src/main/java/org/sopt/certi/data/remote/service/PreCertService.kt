@@ -7,6 +7,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PreCertService {
-    @POST("api/v1/home/pre-certification/")
+    @POST("api/v1/home/pre-certification")
     suspend fun acquireExpectCert(@Body request: AddPreCertificationRequestDto): NullableApiResponse<Boolean>
 }

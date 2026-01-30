@@ -1,7 +1,9 @@
 package org.sopt.certi.core.component.bottomsheet
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -47,6 +50,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.button.CertiBasicButton
 import org.sopt.certi.core.component.calendar.DatePickerCalendar
 import org.sopt.certi.core.component.timepicker.CustomTimePicker
+import org.sopt.certi.core.util.dateString
 import org.sopt.certi.core.util.dropShadow
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -66,6 +70,7 @@ fun RegisterTestInfoBottomSheet(
     forModify: Boolean,
     certTitle: String,
     onConfirm: (city: String, state: String, timeDate: String) -> Unit,
+    onConfirmWithNoData: () -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     certificationData: CertificationData? = null
@@ -151,6 +156,13 @@ fun RegisterTestInfoBottomSheet(
         Column(
             modifier = Modifier
                 .wrapContentHeight()
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures(
+                        onDragEnd = {},
+                        onDragCancel = {},
+                        onVerticalDrag = { _, _ -> /* 아무것도 안 함 */ }
+                    )
+                }
                 .fillMaxWidth()
         ) {
             Spacer(Modifier.heightForScreenPercentage(35.dp))
@@ -232,7 +244,7 @@ fun RegisterTestInfoBottomSheet(
                     DatePickerCalendar(
                         selectedDate = dateText.toLocalDateOrNull(),
                         onDateSelected = { date ->
-                            dateText = date.toString()
+                            dateText = date.toString().replace("-", ".")
                             showCalendar = false
                         },
                         modifier = Modifier
@@ -425,6 +437,7 @@ fun RegisterTestInfoBottomSheet(
                             Spacer(Modifier.heightForScreenPercentage(12.dp))
 
                             CustomTimePicker { hour, minute ->
+                                Log.d("Logd", "Selected time: $hour:$minute")
                                 timeData = Pair(hour, minute)
                             }
 
@@ -440,7 +453,7 @@ fun RegisterTestInfoBottomSheet(
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
                                         .noRippleClickable {
-                                            onDismiss()
+                                            onConfirmWithNoData()
                                         }
                                 )
 
@@ -466,7 +479,7 @@ fun RegisterTestInfoBottomSheet(
                                             onConfirm(
                                                 cityText,
                                                 districtText,
-                                                "${dateText}T${timeData.first}:${timeData.second}:00.000Z"
+                                                "$dateText ${timeData.first.dateString()}:${timeData.second.dateString()}:00"
                                             )
                                         }
                                     }
@@ -533,6 +546,7 @@ fun RegisterTestInfoBottomSheetPreview() {
         forModify = false,
         certificationData = null,
         onDismiss = {},
-        onConfirm = {_, _, _ ->}
+        onConfirm = {_, _, _ ->},
+        onConfirmWithNoData = {}
     )
 }

@@ -26,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +40,7 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
 enum class TimePeriodType() {
-    AM, PM
+    AM, PM, NONE
 }
 
 @Composable
@@ -59,7 +61,7 @@ fun CustomTimePicker(
     ) {
         // 오전/오후 Picker
         TimePeriodPickerColumn(
-            items = listOf(TimePeriodType.AM, TimePeriodType.PM),
+            items = listOf(TimePeriodType.AM, TimePeriodType.PM, TimePeriodType.NONE),
             selectedItem = selectedPeriod,
             onItemSelected = {
                 selectedPeriod = it
@@ -79,7 +81,7 @@ fun CustomTimePicker(
 
         // 시간 Picker
         TimePickerColumn(
-            items = (1..12).map {
+            items = (1..13).map {
                 if (it.toString().length == 1) {
                     "0$it"
                 } else {
@@ -111,7 +113,7 @@ fun CustomTimePicker(
 
         // 분 Picker
         TimePickerColumn(
-            items = (1..60).map {
+            items = (1..61).map {
                 if (it.toString().length == 1) {
                     "0$it"
                 } else {
@@ -165,6 +167,13 @@ fun TimePickerColumn(
             .filter { !it } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
+
+                if(centerIndex == items.size - 2) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(items.size - 2)
+                    }
+                }
+
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }
@@ -223,9 +232,14 @@ fun TimePickerColumn(
             items(items.size) { index ->
                 val item = items[index]
                 val isSelected = index == currentCenterIndex
-
-                if(items.size == 12) {
-                    Log.d("Logd", currentCenterIndex.toString())
+                val isVisible = when(items.size) {
+                    13 -> {
+                        item != "13"
+                    }
+                    61 -> {
+                        item != "61"
+                    }
+                    else -> true
                 }
 
                 Text(
@@ -235,6 +249,7 @@ fun TimePickerColumn(
                     modifier = Modifier
                         .heightForScreenPercentage(40.dp)
                         .wrapContentHeight()
+                        .alpha(if(isVisible) 1f else 0f)
                 )
             }
 
@@ -276,6 +291,13 @@ fun TimePeriodPickerColumn(
             .filter { !it } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
+
+                if(centerIndex == items.size - 2) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(items.size - 2)
+                    }
+                }
+
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }
@@ -336,6 +358,7 @@ fun TimePeriodPickerColumn(
                 val itemTitle = when (item) {
                     TimePeriodType.AM -> stringResource(R.string.test_info_bottomsheet_time_morning)
                     TimePeriodType.PM -> stringResource(R.string.test_info_bottomsheet_time_afternoon)
+                    TimePeriodType.NONE -> ""
                 }
 
                 Text(
@@ -369,9 +392,7 @@ fun TimePickerPreview() {
         CustomTimePicker(
             initialHour = 12,
             initialMinute = 0,
-            onTimeSelected = { hour, minute ->
-                println("Selected time: $hour:$minute")
-            }
+            onTimeSelected = { hour, minute -> }
         )
     }
 }
