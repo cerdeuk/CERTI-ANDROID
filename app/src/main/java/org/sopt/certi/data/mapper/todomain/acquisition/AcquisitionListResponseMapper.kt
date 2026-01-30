@@ -6,7 +6,8 @@ import org.sopt.certi.domain.model.certification.CertificationData
 fun GetAcquisitionListResponseDto.toDomain(): List<CertificationData> {
     return acquisitionListDetailResponses.map {
         CertificationData(
-            certificationId = it.acquisitionId,
+            acquisitionId = it.acquisitionId,
+            certificationId = it.certificationId,
             certificationType = it.certificationType,
             index = it.index,
             certificationName = it.name,

@@ -13,6 +13,8 @@ data class GetAcquisitionListResponseDto(
 data class AcquisitionResponseDto(
     @SerialName("acquisitionId")
     val acquisitionId: Long,
+    @SerialName("certificationId")
+    val certificationId: Long,
     @SerialName("certificationType")
     val certificationType: String,
     @SerialName("index")
