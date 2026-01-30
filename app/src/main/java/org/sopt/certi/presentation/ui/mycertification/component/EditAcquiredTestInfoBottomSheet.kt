@@ -41,6 +41,7 @@ import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.toLocalDateOrNull
+import org.sopt.certi.core.util.toLocalizedDate
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -51,7 +52,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun EditAcquiredTextInfoBottomSheet(
     sheetState: SheetState,
     certificationData: CertificationData,
-    onConfirm: () -> Unit,
+    onConfirm: (String, String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -118,7 +119,7 @@ fun EditAcquiredTextInfoBottomSheet(
             }
             Spacer(modifier = Modifier.heightForScreenPercentage(12.dp))
             DropdownTextField(
-                value = dateText,
+                value = dateText.toLocalizedDate(),
                 placeholder = stringResource(R.string.edit_acquired_bottomsheet_date_placeholder),
                 onClick = { showCalendar = !showCalendar },
                 modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
@@ -195,7 +196,7 @@ fun EditAcquiredTextInfoBottomSheet(
                 enabled = dateText.isNotEmpty(),
                 onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) onConfirm()
+                        if (!sheetState.isVisible) onConfirm(dateText, scoreText)
                     }
                 },
                 modifier = Modifier
@@ -223,7 +224,7 @@ private fun EditAcquiredTextInfoBottomSheetPreview() {
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격)"
             ),
-            onConfirm = {},
+            onConfirm = { _, _ -> },
             onDismiss = {}
         )
     }

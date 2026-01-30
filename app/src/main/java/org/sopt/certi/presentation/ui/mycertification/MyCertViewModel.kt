@@ -11,6 +11,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
+import org.sopt.certi.domain.usecase.acquisition.UpdateAcquisitionUseCase
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import timber.log.Timber
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class MyCertViewModel @Inject constructor(
     private val preCertUseCase: PreCertUseCase,
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
-    private val favoriteUseCase: FavoriteUseCase
+    private val favoriteUseCase: FavoriteUseCase,
+    private val updateAcquisitionUseCase: UpdateAcquisitionUseCase
 ) : ViewModel() {
     private val _myCertUiState = MutableStateFlow(MyCertUiState())
     val myCertUiState = _myCertUiState.asStateFlow()
@@ -98,13 +100,24 @@ class MyCertViewModel @Inject constructor(
         val currentList = (currentState.currentListState as? UiState.Success)?.data ?: emptyList()
         val targetData = currentList.find { it.certificationId == id }
 
+        Timber.d("Edit Certification: $targetData")
+
         _myCertUiState.update {
             it.copy(editTargetCertification = targetData)
         }
     }
 
-    fun editItem() {
-        closeEditSheet()
+    fun editAcquisitionCertification(acquisitionDate: String, grade: String) = viewModelScope.launch {
+        _myCertUiState.value.editTargetCertification?.acquisitionId?.let { acquisitionId ->
+            updateAcquisitionUseCase(acquisitionId, acquisitionDate, grade)
+                .onSuccess {
+                    getAcquiredCertificationList()
+                    closeEditSheet()
+                }
+                .onFailure { error ->
+                    Timber.e(error, "자격증 수정 실패")
+                }
+        }
     }
 
     fun closeEditSheet() {

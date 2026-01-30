@@ -2,6 +2,7 @@ package org.sopt.certi.data.repositoryimpl
 
 import org.sopt.certi.data.mapper.todomain.acquisition.toDomain
 import org.sopt.certi.data.remote.datasource.AcquisitionRemoteDataSource
+import org.sopt.certi.data.remote.dto.request.UpdateAcquisitionRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
@@ -34,6 +35,18 @@ class AcquisitionRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAcquisition(acquisitionId: Long): Result<Unit> = safeApiCall {
         acquisitionRemoteDataSource.deleteAcquisition(acquisitionId)
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
+    override suspend fun updateAcquisition(acquisitionId: Long, acquisitionDate: String, grade: String): Result<Unit> = safeApiCall {
+        acquisitionRemoteDataSource.updateAcquisition(
+            acquisitionId = acquisitionId,
+            request = UpdateAcquisitionRequestDto(
+                acquisitionDate = acquisitionDate,
+                grade = if (grade.isBlank()) null else grade
+            )
+        )
             .handleNullableApiResponse()
             .getOrThrow()
     }

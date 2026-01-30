@@ -71,7 +71,7 @@ fun MyCertRoute(
             EditAcquiredTextInfoBottomSheet(
                 sheetState = sheetState,
                 certificationData = data,
-                onConfirm = viewModel::editItem,
+                onConfirm = viewModel::editAcquisitionCertification,
                 onDismiss = viewModel::closeEditSheet
             )
         } else {
@@ -81,7 +81,7 @@ fun MyCertRoute(
                 place1List = emptyList(),
                 place2List = emptyList(),
                 forModify = true,
-                onConfirm = viewModel::editItem,
+                onConfirm = {},
                 onDismiss = viewModel::closeEditSheet,
                 certificationData = data
             )
