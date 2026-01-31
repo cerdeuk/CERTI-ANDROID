@@ -7,16 +7,27 @@ import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertMonthDayItem
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.certification.PreCertDayData
+import java.time.LocalDateTime
 
 fun PreCertListResponseDto.toDomain(): List<CertificationData> =
     data.map { cert ->
+        val parsedDate = LocalDateTime.parse(cert.testDate)
+        val date = parsedDate.toLocalDate().toString()
+        val time = parsedDate.toLocalTime().toString()
         CertificationData(
             certificationId = cert.certificationId,
             certificationName = cert.certificationName,
+            certificationType = cert.certificationType,
+            description = cert.description,
             averagePeriod = cert.averagePeriod,
             nearestTestDate = cert.nearestTestDate,
             agencyName = cert.agencyName,
-            iconIndex = cert.iconIndex
+            iconIndex = cert.iconIndex,
+            city = cert.city,
+            state = cert.state,
+            testDate = date,
+            testTime = time,
+            isAcquired = false
         )
     }
 

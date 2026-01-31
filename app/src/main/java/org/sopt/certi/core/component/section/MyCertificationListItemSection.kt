@@ -31,6 +31,7 @@ import org.sopt.certi.core.util.toDateFormat
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MyCertificationListItemSection(
@@ -114,7 +115,7 @@ fun MyCertificationListItemSection(
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_time,
-                    testInfo = certificationData.testTime
+                    testInfo = certificationData.testTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                 )
             }
         }

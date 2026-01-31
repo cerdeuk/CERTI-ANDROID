@@ -164,7 +164,6 @@ fun CertificationScreen(
                     }
                 }
             }
-
             else -> {}
         }
     }
