@@ -21,12 +21,12 @@ data class GetCertInfoResponseDto(
     val testType: String,
     @SerialName("description")
     val description: String,
-    @SerialName("testDateInformation")
-    val testDateInformation: String,
     @SerialName("applicationMethod")
     val applicationMethod: String,
     @SerialName("applicationUrl")
     val applicationUrl: String,
     @SerialName("expirationPeriod")
-    val expirationPeriod: String
+    val expirationPeriod: String,
+    @SerialName("testDateInformation")
+    val testDateInformation: String
 )

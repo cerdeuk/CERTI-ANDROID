@@ -15,6 +15,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.certi.BuildConfig
 import org.sopt.certi.core.network.TokenManager
 import retrofit2.Retrofit
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -96,4 +97,29 @@ object NetworkModule {
                 json.asConverterFactory(requireNotNull("application/json".toMediaTypeOrNull()))
             )
             .build()
+
+    @Provides
+    @Singleton
+    @Named("S3Client") // 이름표 붙임
+    fun providesS3OkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient =
+        OkHttpClient.Builder().apply {
+            connectTimeout(20, TimeUnit.SECONDS)
+            writeTimeout(20, TimeUnit.SECONDS)
+            readTimeout(20, TimeUnit.SECONDS)
+            addInterceptor(loggingInterceptor)
+        }.build()
+
+    @Provides
+    @Singleton
+    @Named("S3Retrofit")
+    fun provideS3Retrofit(
+        @Named("S3Client") okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .build()
+    }
 }

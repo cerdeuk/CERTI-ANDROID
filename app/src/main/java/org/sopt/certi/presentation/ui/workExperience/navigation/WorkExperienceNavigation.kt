@@ -9,10 +9,15 @@ import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.ResumeRoute
 import org.sopt.certi.presentation.ui.resume.navigation.navigateToResume
 import org.sopt.certi.presentation.ui.workExperience.ResumeAddWorkExperienceRoute
+import org.sopt.certi.presentation.ui.workExperience.ResumeEditWorkExperienceRoute
 import org.sopt.certi.presentation.ui.workExperience.ResumeWorkExperienceRoute
 
 fun NavController.navigateToAddWorkExperience() {
     navigate(ResumeRoute.AddWorkExperience)
+}
+
+fun NavController.navigateToEditWorkExperience(activityId: Long) {
+    navigate(ResumeRoute.EditWorkExperience(activityId))
 }
 
 fun NavGraphBuilder.workExperienceNavGraph(
@@ -22,7 +27,8 @@ fun NavGraphBuilder.workExperienceNavGraph(
     composable<ResumeRoute.WorkExperience> {
         ResumeWorkExperienceRoute(
             padding = padding,
-            onNavigateToAddWordExperience = navController::navigateToAddWorkExperience
+            onNavigateToAddWordExperience = navController::navigateToAddWorkExperience,
+            onNavigateToEditWorkExperience = navController::navigateToEditWorkExperience
         )
     }
 
@@ -34,6 +40,17 @@ fun NavGraphBuilder.workExperienceNavGraph(
                     navOptions {
                         popUpTo(MainTabRoute.Resume) { inclusive = true }
                     }
+                )
+            }
+        )
+    }
+
+    composable<ResumeRoute.EditWorkExperience> {
+        ResumeEditWorkExperienceRoute(
+            padding = padding,
+            onNavigateToResume = {
+                navController.navigateToResume(
+                    navOptions { popUpTo(MainTabRoute.Resume) { inclusive = true } }
                 )
             }
         )

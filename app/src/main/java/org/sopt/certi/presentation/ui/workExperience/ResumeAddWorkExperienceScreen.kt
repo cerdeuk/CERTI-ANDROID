@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +24,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.presentation.ui.resume.component.ResumeDateInputSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeTextInputSection
 import org.sopt.certi.presentation.ui.workExperience.state.AddWorkExperienceUiState
+import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -43,12 +45,44 @@ fun ResumeAddWorkExperienceRoute(
 
     ResumeAddWorkExperienceScreen(
         uiState = uiState,
-        onStartDateValueChange = { viewModel.onStartDateChanged(it) },
-        onEndDateValueChange = { viewModel.onEndDateChanged(it) },
-        onOrganizationValueChange = { viewModel.onOrganizationChanged(it) },
-        onRoleValueChange = { viewModel.onRoleChanged(it) },
-        onDescriptionValueChange = { viewModel.onDescriptionChanged(it) },
-        onAddClick = { viewModel.addCareer() },
+        titleResId = R.string.resume_work_experience_add_title,
+        buttonTextResId = R.string.button_add,
+        onStartDateValueChange = viewModel::onStartDateChanged,
+        onEndDateValueChange = viewModel::onEndDateChanged,
+        onOrganizationValueChange = viewModel::onOrganizationChanged,
+        onRoleValueChange = viewModel::onRoleChanged,
+        onDescriptionValueChange = viewModel::onDescriptionChanged,
+        onButtonClick = viewModel::addCareer,
+        modifier = Modifier.padding(padding)
+    )
+}
+
+@Composable
+fun ResumeEditWorkExperienceRoute(
+    padding: PaddingValues,
+    onNavigateToResume: () -> Unit,
+    viewModel: EditWorkExperienceViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val editSuccess by viewModel.editCareerSuccess.collectAsStateWithLifecycle()
+
+    LaunchedEffect(editSuccess) {
+        if (editSuccess) {
+            onNavigateToResume()
+            viewModel.resetEditCareerSuccess()
+        }
+    }
+
+    ResumeAddWorkExperienceScreen(
+        uiState = uiState,
+        titleResId = R.string.resume_work_experience_edit_title,
+        buttonTextResId = R.string.button_edit,
+        onStartDateValueChange = viewModel::onStartDateChanged,
+        onEndDateValueChange = viewModel::onEndDateChanged,
+        onOrganizationValueChange = viewModel::onOrganizationChanged,
+        onRoleValueChange = viewModel::onRoleChanged,
+        onDescriptionValueChange = viewModel::onDescriptionChanged,
+        onButtonClick = viewModel::editCareer,
         modifier = Modifier.padding(padding)
     )
 }
@@ -56,12 +90,14 @@ fun ResumeAddWorkExperienceRoute(
 @Composable
 fun ResumeAddWorkExperienceScreen(
     uiState: AddWorkExperienceUiState,
+    titleResId: Int,
+    buttonTextResId: Int,
     onStartDateValueChange: (String) -> Unit,
     onEndDateValueChange: (String) -> Unit,
     onOrganizationValueChange: (String) -> Unit,
     onRoleValueChange: (String) -> Unit,
     onDescriptionValueChange: (String) -> Unit,
-    onAddClick: () -> Unit,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -73,7 +109,7 @@ fun ResumeAddWorkExperienceScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.resume_work_experience_add_title),
+                    text = stringResource(titleResId),
                     style = CertiTheme.typography.subtitle.semibold_20,
                     color = CertiTheme.colors.gray600,
                     modifier = Modifier.padding(top = screenHeightDp(60.dp), bottom = screenHeightDp(24.dp))
@@ -126,13 +162,38 @@ fun ResumeAddWorkExperienceScreen(
         }
 
         CertiBasicButton(
-            buttonText = stringResource(R.string.button_add),
-            onClick = onAddClick,
+            buttonText = stringResource(buttonTextResId),
+            onClick = onButtonClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = screenHeightDp(24.dp))
                 .padding(horizontal = screenWidthDp(20.dp)),
             enabled = uiState.addButtonEnabled
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewResumeAddWorkExperienceScreen() {
+    CERTITheme {
+        ResumeAddWorkExperienceScreen(
+            uiState = AddWorkExperienceUiState(
+                startDate = "",
+                endDate = "",
+                organizationValue = "",
+                roleValue = "",
+                descriptionValue = "",
+                addButtonEnabled = true
+            ),
+            onStartDateValueChange = {},
+            onEndDateValueChange = {},
+            onOrganizationValueChange = {},
+            onRoleValueChange = {},
+            onDescriptionValueChange = {},
+            onButtonClick = {},
+            titleResId = R.string.resume_work_experience_add_title,
+            buttonTextResId = R.string.button_add
         )
     }
 }

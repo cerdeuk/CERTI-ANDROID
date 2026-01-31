@@ -5,10 +5,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import org.sopt.certi.core.navigation.HomeRoute
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.presentation.ui.certdetail.navigation.navigateToCertDetail
+import org.sopt.certi.presentation.ui.certlist.navigation.navigateToCertList
 import org.sopt.certi.presentation.ui.home.HomeRoute
+import org.sopt.certi.presentation.ui.main.MainTab
 import org.sopt.certi.presentation.ui.precertificationedit.PreCertificationEditRoute
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
@@ -26,7 +29,16 @@ fun NavGraphBuilder.homeNavGraph(
     composable<MainTabRoute.Home> {
         HomeRoute(
             padding = padding,
-            navigateToCertRecommend = {
+            navigateToCertTab = {
+                val navOptions = navOptions {
+                    popUpTo(MainTab.HOME.route) {
+                        inclusive = false
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+
+                navController.navigateToCertList(navOptions)
             },
             navigateToCertDetail = { certId ->
                 navController.navigateToCertDetail(certId = certId)

@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -36,6 +37,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 fun ResumeWorkExperienceRoute(
     padding: PaddingValues,
     onNavigateToAddWordExperience: () -> Unit,
+    onNavigateToEditWorkExperience: (Long) -> Unit,
     viewModel: WorkExperienceViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.workExperienceUiState.collectAsStateWithLifecycle()
@@ -59,6 +61,7 @@ fun ResumeWorkExperienceRoute(
             onNavigateToAddWordExperience = onNavigateToAddWordExperience,
             resumeDataList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             onDeleteClick = { viewModel.onDeleteClick(it) },
+            onItemClick = onNavigateToEditWorkExperience,
             modifier = Modifier.padding(padding)
         )
 
@@ -87,6 +90,7 @@ fun ResumeWorkExperienceScreen(
     onNavigateToAddWordExperience: () -> Unit,
     resumeDataList: ImmutableList<ActivityData>,
     onDeleteClick: (Long) -> Unit,
+    onItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -116,8 +120,29 @@ fun ResumeWorkExperienceScreen(
             ResumeEditListItem(
                 resumeListItem = resumeData,
                 onDeleteClick = onDeleteClick,
+                onClick = onItemClick,
                 modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewResumeWorkExperienceScreen() {
+    ResumeWorkExperienceScreen(
+        onNavigateToAddWordExperience = {},
+        resumeDataList = listOf(
+            ActivityData(
+                activityId = 1,
+                startAt = "2025.01.01",
+                endAt = "2025.07.01",
+                organization = "SOPT",
+                role = "안드로이드 개발",
+                description = "안드로이드 OB"
+            )
+        ).toImmutableList(),
+        onDeleteClick = {},
+        onItemClick = {}
+    )
 }

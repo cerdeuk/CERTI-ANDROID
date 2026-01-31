@@ -1,5 +1,6 @@
 package org.sopt.certi.presentation.ui.mypage.component
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,7 @@ fun MyPageProfile(
     name: String,
     email: String,
     jobList: List<String>,
-    profileImageUrl: String,
+    profileImageUri: Uri?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -33,7 +34,7 @@ fun MyPageProfile(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MyPageProfileImage(
-            imageUrl = profileImageUrl,
+            imageUri = profileImageUri,
             modifier = Modifier.size(screenWidthDp(80.dp))
         )
         Text(
@@ -65,7 +66,7 @@ private fun MyPageProfilePreview() {
             name = "김서티",
             email = "certification@gmail.com",
             jobList = listOf("경영/사무", "무역/유통", "마케팅/광고/홍보"),
-            profileImageUrl = ""
+            profileImageUri = null
         )
     }
 }

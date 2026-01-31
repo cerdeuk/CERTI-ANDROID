@@ -16,6 +16,7 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.ActivityData
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
@@ -26,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResumeViewModel @Inject constructor(
+    private val userInfoUseCase: UserInfoUseCase,
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
     private val getCareerListUseCase: GetCareerListUseCase,
     private val getActivityListUseCase: GetActivityListUseCase,
@@ -75,18 +77,17 @@ class ResumeViewModel @Inject constructor(
         getActivityList()
     }
 
-    private fun getUserInfo() = viewModelScope.launch {
-        _userInfoLoadState.value = UiState.Loading
-        _userInfoLoadState.emit(
-            UiState.Success(
-                UserInfoData(
-                    name = "김서티",
-                    university = "서티대학교",
-                    major = "시각디자인학과",
-                    birthday = "2001. 03. 26 (만 24세)"
-                )
-            )
-        )
+    private fun getUserInfo() {
+        viewModelScope.launch {
+            _userInfoLoadState.value = UiState.Loading
+            userInfoUseCase()
+                .onSuccess { result ->
+                    _userInfoLoadState.value = UiState.Success(result)
+                }
+                .onFailure {
+                    _userInfoLoadState.value = UiState.Failure(it.toString())
+                }
+        }
     }
 
     private fun getAcquiredCertificationList() = viewModelScope.launch {
