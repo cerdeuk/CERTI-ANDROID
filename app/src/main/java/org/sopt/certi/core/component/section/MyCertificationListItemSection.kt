@@ -67,7 +67,7 @@ fun MyCertificationListItemSection(
                 Spacer(Modifier.widthForScreenPercentage(12.dp))
 
                 CertiEditChip(CertiEditChipType.DELETE) {
-                    onDeleteClick(certificationData.certificationId)
+                    certificationData.acquisitionId?.let { onDeleteClick(it) }
                 }
             }
         }

@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
@@ -32,6 +31,7 @@ import org.sopt.certi.core.component.section.CertiEmptySection
 import org.sopt.certi.core.component.topbar.MyPageTopBar
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.getSuccessDataOrNull
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
@@ -137,9 +137,10 @@ fun CertificationScreen(
                 }
             }
             UiState.Empty -> {
-                Spacer(modifier = Modifier.weight(181f))
-                CertiEmptySection(text = stringResource(R.string.my_certification_empty_text))
-                Spacer(modifier = Modifier.weight(272f))
+                CertiEmptySection(
+                    text = stringResource(R.string.my_certification_empty_text),
+                    modifier = Modifier.padding(top = screenHeightDp(181.dp))
+                )
             }
             is UiState.Success -> {
                 when (uiState.selectedTab) {
@@ -150,6 +151,7 @@ fun CertificationScreen(
                             onCertificationClick = onCertificationClick
                         )
                     }
+
                     else -> {
                         CertificationList(
                             isEditMode = uiState.isEditMode,
@@ -162,6 +164,7 @@ fun CertificationScreen(
                     }
                 }
             }
+
             else -> {}
         }
     }

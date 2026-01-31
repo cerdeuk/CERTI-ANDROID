@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
+import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.acquisition.UpdateAcquisitionUseCase
 import org.sopt.certi.presentation.type.MyCertType
@@ -22,7 +23,8 @@ class MyCertViewModel @Inject constructor(
     private val preCertUseCase: PreCertUseCase,
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
     private val favoriteUseCase: FavoriteUseCase,
-    private val updateAcquisitionUseCase: UpdateAcquisitionUseCase
+    private val updateAcquisitionUseCase: UpdateAcquisitionUseCase,
+    private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
 ) : ViewModel() {
     private val _myCertUiState = MutableStateFlow(MyCertUiState())
     val myCertUiState = _myCertUiState.asStateFlow()
@@ -42,6 +44,14 @@ class MyCertViewModel @Inject constructor(
         }
 
         when (tabType) {
+            MyCertType.PLANNED -> getPlannedCertificationList()
+            MyCertType.ACQUIRED -> getAcquiredCertificationList()
+            MyCertType.FAVORITE -> getFavoriteCertificationList()
+        }
+    }
+
+    private fun getCertificationList() {
+        when (_myCertUiState.value.selectedTab) {
             MyCertType.PLANNED -> getPlannedCertificationList()
             MyCertType.ACQUIRED -> getAcquiredCertificationList()
             MyCertType.FAVORITE -> getFavoriteCertificationList()
@@ -132,5 +142,18 @@ class MyCertViewModel @Inject constructor(
         _myCertUiState.update { it.copy(deleteTargetId = null) }
     }
 
-    fun deleteItem() {}
+    fun deleteItem() = viewModelScope.launch {
+        _myCertUiState.value.deleteTargetId?.let { acquisitionId ->
+            deleteAcquisitionUseCase(acquisitionId)
+                .onSuccess {
+                    _myCertUiState.update {
+                        it.copy(deleteTargetId = null)
+                    }
+                    getCertificationList()
+                }
+                .onFailure { error ->
+                    Timber.e(error, "자격증 삭제 실패")
+                }
+        }
+    }
 }
