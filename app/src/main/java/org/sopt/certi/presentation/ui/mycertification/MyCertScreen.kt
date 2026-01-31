@@ -81,7 +81,7 @@ fun MyCertRoute(
                 place1List = emptyList(),
                 place2List = emptyList(),
                 forModify = true,
-                onConfirm = {},
+                onConfirm = viewModel::editPreCertification,
                 onDismiss = viewModel::closeEditSheet,
                 certificationData = data
             )

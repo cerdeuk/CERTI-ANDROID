@@ -12,4 +12,5 @@ interface HomeRepository {
     suspend fun toggleFavorite(certificationId: Long): Result<Unit>
     suspend fun getPreCertMonth(year: Int, month: Int): Result<List<Int>>
     suspend fun getPreCertDay(date: String): Result<PreCertDayData>
+    suspend fun updatePreCertification(certificationId: Long, testDate: String, city: String, state: String): Result<Unit>
 }

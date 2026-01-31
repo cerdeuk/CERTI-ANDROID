@@ -2,6 +2,7 @@ package org.sopt.certi.data.remote.datasource
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.UpdatePreCertificationRequestDto
 import org.sopt.certi.data.remote.dto.response.FavoriteListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertDayListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertMonthResponseDto
@@ -15,4 +16,5 @@ interface HomeRemoteDataSource {
     suspend fun toggleFavorite(certificationId: Long): NullableApiResponse<Unit>
     suspend fun getPreCertMonth(year: Int, month: Int): ApiResponse<GetPreCertMonthResponseDto>
     suspend fun getPreCertDay(date: String): ApiResponse<GetPreCertDayListResponseDto>
+    suspend fun updatePreCertification(certificationId: Long, requestBody: UpdatePreCertificationRequestDto): NullableApiResponse<Unit>
 }

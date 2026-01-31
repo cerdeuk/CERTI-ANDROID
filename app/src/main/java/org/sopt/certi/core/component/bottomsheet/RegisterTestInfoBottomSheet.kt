@@ -63,7 +63,7 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
-    onConfirm: () -> Unit,
+    onConfirm: (String, String, String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     place1List: List<String> = emptyList(),
@@ -440,7 +440,7 @@ fun RegisterTestInfoBottomSheet(
                                 enabled = buttonEnable,
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) onConfirm()
+                                        if (!sheetState.isVisible) onConfirm(dateText, placeTextP1, placeTextP2)
                                     }
                                 },
                                 modifier = Modifier
@@ -511,6 +511,6 @@ fun RegisterTestInfoBottomSheetPreview() {
         forModify = false,
         certificationData = null,
         onDismiss = {},
-        onConfirm = {}
+        onConfirm = { _, _, _ -> }
     )
 }

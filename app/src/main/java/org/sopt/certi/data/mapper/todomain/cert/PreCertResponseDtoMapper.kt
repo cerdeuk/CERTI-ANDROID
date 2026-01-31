@@ -1,5 +1,6 @@
 package org.sopt.certi.data.mapper.todomain.cert
 
+import org.sopt.certi.core.util.splitDateTime
 import org.sopt.certi.data.remote.dto.response.GetPreCertDayListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertMonthResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertDayItemResponseDto
@@ -7,13 +8,10 @@ import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertMonthDayItem
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.certification.PreCertDayData
-import java.time.LocalDateTime
 
 fun PreCertListResponseDto.toDomain(): List<CertificationData> =
     data.map { cert ->
-        val parsedDate = LocalDateTime.parse(cert.testDate)
-        val date = parsedDate.toLocalDate().toString()
-        val time = parsedDate.toLocalTime().toString()
+        val (date, time) = cert.testDate.splitDateTime()
         CertificationData(
             certificationId = cert.certificationId,
             certificationName = cert.certificationName,

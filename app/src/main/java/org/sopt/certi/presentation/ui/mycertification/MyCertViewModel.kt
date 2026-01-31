@@ -13,6 +13,7 @@ import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.acquisition.UpdateAcquisitionUseCase
+import org.sopt.certi.domain.usecase.certification.UpdatePreCertificationUseCase
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
 import timber.log.Timber
@@ -23,6 +24,7 @@ class MyCertViewModel @Inject constructor(
     private val preCertUseCase: PreCertUseCase,
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
     private val favoriteUseCase: FavoriteUseCase,
+    private val updatePreCertificationUseCase: UpdatePreCertificationUseCase,
     private val updateAcquisitionUseCase: UpdateAcquisitionUseCase,
     private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
 ) : ViewModel() {
@@ -117,6 +119,20 @@ class MyCertViewModel @Inject constructor(
         }
     }
 
+    fun editPreCertification(testDate: String, city: String, state: String) = viewModelScope.launch {
+        val editCertificationId = _myCertUiState.value.editTargetCertification?.certificationId
+        editCertificationId?.let {
+            updatePreCertificationUseCase(editCertificationId, testDate, city, state)
+                .onSuccess {
+                    getPlannedCertificationList()
+                    closeEditSheet()
+                }
+                .onFailure { error ->
+                    Timber.e(error, "취득 예정 자격증 수정 실패")
+                }
+        }
+    }
+
     fun editAcquisitionCertification(acquisitionDate: String, grade: String) = viewModelScope.launch {
         _myCertUiState.value.editTargetCertification?.acquisitionId?.let { acquisitionId ->
             updateAcquisitionUseCase(acquisitionId, acquisitionDate, grade)
@@ -125,7 +141,7 @@ class MyCertViewModel @Inject constructor(
                     closeEditSheet()
                 }
                 .onFailure { error ->
-                    Timber.e(error, "자격증 수정 실패")
+                    Timber.e(error, "취득 완료 자격증 수정 실패")
                 }
         }
     }
