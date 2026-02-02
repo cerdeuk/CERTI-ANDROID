@@ -119,7 +119,7 @@ fun DateInputField(
             DateDropdown(
                 placeholder = "YYYY",
                 items = yearList,
-                value = value.yearText,
+                value = value.year?.toString() ?: "",
                 onValueChange = { updateDate(newYear = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 initialScrollItem = currentDate.year.toString(),
@@ -128,7 +128,7 @@ fun DateInputField(
             DateDropdown(
                 placeholder = "MM",
                 items = monthList,
-                value = value.monthText,
+                value = value.month?.let { "%02d".format(it) } ?: "",
                 onValueChange = { updateDate(newMonth = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))
@@ -136,7 +136,7 @@ fun DateInputField(
             DateDropdown(
                 placeholder = "DD",
                 items = dayList,
-                value = value.dayText,
+                value = value.day?.let { "%02d".format(it) } ?: "",
                 onValueChange = { updateDate(newDay = it.toIntOrNull()) },
                 backgroundColor = inputFieldBackgroundColor,
                 modifier = Modifier.widthIn(min = screenWidthDp(76.dp), max = screenWidthDp(94.dp))

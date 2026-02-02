@@ -4,9 +4,12 @@ import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
+import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
+import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
+import org.sopt.certi.data.remote.dto.response.PresignedResponseDto
 import org.sopt.certi.data.remote.service.UserService
 import javax.inject.Inject
 
@@ -28,4 +31,13 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getMyPageInfo(): ApiResponse<GetMyPageResponseDto> =
         userService.getMyPageInfo()
+
+    override suspend fun getPersonalInfo(): ApiResponse<GetPersonalInfoResponseDto> =
+        userService.getPersonalInfo()
+
+    override suspend fun putPersonalInfo(request: PutPersonalInfoRequestDto): NullableApiResponse<Unit> =
+        userService.putPersonalInfo(request)
+
+    override suspend fun getPresignedUrl(): ApiResponse<PresignedResponseDto> =
+        userService.getPresignedUrl()
 }

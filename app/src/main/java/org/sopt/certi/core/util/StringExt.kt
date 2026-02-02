@@ -1,5 +1,6 @@
 package org.sopt.certi.core.util
 
+import org.sopt.certi.domain.model.DateData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -20,4 +21,14 @@ fun String.toLocalDateOrNull(): LocalDate? =
 
 fun String.dateString(): String {
     return this.padStart(2, '0')
+}
+
+fun String.toDateData(): DateData {
+    val parts = this.split("-")
+
+    return DateData(
+        year = parts[0].toInt(),
+        month = parts[1].toInt(),
+        day = parts[2].toInt()
+    )
 }
