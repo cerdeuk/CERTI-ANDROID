@@ -15,7 +15,7 @@
     <string name="onboarding_major_title">학과를 선택해주세요</string>
     <string name="onboarding_category_title">희망직무를 선택해주세요</string>
     <string name="onboarding_category_description">추후 희망직무 재설정이 가능합니다.\n(2,3순위 선택 가능)</string>
-    <string name="onboarding_nickname_title">서티에서 사용할 닉네임을\n입력해 주세요.</string>
+    <string name="onboarding_nickname_title">따요에서 사용할 닉네임을\n입력해 주세요.</string>
     <string name="onboarding_nickname_textfield_title">닉네임</string>
     <string name="onboarding_nickname_textfield_hint">닉네임 입력</string>
     <string name="onboarding_nickname_textfield_length">%d/7</string>
@@ -26,7 +26,7 @@
     <string name="onboarding_nickname_textfield_invalid">욕설과 비속어 등은 사용할 수 없습니다.</string>
     <string name="onboarding_nickname_duplicate_check">닉네임 중복 확인</string>
     <string name="onboarding_info_nickname">%s님,</string>
-    <string name="onboarding_info_title">이제 서티와 함께 해요!</string>
+    <string name="onboarding_info_title">이제 따와 함께 해요!</string>
     <string name="onboarding_info_final_education_title">최종학력</string>
     <string name="onboarding_info_major_title">학과</string>
     <string name="onboarding_info_category_title">희망직무</string>
@@ -82,7 +82,7 @@
     <string name="cert_list_top_bar">모든 자격증</string>
     <string name="cert_list_recommend_title">%s님에게 추천하는 자격증</string>
     <string name="cert_list_recommend_subtitle">추천 기준</string>
-    <string name="cert_list_recommend_description">서티는 자체 알고리즘을 기반으로 사용자\n에게 적합한 자격증을 추천해주고 있어요.\n수많은 사용자 데이터를 학습하여 신뢰할\n수 있는 결과를 제공합니다.</string>
+    <string name="cert_list_recommend_description">따는 자체 알고리즘을 기반으로 사용자\n에게 적합한 자격증을 추천해주고 있어요.\n수많은 사용자 데이터를 학습하여 신뢰할\n수 있는 결과를 제공합니다.</string>
     <string name="cert_list_recommend_certification_top3_title">%s 자격증 TOP3</string>
     <string name="cert_list_recommend_certification_top3_more">더보기</string>
     <string name="cert_list_recommend_certification_rank">%d</string>
@@ -109,7 +109,7 @@
 
     <!-- ResumeCertificationCard -->
     <string name="resume_certification_card_small">%s년 %s월 %s일 획득</string>
-    <string name="resume_certification_card_nickname">서티</string>
+    <string name="resume_certification_card_nickname">따요</string>
     <string name="resume_certification_birthday_empty"> -</string>
 
     <!-- ResumeTextField -->
@@ -252,7 +252,7 @@
     <string name="setting_privacy_consent">개인정보 수집 및 이용 동의</string>
     <string name="setting_select">(선택)</string>
     <string name="setting_privacy_description">이벤트 소식 알림을 받으려면 먼저 개인정보 수집 및 이용에 동의해주세요.</string>
-    <string name="setting_privacy_tooltip_text">회원이 수집 및 이용에 동의한 개인정보를 서티에서 활용하는 것에 동의하며, 해당 개인정보를 활용하여 이메일/SMS를 통해 서비스에 대한 개인 맞춤형 광고 정보(혜택·소식 메일, 광고메일, 문자알림)를 전송할 수 있어요.</string>
+    <string name="setting_privacy_tooltip_text">회원이 수집 및 이용에 동의한 개인정보를 따요에서 활용하는 것에 동의하며, 해당 개인정보를 활용하여 이메일/SMS를 통해 서비스에 대한 개인 맞춤형 광고 정보(혜택·소식 메일, 광고메일, 문자알림)를 전송할 수 있어요.</string>
     <string name="setting_dialog_message">개인정보 수집 이용에 동의해야 이벤트 및 혜택 안내를 받을 수 있습니다.\n동의하시겠습니까?</string>
     <string name="setting_snackbar_message">광고성 정보를 받는 것에 동의했어요. %1$s</string>
     <string name="setting_logout_dialog_message">로그아웃하시겠습니까?</string>
