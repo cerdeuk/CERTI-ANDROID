@@ -546,7 +546,7 @@ fun RegisterTestInfoBottomSheetPreview() {
         forModify = false,
         certificationData = null,
         onDismiss = {},
-        onConfirm = {_, _, _ ->},
+        onConfirm = { _, _, _ -> },
         onConfirmWithNoData = {}
     )
 }

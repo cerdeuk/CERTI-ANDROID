@@ -12,5 +12,5 @@ data class AddPreCertificationRequestDto(
     @SerialName("state")
     val state: String?,
     @SerialName("testDate")
-    val testDate: String?,
+    val testDate: String?
 )

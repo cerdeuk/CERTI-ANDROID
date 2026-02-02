@@ -3,8 +3,6 @@ package org.sopt.certi.presentation.ui.certdetail
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +27,7 @@ import org.sopt.certi.core.component.webview.CertWebView
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.type.CertStateType
 import org.sopt.certi.presentation.model.ToastConfig
 import org.sopt.certi.presentation.ui.certdetail.component.tab.CertDetailTab
 import org.sopt.certi.presentation.ui.certdetail.component.tab.DetailTabType
@@ -51,6 +50,8 @@ fun CertDetailRoute(
     var showAcquireExpectFailToast by remember { mutableStateOf(false) }
     var showAcquiredFailToast by remember { mutableStateOf(false) }
     var showRegisterTestInfoBottomSheet by remember { mutableStateOf(false) }
+    var acquireSuccess by remember { mutableStateOf(false) }
+    var acquireExpectSuccess by remember { mutableStateOf(false) }
 
     val uiState by viewModel.detailUiState.collectAsStateWithLifecycle()
 
@@ -63,10 +64,16 @@ fun CertDetailRoute(
 
         viewModel.sideEffect.collect {
             when (it) {
-                DetailSideEffect.ShowAcquiredSuccessDialog -> showAcquiredDialog = true
+                DetailSideEffect.ShowAcquiredSuccessDialog -> {
+                    showAcquiredDialog = true
+                    acquireSuccess = true
+                }
                 DetailSideEffect.ShowAcquiredFailToast -> showAcquiredFailToast = true
+                DetailSideEffect.ShowAcquireExpectSuccessToast -> {
+                    showAcquireExpectSuccessToast = true
+                    acquireExpectSuccess = true
+                }
                 DetailSideEffect.ShowAcquireExpectFailToast -> showAcquireExpectFailToast = true
-                DetailSideEffect.ShowAcquireExpectSuccessToast -> showAcquireExpectSuccessToast = true
             }
         }
     }
@@ -78,12 +85,19 @@ fun CertDetailRoute(
             CertDetailScreen(
                 certData = certData,
                 modifier = Modifier.padding(padding),
+                acquireSuccess = acquireSuccess,
+                acquireExpectSuccess = acquireExpectSuccess,
                 showWebView = {
                     showWebView = true
                 },
                 showRegisterTestInfoBottomSheet = {
-                    certData.certificationType
                     showRegisterTestInfoBottomSheet = true
+                },
+                showAcquireExpectFailToast = {
+                    showAcquireExpectFailToast = true
+                },
+                showAcquiredFailToast = {
+                    showAcquiredFailToast = true
                 },
                 acquiredCert = {
                     viewModel.acquiredCert(certId)
@@ -137,7 +151,7 @@ fun CertDetailRoute(
                 )
             }
 
-            if(showRegisterTestInfoBottomSheet) {
+            if (showRegisterTestInfoBottomSheet) {
                 RegisterTestInfoBottomSheet(
                     sheetState = sheetState,
                     forModify = false,
@@ -164,11 +178,28 @@ fun CertDetailRoute(
 fun CertDetailScreen(
     certData: CertificationData,
     modifier: Modifier = Modifier,
+    acquireSuccess: Boolean = false,
+    acquireExpectSuccess: Boolean = false,
     showWebView: () -> Unit = {},
     showRegisterTestInfoBottomSheet: () -> Unit = {},
+    showAcquireExpectFailToast: () -> Unit = {},
+    showAcquiredFailToast: () -> Unit = {},
     acquiredCert: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(DetailTabType.Info) }
+    var certState by remember { mutableStateOf(certData.certState) }
+
+    LaunchedEffect(acquireExpectSuccess) {
+        if (acquireExpectSuccess) {
+            certState = CertStateType.ACQUISITION
+        }
+    }
+
+    LaunchedEffect(acquireSuccess) {
+        if (acquireSuccess) {
+            certState = CertStateType.ANTICIPATED
+        }
+    }
 
     Column(
         modifier = modifier
@@ -190,10 +221,24 @@ fun CertDetailScreen(
                         showWebView()
                     },
                     acquireExpectCert = {
-                        showRegisterTestInfoBottomSheet()
+                        when (certState) {
+                            CertStateType.ANTICIPATED -> {
+                                showAcquireExpectFailToast()
+                            }
+                            CertStateType.ACQUISITION -> {
+                                showAcquiredFailToast()
+                            }
+                            else -> {
+                                showRegisterTestInfoBottomSheet()
+                            }
+                        }
                     },
                     acquiredCert = {
-                        acquiredCert()
+                        if (certState == CertStateType.ACQUISITION) {
+                            showAcquiredFailToast()
+                        } else {
+                            acquiredCert()
+                        }
                     }
                 )
             }

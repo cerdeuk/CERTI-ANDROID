@@ -74,7 +74,6 @@ fun MyCertRoute(
                     viewModel.editItem()
                 },
                 onConfirmWithNoData = {
-
                 },
                 onDismiss = viewModel::closeEditSheet,
                 certificationData = data

@@ -1,6 +1,5 @@
 package org.sopt.certi.core.component.timepicker
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +26,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -225,7 +223,7 @@ fun TimePickerColumn(
             items(items.size) { index ->
                 val item = items[index]
                 val isSelected = index == currentCenterIndex
-                val isVisible = when(items.size) {
+                val isVisible = when (items.size) {
                     13 -> {
                         item != "13"
                     }
@@ -242,7 +240,7 @@ fun TimePickerColumn(
                     modifier = Modifier
                         .heightForScreenPercentage(40.dp)
                         .wrapContentHeight()
-                        .alpha(if(isVisible) 1f else 0f)
+                        .alpha(if (isVisible) 1f else 0f)
                 )
             }
 

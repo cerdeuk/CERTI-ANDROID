@@ -1,5 +1,6 @@
 package org.sopt.certi.domain.model.certification
 
+import org.sopt.certi.domain.type.CertStateType
 import java.time.LocalDate
 
 data class CertificationListData(
@@ -33,5 +34,6 @@ data class CertificationData(
     val city: String = "",
     val state: String = "",
     val isAcquired: Boolean = false, // 취득 여부
-    val testTime: String = "" // 시험시간
+    val testTime: String = "", // 시험시간
+    val certState: CertStateType = CertStateType.NORMAL
 )
