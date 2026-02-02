@@ -1,6 +1,5 @@
 package org.sopt.certi.presentation.ui.certdetail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,7 +54,6 @@ class CertDetailViewModel @Inject constructor(
             },
             onFailure = {
                 _certDetailInfo.emit(UiState.Failure(it.message.toString()))
-                Log.d("Logd", it.message.toString())
             }
         )
     }

@@ -1,6 +1,5 @@
 package org.sopt.certi.core.component.bottomsheet
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -437,7 +436,6 @@ fun RegisterTestInfoBottomSheet(
                             Spacer(Modifier.heightForScreenPercentage(12.dp))
 
                             CustomTimePicker { hour, minute ->
-                                Log.d("Logd", "Selected time: $hour:$minute")
                                 timeData = Pair(hour, minute)
                             }
 
