@@ -2,6 +2,8 @@
     <string name="app_name">CERTI</string>
 
     <!-- Login Screen -->
+    <string name="splash_description">나만의 자격증 올인원 서비스</string>
+
     <string name="login_description">나만의 자격증 취득 올인원 서비스</string>
     <string name="login_kakao_btn">카카오로 로그인</string>
     <string name="login_google_btn">Google로 로그인</string>
