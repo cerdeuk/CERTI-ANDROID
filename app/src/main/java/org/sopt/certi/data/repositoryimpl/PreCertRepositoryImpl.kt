@@ -9,9 +9,18 @@ import javax.inject.Inject
 class PreCertRepositoryImpl @Inject constructor(
     private val preCertRemoteDataSource: PreCertRemoteDataSource
 ) : PreCertRepository {
-    override suspend fun acquireExpectCert(certificationId: Long): Result<Boolean> = safeApiCall {
-        preCertRemoteDataSource.acquireExpectCert(certificationId)
-            .handleNullableApiResponse()
+    override suspend fun acquireExpectCert(
+        certificationId: Long,
+        city: String?,
+        state: String?,
+        testDate: String?
+    ): Result<Boolean> = safeApiCall {
+        preCertRemoteDataSource.acquireExpectCert(
+            certificationId,
+            city,
+            state,
+            testDate
+        ).handleNullableApiResponse()
             .getOrThrow() == true
     }
 }

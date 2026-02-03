@@ -78,8 +78,6 @@ fun MyCertRoute(
             RegisterTestInfoBottomSheet(
                 sheetState = sheetState,
                 certTitle = data.certificationName,
-                place1List = emptyList(),
-                place2List = emptyList(),
                 forModify = true,
                 onConfirm = viewModel::editPreCertification,
                 onDismiss = viewModel::closeEditSheet,

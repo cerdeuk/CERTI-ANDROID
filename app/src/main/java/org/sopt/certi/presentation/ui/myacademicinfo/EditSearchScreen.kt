@@ -36,7 +36,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun EditUnivRoute(
     padding: PaddingValues,
-    viewModel: AcademicInfoViewModel = hiltViewModel()
+    viewModel: EditUnivViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.editUnivUiState.collectAsStateWithLifecycle()
 
@@ -55,7 +55,7 @@ fun EditUnivRoute(
 @Composable
 fun EditMajorRoute(
     padding: PaddingValues,
-    viewModel: AcademicInfoViewModel = hiltViewModel()
+    viewModel: EditMajorViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.editMajorUiState.collectAsStateWithLifecycle()
 
