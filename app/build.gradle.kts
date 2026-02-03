@@ -125,6 +125,9 @@ dependencies {
 
     // calendar
     implementation(libs.kizitonwose.calendar)
+
+    // Google
+    implementation(libs.androidx.credentials)
 }
 
 ktlint {

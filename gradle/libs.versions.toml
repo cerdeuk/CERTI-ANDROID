@@ -5,6 +5,7 @@ accompanist = "0.25.1"
 # Core
 coreKtx = "1.16.0"
 appcompat = "1.7.0"
+credentials = "1.5.0"
 lifecycleRuntimeKtx = "2.8.7"
 
 # Kotlin & Tools
@@ -55,6 +56,7 @@ calendar = "2.6.0"
 [libraries]
 # Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
