@@ -3,9 +3,11 @@ package org.sopt.certi.data.remote.datasourceimpl
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.MajorRequestDto
 import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
+import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
@@ -42,6 +44,12 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getPresignedUrl(): ApiResponse<PresignedResponseDto> =
         userService.getPresignedUrl()
+
+    override suspend fun putUniversity(university: UniversityRequestDto): NullableApiResponse<Unit> =
+        userService.putUniversity(university)
+
+    override suspend fun putMajor(major: MajorRequestDto): NullableApiResponse<Unit> =
+        userService.putMajor(major)
 
     override suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto> =
         userService.getMarketingPrivacyAgreement()

@@ -22,7 +22,12 @@ class MyPageMainViewModel@Inject constructor(
     fun loadMyPageData() = viewModelScope.launch {
         myPageUseCase()
             .onSuccess { result ->
-                _uiState.update { it.copy(myPageInfoLoadState = UiState.Success(result)) }
+                _uiState.update {
+                    it.copy(
+                        myPageInfoLoadState = UiState.Success(Unit),
+                        myPageInfo = result
+                    )
+                }
             }
             .onFailure {
                 _uiState.update { it.copy(myPageInfoLoadState = UiState.Failure(it.toString())) }

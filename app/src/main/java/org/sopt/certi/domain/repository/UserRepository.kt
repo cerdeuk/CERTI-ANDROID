@@ -15,6 +15,8 @@ interface UserRepository {
     suspend fun getPersonalInfo(): Result<PersonalInfo>
     suspend fun putPersonalInfo(request: PersonalInfo): Result<Unit>
     suspend fun getPresignedUrl(): Result<PresignedData>
+    suspend fun putUniversity(university: String): Result<Unit>
+    suspend fun putMajor(major: String): Result<Unit>
     suspend fun getMarketingPrivacyAgreement(): Result<MarketingPrivacyData>
     suspend fun patchMarketingAgreement(agreement: Boolean): Result<Unit>
     suspend fun patchPrivacyAgreement(agreement: Boolean): Result<Unit>

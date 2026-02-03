@@ -2,9 +2,11 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.MajorRequestDto
 import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
+import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
 import org.sopt.certi.data.remote.dto.response.GetInterestJobListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
@@ -44,6 +46,12 @@ interface UserService {
 
     @GET("/api/v1/user/presigned-url")
     suspend fun getPresignedUrl(): ApiResponse<PresignedResponseDto>
+
+    @PUT("/api/v1/user/university")
+    suspend fun putUniversity(@Body request: UniversityRequestDto): NullableApiResponse<Unit>
+
+    @PUT("/api/v1/user/major")
+    suspend fun putMajor(@Body request: MajorRequestDto): NullableApiResponse<Unit>
 
     @GET("/api/v1/user/agreement")
     suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto>
