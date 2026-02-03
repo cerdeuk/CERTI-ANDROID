@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +38,7 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.ui.theme.CertiTheme
 
 enum class TimePeriodType() {
-    AM, PM
+    AM, PM, NONE
 }
 
 @Composable
@@ -147,7 +148,18 @@ fun TimePickerColumn(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
     val coroutineScope = rememberCoroutineScope()
 
-    // 스크롤이 멈췄을 때 중앙 아이템 감지
+    // 현재 중앙에 있는 아이템 인덱스를 실시간으로 추적
+    var currentCenterIndex by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
+    // 스크롤 중에도 중앙 아이템 인덱스 업데이트
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { index ->
+                currentCenterIndex = index
+            }
+    }
+
+    // 스크롤이 멈췄을 때 선택 확정
     LaunchedEffect(listState) {
         snapshotFlow { listState.isScrollInProgress }
             .filter { !it } // 스크롤이 멈췄을 때
@@ -210,7 +222,16 @@ fun TimePickerColumn(
 
             items(items.size) { index ->
                 val item = items[index]
-                val isSelected = item == selectedItem
+                val isSelected = index == currentCenterIndex
+                val isVisible = when (items.size) {
+                    13 -> {
+                        item != "13"
+                    }
+                    61 -> {
+                        item != "61"
+                    }
+                    else -> true
+                }
 
                 Text(
                     text = item,
@@ -219,6 +240,7 @@ fun TimePickerColumn(
                     modifier = Modifier
                         .heightForScreenPercentage(40.dp)
                         .wrapContentHeight()
+                        .alpha(if (isVisible) 1f else 0f)
                 )
             }
 
@@ -243,7 +265,18 @@ fun TimePeriodPickerColumn(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
     val coroutineScope = rememberCoroutineScope()
 
-    // 스크롤이 멈췄을 때 중앙 아이템 감지
+    // 현재 중앙에 있는 아이템 인덱스를 실시간으로 추적
+    var currentCenterIndex by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
+    // 스크롤 중에도 중앙 아이템 인덱스 업데이트
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { index ->
+                currentCenterIndex = index
+            }
+    }
+
+    // 스크롤이 멈췄을 때 선택 확정
     LaunchedEffect(listState) {
         snapshotFlow { listState.isScrollInProgress }
             .filter { !it } // 스크롤이 멈췄을 때
@@ -305,10 +338,11 @@ fun TimePeriodPickerColumn(
 
             items(items.size) { index ->
                 val item = items[index]
-                val isSelected = item == selectedItem
+                val isSelected = index == currentCenterIndex
                 val itemTitle = when (item) {
                     TimePeriodType.AM -> stringResource(R.string.test_info_bottomsheet_time_morning)
                     TimePeriodType.PM -> stringResource(R.string.test_info_bottomsheet_time_afternoon)
+                    TimePeriodType.NONE -> ""
                 }
 
                 Text(
@@ -342,9 +376,7 @@ fun TimePickerPreview() {
         CustomTimePicker(
             initialHour = 12,
             initialMinute = 0,
-            onTimeSelected = { hour, minute ->
-                println("Selected time: $hour:$minute")
-            }
+            onTimeSelected = { hour, minute -> }
         )
     }
 }
