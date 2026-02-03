@@ -110,14 +110,14 @@ fun CustomTimePicker(
 
         // 분 Picker
         TimePickerColumn(
-            items = (1..60).map {
+            items = (0..59).map {
                 if (it.toString().length == 1) {
                     "0$it"
                 } else {
                     it.toString()
                 }
             },
-            selectedItem = if (selectedMinute.toString().length == 1) "0$selectedMinute" else selectedMinute.toString(),
+            selectedItem = selectedMinute.toString().padStart(2, '0'),
             onItemSelected = {
                 selectedMinute = it.toInt()
                 onTimeSelected(

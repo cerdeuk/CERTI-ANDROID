@@ -63,7 +63,7 @@ fun RegisterTestInfoBottomSheet(
     sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
-    onConfirm: (String, String, String) -> Unit,
+    onConfirm: (String, String, String, String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     place1List: List<String> = emptyList(),
@@ -75,8 +75,8 @@ fun RegisterTestInfoBottomSheet(
 
     // Data
     var dateText by remember { mutableStateOf("") }
-    var placeTextP1 by remember { mutableStateOf("") }
-    var placeTextP2 by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf("") }
     var timeData by remember { mutableStateOf(Pair(-1, -1)) }
 
     // Date
@@ -90,10 +90,10 @@ fun RegisterTestInfoBottomSheet(
 
     var buttonEnable by remember { mutableStateOf(false) }
 
-    LaunchedEffect(dateText, placeTextP1, placeTextP2, timeData) {
+    LaunchedEffect(dateText, city, state, timeData) {
         buttonEnable = dateText.isNotEmpty() &&
-            placeTextP1.isNotEmpty() &&
-            placeTextP2.isNotEmpty() &&
+            city.isNotEmpty() &&
+            state.isNotEmpty() &&
             timeData.first != -1 &&
             timeData.second != -1
     }
@@ -103,8 +103,8 @@ fun RegisterTestInfoBottomSheet(
             // TODO data 형식에 맞게 여기서 삽입
 
             dateText = certificationData.testDate
-            placeTextP1 = certificationData.city
-            placeTextP2 = certificationData.state
+            city = certificationData.city
+            state = certificationData.state
 //            timeData = certificationData.testTime
         }
     }
@@ -270,9 +270,9 @@ fun RegisterTestInfoBottomSheet(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = placeTextP1.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p1_hint) },
+                                text = city.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p1_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if (placeTextP1.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (city.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -295,16 +295,16 @@ fun RegisterTestInfoBottomSheet(
                                 .clip(RoundedCornerShape(4.dp))
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    if (placeTextP1.isNotEmpty()) {
+                                    if (city.isNotEmpty()) {
                                         showPlaceP2List = true
                                     }
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = placeTextP2.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p2_hint) },
+                                text = state.ifEmpty { stringResource(R.string.test_info_bottomsheet_place_p2_hint) },
                                 style = CertiTheme.typography.caption.semibold_12,
-                                color = if (placeTextP2.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
+                                color = if (state.isEmpty()) CertiTheme.colors.gray300 else CertiTheme.colors.black
                             )
 
                             Spacer(Modifier.weight(1f))
@@ -342,7 +342,7 @@ fun RegisterTestInfoBottomSheet(
                                             index = index,
                                             listSize = place1List.size
                                         ) {
-                                            placeTextP1 = placeName
+                                            city = placeName
                                             showPlaceP1List = false
                                         }
                                     }
@@ -370,7 +370,7 @@ fun RegisterTestInfoBottomSheet(
                                             index = index,
                                             listSize = place2List.size
                                         ) {
-                                            placeTextP2 = placeName
+                                            state = placeName
                                             showPlaceP2List = false
                                         }
                                     }
@@ -440,7 +440,8 @@ fun RegisterTestInfoBottomSheet(
                                 enabled = buttonEnable,
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) onConfirm(dateText, placeTextP1, placeTextP2)
+                                        val formattedTime = "${timeData.first.toString().padStart(2, '0')}:${timeData.second.toString().padStart(2, '0')}"
+                                        if (!sheetState.isVisible) onConfirm(dateText, formattedTime, city, state)
                                     }
                                 },
                                 modifier = Modifier
@@ -511,6 +512,6 @@ fun RegisterTestInfoBottomSheetPreview() {
         forModify = false,
         certificationData = null,
         onDismiss = {},
-        onConfirm = { _, _, _ -> }
+        onConfirm = { _, _, _, _ -> }
     )
 }
