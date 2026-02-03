@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
+import org.sopt.certi.core.util.findActivity
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
@@ -38,9 +39,11 @@ fun LoginRoute(
     navigateToOnBoarding: () -> Unit,
     navigateToHome: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
-    kakaoLoginManager: KakaoLoginManager = KakaoLoginManager()
+    kakaoLoginManager: KakaoLoginManager = KakaoLoginManager(),
+    googleLoginManager: GoogleLoginManager = GoogleLoginManager()
 ) {
     val context = LocalContext.current
+    val activity = context.findActivity()
 
     LoginScreen(
         padding = padding,
@@ -65,7 +68,23 @@ fun LoginRoute(
                 }
             }
         },
-        onGoogleLoginClick = { navigateToHome() }
+        onGoogleLoginClick = {
+            val safeActivity = activity
+
+            googleLoginManager.login(safeActivity) { result ->
+                result.onSuccess { idToken ->
+                    viewModel.signInWithGoogleIdToken(
+                        idToken = idToken,
+                        onSuccess = { needSignUp ->
+                            if (needSignUp) navigateToOnBoarding() else navigateToHome()
+                        },
+                        onFailure = { error -> Timber.e(error) }
+                    )
+                }.onFailure { error ->
+                    Timber.e(error)
+                }
+            }
+        }
     )
 }
 
