@@ -2,6 +2,7 @@ package org.sopt.certi.domain.repository
 
 import org.sopt.certi.domain.model.image.PresignedData
 import org.sopt.certi.domain.model.user.InterestedJobListData
+import org.sopt.certi.domain.model.user.MarketingPrivacyData
 import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.domain.model.user.PersonalInfo
 
@@ -16,4 +17,7 @@ interface UserRepository {
     suspend fun getPresignedUrl(): Result<PresignedData>
     suspend fun putUniversity(university: String): Result<Unit>
     suspend fun putMajor(major: String): Result<Unit>
+    suspend fun getMarketingPrivacyAgreement(): Result<MarketingPrivacyData>
+    suspend fun patchMarketingAgreement(agreement: Boolean): Result<Unit>
+    suspend fun patchPrivacyAgreement(agreement: Boolean): Result<Unit>
 }

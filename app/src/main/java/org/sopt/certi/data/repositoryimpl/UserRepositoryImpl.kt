@@ -5,6 +5,7 @@ import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.mapper.todto.user.toDto
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.MajorRequestDto
+import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
@@ -12,6 +13,7 @@ import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResp
 import org.sopt.certi.data.remote.util.safeApiCall
 import org.sopt.certi.domain.model.image.PresignedData
 import org.sopt.certi.domain.model.user.InterestedJobListData
+import org.sopt.certi.domain.model.user.MarketingPrivacyData
 import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.domain.model.user.PersonalInfo
 import org.sopt.certi.domain.repository.UserRepository
@@ -83,6 +85,25 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun putMajor(major: String): Result<Unit> = safeApiCall {
         userRemoteDataSource.putMajor(MajorRequestDto(major))
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
+    override suspend fun getMarketingPrivacyAgreement(): Result<MarketingPrivacyData> = safeApiCall {
+        userRemoteDataSource.getMarketingPrivacyAgreement()
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
+    }
+
+    override suspend fun patchMarketingAgreement(agreement: Boolean): Result<Unit> = safeApiCall {
+        userRemoteDataSource.patchMarketingAgreement(AgreementRequestDto(agreement))
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
+    override suspend fun patchPrivacyAgreement(agreement: Boolean): Result<Unit> = safeApiCall {
+        userRemoteDataSource.patchPrivacyAgreement(AgreementRequestDto(agreement))
             .handleNullableApiResponse()
             .getOrThrow()
     }

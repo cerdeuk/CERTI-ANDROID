@@ -4,6 +4,7 @@ import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
 import org.sopt.certi.data.remote.dto.request.MajorRequestDto
+import org.sopt.certi.data.remote.dto.request.AgreementRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
 import org.sopt.certi.data.remote.dto.request.PutPersonalInfoRequestDto
 import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
@@ -12,6 +13,7 @@ import org.sopt.certi.data.remote.dto.response.GetMyPageResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPersonalInfoResponseDto
 import org.sopt.certi.data.remote.dto.response.GetUserTrackResponseDto
 import org.sopt.certi.data.remote.dto.response.PresignedResponseDto
+import org.sopt.certi.data.remote.dto.response.MarketingPrivacyResponseDto
 import org.sopt.certi.data.remote.service.UserService
 import javax.inject.Inject
 
@@ -48,4 +50,13 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun putMajor(major: MajorRequestDto): NullableApiResponse<Unit> =
         userService.putMajor(major)
+
+    override suspend fun getMarketingPrivacyAgreement(): ApiResponse<MarketingPrivacyResponseDto> =
+        userService.getMarketingPrivacyAgreement()
+
+    override suspend fun patchMarketingAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit> =
+        userService.patchMarketingAgreement(agreement)
+
+    override suspend fun patchPrivacyAgreement(agreement: AgreementRequestDto): NullableApiResponse<Unit> =
+        userService.patchPrivacyAgreement(agreement)
 }
