@@ -5,8 +5,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import org.sopt.certi.core.navigation.MainTabRoute
 import org.sopt.certi.core.navigation.MyPageRoute
+import org.sopt.certi.presentation.ui.login.navigation.navigateToLogin
 import org.sopt.certi.presentation.ui.mypage.MyPageMainRoute
 import org.sopt.certi.presentation.ui.setting.SettingNotificationRoute
 import org.sopt.certi.presentation.ui.setting.SettingRoute
@@ -52,7 +54,16 @@ fun NavGraphBuilder.myPageNavGraph(
     composable<MyPageRoute.Setting> {
         SettingRoute(
             padding = padding,
-            navigateToSettingNotification = navController::navigateToSettingNotification
+            navigateToSettingNotification = navController::navigateToSettingNotification,
+            navigateToLogin = {
+                navController.navigateToLogin(
+                    navOptions = navOptions {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                )
+            }
         )
     }
     composable<MyPageRoute.SettingNotification> {

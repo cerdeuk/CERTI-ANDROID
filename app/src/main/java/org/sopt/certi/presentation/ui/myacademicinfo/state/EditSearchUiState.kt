@@ -3,6 +3,7 @@ package org.sopt.certi.presentation.ui.myacademicinfo.state
 import org.sopt.certi.core.state.UiState
 
 data class EditSearchUiState(
+    val initialValue: String = "",
     val searchText: String = "",
     val searchListLoadState: UiState<List<String>> = UiState.Init,
     val submittedSearchText: String = ""
@@ -15,5 +16,5 @@ data class EditSearchUiState(
         }
 
     val isSaveEnable: Boolean
-        get() = submittedSearchText.isNotBlank()
+        get() = submittedSearchText.isNotBlank() && submittedSearchText != initialValue
 }

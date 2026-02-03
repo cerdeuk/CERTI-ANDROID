@@ -86,19 +86,19 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.img_logo),
+                painter = painterResource(id = R.drawable.img_logo_black),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(bottom = screenHeightDp(16.dp))
-                    .heightForScreenPercentage(44.dp)
-                    .widthForScreenPercentage(130.dp),
+                    .padding(bottom = screenHeightDp(20.dp))
+                    .heightForScreenPercentage(33.dp)
+                    .widthForScreenPercentage(126.dp),
                 contentScale = ContentScale.Fit
             )
 
             Text(
                 text = stringResource(R.string.login_description),
                 style = CertiTheme.typography.caption.regular_14,
-                color = CertiTheme.colors.gray400
+                color = CertiTheme.colors.gray500
             )
             Spacer(modifier = Modifier.height(screenHeightDp(32.dp)))
 

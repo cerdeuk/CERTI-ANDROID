@@ -186,7 +186,7 @@ fun CertDetailInfoScreen(
                 Spacer(Modifier.widthForScreenPercentage(6.dp))
 
                 Text(
-                    text = certData.testDate,
+                    text = certData.testDateInformation,
                     style = CertiTheme.typography.body.regular_16,
                     color = CertiTheme.colors.gray600
                 )

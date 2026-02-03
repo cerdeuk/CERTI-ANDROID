@@ -69,10 +69,12 @@ fun MyCertRoute(
             RegisterTestInfoBottomSheet(
                 sheetState = sheetState,
                 certTitle = data.certificationName,
-                place1List = emptyList(),
-                place2List = emptyList(),
                 forModify = true,
-                onConfirm = viewModel::editItem,
+                onConfirm = { city, state, timeDate ->
+                    viewModel.editItem()
+                },
+                onConfirmWithNoData = {
+                },
                 onDismiss = viewModel::closeEditSheet,
                 certificationData = data
             )

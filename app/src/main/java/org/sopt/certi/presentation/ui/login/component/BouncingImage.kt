@@ -58,7 +58,7 @@ private fun PreviewBouncingImage() {
             modifier = Modifier.fillMaxSize()
         ) {
             BouncingImage(
-                resId = org.sopt.certi.R.drawable.img_logo
+                resId = org.sopt.certi.R.drawable.img_bouncing_login
             )
         }
     }
