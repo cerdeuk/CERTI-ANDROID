@@ -4,7 +4,9 @@ import org.sopt.certi.data.mapper.todomain.image.toDomain
 import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.mapper.todto.user.toDto
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
+import org.sopt.certi.data.remote.dto.request.MajorRequestDto
 import org.sopt.certi.data.remote.dto.request.ModifyInterestedJobRequestDto
+import org.sopt.certi.data.remote.dto.request.UniversityRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.data.remote.util.safeApiCall
@@ -71,5 +73,17 @@ class UserRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .toDomain()
+    }
+
+    override suspend fun putUniversity(university: String): Result<Unit> = safeApiCall {
+        userRemoteDataSource.putUniversity(UniversityRequestDto(university))
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
+    override suspend fun putMajor(major: String): Result<Unit> = safeApiCall {
+        userRemoteDataSource.putMajor(MajorRequestDto(major))
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }
