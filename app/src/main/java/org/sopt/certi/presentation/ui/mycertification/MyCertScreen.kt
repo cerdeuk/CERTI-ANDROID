@@ -80,6 +80,7 @@ fun MyCertRoute(
                 certTitle = data.certificationName,
                 forModify = true,
                 onConfirm = viewModel::editPreCertification,
+                onConfirmWithNoData = {},
                 onDismiss = viewModel::closeEditSheet,
                 certificationData = data
             )

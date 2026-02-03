@@ -119,11 +119,10 @@ class MyCertViewModel @Inject constructor(
         }
     }
 
-    fun editPreCertification(testDate: String, testTime: String, city: String, state: String) = viewModelScope.launch {
+    fun editPreCertification(city: String, state: String, timeData: String) = viewModelScope.launch {
         val editCertificationId = _myCertUiState.value.editTargetCertification?.certificationId
         editCertificationId?.let {
-            val testDateTime = "$testDate $testTime:00"
-            updatePreCertificationUseCase(editCertificationId, testDateTime, city, state)
+            updatePreCertificationUseCase(editCertificationId, timeData, city, state)
                 .onSuccess {
                     getPlannedCertificationList()
                     closeEditSheet()
