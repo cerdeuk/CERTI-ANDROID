@@ -28,6 +28,7 @@ data class CertificationData(
     val cardBackImageUrl: String = "",
     val createdAt: LocalDate = LocalDate.now(),
     val testDate: String = "",
+    val testDateInformation: String = "",
     val expirationPeriod: String = "",
     val acquisitionDate: String = "",
     val grade: String = "",

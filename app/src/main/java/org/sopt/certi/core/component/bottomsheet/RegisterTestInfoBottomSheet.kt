@@ -126,11 +126,11 @@ fun RegisterTestInfoBottomSheet(
 
     LaunchedEffect(forModify) {
         if (forModify && certificationData != null) {
-            // TODO data 형식에 맞게 여기서 삽입
+            // TODO data 형식에 맞게 여기서 삽입 @이지현
 
-            dateText = certificationData.testDate
-            cityText = certificationData.city
-            districtText = certificationData.state
+//            dateText = certificationData.testDate
+//            cityText = certificationData.city
+//            districtText = certificationData.state
 //            timeData = certificationData.testTime
         }
     }

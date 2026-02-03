@@ -16,5 +16,6 @@ fun GetCertInfoResponseDto.toDomain() = CertificationData(
     applicationMethod = applicationMethod,
     applicationUrl = applicationUrl,
     expirationPeriod = expirationPeriod,
+    testDateInformation = testDateInformation,
     certState = CertStateType.valueOf(certState)
 )
