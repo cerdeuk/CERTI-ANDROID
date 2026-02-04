@@ -117,14 +117,7 @@ class CertDetailViewModel @Inject constructor(
             listOf()
         }
 
-        val pagingFlow = getCommentListUseCase.getCommentList(certId, sortValue)
-
-        getCommentListUseCase.getTotalCommentCount()
-            .collect {
-                _totalCommentCount.value = it
-            }
-
-        pagingFlow
+        getCommentListUseCase.getCommentList(certId, sortValue)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .map { pagingData ->
@@ -138,6 +131,15 @@ class CertDetailViewModel @Inject constructor(
             }
             .collect { pagingData ->
                 _commentPagingData.value = pagingData
+
+                getTotalCommentCount()
+            }
+    }
+
+    private fun getTotalCommentCount() = viewModelScope.launch {
+        getCommentListUseCase.getTotalCommentCount()
+            .collect {
+                _totalCommentCount.value = it
             }
     }
 }

@@ -172,7 +172,7 @@ fun CertDetailCommentScreen(
                 )
             }
 
-            if(totalCommentCount == 0) {
+            if(commentData.itemCount == 0) {
                 CommentEmptyView()
             } else {
                 LazyColumn(
