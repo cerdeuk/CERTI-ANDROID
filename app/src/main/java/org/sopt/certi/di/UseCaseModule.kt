@@ -9,6 +9,7 @@ import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
+import org.sopt.certi.domain.repository.CommentRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.HomeRepository
 import org.sopt.certi.domain.repository.PreCertEditRepository
@@ -42,6 +43,10 @@ import org.sopt.certi.domain.usecase.certification.GetRecommendCertListUseCase
 import org.sopt.certi.domain.usecase.certification.SearchCertListUseCase
 import org.sopt.certi.domain.usecase.certification.Top3JobCertListUseCase
 import org.sopt.certi.domain.usecase.certification.Top3TrackCertListUseCase
+import org.sopt.certi.domain.usecase.comment.DeleteCommentUseCase
+import org.sopt.certi.domain.usecase.comment.GetCommentListUseCase
+import org.sopt.certi.domain.usecase.comment.LikeCommentUseCase
+import org.sopt.certi.domain.usecase.comment.RegisterCommentUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
@@ -231,4 +236,28 @@ object UseCaseModule {
     fun provideTop3JobCertListUseCase(
         certRepository: CertRepository
     ): Top3JobCertListUseCase = Top3JobCertListUseCase(certRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetCommentListUseCase(
+        commentRepository: CommentRepository
+    ): GetCommentListUseCase = GetCommentListUseCase(commentRepository)
+
+    @Provides
+    @Singleton
+    fun provideRegisterCommentUseCase(
+        commentRepository: CommentRepository
+    ): RegisterCommentUseCase = RegisterCommentUseCase(commentRepository)
+
+    @Provides
+    @Singleton
+    fun provideLikeCommentUseCase(
+        commentRepository: CommentRepository
+    ): LikeCommentUseCase = LikeCommentUseCase(commentRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteCommentUseCase(
+        commentRepository: CommentRepository
+    ): DeleteCommentUseCase = DeleteCommentUseCase(commentRepository)
 }

@@ -42,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -51,13 +52,18 @@ import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.comment.CommentData
 import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.domain.type.CertStateType
+import org.sopt.certi.presentation.ui.certdetail.CertDetailViewModel
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButton
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButtonType
+import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentEmptyView
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentItem
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertDetailCommentRoute() {
+fun CertDetailCommentRoute(
+    certificationId: Long,
+    viewModel: CertDetailViewModel = hiltViewModel()
+) {
     val dummyCommentData = CommentData(
         content = listOf(
             CommentItemData(
@@ -65,58 +71,6 @@ fun CertDetailCommentRoute() {
                 userId = 1,
                 nickName = "이성민",
                 content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertStateType.ANTICIPATED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 58,
-                userId = 1,
-                nickName = "이성민2",
-                content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertStateType.ANTICIPATED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 59,
-                userId = 1,
-                nickName = "이성민3",
-                content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertStateType.ANTICIPATED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 60,
-                userId = 1,
-                nickName = "이성민4",
-                content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertStateType.ANTICIPATED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 61,
-                userId = 1,
-                nickName = "이성민5",
-                content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
                 state = CertStateType.ANTICIPATED,
@@ -203,24 +157,28 @@ fun CertDetailCommentScreen(
                 )
             }
 
-            LazyColumn(
-                contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
-                verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
-            ) {
-                itemsIndexed(commentData.content) { _, item ->
-                    CommentItem(
-                        commentData = item,
-                        myUserId = myUserId,
-                        likeOnClick = { like ->
-                            likeOnClick(like, item.commentId)
-                        },
-                        reportOnClick = {
-                            reportOnClick(item.commentId)
-                        },
-                        deleteOnClick = {
-                            deleteOnClick(item.commentId)
-                        }
-                    )
+            if(commentData.content.isEmpty()) {
+                CommentEmptyView()
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
+                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
+                ) {
+                    itemsIndexed(commentData.content) { _, item ->
+                        CommentItem(
+                            commentData = item,
+                            myUserId = myUserId,
+                            likeOnClick = { like ->
+                                likeOnClick(like, item.commentId)
+                            },
+                            reportOnClick = {
+                                reportOnClick(item.commentId)
+                            },
+                            deleteOnClick = {
+                                deleteOnClick(item.commentId)
+                            }
+                        )
+                    }
                 }
             }
         }

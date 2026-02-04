@@ -243,7 +243,7 @@ fun CertDetailScreen(
                 )
             }
             DetailTabType.Comment -> {
-                CertDetailCommentRoute()
+                CertDetailCommentRoute(certData.certificationId)
             }
         }
     }

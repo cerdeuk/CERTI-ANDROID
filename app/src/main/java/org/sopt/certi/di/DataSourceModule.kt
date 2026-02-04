@@ -9,6 +9,7 @@ import org.sopt.certi.data.remote.datasource.ActivityRemoteDataSource
 import org.sopt.certi.data.remote.datasource.AuthRemoteDataSource
 import org.sopt.certi.data.remote.datasource.CareerRemoteDataSource
 import org.sopt.certi.data.remote.datasource.CertRemoteDataSource
+import org.sopt.certi.data.remote.datasource.CommentRemoteDataSource
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
@@ -21,6 +22,7 @@ import org.sopt.certi.data.remote.datasourceimpl.ActivityRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CareerRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.CertRemoteDataSourceImpl
+import org.sopt.certi.data.remote.datasourceimpl.CommentRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.DummyRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.HomeRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.PreCertEditRemoteDataSourceImpl
@@ -74,4 +76,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsS3DataSource(s3DataSourceImpl: S3DataSourceImpl): S3DataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsCommentDataSource(commentRemoteDataSourceImpl: CommentRemoteDataSourceImpl): CommentRemoteDataSource
 }
