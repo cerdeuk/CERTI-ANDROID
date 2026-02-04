@@ -50,7 +50,7 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.comment.CommentData
 import org.sopt.certi.domain.model.comment.CommentItemData
-import org.sopt.certi.domain.type.CertAcquireStateType
+import org.sopt.certi.domain.type.CertStateType
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButton
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButtonType
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentItem
@@ -67,7 +67,7 @@ fun CertDetailCommentRoute() {
                 content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -80,7 +80,7 @@ fun CertDetailCommentRoute() {
                 content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -93,7 +93,7 @@ fun CertDetailCommentRoute() {
                 content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -106,7 +106,7 @@ fun CertDetailCommentRoute() {
                 content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -119,7 +119,7 @@ fun CertDetailCommentRoute() {
                 content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -313,7 +313,7 @@ private fun PreviewCertDetailCommentScreen() {
                 content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ACQUISITION,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -326,7 +326,7 @@ private fun PreviewCertDetailCommentScreen() {
                 content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ACQUISITION,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -339,7 +339,7 @@ private fun PreviewCertDetailCommentScreen() {
                 content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -352,7 +352,7 @@ private fun PreviewCertDetailCommentScreen() {
                 content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",
@@ -365,7 +365,7 @@ private fun PreviewCertDetailCommentScreen() {
                 content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
                 userMajor = "전산학/컴퓨터공학",
                 userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
+                state = CertStateType.ANTICIPATED,
                 likeCount = 3,
                 createdTime = "2025-11-15T23:00:38.042089",
                 lastModifiedTime = "2025-11-15T23:00:38.042089",

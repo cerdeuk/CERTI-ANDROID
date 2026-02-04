@@ -34,7 +34,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.comment.CommentItemData
-import org.sopt.certi.domain.type.CertAcquireStateType
+import org.sopt.certi.domain.type.CertStateType
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -53,13 +53,17 @@ fun CommentItem(
     var likeCountStatus by remember { mutableStateOf(commentData.likeCount) }
 
     when (commentData.state) {
-        CertAcquireStateType.ACQUIRED -> {
+        CertStateType.ANTICIPATED, -> {
             acquireStateText = stringResource(R.string.comment_state_acquired)
             acquireStateTextColor = CertiTheme.colors.purpleBlue
         }
-        CertAcquireStateType.PRE -> {
+        CertStateType.ACQUISITION -> {
             acquireStateText = stringResource(R.string.comment_state_pre)
             acquireStateTextColor = CertiTheme.colors.gray300
+        }
+        CertStateType.NORMAL -> {
+            acquireStateText = "ERROR"
+            acquireStateTextColor = CertiTheme.colors.error
         }
     }
 
@@ -203,7 +207,7 @@ fun CommentItemPreview() {
         content = "이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~",
         userMajor = "컴퓨터공학과",
         userJob = "개발자",
-        state = CertAcquireStateType.ACQUIRED,
+        state = CertStateType.ANTICIPATED,
         createdTime = "2024.07.21",
         lastModifiedTime = "2024.07.21",
         isLike = true,

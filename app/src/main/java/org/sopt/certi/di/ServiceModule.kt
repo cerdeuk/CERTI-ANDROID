@@ -9,6 +9,7 @@ import org.sopt.certi.data.remote.service.AcquisitionService
 import org.sopt.certi.data.remote.service.AuthService
 import org.sopt.certi.data.remote.service.CareerService
 import org.sopt.certi.data.remote.service.CertService
+import org.sopt.certi.data.remote.service.CommentService
 import javax.inject.Singleton
 import org.sopt.certi.data.remote.service.DummyService
 import org.sopt.certi.data.remote.service.HomeService
@@ -77,4 +78,9 @@ object ServiceModule {
     fun provideS3Service(@Named("S3Retrofit") retrofit: Retrofit): S3Service {
         return retrofit.create(S3Service::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideCommentService(retrofit: Retrofit): CommentService =
+        retrofit.create(CommentService::class.java)
 }

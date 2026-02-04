@@ -15,6 +15,10 @@ import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
+import org.sopt.certi.domain.usecase.comment.DeleteCommentUseCase
+import org.sopt.certi.domain.usecase.comment.GetCommentListUseCase
+import org.sopt.certi.domain.usecase.comment.LikeCommentUseCase
+import org.sopt.certi.domain.usecase.comment.RegisterCommentUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
@@ -24,7 +28,11 @@ import javax.inject.Inject
 class CertDetailViewModel @Inject constructor(
     private val getCertInfoUseCase: GetCertInfoUseCase,
     private val acquiredCertUseCase: AcquiredCertUseCase,
-    private val acquireExpectCertUseCase: AcquireExpectCertUseCase
+    private val acquireExpectCertUseCase: AcquireExpectCertUseCase,
+    private val getCommentListUseCase: GetCommentListUseCase,
+    private val registerCommentUseCase: RegisterCommentUseCase,
+    private val likeCommentUseCase: LikeCommentUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase,
 ) : ViewModel() {
 
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)

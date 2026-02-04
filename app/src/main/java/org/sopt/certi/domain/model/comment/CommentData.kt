@@ -1,6 +1,6 @@
 package org.sopt.certi.domain.model.comment
 
-import org.sopt.certi.domain.type.CertAcquireStateType
+import org.sopt.certi.domain.type.CertStateType
 
 data class CommentData(
     val content: List<CommentItemData>,
@@ -16,7 +16,7 @@ data class CommentItemData(
     val content: String, // 댓글 내용
     val userMajor: String, // 사용자 전공
     val userJob: String, // 사용자 직무 정보(현재 123순위 기능 구현 안해서, 그냥 직무 정보중 첫번째로 가져옴)
-    val state: CertAcquireStateType, // 취득 예정인지, 취득인지
+    val state: CertStateType, // 취득 예정인지, 취득인지
     val createdTime: String, // 생성일자
     val lastModifiedTime: String, // 수정일자
     val isLike: Boolean, // 댓글을 조회하는 사용자가 해당 댓글에 좋아요를 눌렀는지
