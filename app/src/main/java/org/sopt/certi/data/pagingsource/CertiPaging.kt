@@ -6,6 +6,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
 class CertiPagingSource<T : Any>(
+    private val pageSize: Int,
     private val getList: suspend (Int) -> List<T>,
 ) : PagingSource<Int, T>() {
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
@@ -21,7 +22,7 @@ class CertiPagingSource<T : Any>(
             LoadResult.Page(
                 data = list,
                 prevKey = if (currentPage == 0) null else currentPage - 1,
-                nextKey = if (list.isEmpty()) null else currentPage + 1
+                nextKey = if (list.size < pageSize) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
@@ -45,7 +46,7 @@ fun <T: Any> createPager(
         ),
         initialKey = startPage ?: 0,
         pagingSourceFactory = {
-            CertiPagingSource<T> { page ->
+            CertiPagingSource<T>(pageSize = limit) { page ->
                 pagingSourceFactory(page, limit, q)
             }
         }
