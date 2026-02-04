@@ -67,6 +67,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 @Composable
 fun CertDetailCommentRoute(
     certificationId: Long,
+    certStateType: CertStateType,
     viewModel: CertDetailViewModel = hiltViewModel()
 ) {
     var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
@@ -81,6 +82,7 @@ fun CertDetailCommentRoute(
         commentData = commentList,
         totalCommentCount = totalCommentCount,
         myUserId = 0,
+        certStateType = certStateType,
         changeSortType = { changedSortType ->
             commentSortType = changedSortType
         },
@@ -105,6 +107,7 @@ fun CertDetailCommentScreen(
     commentData: LazyPagingItems<CommentItemData>,
     totalCommentCount: Int,
     myUserId: Long,
+    certStateType: CertStateType,
     changeSortType: (CommentSortType) -> Unit = {},
     writeComment: (content: String) -> Unit = {},
     likeOnClick: (like: Boolean, commentId: Long) -> Unit = { _, _ -> },
@@ -235,44 +238,66 @@ fun CertDetailCommentScreen(
                     .padding(end = screenWidthDp(12.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BasicTextField(
-                    value = commentText,
-                    onValueChange = { commentText = it },
-                    singleLine = true,
-                    maxLines = 1,
-                    textStyle = CertiTheme.typography.caption.regular_14.copy(
-                        color = CertiTheme.colors.black
-                    ),
-                    cursorBrush = SolidColor(CertiTheme.colors.black),
-                    decorationBox = { innerTextField ->
-                        if (commentText.isEmpty()) {
-                            Text(
-                                text = stringResource(R.string.comment_hint),
-                                style = CertiTheme.typography.caption.semibold_14,
-                                color = CertiTheme.colors.gray300
-                            )
-                        }
 
-                        innerTextField()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = screenWidthDp(10.dp))
-                )
+                if(certStateType == CertStateType.NORMAL) {
+                    Spacer(Modifier.widthForScreenPercentage(12.dp))
 
-                Spacer(Modifier.widthForScreenPercentage(12.dp))
+                    Icon(
+                        painter = painterResource(R.drawable.ic_lock),
+                        contentDescription = null,
+                        tint = Color.Unspecified,
+                        modifier = Modifier
+                            .widthForScreenPercentage(20.dp)
+                            .heightForScreenPercentage(20.dp)
+                    )
 
-                Icon(
-                    painter = painterResource(R.drawable.ic_send),
-                    tint = if (commentText.isEmpty()) Color.Unspecified else CertiTheme.colors.purpleBlue,
-                    modifier = Modifier
-                        .widthForScreenPercentage(24.dp)
-                        .heightForScreenPercentage(24.dp)
-                        .noRippleClickable {
-                            writeComment(commentText)
+                    Spacer(Modifier.widthForScreenPercentage(8.dp))
+
+                    Text(
+                        text = stringResource(R.string.comment_write_unavailable),
+                        style = CertiTheme.typography.caption.semibold_14,
+                        color = CertiTheme.colors.gray300
+                    )
+                } else {
+                    BasicTextField(
+                        value = commentText,
+                        onValueChange = { commentText = it },
+                        singleLine = true,
+                        maxLines = 1,
+                        textStyle = CertiTheme.typography.caption.regular_14.copy(
+                            color = CertiTheme.colors.black
+                        ),
+                        cursorBrush = SolidColor(CertiTheme.colors.black),
+                        decorationBox = { innerTextField ->
+                            if (commentText.isEmpty()) {
+                                Text(
+                                    text = stringResource(R.string.comment_hint),
+                                    style = CertiTheme.typography.caption.semibold_14,
+                                    color = CertiTheme.colors.gray300
+                                )
+                            }
+
+                            innerTextField()
                         },
-                    contentDescription = null
-                )
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = screenWidthDp(10.dp))
+                    )
+
+                    Spacer(Modifier.widthForScreenPercentage(12.dp))
+
+                    Icon(
+                        painter = painterResource(R.drawable.ic_send),
+                        tint = if (commentText.isEmpty()) Color.Unspecified else CertiTheme.colors.purpleBlue,
+                        modifier = Modifier
+                            .widthForScreenPercentage(24.dp)
+                            .heightForScreenPercentage(24.dp)
+                            .noRippleClickable {
+                                writeComment(commentText)
+                            },
+                        contentDescription = null
+                    )
+                }
             }
         }
     }
@@ -298,5 +323,5 @@ private fun PreviewCertDetailCommentScreen() {
     val dummyFlow = flowOf(dummyPagingData)
     val dummyList = dummyFlow.collectAsLazyPagingItems()
 
-    CertDetailCommentScreen(commentData = dummyList, totalCommentCount = 1, myUserId = 0)
+    CertDetailCommentScreen(commentData = dummyList, totalCommentCount = 1, myUserId = 0, certStateType = CertStateType.NORMAL)
 }

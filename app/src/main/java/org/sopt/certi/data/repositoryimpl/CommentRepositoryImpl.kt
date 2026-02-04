@@ -22,19 +22,17 @@ class CommentRepositoryImpl @Inject constructor(
     private var _totalCommentCount = MutableStateFlow(0)
 
     override suspend fun getCommentList(certificationId: Long, sort: List<String>): Flow<PagingData<CommentItemData>> {
-        val sortList = sort.ifEmpty { listOf("likeCount", "desc") }
-
         return createPager(
             limit = 12,
             initialLoadSize = 12,
-            q = sortList
+            q = sort
         ) { page, limit, sortParam ->
             val response = commentRemoteDataSource.getCommentList(
                 certificationId,
                 CommentListPageableRequestDto(
                     page = page,
                     size = limit,
-                    sort = sortParam ?: sortList
+                    sort = sortParam ?: sort
                 )
             ).data.toDomain()
 

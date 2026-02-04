@@ -120,15 +120,6 @@ class CertDetailViewModel @Inject constructor(
         getCommentListUseCase.getCommentList(certId, sortValue)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
-            .map { pagingData ->
-                var count = 0
-                pagingData.map { item ->
-                    count++
-                    item
-                }.also {
-                    Log.d("Logd", "Total items loaded: $count")
-                }
-            }
             .collect { pagingData ->
                 _commentPagingData.value = pagingData
 

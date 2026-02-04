@@ -287,6 +287,7 @@
     <string name="comment_count">댓글(%s)</string>
     <string name="comment_hint">댓글을 입력하세요</string>
     <string name="comment_empty">아직 댓글이 없습니다.\n가장 먼저 댓글을 작성해보세요.</string>
+    <string name="comment_write_unavailable">자격증 취득예정/완료 후 댓글 작성이 가능합니다.</string>
     
     
 </resources>
