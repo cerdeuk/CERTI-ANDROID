@@ -2,6 +2,8 @@ package org.sopt.certi.presentation.ui.certdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
@@ -20,6 +23,7 @@ import org.sopt.certi.domain.usecase.comment.GetCommentListUseCase
 import org.sopt.certi.domain.usecase.comment.LikeCommentUseCase
 import org.sopt.certi.domain.usecase.comment.RegisterCommentUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
+import org.sopt.certi.presentation.type.CommentSortType
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
 import javax.inject.Inject
@@ -36,6 +40,12 @@ class CertDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)
+
+    private val _commentPagingData = MutableStateFlow<PagingData<CommentItemData>>(PagingData.empty())
+    val commentPagingData: StateFlow<PagingData<CommentItemData>> = _commentPagingData
+
+    private val _totalCommentCount = MutableStateFlow(0)
+    val totalCommentCount: StateFlow<Int> = _totalCommentCount
 
     val detailUiState: StateFlow<DetailUiState> =
         combine(
@@ -96,6 +106,20 @@ class CertDetailViewModel @Inject constructor(
         )
     }
 
-    fun getCommentList() = viewModelScope.launch {
+    fun getCommentList(certId: Long, commentSortType: CommentSortType) = viewModelScope.launch {
+        val sortValue = if (commentSortType == CommentSortType.Famous) {
+            listOf("likeCount, desc")
+        } else {
+            listOf()
+        }
+
+        val (pagingFlow, totalElements) = getCommentListUseCase(certId, sortValue)
+        _totalCommentCount.value = totalElements
+
+        pagingFlow
+            .cachedIn(viewModelScope)
+            .collect { pagingData ->
+                _commentPagingData.value = pagingData
+            }
     }
 }

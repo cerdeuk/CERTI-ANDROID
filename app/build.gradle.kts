@@ -128,6 +128,8 @@ dependencies {
 
     // Paging
     implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.runtime.android)
+    implementation(libs.androidx.paging.runtime)
 }
 
 ktlint {

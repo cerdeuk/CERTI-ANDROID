@@ -54,6 +54,7 @@ calendar = "2.6.0"
 
 # Paging
 roomRuntime = "2.8.2"
+pagingCommonAndroid = "3.3.6"
 
 [libraries]
 # Core
@@ -112,6 +113,9 @@ kizitonwose-calendar = { group = "com.kizitonwose.calendar", name = "compose", v
 
 # Paging
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
+androidx-paging-runtime-android = { module = "androidx.paging:paging-runtime", version.ref = "pagingCommonAndroid" }
+androidx-paging-runtime = { module = "androidx.paging:paging-compose", version.ref = "pagingCommonAndroid" }
+androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "pagingCommonAndroid"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

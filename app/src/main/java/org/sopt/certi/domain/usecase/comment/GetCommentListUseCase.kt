@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCommentListUseCase @Inject constructor(
     private val commentRepository: CommentRepository
 ) {
-    suspend operator fun invoke(certificationId: Long, sort: List<String> = listOf("createdTime,desc")): Flow<PagingData<CommentItemData>> {
+    suspend operator fun invoke(certificationId: Long, sort: List<String> = listOf("likeCount", "desc")): Pair<Flow<PagingData<CommentItemData>>, Int> {
         return commentRepository.getCommentList(certificationId, sort)
     }
 }

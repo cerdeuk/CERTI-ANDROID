@@ -13,22 +13,19 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.presentation.type.CommentSortType
 import org.sopt.certi.ui.theme.CertiTheme
-
-enum class CommentArrayButtonType {
-    Famous, Recent
-}
 
 @Composable
 fun CommentArrayButton(
-    commentArrayButtonType: CommentArrayButtonType,
+    commentSortType: CommentSortType,
     isSelected: Boolean,
-    selectOnClick: (CommentArrayButtonType) -> Unit,
+    selectOnClick: (CommentSortType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val label = when (commentArrayButtonType) {
-        CommentArrayButtonType.Famous -> stringResource(R.string.comment_label_famous)
-        CommentArrayButtonType.Recent -> stringResource(R.string.comment_label_recent)
+    val label = when (commentSortType) {
+        CommentSortType.Famous -> stringResource(R.string.comment_label_famous)
+        CommentSortType.Recent -> stringResource(R.string.comment_label_recent)
     }
 
     Box(
@@ -40,7 +37,7 @@ fun CommentArrayButton(
                 backgroundColor = CertiTheme.colors.white
             )
             .noRippleClickable {
-                selectOnClick(commentArrayButtonType)
+                selectOnClick(commentSortType)
             }
     ) {
         Text(
@@ -56,7 +53,7 @@ fun CommentArrayButton(
 @Composable
 private fun PreviewCommentArrayButton() {
     CommentArrayButton(
-        commentArrayButtonType = CommentArrayButtonType.Recent,
+        commentSortType = CommentSortType.Recent,
         isSelected = true,
         selectOnClick = {}
     )

@@ -16,7 +16,7 @@ interface CommentService {
     @GET("api/v1/comments")
     suspend fun getCommentList(
         @Query("certificationId") certificationId: Long,
-        @Query("pageable") pageable: CommentListPageableRequestDto
+        @Query("pageable") pageable: String
     ) : ApiResponse<GetCommentListResponseDto>
 
     @POST("api/v1/comments")
