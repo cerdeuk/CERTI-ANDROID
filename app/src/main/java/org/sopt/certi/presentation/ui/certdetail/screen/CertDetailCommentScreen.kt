@@ -180,8 +180,7 @@ fun CertDetailCommentScreen(
                     verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
                 ) {
                     items(
-                        count = commentData.itemCount,
-                        key = commentData.itemKey { it.commentId }
+                        count = commentData.itemCount
                     ) { index ->
                         commentData[index]?.let { comment ->
                             CommentItem(

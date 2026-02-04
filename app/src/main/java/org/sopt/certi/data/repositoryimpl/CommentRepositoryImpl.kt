@@ -2,6 +2,7 @@ package org.sopt.certi.data.repositoryimpl
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.sopt.certi.data.mapper.todomain.comment.toDomain
 import org.sopt.certi.data.mapper.todto.comment.toDto
 import org.sopt.certi.data.pagingsource.createPager
@@ -17,42 +18,33 @@ import javax.inject.Inject
 class CommentRepositoryImpl @Inject constructor(
     private val commentRemoteDataSource: CommentRemoteDataSource
 ) : CommentRepository {
-    override suspend fun getCommentList(certificationId: Long, sort: List<String>): Pair<Flow<PagingData<CommentItemData>>, Int> {
-        val initialResponse = commentRemoteDataSource.getCommentList(
-            certificationId,
-            CommentListPageableRequestDto(
-                page = 0,
-                size = 12,
-                sort = sort.ifEmpty { listOf("likeCount,desc") }
-            )
-        ).handleApiResponse().getOrThrow()
 
-        val totalElements = initialResponse.totalElements
+    private var _totalCommentCount = MutableStateFlow(0)
 
-        val pagingFlow = createPager(
+    override suspend fun getCommentList(certificationId: Long, sort: List<String>): Flow<PagingData<CommentItemData>> {
+        val sortList = sort.ifEmpty { listOf("likeCount", "desc") }
+
+        return createPager(
             limit = 12,
             initialLoadSize = 12,
-            q = sort
+            q = sortList
         ) { page, limit, sortParam ->
-            if (page == 0) {
-                initialResponse.content.map { it.toDomain() }
-            } else {
-                commentRemoteDataSource.getCommentList(
-                    certificationId,
-                    CommentListPageableRequestDto(
-                        page = page,
-                        size = limit,
-                        sort = sortParam ?: listOf("likeCount,desc")
-                    )
+            val response = commentRemoteDataSource.getCommentList(
+                certificationId,
+                CommentListPageableRequestDto(
+                    page = page,
+                    size = limit,
+                    sort = sortParam ?: sortList
                 )
-                    .handleApiResponse()
-                    .getOrThrow()
-                    .content
-                    .map { it.toDomain() }
-            }
-        }.flow
+            ).data.toDomain()
 
-        return Pair(pagingFlow, totalElements)
+            _totalCommentCount.emit(response.totalElements)
+            response.content
+        }.flow
+    }
+
+    override fun getTotalCommentCount(): Flow<Int> {
+        return _totalCommentCount
     }
 
     override suspend fun registerComment(registerCommentRequest: RegisterCommentRequest): Result<Unit> {

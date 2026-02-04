@@ -23,7 +23,7 @@ fun CommentItemResponseDto.toDomain() : CommentItemData {
         content = content,
         userMajor = userMajor,
         userJob = userJob,
-        state = CertStateType.valueOf(state),
+        state = CertStateType.fromStateName(state),
         createdTime = createdTime,
         lastModifiedTime = lastModifiedTime,
         isLike = isLike,

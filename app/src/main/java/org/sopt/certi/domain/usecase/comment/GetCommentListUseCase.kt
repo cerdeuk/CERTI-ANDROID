@@ -9,7 +9,11 @@ import javax.inject.Inject
 class GetCommentListUseCase @Inject constructor(
     private val commentRepository: CommentRepository
 ) {
-    suspend operator fun invoke(certificationId: Long, sort: List<String> = listOf("likeCount", "desc")): Pair<Flow<PagingData<CommentItemData>>, Int> {
+    suspend fun getCommentList(certificationId: Long, sort: List<String> = listOf("likeCount", "desc")): Flow<PagingData<CommentItemData>> {
         return commentRepository.getCommentList(certificationId, sort)
+    }
+
+    fun getTotalCommentCount(): Flow<Int> {
+        return commentRepository.getTotalCommentCount()
     }
 }

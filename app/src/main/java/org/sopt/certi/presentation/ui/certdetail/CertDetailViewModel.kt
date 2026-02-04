@@ -1,15 +1,19 @@
 package org.sopt.certi.presentation.ui.certdetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -108,16 +112,30 @@ class CertDetailViewModel @Inject constructor(
 
     fun getCommentList(certId: Long, commentSortType: CommentSortType) = viewModelScope.launch {
         val sortValue = if (commentSortType == CommentSortType.Famous) {
-            listOf("likeCount, desc")
+            listOf("likeCount", "desc")
         } else {
             listOf()
         }
 
-        val (pagingFlow, totalElements) = getCommentListUseCase(certId, sortValue)
-        _totalCommentCount.value = totalElements
+        val pagingFlow = getCommentListUseCase.getCommentList(certId, sortValue)
+
+        getCommentListUseCase.getTotalCommentCount()
+            .collect {
+                _totalCommentCount.value = it
+            }
 
         pagingFlow
+            .distinctUntilChanged()
             .cachedIn(viewModelScope)
+            .map { pagingData ->
+                var count = 0
+                pagingData.map { item ->
+                    count++
+                    item
+                }.also {
+                    Log.d("Logd", "Total items loaded: $count")
+                }
+            }
             .collect { pagingData ->
                 _commentPagingData.value = pagingData
             }
