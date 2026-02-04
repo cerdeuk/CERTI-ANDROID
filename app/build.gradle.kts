@@ -125,6 +125,9 @@ dependencies {
 
     // calendar
     implementation(libs.kizitonwose.calendar)
+
+    // Paging
+    implementation(libs.androidx.room.paging)
 }
 
 ktlint {

@@ -52,6 +52,9 @@ firebaseCrashlyticsBuildtools = "3.0.4"
 # Calendar
 calendar = "2.6.0"
 
+# Paging
+roomRuntime = "2.8.2"
+
 [libraries]
 # Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -106,6 +109,9 @@ firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "fireb
 
 # Calendar
 kizitonwose-calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
+
+# Paging
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
