@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.usecase.FavoriteUseCase
 import org.sopt.certi.domain.usecase.PreCertUseCase
+import org.sopt.certi.domain.usecase.ToggleFavoriteUseCase
 import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.acquisition.UpdateAcquisitionUseCase
@@ -28,7 +29,8 @@ class MyCertViewModel @Inject constructor(
     private val updatePreCertificationUseCase: UpdatePreCertificationUseCase,
     private val deletePreCertificationUseCase: DeletePreCertificationUseCase,
     private val updateAcquisitionUseCase: UpdateAcquisitionUseCase,
-    private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
     private val _myCertUiState = MutableStateFlow(MyCertUiState())
     val myCertUiState = _myCertUiState.asStateFlow()
@@ -101,7 +103,15 @@ class MyCertViewModel @Inject constructor(
             }
     }
 
-    fun onFavoriteToggle(id: Long) {}
+    fun onFavoriteToggle(id: Long) = viewModelScope.launch {
+        toggleFavoriteUseCase(id)
+            .onSuccess {
+                getFavoriteCertificationList()
+            }
+            .onFailure { error ->
+                Timber.e(error, "즐겨찾기 취소 실패")
+            }
+    }
 
     fun onEditModeToggle() {
         val isEditMode = _myCertUiState.value.isEditMode
