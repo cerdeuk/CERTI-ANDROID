@@ -13,6 +13,8 @@ data class PreCertListResponseDto(
 data class PreCertificationSimple(
     @SerialName("certificationId")
     val certificationId: Long,
+    @SerialName("preCertificationId")
+    val preCertificationId: Long,
     @SerialName("certificationName")
     val certificationName: String,
     @SerialName("certificationType")

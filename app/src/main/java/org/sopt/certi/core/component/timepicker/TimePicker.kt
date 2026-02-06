@@ -25,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,13 +43,22 @@ enum class TimePeriodType() {
 @Composable
 fun CustomTimePicker(
     modifier: Modifier = Modifier,
-    initialHour: Int = 12,
+    initialHour: Int = 0,
     initialMinute: Int = 0,
     onTimeSelected: (hour: Int, minute: Int) -> Unit = { _, _ -> }
 ) {
-    var selectedPeriod by remember { mutableStateOf(if (initialHour < 12) TimePeriodType.AM else TimePeriodType.PM) }
-    var selectedHour by remember { mutableIntStateOf(if (initialHour == 0) 12 else if (initialHour > 12) initialHour - 12 else initialHour) }
-    var selectedMinute by remember { mutableIntStateOf(initialMinute) }
+    fun convertHour(h: Int) = if (h == 0 || h == -1) 12 else if (h > 12) h - 12 else h
+    fun getPeriod(h: Int) = if (h < 12) TimePeriodType.AM else TimePeriodType.PM
+
+    var selectedPeriod by remember { mutableStateOf(getPeriod(initialHour)) }
+    var selectedHour by remember { mutableIntStateOf(convertHour(initialHour)) }
+    var selectedMinute by remember { mutableIntStateOf(if (initialMinute == -1) 0 else initialMinute) }
+
+    LaunchedEffect(initialHour, initialMinute) {
+        selectedPeriod = getPeriod(initialHour)
+        selectedHour = convertHour(initialHour)
+        selectedMinute = if (initialMinute == -1) 0 else initialMinute
+    }
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -79,14 +87,8 @@ fun CustomTimePicker(
 
         // 시간 Picker
         TimePickerColumn(
-            items = (1..12).map {
-                if (it.toString().length == 1) {
-                    "0$it"
-                } else {
-                    it.toString()
-                }
-            },
-            selectedItem = selectedHour.toString(),
+            items = (listOf(12) + (1..11)).map { it.toString().padStart(2, '0') },
+            selectedItem = selectedHour.toString().padStart(2, '0'),
             onItemSelected = {
                 selectedHour = it.toInt()
                 onTimeSelected(
@@ -111,13 +113,7 @@ fun CustomTimePicker(
 
         // 분 Picker
         TimePickerColumn(
-            items = (0..59).map {
-                if (it.toString().length == 1) {
-                    "0$it"
-                } else {
-                    it.toString()
-                }
-            },
+            items = (0..59).map { it.toString().padStart(2, '0') },
             selectedItem = selectedMinute.toString().padStart(2, '0'),
             onItemSelected = {
                 selectedMinute = it.toInt()
@@ -159,26 +155,31 @@ fun TimePickerColumn(
             }
     }
 
+    var programmaticScroll by remember { mutableStateOf(false) }
+
+    // selectedItem이 변경되면 해당 위치로 스크롤
+    LaunchedEffect(selectedItem) {
+        val index = items.indexOf(selectedItem)
+        if (index >= 0) {
+            programmaticScroll = true
+            coroutineScope.launch {
+                listState.scrollToItem(index)
+            }.invokeOnCompletion {
+                programmaticScroll = false
+            }
+        }
+    }
+
     // 스크롤이 멈췄을 때 선택 확정
-    LaunchedEffect(listState) {
+    LaunchedEffect(listState, programmaticScroll) {
         snapshotFlow { listState.isScrollInProgress }
-            .filter { !it } // 스크롤이 멈췄을 때
+            .filter { !it && !programmaticScroll } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }
             }
-    }
-
-    // selectedItem이 변경되면 해당 위치로 스크롤
-    LaunchedEffect(selectedItem) {
-        val index = items.indexOf(selectedItem)
-        if (index >= 0 && !listState.isScrollInProgress) {
-            coroutineScope.launch {
-                listState.animateScrollToItem(index)
-            }
-        }
     }
 
     Box(
@@ -223,15 +224,6 @@ fun TimePickerColumn(
             items(items.size) { index ->
                 val item = items[index]
                 val isSelected = index == currentCenterIndex
-                val isVisible = when (items.size) {
-                    13 -> {
-                        item != "13"
-                    }
-                    61 -> {
-                        item != "61"
-                    }
-                    else -> true
-                }
 
                 Text(
                     text = item,
@@ -240,7 +232,6 @@ fun TimePickerColumn(
                     modifier = Modifier
                         .heightForScreenPercentage(40.dp)
                         .wrapContentHeight()
-                        .alpha(if (isVisible) 1f else 0f)
                 )
             }
 
@@ -276,26 +267,31 @@ fun TimePeriodPickerColumn(
             }
     }
 
+    var programmaticScroll by remember { mutableStateOf(false) }
+
+    // selectedItem이 변경되면 해당 위치로 스크롤
+    LaunchedEffect(selectedItem) {
+        val index = items.indexOf(selectedItem)
+        if (index >= 0) {
+            programmaticScroll = true
+            coroutineScope.launch {
+                listState.scrollToItem(index)
+            }.invokeOnCompletion {
+                programmaticScroll = false
+            }
+        }
+    }
+
     // 스크롤이 멈췄을 때 선택 확정
-    LaunchedEffect(listState) {
+    LaunchedEffect(listState, programmaticScroll) {
         snapshotFlow { listState.isScrollInProgress }
-            .filter { !it } // 스크롤이 멈췄을 때
+            .filter { !it && !programmaticScroll } // 스크롤이 멈췄을 때
             .collect {
                 val centerIndex = listState.firstVisibleItemIndex
                 if (centerIndex in items.indices) {
                     onItemSelected(items[centerIndex])
                 }
             }
-    }
-
-    // selectedItem이 변경되면 해당 위치로 스크롤
-    LaunchedEffect(selectedItem) {
-        val index = items.indexOf(selectedItem)
-        if (index >= 0 && !listState.isScrollInProgress) {
-            coroutineScope.launch {
-                listState.animateScrollToItem(index)
-            }
-        }
     }
 
     Box(

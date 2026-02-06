@@ -14,6 +14,7 @@ fun PreCertListResponseDto.toDomain(): List<CertificationData> =
         val (date, time) = cert.testDate.splitDateTime()
         CertificationData(
             certificationId = cert.certificationId,
+            preCertificationId = cert.preCertificationId,
             certificationName = cert.certificationName,
             certificationType = cert.certificationType,
             description = cert.description,
