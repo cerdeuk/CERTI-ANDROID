@@ -81,4 +81,10 @@ class HomeRepositoryImpl @Inject constructor(
             .handleNullableApiResponse()
             .getOrThrow()
     }
+
+    override suspend fun deletePreCertification(preCertId: Long): Result<Unit> = safeApiCall {
+        homeRemoteDataSource.deletePreCertification(preCertId)
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
 }

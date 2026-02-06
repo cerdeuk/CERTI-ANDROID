@@ -13,6 +13,7 @@ import org.sopt.certi.domain.usecase.PreCertUseCase
 import org.sopt.certi.domain.usecase.acquisition.DeleteAcquisitionUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.acquisition.UpdateAcquisitionUseCase
+import org.sopt.certi.domain.usecase.certification.DeletePreCertificationUseCase
 import org.sopt.certi.domain.usecase.certification.UpdatePreCertificationUseCase
 import org.sopt.certi.presentation.type.MyCertType
 import org.sopt.certi.presentation.ui.mycertification.state.MyCertUiState
@@ -25,6 +26,7 @@ class MyCertViewModel @Inject constructor(
     private val getAcquisitionListUseCase: GetAcquisitionListUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     private val updatePreCertificationUseCase: UpdatePreCertificationUseCase,
+    private val deletePreCertificationUseCase: DeletePreCertificationUseCase,
     private val updateAcquisitionUseCase: UpdateAcquisitionUseCase,
     private val deleteAcquisitionUseCase: DeleteAcquisitionUseCase
 ) : ViewModel() {
@@ -159,17 +161,37 @@ class MyCertViewModel @Inject constructor(
     }
 
     fun deleteItem() = viewModelScope.launch {
-        _myCertUiState.value.deleteTargetId?.let { acquisitionId ->
-            deleteAcquisitionUseCase(acquisitionId)
-                .onSuccess {
-                    _myCertUiState.update {
-                        it.copy(deleteTargetId = null)
+        val targetListId = _myCertUiState.value.deleteTargetId ?: return@launch
+
+        val currentList = (_myCertUiState.value.currentListState as? UiState.Success)?.data
+        val targetItem = currentList?.find { it.certificationId == targetListId }
+
+        targetItem?.let { data ->
+            when (_myCertUiState.value.selectedTab) {
+                MyCertType.PLANNED -> {
+                    deletePreCertificationUseCase(data.certificationId)
+                        .onSuccess {
+                            _myCertUiState.update { it.copy(deleteTargetId = null) }
+                            getPlannedCertificationList()
+                        }
+                        .onFailure { error ->
+                            Timber.e(error, "취득 예정 자격증 삭제 실패")
+                        }
+                }
+                MyCertType.ACQUIRED -> {
+                    data.acquisitionId?.let { id ->
+                        deleteAcquisitionUseCase(id)
+                            .onSuccess {
+                                _myCertUiState.update { it.copy(deleteTargetId = null) }
+                                getCertificationList()
+                            }
+                            .onFailure { error ->
+                                Timber.e(error, "취득 완료 자격증 삭제 실패")
+                            }
                     }
-                    getCertificationList()
                 }
-                .onFailure { error ->
-                    Timber.e(error, "자격증 삭제 실패")
-                }
+                MyCertType.FAVORITE -> {}
+            }
         }
     }
 }

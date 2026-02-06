@@ -17,4 +17,6 @@ class HomeRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPreCertDay(date: String) = service.getPreCertDay(date)
     override suspend fun updatePreCertification(certificationId: Long, requestBody: UpdatePreCertificationRequestDto): NullableApiResponse<Unit> =
         service.updatePreCertification(certificationId, requestBody)
+    override suspend fun deletePreCertification(preCertId: Long): NullableApiResponse<Unit> =
+        service.deletePreCertification(preCertId)
 }

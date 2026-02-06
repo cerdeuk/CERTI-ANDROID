@@ -17,4 +17,5 @@ interface HomeRemoteDataSource {
     suspend fun getPreCertMonth(year: Int, month: Int): ApiResponse<GetPreCertMonthResponseDto>
     suspend fun getPreCertDay(date: String): ApiResponse<GetPreCertDayListResponseDto>
     suspend fun updatePreCertification(certificationId: Long, requestBody: UpdatePreCertificationRequestDto): NullableApiResponse<Unit>
+    suspend fun deletePreCertification(preCertId: Long): NullableApiResponse<Unit>
 }

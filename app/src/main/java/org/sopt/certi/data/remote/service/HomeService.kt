@@ -9,6 +9,7 @@ import org.sopt.certi.data.remote.dto.response.GetPreCertMonthResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.data.remote.dto.response.UserInfoResponseDto
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -45,5 +46,10 @@ interface HomeService {
     suspend fun updatePreCertification(
         @Path("userPreCertificationId") userPreCertificationId: Long,
         @Body requestBody: UpdatePreCertificationRequestDto
+    ): NullableApiResponse<Unit>
+
+    @DELETE("/api/v1/home/pre-certification/{certificationId}")
+    suspend fun deletePreCertification(
+        @Path("certificationId") preCertId: Long
     ): NullableApiResponse<Unit>
 }

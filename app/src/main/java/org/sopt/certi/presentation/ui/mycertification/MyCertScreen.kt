@@ -67,23 +67,27 @@ fun MyCertRoute(
     uiState.editTargetCertification?.let { data ->
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-        if (data.isAcquired) {
-            EditAcquiredTextInfoBottomSheet(
-                sheetState = sheetState,
-                certificationData = data,
-                onConfirm = viewModel::editAcquisitionCertification,
-                onDismiss = viewModel::closeEditSheet
-            )
-        } else {
-            RegisterTestInfoBottomSheet(
-                sheetState = sheetState,
-                certTitle = data.certificationName,
-                forModify = true,
-                onConfirm = viewModel::editPreCertification,
-                onConfirmWithNoData = {},
-                onDismiss = viewModel::closeEditSheet,
-                certificationData = data
-            )
+        when (uiState.selectedTab) {
+            MyCertType.PLANNED -> {
+                RegisterTestInfoBottomSheet(
+                    sheetState = sheetState,
+                    certTitle = data.certificationName,
+                    forModify = true,
+                    onConfirm = viewModel::editPreCertification,
+                    onConfirmWithNoData = {},
+                    onDismiss = viewModel::closeEditSheet,
+                    certificationData = data
+                )
+            }
+            MyCertType.ACQUIRED -> {
+                EditAcquiredTextInfoBottomSheet(
+                    sheetState = sheetState,
+                    certificationData = data,
+                    onConfirm = viewModel::editAcquisitionCertification,
+                    onDismiss = viewModel::closeEditSheet
+                )
+            }
+            MyCertType.FAVORITE -> {}
         }
     }
 
