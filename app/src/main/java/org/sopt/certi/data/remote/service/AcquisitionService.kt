@@ -2,6 +2,7 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.AddAcquisitionRequestDto
 import org.sopt.certi.data.remote.dto.request.UpdateAcquisitionRequestDto
 import retrofit2.http.POST
 import org.sopt.certi.data.remote.dto.response.GetAcquisitionDetailResponseDto
@@ -13,8 +14,10 @@ import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface AcquisitionService {
-    @POST("api/v1/acquisition/{certificationId}")
-    suspend fun acquiredCert(@Path("certificationId") certificationId: Long): NullableApiResponse<Boolean>
+    @POST("/api/v1/acquisition")
+    suspend fun acquiredCert(
+        @Body request: AddAcquisitionRequestDto
+    ): NullableApiResponse<Boolean>
 
     @GET("/api/v1/acquisition")
     suspend fun getAcquisitionList(): ApiResponse<GetAcquisitionListResponseDto>

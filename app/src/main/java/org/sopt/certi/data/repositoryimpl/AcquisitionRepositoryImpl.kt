@@ -2,6 +2,7 @@ package org.sopt.certi.data.repositoryimpl
 
 import org.sopt.certi.data.mapper.todomain.acquisition.toDomain
 import org.sopt.certi.data.remote.datasource.AcquisitionRemoteDataSource
+import org.sopt.certi.data.remote.dto.request.AddAcquisitionRequestDto
 import org.sopt.certi.data.remote.dto.request.UpdateAcquisitionRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
@@ -14,7 +15,7 @@ class AcquisitionRepositoryImpl @Inject constructor(
     private val acquisitionRemoteDataSource: AcquisitionRemoteDataSource
 ) : AcquisitionRepository {
     override suspend fun acquiredCert(certificationId: Long): Result<Boolean> = safeApiCall {
-        acquisitionRemoteDataSource.acquiredCert(certificationId)
+        acquisitionRemoteDataSource.acquiredCert(AddAcquisitionRequestDto(certificationId))
             .handleNullableApiResponse()
             .getOrThrow() == true
     }
