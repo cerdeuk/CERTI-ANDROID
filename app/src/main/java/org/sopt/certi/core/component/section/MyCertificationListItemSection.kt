@@ -27,7 +27,7 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenWidthDp
-import org.sopt.certi.core.util.toDateFormat
+import org.sopt.certi.core.util.toSpacedDotDate
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
@@ -100,7 +100,7 @@ fun MyCertificationListItemSection(
             if (certificationData.isAcquired) {
                 CertInfoSection(
                     iconRes = R.drawable.ic_date_16,
-                    testInfo = certificationData.acquisitionDate.toDateFormat()
+                    testInfo = certificationData.acquisitionDate.toSpacedDotDate()
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_level,

@@ -36,12 +36,11 @@ fun String.toDateData(): DateData {
     )
 }
 
-fun String.toDateFormat(): String {
+fun String.toSpacedDotDate(): String {
     return try {
         val standardInput = this.replace(".", "-")
         val date = LocalDate.parse(standardInput)
         val formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd")
-        date.format(formatter)
         date.format(formatter)
     } catch (e: Exception) {
         this
