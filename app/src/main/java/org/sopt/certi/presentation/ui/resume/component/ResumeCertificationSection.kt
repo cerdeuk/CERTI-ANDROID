@@ -24,6 +24,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.presentation.ui.resume.component.card.ResumeCertificationSmallCard
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -106,7 +107,8 @@ private fun ResumeEmptyCertificationSectionPreview() {
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
             emptyText = stringResource(R.string.resume_empty_certification_message),
-            resumeListItems = listOf()
+            resumeListItems = listOf(),
+            bottomPadding = 13.dp
         )
     }
 }

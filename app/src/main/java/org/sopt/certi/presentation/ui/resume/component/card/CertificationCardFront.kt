@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -56,6 +57,7 @@ fun CertificationCardFront(
                 ),
                 style = CertiTheme.typography.caption.regular_10,
                 color = CertiTheme.colors.white,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = screenWidthDp(77.dp))
@@ -93,6 +95,7 @@ fun CertificationCardFront(
                 text = stringResource(id = R.string.resume_flip_card_touch),
                 style = CertiTheme.typography.caption.semibold_10,
                 color = CertiTheme.colors.purpleWhite,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = screenWidthDp(45.dp))

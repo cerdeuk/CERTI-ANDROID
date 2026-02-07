@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -39,7 +40,9 @@ fun AcquiredDateChip(
                 certificationData.createdAt.dayOfMonth
             ),
             style = CertiTheme.typography.caption.semibold_14,
-            color = CertiTheme.colors.mainBlue
+            color = CertiTheme.colors.mainBlue,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

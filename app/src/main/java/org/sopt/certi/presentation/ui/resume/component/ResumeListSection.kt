@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertiEmptySection
@@ -29,6 +30,7 @@ fun ResumeListSection(
     onClick: () -> Unit,
     emptyText: String,
     resumeListItems: List<ActivityData>,
+    bottomPadding: Dp,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -59,7 +61,13 @@ fun ResumeListSection(
                 modifier = Modifier.padding(vertical = screenHeightDp(60.dp))
             )
         } else {
-            ResumeListContent(resumeListItems = resumeListItems)
+            ResumeListContent(
+                resumeListItems = resumeListItems,
+                modifier = Modifier.padding(
+                    top = screenHeightDp(16.dp),
+                    bottom = bottomPadding
+                )
+            )
         }
     }
 }
@@ -72,7 +80,8 @@ private fun ResumeEmptyListSectionPreview() {
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
             emptyText = stringResource(R.string.resume_empty_experience_message),
-            resumeListItems = listOf()
+            resumeListItems = listOf(),
+            bottomPadding = 0.dp
         )
     }
 }

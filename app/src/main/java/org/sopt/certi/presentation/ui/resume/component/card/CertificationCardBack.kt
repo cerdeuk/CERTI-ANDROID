@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -98,7 +99,9 @@ fun CertificationCardBack(
                 Text(
                     text = stringResource(R.string.resume_acquired_title, nickname),
                     style = CertiTheme.typography.caption.semibold_14,
-                    color = CertiTheme.colors.white
+                    color = CertiTheme.colors.white,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
