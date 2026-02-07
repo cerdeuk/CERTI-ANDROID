@@ -108,9 +108,9 @@ fun ResumeAddActivitiesScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .imePadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = screenWidthDp(20.dp))
-            .imePadding()
     ) {
         Text(
             text = stringResource(titleResId),
