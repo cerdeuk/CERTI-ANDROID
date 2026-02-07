@@ -12,19 +12,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.component.topbar.DDayoTopBar
 import org.sopt.certi.core.state.UiState
@@ -38,7 +34,6 @@ import org.sopt.certi.presentation.ui.resume.component.ResumeCertificationSectio
 import org.sopt.certi.presentation.ui.resume.component.ResumeListSection
 import org.sopt.certi.presentation.ui.resume.component.ResumeProfile
 import org.sopt.certi.presentation.ui.resume.component.card.FlipCardOverlay
-import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 
 @Composable
 fun ResumeRoute(
@@ -50,26 +45,15 @@ fun ResumeRoute(
     viewModel: ResumeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.resumeUiState.collectAsStateWithLifecycle()
-    val lifecycleOwner = LocalLifecycleOwner.current
-    var showDialog by remember { mutableStateOf(false) }
-
     LaunchedEffect(Unit) {
         viewModel.getResumeData()
     }
 
-    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
-        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
-            when (it) {
-                ResumeSideEffect.ShowCertificationDetailModal -> showDialog = true
-            }
-        }
-    }
-
-    if (showDialog) {
+    if (uiState.selectedCertDetail is UiState.Success) {
         FlipCardOverlay(
             certificationData = (uiState.selectedCertDetail as UiState.Success<CertificationData>).data,
             nickname = viewModel.getUserName() ?: stringResource(R.string.resume_certification_card_nickname),
-            onDismiss = { showDialog = false }
+            onDismiss = viewModel::closeCertificationDetailModal
         )
     }
 
@@ -79,9 +63,7 @@ fun ResumeRoute(
             acquiredCertificationList = (uiState.acquiredCertificationListLoadState as UiState.Success<List<CertificationData>>).data.toImmutableList(),
             experienceList = (uiState.experienceListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
             activityList = (uiState.activityListLoadState as UiState.Success<List<ActivityData>>).data.toImmutableList(),
-            onCertificationClick = { certificationId ->
-                viewModel.onCertificationClick(certificationId)
-            },
+            onCertificationClick = viewModel::onCertificationClick,
             navigateToMyPage = navigateToMyPage,
             navigateToMyCert = navigateToMyCert,
             navigateToWorkExperience = navigateToWorkExperience,

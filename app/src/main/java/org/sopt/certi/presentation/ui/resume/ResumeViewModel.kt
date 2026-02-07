@@ -3,12 +3,10 @@ package org.sopt.certi.presentation.ui.resume
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.certi.core.network.TokenManager
@@ -21,7 +19,6 @@ import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionDetailUseCase
 import org.sopt.certi.domain.usecase.acquisition.GetAcquisitionListUseCase
 import org.sopt.certi.domain.usecase.activity.GetActivityListUseCase
 import org.sopt.certi.domain.usecase.career.GetCareerListUseCase
-import org.sopt.certi.presentation.ui.resume.sideEffect.ResumeSideEffect
 import org.sopt.certi.presentation.ui.resume.state.ResumeUiState
 import javax.inject.Inject
 
@@ -63,12 +60,9 @@ class ResumeViewModel @Inject constructor(
                 acquiredCertificationListLoadState = UiState.Loading,
                 experienceListLoadState = UiState.Loading,
                 activityListLoadState = UiState.Loading,
-                selectedCertDetail = UiState.Loading
+                selectedCertDetail = UiState.Empty
             )
         )
-
-    private val _sideEffect = Channel<ResumeSideEffect>()
-    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun getResumeData() {
         getUserInfo()
@@ -129,13 +123,10 @@ class ResumeViewModel @Inject constructor(
         )
     }
 
-    fun onCertificationClick(selectedCertificationId: Long) = viewModelScope.launch {
-        _selectedCertDetail.value = UiState.Loading
-        getAcquisitionDetailUseCase.invoke(selectedCertificationId).fold(
-            onSuccess = {
-                val acquisitionDetail = it
+    fun onCertificationClick(selectedId: Long) = viewModelScope.launch {
+        getAcquisitionDetailUseCase.invoke(selectedId).fold(
+            onSuccess = { acquisitionDetail ->
                 _selectedCertDetail.emit(UiState.Success(acquisitionDetail))
-                _sideEffect.send(ResumeSideEffect.ShowCertificationDetailModal)
             },
             onFailure = {
                 _selectedCertDetail.emit(UiState.Failure(it.message.toString()))
@@ -144,4 +135,8 @@ class ResumeViewModel @Inject constructor(
     }
 
     fun getUserName(): String? = tokenManager.getNickName()
+
+    fun closeCertificationDetailModal() {
+        _selectedCertDetail.value = UiState.Empty
+    }
 }

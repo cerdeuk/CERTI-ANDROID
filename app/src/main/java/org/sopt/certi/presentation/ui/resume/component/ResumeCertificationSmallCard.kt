@@ -36,9 +36,9 @@ fun ResumeCertificationSmallCard(
 ) {
     Box(
         modifier = modifier
-            .noRippleClickable(onClick)
             .widthForScreenPercentage(200.dp)
             .aspectRatio(2f / 3f)
+            .noRippleClickable(onClick)
     ) {
         AsyncImage(
             model = certification.cardFrontImageUrl,
@@ -101,7 +101,7 @@ private fun ResumeCertificationSmallCardPreview() {
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격) GTQ 1급 (그래픽기술자격) GTQ 1급 (그래픽기술자격) GTQ 1급 (그래픽기술자격)",
                 acquisitionDate = "2026-02-07",
-                cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+                cardFrontImageUrl = "",
                 tags = listOf("태그태그태그", "태그태그태그", "태그태그")
             ),
             onClick = {},

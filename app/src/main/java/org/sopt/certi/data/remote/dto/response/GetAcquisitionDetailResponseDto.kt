@@ -19,6 +19,6 @@ data class GetAcquisitionDetailResponseDto(
     val tags: List<String>,
     @SerialName("description")
     val description: String,
-    @SerialName("createdAt")
-    val createdAt: String
+    @SerialName("acquisitionDate")
+    val acquisitionDate: String
 )

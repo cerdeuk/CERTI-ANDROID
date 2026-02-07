@@ -92,7 +92,7 @@ private fun ResumeCertificationContent(
         itemsIndexed(acquiredCertificationList) { index, certification ->
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = { onCertificationClick(certification.certificationId) }
+                onClick = { certification.acquisitionId?.let { onCertificationClick(it) } }
             )
         }
     }
