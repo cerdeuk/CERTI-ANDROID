@@ -38,6 +38,7 @@ fun MyPageMenuItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
+            .noRippleClickable(onClick)
             .background(CertiTheme.colors.white)
             .padding(vertical = screenHeightDp(12.dp), horizontal = screenWidthDp(12.dp)),
         verticalAlignment = Alignment.CenterVertically
@@ -70,8 +71,7 @@ fun MyPageMenuItem(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
             contentDescription = null,
-            tint = CertiTheme.colors.gray600,
-            modifier = Modifier.noRippleClickable { onClick() }
+            tint = CertiTheme.colors.gray600
         )
     }
 }

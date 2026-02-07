@@ -40,6 +40,7 @@ fun MyPageCertMenuItem(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
+            .noRippleClickable(onClick)
             .background(CertiTheme.colors.white)
             .padding(horizontal = screenWidthDp(16.dp))
             .padding(top = screenHeightDp(20.dp), bottom = screenHeightDp(24.dp))
@@ -62,8 +63,7 @@ fun MyPageCertMenuItem(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
                 contentDescription = null,
-                tint = CertiTheme.colors.gray600,
-                modifier = Modifier.noRippleClickable { onClick() }
+                tint = CertiTheme.colors.gray600
             )
         }
         Row(

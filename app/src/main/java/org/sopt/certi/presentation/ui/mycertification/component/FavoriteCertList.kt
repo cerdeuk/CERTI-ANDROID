@@ -22,6 +22,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.component.section.CertInfoSection
 import org.sopt.certi.core.component.section.CertItemTitleSection
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
@@ -39,9 +40,9 @@ fun FavoriteCertList(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = screenWidthDp(20.dp),
-            top = screenWidthDp(24.dp),
+            top = screenHeightDp(24.dp),
             end = screenWidthDp(20.dp),
-            bottom = screenWidthDp(20.dp)
+            bottom = screenHeightDp(20.dp)
         ),
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
     ) {

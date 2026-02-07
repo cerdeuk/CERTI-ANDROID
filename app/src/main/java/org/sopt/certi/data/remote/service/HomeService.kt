@@ -2,12 +2,16 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
+import org.sopt.certi.data.remote.dto.request.UpdatePreCertificationRequestDto
 import org.sopt.certi.data.remote.dto.response.FavoriteListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertDayListResponseDto
 import org.sopt.certi.data.remote.dto.response.GetPreCertMonthResponseDto
 import org.sopt.certi.data.remote.dto.response.PreCertListResponseDto
 import org.sopt.certi.data.remote.dto.response.UserInfoResponseDto
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -37,4 +41,15 @@ interface HomeService {
     suspend fun getPreCertDay(
         @Query("date") date: String
     ): ApiResponse<GetPreCertDayListResponseDto>
+
+    @PATCH("/api/v1/home/pre-certification/{userPreCertificationId}")
+    suspend fun updatePreCertification(
+        @Path("userPreCertificationId") userPreCertificationId: Long,
+        @Body requestBody: UpdatePreCertificationRequestDto
+    ): NullableApiResponse<Unit>
+
+    @DELETE("/api/v1/home/pre-certification/{certificationId}")
+    suspend fun deletePreCertification(
+        @Path("certificationId") preCertId: Long
+    ): NullableApiResponse<Unit>
 }

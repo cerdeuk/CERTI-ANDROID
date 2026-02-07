@@ -13,8 +13,14 @@ data class PreCertListResponseDto(
 data class PreCertificationSimple(
     @SerialName("certificationId")
     val certificationId: Long,
+    @SerialName("preCertificationId")
+    val preCertificationId: Long,
     @SerialName("certificationName")
     val certificationName: String,
+    @SerialName("certificationType")
+    val certificationType: String,
+    @SerialName("description")
+    val description: String,
     @SerialName("averagePeriod")
     val averagePeriod: String,
     @SerialName("nearestTestDate")
@@ -22,5 +28,11 @@ data class PreCertificationSimple(
     @SerialName("agencyName")
     val agencyName: String,
     @SerialName("iconIndex")
-    val iconIndex: Int
+    val iconIndex: Int,
+    @SerialName("city")
+    val city: String,
+    @SerialName("state")
+    val state: String,
+    @SerialName("testDate")
+    val testDate: String
 )
