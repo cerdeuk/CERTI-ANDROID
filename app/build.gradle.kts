@@ -32,6 +32,9 @@ android {
         val kakaoNativeAppKey = properties["kakao.native.app.key"].toString()
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoNativeAppKey\"")
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = kakaoNativeAppKey
+
+        val googleClientID = properties["google.web.client.id"].toString()
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientID\"")
     }
 
     signingConfigs {
@@ -130,6 +133,11 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime.android)
     implementation(libs.androidx.paging.runtime)
+
+    // Google
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 }
 
 ktlint {

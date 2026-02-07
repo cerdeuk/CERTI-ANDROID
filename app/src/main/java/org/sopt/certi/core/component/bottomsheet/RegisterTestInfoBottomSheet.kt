@@ -126,12 +126,12 @@ fun RegisterTestInfoBottomSheet(
 
     LaunchedEffect(forModify) {
         if (forModify && certificationData != null) {
-            // TODO data 형식에 맞게 여기서 삽입 @이지현
-
-//            dateText = certificationData.testDate
-//            cityText = certificationData.city
-//            districtText = certificationData.state
-//            timeData = certificationData.testTime
+            dateText = certificationData.testDate
+            cityText = certificationData.city
+            districtText = certificationData.state
+            timeData = certificationData.testTime.split(":").take(2)
+                .mapNotNull { it.toIntOrNull() }
+                .let { if (it.size == 2) Pair(it[0], it[1]) else Pair(0, 0) }
         }
     }
 
@@ -435,7 +435,10 @@ fun RegisterTestInfoBottomSheet(
 
                             Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-                            CustomTimePicker { hour, minute ->
+                            CustomTimePicker(
+                                initialHour = timeData.first,
+                                initialMinute = timeData.second
+                            ) { hour, minute ->
                                 timeData = Pair(hour, minute)
                             }
 

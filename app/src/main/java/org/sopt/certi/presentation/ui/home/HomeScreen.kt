@@ -283,6 +283,7 @@ fun HomeScreen(
                             text = stringResource(id = R.string.home_favorite_empty),
                             modifier = Modifier
                                 .padding(horizontal = screenWidthDp(80.dp))
+                                .padding(top = screenHeightDp(36.dp))
                         )
                     } else {
                         Spacer(Modifier.height(screenHeightDp(16.dp)))

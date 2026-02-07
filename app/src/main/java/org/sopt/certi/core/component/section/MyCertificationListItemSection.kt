@@ -27,9 +27,11 @@ import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.toSpacedDotDate
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MyCertificationListItemSection(
@@ -98,12 +100,13 @@ fun MyCertificationListItemSection(
             if (certificationData.isAcquired) {
                 CertInfoSection(
                     iconRes = R.drawable.ic_date_16,
-                    testInfo = certificationData.createdAt.toString()
+                    testInfo = certificationData.acquisitionDate.toSpacedDotDate()
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_level,
                     iconColor = CertiTheme.colors.gray400,
-                    testInfo = certificationData.grade
+                    testInfo = if (certificationData.grade.isBlank()) stringResource(R.string.acquired_grade_empty_text) else certificationData.grade,
+                    textColor = if (certificationData.grade.isBlank()) CertiTheme.colors.gray200 else CertiTheme.colors.black
                 )
             } else {
                 CertInfoSection(
@@ -112,7 +115,7 @@ fun MyCertificationListItemSection(
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_time,
-                    testInfo = certificationData.testTime
+                    testInfo = certificationData.testTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                 )
             }
         }
@@ -123,7 +126,7 @@ fun MyCertificationListItemSection(
 private fun CertificationStatus(acquired: Boolean) {
     Row(
         modifier = Modifier
-            .background(color = CertiTheme.colors.purpleBlue, shape = RoundedCornerShape(100.dp))
+            .background(color = if (acquired) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue, shape = RoundedCornerShape(100.dp))
             .padding(horizontal = screenWidthDp(6.dp), vertical = screenWidthDp(4.dp)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)

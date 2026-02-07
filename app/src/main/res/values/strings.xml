@@ -26,7 +26,7 @@
     <string name="onboarding_nickname_textfield_invalid">욕설과 비속어 등은 사용할 수 없습니다.</string>
     <string name="onboarding_nickname_duplicate_check">닉네임 중복 확인</string>
     <string name="onboarding_info_nickname">%s님,</string>
-    <string name="onboarding_info_title">이제 따와 함께 해요!</string>
+    <string name="onboarding_info_title">이제 따요와 함께 해요!</string>
     <string name="onboarding_info_final_education_title">최종학력</string>
     <string name="onboarding_info_major_title">학과</string>
     <string name="onboarding_info_category_title">희망직무</string>
@@ -238,6 +238,8 @@
     <string name="edit_acquired_bottomsheet_date_placeholder">취득 날짜를 선택해주세요.</string>
     <string name="edit_acquired_bottomsheet_score">취득 점수 (선택)</string>
     <string name="edit_acquired_bottomsheet_score_placerholder">점수 입력</string>
+    <string name="my_certification_empty_text">아직 등록된 자격증이 없어요</string>
+    <string name="acquired_grade_empty_text">취득 점수 -</string>
 
     <!--  SettingScreen  -->
     <string name="setting_other">기타설정</string>

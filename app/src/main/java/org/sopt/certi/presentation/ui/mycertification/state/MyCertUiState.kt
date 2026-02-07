@@ -5,9 +5,18 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.presentation.type.MyCertType
 
 data class MyCertUiState(
-    val isEditMode: Boolean,
-    val selectedTab: MyCertType,
-    val myCertListLoadState: UiState<List<CertificationData>>,
-    val editTargetCertification: CertificationData?,
-    val deleteTargetId: Long?
-)
+    val isEditMode: Boolean = false,
+    val selectedTab: MyCertType = MyCertType.PLANNED,
+    val plannedCertListState: UiState<List<CertificationData>> = UiState.Loading,
+    val acquiredCertListState: UiState<List<CertificationData>> = UiState.Loading,
+    val favoriteCertListState: UiState<List<CertificationData>> = UiState.Loading,
+    val editTargetCertification: CertificationData? = null,
+    val deleteTargetId: Long? = null
+) {
+    val currentListState: UiState<List<CertificationData>>
+        get() = when (selectedTab) {
+            MyCertType.PLANNED -> plannedCertListState
+            MyCertType.ACQUIRED -> acquiredCertListState
+            MyCertType.FAVORITE -> favoriteCertListState
+        }
+}

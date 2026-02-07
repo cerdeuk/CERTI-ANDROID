@@ -43,4 +43,31 @@ class LoginViewModel @Inject constructor(
             )
         }
     }
+
+    fun signInWithGoogleIdToken(
+        idToken: String,
+        onSuccess: (needSignUp: Boolean) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        viewModelScope.launch {
+            signInUseCase(idToken, SocialLoginType.GOOGLE.name.lowercase(Locale.ROOT)).fold(
+                onSuccess = { result ->
+                    onSuccess(result.needSignUp)
+                    if (result.needSignUp) {
+                        tokenManager.savePreSignupToken(result.preSignupToken)
+                        tokenManager.saveUserInformation(result.userInformation)
+                    } else {
+                        result.jwtResponse?.let {
+                            tokenManager.saveToken(it.accessToken)
+                            tokenManager.saveRefreshToken(it.refreshToken)
+                        }
+                    }
+                },
+                onFailure = {
+                    Timber.e(it)
+                    onFailure(it)
+                }
+            )
+        }
+    }
 }

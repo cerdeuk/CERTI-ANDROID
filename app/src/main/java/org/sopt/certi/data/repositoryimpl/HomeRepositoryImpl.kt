@@ -3,6 +3,7 @@ import org.sopt.certi.data.mapper.todomain.user.toDomain
 import org.sopt.certi.data.mapper.todomain.cert.toDomain
 import org.sopt.certi.data.remote.datasource.CertRemoteDataSource
 import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
+import org.sopt.certi.data.remote.dto.request.UpdatePreCertificationRequestDto
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.user.UserInfoData
@@ -73,5 +74,17 @@ class HomeRepositoryImpl @Inject constructor(
             .handleApiResponse()
             .getOrThrow()
             .toDomain()
+    }
+
+    override suspend fun updatePreCertification(certificationId: Long, testDate: String, city: String, state: String): Result<Unit> = safeApiCall {
+        homeRemoteDataSource.updatePreCertification(certificationId, UpdatePreCertificationRequestDto(testDate, city, state))
+            .handleNullableApiResponse()
+            .getOrThrow()
+    }
+
+    override suspend fun deletePreCertification(preCertId: Long): Result<Unit> = safeApiCall {
+        homeRemoteDataSource.deletePreCertification(preCertId)
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }

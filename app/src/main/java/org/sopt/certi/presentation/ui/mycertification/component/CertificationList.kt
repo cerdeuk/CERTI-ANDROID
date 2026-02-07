@@ -18,6 +18,7 @@ import kotlinx.collections.immutable.ImmutableList
 import org.sopt.certi.R
 import org.sopt.certi.core.component.section.MyCertificationListItemSection
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
@@ -50,13 +51,13 @@ fun CertificationList(
         state = listState,
         contentPadding = PaddingValues(
             start = screenWidthDp(20.dp),
-            top = screenWidthDp(16.dp),
+            top = screenHeightDp(16.dp),
             end = screenWidthDp(20.dp),
-            bottom = screenWidthDp(20.dp)
+            bottom = screenHeightDp(20.dp)
         ),
         verticalArrangement = Arrangement.spacedBy(screenWidthDp(16.dp))
     ) {
-        if (!isEditMode) {
+        if (!isEditMode && certifications.isNotEmpty()) {
             item(
                 key = KEY_EDIT_BUTTON,
                 contentType = CertListType.HEADER
