@@ -156,7 +156,7 @@ fun CommentItem(
             Spacer(Modifier.widthForScreenPercentage(8.dp))
 
             Text(
-                text = commentData.createdTime,
+                text = commentData.createdTime.split("T")[0].replace("-", "."),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray400
             )
@@ -208,7 +208,7 @@ fun CommentItemPreview() {
         userMajor = "컴퓨터공학과",
         userJob = "개발자",
         state = CertStateType.ANTICIPATED,
-        createdTime = "2024.07.21",
+        createdTime = "2026-02-05T03:25:01.699655",
         lastModifiedTime = "2024.07.21",
         isLike = true,
         likeCount = 15

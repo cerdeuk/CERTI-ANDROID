@@ -11,15 +11,20 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.sopt.certi.core.network.TokenManager
 import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.domain.model.comment.RegisterCommentRequest
+import org.sopt.certi.domain.model.user.UserInfoData
+import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.comment.DeleteCommentUseCase
@@ -41,15 +46,23 @@ class CertDetailViewModel @Inject constructor(
     private val registerCommentUseCase: RegisterCommentUseCase,
     private val likeCommentUseCase: LikeCommentUseCase,
     private val deleteCommentUseCase: DeleteCommentUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _certDetailInfo = MutableStateFlow<UiState<CertificationData>>(UiState.Init)
 
     private val _commentPagingData = MutableStateFlow<PagingData<CommentItemData>>(PagingData.empty())
-    val commentPagingData: StateFlow<PagingData<CommentItemData>> = _commentPagingData
+    val commentPagingData: StateFlow<PagingData<CommentItemData>> = _commentPagingData.asStateFlow()
 
     private val _totalCommentCount = MutableStateFlow(0)
-    val totalCommentCount: StateFlow<Int> = _totalCommentCount
+    val totalCommentCount: StateFlow<Int> = _totalCommentCount.asStateFlow()
+
+    private val _myUserId = MutableStateFlow(0L)
+    val myUserId: StateFlow<Long> = _myUserId.asStateFlow()
+
+    private val _registerCommentSuccess = MutableStateFlow<UiState<Boolean>>(UiState.Init)
+    val registerCommentSuccess: StateFlow<UiState<Boolean>> = _registerCommentSuccess.asStateFlow()
+
 
     val detailUiState: StateFlow<DetailUiState> =
         combine(
@@ -68,6 +81,7 @@ class CertDetailViewModel @Inject constructor(
 
     private val _sideEffect = Channel<DetailSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
+
 
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
         getCertInfoUseCase.invoke(certId).fold(
@@ -110,6 +124,10 @@ class CertDetailViewModel @Inject constructor(
         )
     }
 
+    fun getMyUserId() = viewModelScope.launch {
+        _myUserId.value = tokenManager.getUserId()
+    }
+
     fun getCommentList(certId: Long, commentSortType: CommentSortType) = viewModelScope.launch {
         val sortValue = if (commentSortType == CommentSortType.Famous) {
             listOf("likeCount", "desc")
@@ -124,6 +142,7 @@ class CertDetailViewModel @Inject constructor(
                 _commentPagingData.value = pagingData
 
                 getTotalCommentCount()
+                _registerCommentSuccess.emit(UiState.Init)
             }
     }
 
@@ -132,5 +151,16 @@ class CertDetailViewModel @Inject constructor(
             .collect {
                 _totalCommentCount.value = it
             }
+    }
+
+    fun registerComment(certId: Long, content: String) = viewModelScope.launch {
+        registerCommentUseCase.invoke(registerCommentRequest = RegisterCommentRequest(content, certId)).fold(
+            onSuccess = {
+                _registerCommentSuccess.emit(UiState.Success(true))
+            },
+            onFailure = {
+
+            }
+        )
     }
 }

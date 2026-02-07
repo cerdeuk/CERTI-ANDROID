@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserInfoResponseDto(
+    @SerialName("userId")
+    val userId: Long,
     @SerialName("nickname")
     val nickname: String,
     @SerialName("name")
@@ -13,6 +15,8 @@ data class UserInfoResponseDto(
     val university: String,
     @SerialName("major")
     val major: String,
+    @SerialName("job")
+    val job: String,
     @SerialName("profileImage")
     val profileImage: String?,
     @SerialName("birthDate")

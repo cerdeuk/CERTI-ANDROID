@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
@@ -48,8 +50,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import org.sopt.certi.R
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
@@ -73,21 +77,40 @@ fun CertDetailCommentRoute(
     var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
     val commentList = viewModel.commentPagingData.collectAsLazyPagingItems()
     val totalCommentCount by viewModel.totalCommentCount.collectAsStateWithLifecycle()
+    val myUserId by viewModel.myUserId.collectAsStateWithLifecycle()
+
+    val listState = rememberLazyListState()
 
     LaunchedEffect(commentSortType) {
+        viewModel.getMyUserId()
         viewModel.getCommentList(certificationId, commentSortType)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.registerCommentSuccess.collect { uiState ->
+            when(uiState) {
+                is UiState.Success -> {
+                    commentList.refresh()
+
+                    delay(500)
+                    listState.animateScrollToItem(commentList.itemCount)
+                }
+                else -> {}
+            }
+        }
     }
 
     CertDetailCommentScreen(
         commentData = commentList,
         totalCommentCount = totalCommentCount,
-        myUserId = 0,
+        myUserId = myUserId,
         certStateType = certStateType,
+        listState = listState,
         changeSortType = { changedSortType ->
             commentSortType = changedSortType
         },
         writeComment = { content ->
-
+            viewModel.registerComment(certId = certificationId, content = content)
         },
         likeOnClick = { like, commentId ->
 
@@ -108,6 +131,7 @@ fun CertDetailCommentScreen(
     totalCommentCount: Int,
     myUserId: Long,
     certStateType: CertStateType,
+    listState: LazyListState = rememberLazyListState(),
     changeSortType: (CommentSortType) -> Unit = {},
     writeComment: (content: String) -> Unit = {},
     likeOnClick: (like: Boolean, commentId: Long) -> Unit = { _, _ -> },
@@ -179,11 +203,13 @@ fun CertDetailCommentScreen(
                 CommentEmptyView()
             } else {
                 LazyColumn(
+                    state = listState,
                     contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
                     verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
                 ) {
                     items(
-                        count = commentData.itemCount
+                        count = commentData.itemCount,
+                        key = commentData.itemKey { it.commentId }
                     ) { index ->
                         commentData[index]?.let { comment ->
                             CommentItem(
@@ -294,6 +320,8 @@ fun CertDetailCommentScreen(
                             .heightForScreenPercentage(24.dp)
                             .noRippleClickable {
                                 writeComment(commentText)
+
+                                commentText = ""
                             },
                         contentDescription = null
                     )

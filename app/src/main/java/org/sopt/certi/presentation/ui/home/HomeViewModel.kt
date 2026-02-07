@@ -75,6 +75,7 @@ class HomeViewModel @Inject constructor(
                 .onSuccess { result ->
                     _userInfoLoadState.value = UiState.Success(result)
                     tokenManager.saveNickName(result.nickname)
+                    tokenManager.saveUserId(result.userId)
                 }
                 .onFailure {
                     _userInfoLoadState.value = UiState.Failure(it.toString())
