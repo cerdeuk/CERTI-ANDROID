@@ -108,7 +108,7 @@
     <string name="resume_profile_birthday">생년월일</string>
 
     <!-- ResumeCertificationCard -->
-    <string name="resume_certification_card_small">%s년 %s월 %s일 획득</string>
+    <string name="resume_certification_card_small">획득 날짜: %s</string>
     <string name="resume_certification_card_nickname">따요</string>
     <string name="resume_certification_birthday_empty"> -</string>
 
