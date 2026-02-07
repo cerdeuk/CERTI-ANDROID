@@ -71,7 +71,7 @@ fun CertificationCardFront(
             ) {
                 Text(
                     text = certificationData.certificationName,
-                    style = CertiTheme.typography.body.bold_18,
+                    style = CertiTheme.typography.caption.bold_14,
                     color = CertiTheme.colors.blueWhite
                 )
 

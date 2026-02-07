@@ -56,7 +56,7 @@ fun CertiDefaultChip(
                 cornerRadius = 12.dp,
                 backgroundColor = backgroundColor
             )
-            .padding(horizontal = screenWidthDp(8.dp), vertical = screenHeightDp(6.dp))
+            .padding(horizontal = screenWidthDp(8.dp), vertical = screenHeightDp(4.dp))
     ) {
         Text(
             text = text,
