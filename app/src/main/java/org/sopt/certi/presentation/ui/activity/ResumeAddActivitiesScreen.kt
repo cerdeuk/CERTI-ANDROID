@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,7 +58,7 @@ fun ResumeAddActivitiesRoute(
         onActivityValueChange = viewModel::onActivityChanged,
         onDescriptionValue = viewModel::onDescriptionChanged,
         onButtonClick = viewModel::addActivity,
-        modifier = Modifier.padding(padding)
+        modifier = Modifier.padding(top = padding.calculateTopPadding())
     )
 }
 
@@ -86,7 +88,7 @@ fun ResumeEditActivitiesRoute(
         onActivityValueChange = viewModel::onActivityChanged,
         onDescriptionValue = viewModel::onDescriptionChanged,
         onButtonClick = viewModel::editActivity,
-        modifier = Modifier.padding(padding)
+        modifier = Modifier.padding(top = padding.calculateTopPadding())
     )
 }
 
@@ -104,70 +106,57 @@ fun ResumeAddActivitiesScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = screenWidthDp(20.dp))
+            .imePadding()
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(
-                horizontal = screenWidthDp(20.dp)
+        Text(
+            text = stringResource(titleResId),
+            style = CertiTheme.typography.subtitle.semibold_20,
+            color = CertiTheme.colors.gray600,
+            modifier = Modifier.padding(
+                top = screenHeightDp(60.dp),
+                bottom = screenHeightDp(24.dp)
             )
-        ) {
-            item {
-                Text(
-                    text = stringResource(titleResId),
-                    style = CertiTheme.typography.subtitle.semibold_20,
-                    color = CertiTheme.colors.gray600,
-                    modifier = Modifier.padding(
-                        top = screenHeightDp(60.dp),
-                        bottom = screenHeightDp(24.dp)
-                    )
-                )
-            }
+        )
 
-            item {
-                ResumeDateInputSection(
-                    title = stringResource(R.string.resume_activities_period),
-                    startDate = uiState.startDate,
-                    endDate = uiState.endDate,
-                    onStartDateValueChange = onStartDateValueChange,
-                    onEndDateValueChange = onEndDateValueChange,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
-                )
-            }
+        ResumeDateInputSection(
+            title = stringResource(R.string.resume_activities_period),
+            startDate = uiState.startDate,
+            endDate = uiState.endDate,
+            onStartDateValueChange = onStartDateValueChange,
+            onEndDateValueChange = onEndDateValueChange,
+            modifier = Modifier.padding(bottom = screenHeightDp(36.dp))
+        )
 
-            item {
-                ResumeTextInputSection(
-                    title = stringResource(R.string.resume_activities_organization),
-                    value = uiState.organizationValue,
-                    onValueChange = onOrganizationValueChange,
-                    maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
-                    imeAction = ImeAction.Next
-                )
-            }
+        ResumeTextInputSection(
+            title = stringResource(R.string.resume_activities_organization),
+            value = uiState.organizationValue,
+            onValueChange = onOrganizationValueChange,
+            maxLength = 10,
+            modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+            imeAction = ImeAction.Next
+        )
 
-            item {
-                ResumeTextInputSection(
-                    title = stringResource(R.string.resume_activities_activity),
-                    value = uiState.activityValue,
-                    onValueChange = onActivityValueChange,
-                    maxLength = 10,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
-                    imeAction = ImeAction.Next
-                )
-            }
+        ResumeTextInputSection(
+            title = stringResource(R.string.resume_activities_activity),
+            value = uiState.activityValue,
+            onValueChange = onActivityValueChange,
+            maxLength = 10,
+            modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+            imeAction = ImeAction.Next
+        )
 
-            item {
-                ResumeTextInputSection(
-                    title = stringResource(R.string.resume_activities_description),
-                    value = uiState.descriptionValue,
-                    onValueChange = onDescriptionValue,
-                    maxLength = 16,
-                    modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
-                    imeAction = ImeAction.Done
-                )
-            }
-        }
+        ResumeTextInputSection(
+            title = stringResource(R.string.resume_activities_description),
+            value = uiState.descriptionValue,
+            onValueChange = onDescriptionValue,
+            maxLength = 16,
+            modifier = Modifier.padding(bottom = screenHeightDp(36.dp)),
+            imeAction = ImeAction.Done
+        )
 
         CertiBasicButton(
             buttonText = stringResource(buttonTextResId),
@@ -175,8 +164,7 @@ fun ResumeAddActivitiesScreen(
             enabled = uiState.addButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = screenHeightDp(24.dp))
-                .padding(horizontal = screenWidthDp(20.dp))
+                .padding(vertical = screenHeightDp(16.dp))
         )
     }
 }
