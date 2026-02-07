@@ -2,10 +2,14 @@ package org.sopt.certi.presentation.ui.activity
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -108,7 +112,7 @@ fun ResumeAddActivitiesScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .imePadding()
+            .windowInsetsPadding(WindowInsets.ime.union(WindowInsets.navigationBars))
             .verticalScroll(rememberScrollState())
             .padding(horizontal = screenWidthDp(20.dp))
     ) {
