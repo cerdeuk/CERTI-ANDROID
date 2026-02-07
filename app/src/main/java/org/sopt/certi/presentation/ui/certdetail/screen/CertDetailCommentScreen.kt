@@ -113,7 +113,7 @@ fun CertDetailCommentRoute(
             viewModel.registerComment(certId = certificationId, content = content)
         },
         likeOnClick = { like, commentId ->
-
+            viewModel.likeComment(commentId)
         },
         reportOnClick = { commentId ->
 

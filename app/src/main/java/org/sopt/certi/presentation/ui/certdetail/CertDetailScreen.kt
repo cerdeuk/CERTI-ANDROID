@@ -191,13 +191,13 @@ fun CertDetailScreen(
 
     LaunchedEffect(acquireExpectSuccess) {
         if (acquireExpectSuccess) {
-            certState = CertStateType.ACQUISITION
+            certState = CertStateType.ANTICIPATED
         }
     }
 
     LaunchedEffect(acquireSuccess) {
         if (acquireSuccess) {
-            certState = CertStateType.ANTICIPATED
+            certState = CertStateType.ACQUISITION
         }
     }
 

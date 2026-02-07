@@ -159,8 +159,26 @@ class CertDetailViewModel @Inject constructor(
                 _registerCommentSuccess.emit(UiState.Success(true))
             },
             onFailure = {
-
+                _registerCommentSuccess.emit(UiState.Failure(it.message.toString()))
             }
         )
+    }
+
+    fun likeComment(commentId: Long) = viewModelScope.launch {
+        likeCommentUseCase.invoke(commentId).fold(
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    fun deleteComment(commentId: Long) = viewModelScope.launch {
+        deleteCommentUseCase.invoke(commentId).fold(
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    fun reportComment(commentId: Long) = viewModelScope.launch {
+
     }
 }
