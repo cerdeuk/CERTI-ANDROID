@@ -127,7 +127,7 @@ private fun CertificationStatus(acquired: Boolean) {
     Row(
         modifier = Modifier
             .background(color = if (acquired) CertiTheme.colors.mainBlue else CertiTheme.colors.purpleBlue, shape = RoundedCornerShape(100.dp))
-            .padding(horizontal = screenWidthDp(6.dp), vertical = screenWidthDp(4.dp)),
+            .padding(horizontal = screenWidthDp(6.dp), vertical = screenWidthDp(3.dp)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {

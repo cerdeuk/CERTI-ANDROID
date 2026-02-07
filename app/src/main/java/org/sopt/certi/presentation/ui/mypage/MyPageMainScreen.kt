@@ -77,9 +77,9 @@ fun MyPageMainScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(CertiTheme.colors.gray0)
-                .padding(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(20.dp)),
-            verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp))
+                .background(CertiTheme.colors.gray0),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp)),
+            contentPadding = PaddingValues(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(20.dp))
         ) {
             item {
                 MyPageCertMenuItem(

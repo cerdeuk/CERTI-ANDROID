@@ -78,7 +78,7 @@ private fun JobCategoryChip(
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(cornerRadius = 24.dp, backgroundColor = CertiTheme.colors.gray0)
-            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(8.dp))
+            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(6.dp))
     ) {
         Text(
             text = categoryType.description,
@@ -100,7 +100,7 @@ private fun ReselectInterestedChip(
             .background(color = if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.white, shape = RoundedCornerShape(24.dp))
             .clip(RoundedCornerShape(24.dp))
             .border(width = 1.dp, color = CertiTheme.colors.mainBlue, shape = RoundedCornerShape(24.dp))
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .pressedClickable(
                 changePressed = {
                     isPressed = it
