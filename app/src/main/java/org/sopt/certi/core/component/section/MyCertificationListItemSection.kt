@@ -3,6 +3,8 @@ package org.sopt.certi.core.component.section
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +28,7 @@ import org.sopt.certi.core.component.chip.CertiEditChipType
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.roundedBackgroundWithBorder
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.toSpacedDotDate
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -33,6 +36,7 @@ import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MyCertificationListItemSection(
     certificationData: CertificationData,
@@ -92,30 +96,34 @@ fun MyCertificationListItemSection(
 
         Spacer(Modifier.heightForScreenPercentage(12.dp))
 
-        Row(
+        FlowRow(
             modifier = Modifier.padding(vertical = screenWidthDp(2.dp)),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
+            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(4.dp))
         ) {
             if (certificationData.isAcquired) {
                 CertInfoSection(
                     iconRes = R.drawable.ic_date_16,
-                    testInfo = certificationData.acquisitionDate.toSpacedDotDate()
+                    testInfo = certificationData.acquisitionDate.toSpacedDotDate(),
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_level,
                     iconColor = CertiTheme.colors.gray400,
                     testInfo = if (certificationData.grade.isBlank()) stringResource(R.string.acquired_grade_empty_text) else certificationData.grade,
-                    textColor = if (certificationData.grade.isBlank()) CertiTheme.colors.gray200 else CertiTheme.colors.black
+                    textColor = if (certificationData.grade.isBlank()) CertiTheme.colors.gray200 else CertiTheme.colors.black,
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
             } else {
                 CertInfoSection(
                     iconRes = R.drawable.ic_placemark,
-                    testInfo = certificationData.city
+                    testInfo = certificationData.city,
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 CertInfoSection(
                     iconRes = R.drawable.ic_time,
-                    testInfo = certificationData.testTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                    testInfo = certificationData.testTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
         }
