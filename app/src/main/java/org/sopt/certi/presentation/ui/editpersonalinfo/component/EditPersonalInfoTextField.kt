@@ -101,7 +101,6 @@ fun EditPersonalInfoTextField(
             textStyle = CertiTheme.typography.caption.regular_14.copy(
                 color = CertiTheme.colors.black
             ),
-            maxLines = 1,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = imeAction
             ),

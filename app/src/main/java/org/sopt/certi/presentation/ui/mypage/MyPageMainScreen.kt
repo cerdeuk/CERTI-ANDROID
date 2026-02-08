@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.certi.R
 import org.sopt.certi.core.util.screenHeightDp
+import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.user.CertificationCount
 import org.sopt.certi.domain.model.user.MyPageInfo
 import org.sopt.certi.presentation.ui.mypage.component.MyPageCertMenuItem
@@ -72,14 +73,15 @@ fun MyPageMainScreen(
             name = uiState.nickname,
             email = uiState.email,
             jobList = uiState.jobs,
-            profileImageUri = if (uiState.profileImageUrl.isNotBlank())uiState.profileImageUrl.toUri() else null
+            profileImageUri = if (uiState.profileImageUrl.isNotBlank())uiState.profileImageUrl.toUri() else null,
+            modifier = Modifier.padding(horizontal = screenWidthDp(20.dp))
         )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(CertiTheme.colors.gray0),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(16.dp)),
-            contentPadding = PaddingValues(horizontal = screenHeightDp(20.dp), vertical = screenHeightDp(20.dp))
+            contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(20.dp))
         ) {
             item {
                 MyPageCertMenuItem(

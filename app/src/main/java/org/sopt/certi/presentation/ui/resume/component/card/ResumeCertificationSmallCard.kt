@@ -58,6 +58,7 @@ fun ResumeCertificationSmallCard(
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(top = screenWidthDp(60.dp))
+                .padding(horizontal = screenWidthDp(8.dp))
                 .align(Alignment.TopCenter)
         )
 

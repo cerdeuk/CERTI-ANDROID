@@ -485,9 +485,7 @@ fun RegisterTestInfoBottomSheet(
                                         }
                                     }
                                 },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightForScreenPercentage(56.dp)
+                                modifier = Modifier.fillMaxWidth()
                             )
 
                             Spacer(Modifier.heightForScreenPercentage(24.dp))

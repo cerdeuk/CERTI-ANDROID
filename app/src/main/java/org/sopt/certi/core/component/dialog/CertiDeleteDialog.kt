@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -51,13 +52,15 @@ fun CertiDeleteDialog(
                 Text(
                     text = title,
                     style = CertiTheme.typography.body.semibold_18,
-                    color = CertiTheme.colors.gray600
+                    color = CertiTheme.colors.gray600,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(screenWidthDp(16.dp)))
                 Text(
                     text = description,
                     style = CertiTheme.typography.caption.regular_14,
-                    color = CertiTheme.colors.gray600
+                    color = CertiTheme.colors.gray600,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(screenWidthDp(24.dp)))
                 HorizontalDivider(
@@ -113,6 +116,7 @@ fun DialogButton(
             text = text,
             style = CertiTheme.typography.body.semibold_18,
             color = textColor,
+            textAlign = TextAlign.Center,
             modifier = Modifier.padding(vertical = screenWidthDp(16.dp))
         )
     }

@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -56,16 +55,12 @@ fun MyPageMenuItem(
             Text(
                 text = title,
                 style = CertiTheme.typography.caption.semibold_14,
-                color = CertiTheme.colors.black,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                color = CertiTheme.colors.black
             )
             Text(
                 text = description,
                 style = CertiTheme.typography.caption.regular_12,
-                color = CertiTheme.colors.gray600,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                color = CertiTheme.colors.gray600
             )
         }
         Icon(

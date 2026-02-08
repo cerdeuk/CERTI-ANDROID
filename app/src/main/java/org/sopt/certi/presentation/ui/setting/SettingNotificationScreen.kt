@@ -83,7 +83,7 @@ fun SettingNotificationRoute(
         containerColor = CertiTheme.colors.white,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) {
-                MarketingConfirmSnackbar()
+                MarketingConfirmSnackbar(Modifier.padding(horizontal = screenWidthDp(20.dp)))
             }
         }
     ) { innerPadding ->
@@ -153,7 +153,7 @@ private fun SettingNotificationScreen(
                 .padding(horizontal = screenWidthDp(20.dp), vertical = screenHeightDp(16.dp)),
             verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 CustomCheckbox(
                     checked = uiState.checkboxChecked,
                     onCheckedChange = onCheckboxCheckChange

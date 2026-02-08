@@ -4,7 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,7 @@ import org.sopt.certi.core.util.toSpacedDotDate
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CertificationCardFront(
     certificationData: CertificationData,
@@ -61,6 +63,7 @@ fun CertificationCardFront(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = screenWidthDp(77.dp))
+                    .padding(horizontal = screenWidthDp(12.dp))
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -77,8 +80,9 @@ fun CertificationCardFront(
                     color = CertiTheme.colors.blueWhite
                 )
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(screenWidthDp(6.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(screenWidthDp(6.dp)),
+                    verticalArrangement = Arrangement.spacedBy(screenWidthDp(4.dp))
                 ) {
                     certificationData.tags.forEach { text ->
                         ResetBadge(

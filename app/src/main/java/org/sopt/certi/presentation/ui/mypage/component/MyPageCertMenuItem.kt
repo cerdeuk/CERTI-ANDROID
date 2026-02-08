@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
@@ -77,17 +78,20 @@ fun MyPageCertMenuItem(
         ) {
             MyCertCategory(
                 myCertCategory = stringResource(R.string.cert_detail_acquire_expected_button_text),
-                certCount = acquireExpectedCertCount
+                certCount = acquireExpectedCertCount,
+                modifier = Modifier.weight(weight = 1f, fill = false)
             )
             VerticalDivider()
             MyCertCategory(
                 myCertCategory = stringResource(R.string.cert_detail_acquired_button_text),
-                certCount = acquiredCertCount
+                certCount = acquiredCertCount,
+                modifier = Modifier.weight(weight = 1f, fill = false)
             )
             VerticalDivider()
             MyCertCategory(
                 myCertCategory = stringResource(R.string.cert_list_favorite_btn),
-                certCount = favoriteCertCount
+                certCount = favoriteCertCount,
+                modifier = Modifier.weight(weight = 1f, fill = false)
             )
         }
     }
@@ -100,19 +104,21 @@ private fun MyCertCategory(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = screenWidthDp(8.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = myCertCategory,
             style = CertiTheme.typography.caption.regular_14,
-            color = CertiTheme.colors.gray500
+            color = CertiTheme.colors.gray500,
+            textAlign = TextAlign.Center
         )
         Text(
             text = stringResource(R.string.mypage_cert_count, certCount),
             style = CertiTheme.typography.caption.semibold_14,
             color = CertiTheme.colors.gray600,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = 8.dp),
+            textAlign = TextAlign.Center
         )
     }
 }
