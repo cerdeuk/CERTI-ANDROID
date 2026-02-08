@@ -298,7 +298,9 @@ fun RegisterTestInfoBottomSheet(
                                 }
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    showPlaceP1List = true
+                                    if(!showPlaceP2List) {
+                                        showPlaceP1List = true
+                                    }
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -328,7 +330,7 @@ fun RegisterTestInfoBottomSheet(
                                 .clip(RoundedCornerShape(4.dp))
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    if (cityText.isNotEmpty()) {
+                                    if (cityText.isNotEmpty() && !showPlaceP1List) {
                                         showPlaceP2List = true
                                     }
                                 },
