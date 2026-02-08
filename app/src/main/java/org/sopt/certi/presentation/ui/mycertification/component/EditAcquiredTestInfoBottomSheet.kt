@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -50,12 +49,14 @@ import org.sopt.certi.ui.theme.CertiTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditAcquiredTextInfoBottomSheet(
-    sheetState: SheetState,
     certificationData: CertificationData,
     onConfirm: (String, String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     val scope = rememberCoroutineScope()
 
     var dateText by remember { mutableStateOf(certificationData.acquisitionDate) }
@@ -219,7 +220,6 @@ private fun EditAcquiredTextInfoBottomSheetPreview() {
 
     CERTITheme {
         EditAcquiredTextInfoBottomSheet(
-            sheetState = sheetState,
             certificationData = CertificationData(
                 certificationId = 1,
                 certificationName = "GTQ 1급 (그래픽기술자격)"

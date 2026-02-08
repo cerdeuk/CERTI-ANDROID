@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,10 +53,6 @@ fun CertDetailRoute(
     var acquireExpectSuccess by remember { mutableStateOf(false) }
 
     val uiState by viewModel.detailUiState.collectAsStateWithLifecycle()
-
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
 
     LaunchedEffect(Unit) {
         viewModel.getCertDetailInfo(certId)
@@ -153,7 +148,6 @@ fun CertDetailRoute(
 
             if (showRegisterTestInfoBottomSheet) {
                 RegisterTestInfoBottomSheet(
-                    sheetState = sheetState,
                     forModify = false,
                     certTitle = certData.certificationName,
                     onConfirm = { city, state, timeDate ->

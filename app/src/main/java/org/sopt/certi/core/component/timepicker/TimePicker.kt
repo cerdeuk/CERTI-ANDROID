@@ -25,6 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +58,18 @@ fun CustomTimePicker(
     var selectedHour by remember { mutableIntStateOf(convertHour(initialHour)) }
     var selectedMinute by remember { mutableIntStateOf(if (initialMinute == -1) 0 else initialMinute) }
 
+    val scrollLock = remember {
+        object : NestedScrollConnection {
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                return available
+            }
+        }
+    }
+
     LaunchedEffect(initialHour, initialMinute) {
         selectedPeriod = getPeriod(initialHour)
         selectedHour = convertHour(initialHour)
@@ -80,7 +96,9 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.widthForScreenPercentage(45.dp)
+            modifier = Modifier
+                .widthForScreenPercentage(45.dp)
+                .nestedScroll(scrollLock)
         )
 
         Spacer(modifier = Modifier.widthForScreenPercentage(47.dp))
@@ -100,7 +118,9 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.widthForScreenPercentage(35.dp)
+            modifier = Modifier
+                .widthForScreenPercentage(35.dp)
+                .nestedScroll(scrollLock)
         )
 
         Text(
@@ -126,7 +146,9 @@ fun CustomTimePicker(
                     selectedMinute
                 )
             },
-            modifier = Modifier.widthForScreenPercentage(38.dp)
+            modifier = Modifier
+                .widthForScreenPercentage(38.dp)
+                .nestedScroll(scrollLock)
         )
     }
 }

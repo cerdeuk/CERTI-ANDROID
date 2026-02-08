@@ -2,7 +2,6 @@ package org.sopt.certi.core.component.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,12 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -33,9 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -65,7 +68,6 @@ import org.sopt.certi.ui.theme.CertiTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterTestInfoBottomSheet(
-    sheetState: SheetState,
     forModify: Boolean,
     certTitle: String,
     onConfirm: (city: String, state: String, timeDate: String) -> Unit,
@@ -74,6 +76,16 @@ fun RegisterTestInfoBottomSheet(
     modifier: Modifier = Modifier,
     certificationData: CertificationData? = null
 ) {
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    val scrollLock = remember {
+        object : NestedScrollConnection {
+            override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset { return available }
+        }
+    }
+
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
 
@@ -155,14 +167,10 @@ fun RegisterTestInfoBottomSheet(
         Column(
             modifier = Modifier
                 .wrapContentHeight()
-                .pointerInput(Unit) {
-                    detectVerticalDragGestures(
-                        onDragEnd = {},
-                        onDragCancel = {},
-                        onVerticalDrag = { _, _ -> /* 아무것도 안 함 */ }
-                    )
-                }
                 .fillMaxWidth()
+                .heightIn(max = screenHeightDp(664.dp))
+                .nestedScroll(scrollLock)
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(Modifier.heightForScreenPercentage(35.dp))
 
@@ -368,6 +376,7 @@ fun RegisterTestInfoBottomSheet(
                                             blur = 20.dp
                                         )
                                         .background(CertiTheme.colors.white)
+                                        .nestedScroll(scrollLock)
                                 ) {
                                     itemsIndexed(cityList) { index, placeName ->
                                         PlaceItem(
@@ -396,6 +405,7 @@ fun RegisterTestInfoBottomSheet(
                                             blur = 20.dp
                                         )
                                         .background(CertiTheme.colors.white)
+                                        .nestedScroll(scrollLock)
                                 ) {
                                     itemsIndexed(districtList) { index, placeName ->
                                         PlaceItem(
@@ -535,12 +545,7 @@ private fun PlaceItem(
 @Preview
 @Composable
 fun RegisterTestInfoBottomSheetPreview() {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-
     RegisterTestInfoBottomSheet(
-        sheetState = sheetState,
         certTitle = "자격증 이름",
         forModify = false,
         certificationData = null,
