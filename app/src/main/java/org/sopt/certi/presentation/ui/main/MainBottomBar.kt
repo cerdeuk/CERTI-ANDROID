@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import org.sopt.certi.core.util.heightForScreenPercentage
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -50,9 +50,7 @@ fun MainBottomBar(
             color = Color.White
         ) {
             Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .heightForScreenPercentage(50.dp)
+                modifier = modifier.fillMaxWidth()
             ) {
                 tabs.forEach { tab ->
                     MainBottomBarItem(
@@ -75,8 +73,6 @@ private fun RowScope.MainBottomBarItem(
 ) {
     Column(
         modifier = modifier
-            .fillMaxHeight()
-            .align(Alignment.CenterVertically)
             .weight(1f)
             .selectable(
                 selected = selected,
@@ -84,7 +80,8 @@ private fun RowScope.MainBottomBarItem(
                 onClick = onClick,
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ),
+            )
+            .padding(top = screenHeightDp(12.dp), bottom = screenHeightDp(4.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically)
     ) {
