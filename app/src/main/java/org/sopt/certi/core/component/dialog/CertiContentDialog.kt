@@ -1,5 +1,6 @@
 package org.sopt.certi.core.component.dialog
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -27,8 +28,9 @@ import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertiDialog(
-    text: String,
+fun CertiContentDialog(
+    titleText: String,
+    contentText: String,
     onConfirmClick: () -> Unit,
     onDismissClick: () -> Unit
 ) {
@@ -41,13 +43,23 @@ fun CertiDialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = text,
+                text = titleText,
                 style = CertiTheme.typography.body.semibold_16,
                 color = CertiTheme.colors.gray600,
-                modifier = Modifier.padding(horizontal = screenWidthDp(40.dp)),
+                modifier = Modifier.padding(horizontal = screenWidthDp(16.dp)),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.heightForScreenPercentage(24.dp))
+            Spacer(modifier = Modifier.heightForScreenPercentage(16.dp))
+
+            Text(
+                text = contentText,
+                style = CertiTheme.typography.caption.regular_14,
+                color = CertiTheme.colors.gray600,
+                modifier = Modifier.padding(horizontal = screenWidthDp(16.dp)),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.heightForScreenPercentage(26.dp))
 
             HorizontalDivider(
                 thickness = 1.dp,
@@ -78,9 +90,10 @@ fun CertiDialog(
 
 @Preview
 @Composable
-private fun PreviewCertiDialog() {
-    CertiDialog(
-        text = "프리뷰 프리뷰",
+private fun PreviewCertiContentDialog() {
+    CertiContentDialog(
+        titleText = "프리뷰 프리뷰",
+        contentText = "콘텐트 콘텐트",
         onConfirmClick = {},
         onDismissClick = {}
     )

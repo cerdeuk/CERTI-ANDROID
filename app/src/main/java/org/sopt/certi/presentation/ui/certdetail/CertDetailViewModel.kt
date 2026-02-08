@@ -1,11 +1,9 @@
 package org.sopt.certi.presentation.ui.certdetail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -23,8 +20,6 @@ import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.comment.RegisterCommentRequest
-import org.sopt.certi.domain.model.user.UserInfoData
-import org.sopt.certi.domain.usecase.UserInfoUseCase
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.comment.DeleteCommentUseCase
@@ -60,8 +55,8 @@ class CertDetailViewModel @Inject constructor(
     private val _myUserId = MutableStateFlow(0L)
     val myUserId: StateFlow<Long> = _myUserId.asStateFlow()
 
-    private val _registerCommentSuccess = MutableStateFlow<UiState<Boolean>>(UiState.Init)
-    val registerCommentSuccess: StateFlow<UiState<Boolean>> = _registerCommentSuccess.asStateFlow()
+    private val _updateCommentSuccess = MutableStateFlow<UiState<Boolean>>(UiState.Init)
+    val updateCommentSuccess: StateFlow<UiState<Boolean>> = _updateCommentSuccess.asStateFlow()
 
 
     val detailUiState: StateFlow<DetailUiState> =
@@ -142,7 +137,7 @@ class CertDetailViewModel @Inject constructor(
                 _commentPagingData.value = pagingData
 
                 getTotalCommentCount()
-                _registerCommentSuccess.emit(UiState.Init)
+                _updateCommentSuccess.emit(UiState.Init)
             }
     }
 
@@ -156,10 +151,10 @@ class CertDetailViewModel @Inject constructor(
     fun registerComment(certId: Long, content: String) = viewModelScope.launch {
         registerCommentUseCase.invoke(registerCommentRequest = RegisterCommentRequest(content, certId)).fold(
             onSuccess = {
-                _registerCommentSuccess.emit(UiState.Success(true))
+                _updateCommentSuccess.emit(UiState.Success(true))
             },
             onFailure = {
-                _registerCommentSuccess.emit(UiState.Failure(it.message.toString()))
+                _updateCommentSuccess.emit(UiState.Failure(it.message.toString()))
             }
         )
     }
@@ -173,8 +168,12 @@ class CertDetailViewModel @Inject constructor(
 
     fun deleteComment(commentId: Long) = viewModelScope.launch {
         deleteCommentUseCase.invoke(commentId).fold(
-            onSuccess = {},
-            onFailure = {}
+            onSuccess = {
+                _updateCommentSuccess.emit(UiState.Success(true))
+            },
+            onFailure = {
+                _updateCommentSuccess.emit(UiState.Failure(it.message.toString()))
+            }
         )
     }
 

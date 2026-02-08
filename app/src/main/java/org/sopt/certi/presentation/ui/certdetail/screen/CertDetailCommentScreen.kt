@@ -53,6 +53,7 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import org.sopt.certi.R
+import org.sopt.certi.core.component.dialog.CertiContentDialog
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
@@ -66,6 +67,7 @@ import org.sopt.certi.presentation.ui.certdetail.CertDetailViewModel
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButton
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentEmptyView
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentItem
+import org.sopt.certi.presentation.ui.certdetail.sideeffect.CommentDialogState
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -81,13 +83,17 @@ fun CertDetailCommentRoute(
 
     val listState = rememberLazyListState()
 
+    var commentDeleteDialogState by remember { mutableStateOf<CommentDialogState>(CommentDialogState.Hidden) }
+
+
+
     LaunchedEffect(commentSortType) {
         viewModel.getMyUserId()
         viewModel.getCommentList(certificationId, commentSortType)
     }
 
     LaunchedEffect(Unit) {
-        viewModel.registerCommentSuccess.collect { uiState ->
+        viewModel.updateCommentSuccess.collect { uiState ->
             when(uiState) {
                 is UiState.Success -> {
                     commentList.refresh()
@@ -119,9 +125,26 @@ fun CertDetailCommentRoute(
 
         },
         deleteOnClick = { commentId ->
-
+            commentDeleteDialogState = CommentDialogState.ShowDeleteCommentDialog(commentId)
         }
     )
+
+    when (val state = commentDeleteDialogState) {
+        is CommentDialogState.Hidden -> { }
+        is CommentDialogState.ShowDeleteCommentDialog -> {
+            CertiContentDialog(
+                titleText = stringResource(R.string.dialog_comment_delete_title),
+                contentText = stringResource(R.string.dialog_comment_delete_content),
+                onConfirmClick = {
+                    viewModel.deleteComment(state.commentId)
+                    commentDeleteDialogState = CommentDialogState.Hidden
+                },
+                onDismissClick = {
+                    commentDeleteDialogState = CommentDialogState.Hidden
+                }
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
