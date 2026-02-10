@@ -83,7 +83,7 @@ fun CertDetailCommentRoute(
 
     val listState = rememberLazyListState()
 
-    var commentDeleteDialogState by remember { mutableStateOf<CommentDialogState>(CommentDialogState.Hidden) }
+    var commentDialogState by remember { mutableStateOf<CommentDialogState>(CommentDialogState.Hidden) }
 
 
 
@@ -125,11 +125,11 @@ fun CertDetailCommentRoute(
 
         },
         deleteOnClick = { commentId ->
-            commentDeleteDialogState = CommentDialogState.ShowDeleteCommentDialog(commentId)
+            commentDialogState = CommentDialogState.ShowDeleteCommentDialog(commentId)
         }
     )
 
-    when (val state = commentDeleteDialogState) {
+    when (val state = commentDialogState) {
         is CommentDialogState.Hidden -> { }
         is CommentDialogState.ShowDeleteCommentDialog -> {
             CertiContentDialog(
@@ -137,12 +137,15 @@ fun CertDetailCommentRoute(
                 contentText = stringResource(R.string.dialog_comment_delete_content),
                 onConfirmClick = {
                     viewModel.deleteComment(state.commentId)
-                    commentDeleteDialogState = CommentDialogState.Hidden
+                    commentDialogState = CommentDialogState.Hidden
                 },
                 onDismissClick = {
-                    commentDeleteDialogState = CommentDialogState.Hidden
+                    commentDialogState = CommentDialogState.Hidden
                 }
             )
+        }
+        is CommentDialogState.ShowReportCommentDialog -> {
+
         }
     }
 }

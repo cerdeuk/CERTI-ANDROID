@@ -292,6 +292,14 @@
     <string name="comment_write_unavailable">자격증 취득예정/완료 후 댓글 작성이 가능합니다.</string>
     <string name="dialog_comment_delete_title">삭제하시겠습니까?</string>
     <string name="dialog_comment_delete_content">삭제하게 되면 복구할 수 없어요.</string>
-    
+    <string name="dialog_comment_report_title">신고하기</string>
+    <string name="dialog_comment_report_content_title">신고 내용</string>
+    <string name="dialog_comment_report_content_hint">내용을 입력해주세요.</string>
+    <string name="dialog_comment_report_block_title">해당 유저 차단하기</string>
+    <string name="dialog_comment_report_note_p1">신고된 콘텐츠는 관리자가 검토하며, 필요 시 댓글 삭제, 계정 제한 등의 조치가 이루어집니다.</string>
+    <string name="dialog_comment_report_note_p2">차단 기능을 사용하면, 관리자의 확인을 거쳐 해당 사용자의 댓글이 사용자에게 노출되지 않도록 처리됩니다.</string>
+    <string name="dialog_comment_report_confirm">제출</string>
+
+
     
 </resources>
