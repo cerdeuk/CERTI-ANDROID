@@ -14,6 +14,7 @@ import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.HomeRepository
 import org.sopt.certi.domain.repository.PreCertEditRepository
 import org.sopt.certi.domain.repository.PreCertRepository
+import org.sopt.certi.domain.repository.ReportRepository
 import org.sopt.certi.domain.repository.UserRepository
 import org.sopt.certi.domain.usecase.activity.AddActivityUseCase
 import org.sopt.certi.domain.usecase.career.AddCareerUseCase
@@ -48,6 +49,7 @@ import org.sopt.certi.domain.usecase.comment.GetCommentListUseCase
 import org.sopt.certi.domain.usecase.comment.LikeCommentUseCase
 import org.sopt.certi.domain.usecase.comment.RegisterCommentUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
+import org.sopt.certi.domain.usecase.report.ReportCommentUseCase
 import org.sopt.certi.domain.usecase.user.GetInterestedJobListUseCase
 import org.sopt.certi.domain.usecase.user.ModifyInterestedJobListUseCase
 import javax.inject.Singleton
@@ -260,4 +262,10 @@ object UseCaseModule {
     fun provideDeleteCommentUseCase(
         commentRepository: CommentRepository
     ): DeleteCommentUseCase = DeleteCommentUseCase(commentRepository)
+
+    @Provides
+    @Singleton
+    fun provideReportCommentUseCase(
+        reportRepository: ReportRepository
+    ): ReportCommentUseCase = ReportCommentUseCase(reportRepository)
 }

@@ -144,16 +144,18 @@ fun CommentItem(
 
             Spacer(Modifier.widthForScreenPercentage(8.dp))
 
-            Text(
-                text = stringResource(R.string.comment_report),
-                style = CertiTheme.typography.caption.semibold_12,
-                color = CertiTheme.colors.gray400,
-                modifier = Modifier.noRippleClickable {
-                    reportOnClick()
-                }
-            )
+            if(commentData.userId != myUserId) {
+                Text(
+                    text = stringResource(R.string.comment_report),
+                    style = CertiTheme.typography.caption.semibold_12,
+                    color = CertiTheme.colors.gray400,
+                    modifier = Modifier.noRippleClickable {
+                        reportOnClick()
+                    }
+                )
 
-            Spacer(Modifier.widthForScreenPercentage(8.dp))
+                Spacer(Modifier.widthForScreenPercentage(8.dp))
+            }
 
             Text(
                 text = commentData.createdTime.split("T")[0].replace("-", "."),

@@ -40,7 +40,7 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun ReportCommentDialog(
-    onReportClick: () -> Unit,
+    onReportClick: (content: String, block: Boolean) -> Unit,
     onDismissClick: () -> Unit
 ) {
     var contentText by remember { mutableStateOf("") }
@@ -95,7 +95,7 @@ fun ReportCommentDialog(
             BasicTextField(
                 value = contentText,
                 onValueChange = {
-                    if(contentText.length <= 100) {
+                    if(contentText.length < 100) {
                         contentText = it
                     }
                 },
@@ -198,7 +198,7 @@ fun ReportCommentDialog(
                     .padding(vertical = screenHeightDp(8.dp), horizontal = screenWidthDp(22.dp))
                     .align(Alignment.End)
                     .noRippleClickable {
-                        onReportClick()
+                        onReportClick(contentText, blockState)
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -216,7 +216,7 @@ fun ReportCommentDialog(
 @Composable
 private fun PreviewReportCommentDialog() {
     ReportCommentDialog(
-        onReportClick = {
+        onReportClick = { _, _ ->
 
         },
         onDismissClick = {

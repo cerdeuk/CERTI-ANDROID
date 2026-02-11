@@ -20,6 +20,7 @@ import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.core.state.UiState
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.domain.model.comment.RegisterCommentRequest
+import org.sopt.certi.domain.model.report.ReportCommentRequest
 import org.sopt.certi.domain.usecase.acquisition.AcquiredCertUseCase
 import org.sopt.certi.domain.usecase.certification.GetCertInfoUseCase
 import org.sopt.certi.domain.usecase.comment.DeleteCommentUseCase
@@ -27,6 +28,7 @@ import org.sopt.certi.domain.usecase.comment.GetCommentListUseCase
 import org.sopt.certi.domain.usecase.comment.LikeCommentUseCase
 import org.sopt.certi.domain.usecase.comment.RegisterCommentUseCase
 import org.sopt.certi.domain.usecase.precert.AcquireExpectCertUseCase
+import org.sopt.certi.domain.usecase.report.ReportCommentUseCase
 import org.sopt.certi.presentation.type.CommentSortType
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.DetailSideEffect
 import org.sopt.certi.presentation.ui.certdetail.state.DetailUiState
@@ -41,6 +43,7 @@ class CertDetailViewModel @Inject constructor(
     private val registerCommentUseCase: RegisterCommentUseCase,
     private val likeCommentUseCase: LikeCommentUseCase,
     private val deleteCommentUseCase: DeleteCommentUseCase,
+    private val reportCommentUseCase: ReportCommentUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
 
@@ -177,7 +180,10 @@ class CertDetailViewModel @Inject constructor(
         )
     }
 
-    fun reportComment(commentId: Long) = viewModelScope.launch {
-
+    fun reportComment(commentId: Long, content: String, block: Boolean) = viewModelScope.launch {
+        reportCommentUseCase.invoke(commentId, ReportCommentRequest(content, block)).fold(
+            onSuccess = {},
+            onFailure = {}
+        )
     }
 }

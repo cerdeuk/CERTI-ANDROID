@@ -15,6 +15,7 @@ import org.sopt.certi.data.remote.datasource.DummyRemoteDataSource
 import org.sopt.certi.data.remote.datasource.HomeRemoteDataSource
 import org.sopt.certi.data.remote.datasource.PreCertEditRemoteDataSource
 import org.sopt.certi.data.remote.datasource.PreCertRemoteDataSource
+import org.sopt.certi.data.remote.datasource.ReportRemoteDataSource
 import org.sopt.certi.data.remote.datasource.S3DataSource
 import org.sopt.certi.data.remote.datasourceimpl.AcquisitionRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasource.UserRemoteDataSource
@@ -27,6 +28,7 @@ import org.sopt.certi.data.remote.datasourceimpl.DummyRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.HomeRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.PreCertEditRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.PreCertRemoteDataSourceImpl
+import org.sopt.certi.data.remote.datasourceimpl.ReportRemoteDataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.S3DataSourceImpl
 import org.sopt.certi.data.remote.datasourceimpl.UserRemoteDataSourceImpl
 
@@ -80,4 +82,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsCommentDataSource(commentRemoteDataSourceImpl: CommentRemoteDataSourceImpl): CommentRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsReportDataSource(reportRemoteDataSourceImpl: ReportRemoteDataSourceImpl): ReportRemoteDataSource
 }

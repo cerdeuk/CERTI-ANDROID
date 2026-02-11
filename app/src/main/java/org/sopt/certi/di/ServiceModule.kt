@@ -15,6 +15,7 @@ import org.sopt.certi.data.remote.service.DummyService
 import org.sopt.certi.data.remote.service.HomeService
 import org.sopt.certi.data.remote.service.PreCertEditService
 import org.sopt.certi.data.remote.service.PreCertService
+import org.sopt.certi.data.remote.service.ReportService
 import org.sopt.certi.data.remote.service.S3Service
 import org.sopt.certi.data.remote.service.UserService
 import retrofit2.Retrofit
@@ -83,4 +84,9 @@ object ServiceModule {
     @Singleton
     fun provideCommentService(retrofit: Retrofit): CommentService =
         retrofit.create(CommentService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportService(retrofit: Retrofit): ReportService =
+        retrofit.create(ReportService::class.java)
 }

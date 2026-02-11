@@ -67,6 +67,7 @@ import org.sopt.certi.presentation.ui.certdetail.CertDetailViewModel
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButton
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentEmptyView
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentItem
+import org.sopt.certi.presentation.ui.certdetail.component.dialog.ReportCommentDialog
 import org.sopt.certi.presentation.ui.certdetail.sideeffect.CommentDialogState
 import org.sopt.certi.ui.theme.CertiTheme
 
@@ -122,7 +123,7 @@ fun CertDetailCommentRoute(
             viewModel.likeComment(commentId)
         },
         reportOnClick = { commentId ->
-
+            commentDialogState = CommentDialogState.ShowReportCommentDialog(commentId)
         },
         deleteOnClick = { commentId ->
             commentDialogState = CommentDialogState.ShowDeleteCommentDialog(commentId)
@@ -145,7 +146,15 @@ fun CertDetailCommentRoute(
             )
         }
         is CommentDialogState.ShowReportCommentDialog -> {
-
+            ReportCommentDialog(
+                onReportClick = { content, block ->
+                    viewModel.reportComment(state.commentId, content, block)
+                    commentDialogState = CommentDialogState.Hidden
+                },
+                onDismissClick = {
+                    commentDialogState = CommentDialogState.Hidden
+                }
+            )
         }
     }
 }
