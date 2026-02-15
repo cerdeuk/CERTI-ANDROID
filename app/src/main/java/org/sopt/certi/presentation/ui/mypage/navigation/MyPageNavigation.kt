@@ -47,8 +47,7 @@ fun NavGraphBuilder.myPageNavGraph(
             navigateToPersonalInfo = navController::navigateToPersonalInfo,
             navigateToSchoolInfo = navController::navigateToAcademicInfo,
             navigateToCertManage = navController::navigateToMyCertification,
-            navigateToSetting = navController::navigateToSetting,
-            navigateToQuestion = {}
+            navigateToSetting = navController::navigateToSetting
         )
     }
     composable<MyPageRoute.Setting> {

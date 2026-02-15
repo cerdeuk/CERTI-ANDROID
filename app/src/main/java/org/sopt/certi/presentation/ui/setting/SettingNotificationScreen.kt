@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +42,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
+import org.sopt.certi.presentation.model.UrlConstants
 import org.sopt.certi.presentation.ui.setting.component.CustomCheckbox
 import org.sopt.certi.presentation.ui.setting.component.CustomSwitch
 import org.sopt.certi.presentation.ui.setting.component.MarketingConfirmSnackbar
@@ -58,6 +60,7 @@ fun SettingNotificationRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val snackbarHostState = remember { SnackbarHostState() }
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
@@ -95,6 +98,7 @@ fun SettingNotificationRoute(
                     onCheckboxCheckChange = { checked ->
                         viewModel.onCheckboxCheckChange(checked)
                     },
+                    onPrivacyAgreement = { uriHandler.openUri(UrlConstants.TERMS_OF_SERVICE) },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
@@ -108,6 +112,7 @@ private fun SettingNotificationScreen(
     uiState: SettingNotificationUiState,
     onSwitchCheckChange: (Boolean) -> Unit,
     onCheckboxCheckChange: (Boolean) -> Unit,
+    onPrivacyAgreement: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -176,7 +181,7 @@ private fun SettingNotificationScreen(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_arrowright_24),
                     contentDescription = null,
-                    modifier = Modifier.noRippleClickable({})
+                    modifier = Modifier.noRippleClickable(onPrivacyAgreement)
                 )
             }
 
@@ -204,7 +209,8 @@ private fun SettingNotificationPreview() {
         SettingNotificationScreen(
             uiState = uiState,
             onSwitchCheckChange = { },
-            onCheckboxCheckChange = {}
+            onCheckboxCheckChange = {},
+            onPrivacyAgreement = {}
         )
     }
 }
