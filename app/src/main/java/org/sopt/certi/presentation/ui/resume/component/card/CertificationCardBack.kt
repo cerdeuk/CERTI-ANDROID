@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -57,7 +58,7 @@ fun CertificationCardBack(
 
         Column(
             modifier = Modifier
-                .padding(horizontal = screenWidthDp(24.dp), vertical = screenHeightDp(36.dp)),
+                .padding(horizontal = screenWidthDp(24.dp), vertical = screenHeightDp(30.dp)),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -98,7 +99,9 @@ fun CertificationCardBack(
                 Text(
                     text = stringResource(R.string.resume_acquired_title, nickname),
                     style = CertiTheme.typography.caption.semibold_14,
-                    color = CertiTheme.colors.white
+                    color = CertiTheme.colors.white,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Spacer(modifier = Modifier.height(screenHeightDp(4.dp)))
@@ -108,13 +111,13 @@ fun CertificationCardBack(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun CertificationCardBackPreview() {
     val dummyCertification = CertificationData(
         certificationId = 1,
         certificationName = "GTQ 1급 (그래픽 기술 자격)",
-        description = "디자인 관련 자격증입니다.",
+        description = "2D 그래픽 툴의 기능을 활용한 사고의 시각화를 통해 이미지 제작, 수정, 편집 및 그래픽 디자인을 창출하는 업무를 수행하고 이를 통해 비지니스 커뮤니케이션을 원활하게 한다. 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이이다.",
         tags = listOf("디자인", "컴퓨터", "김민지"),
         createdAt = LocalDate.of(2024, 5, 12),
         cardBackImageUrl = ""
@@ -127,7 +130,7 @@ fun CertificationCardBackPreview() {
             modifier = Modifier
                 .width(250.dp)
                 .height(376.dp)
-                .background(CertiTheme.colors.gray100)
+                .background(CertiTheme.colors.black85)
         )
     }
 }

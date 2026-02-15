@@ -3,8 +3,9 @@ package org.sopt.certi.presentation.ui.mycertification.component
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,6 +60,7 @@ fun FavoriteCertList(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FavoriteCertItem(
     certificationData: CertificationData,
@@ -86,18 +88,20 @@ private fun FavoriteCertItem(
             onFavoriteClick = { onFavoriteToggle(certificationData.certificationId) }
         )
 
-        Row(
+        FlowRow(
             modifier = Modifier.padding(vertical = screenWidthDp(2.dp)),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
+            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(4.dp))
         ) {
             CertInfoSection(
                 iconRes = R.drawable.ic_paper_16,
-                testInfo = certificationData.testType
+                testInfo = certificationData.testType,
+                modifier = Modifier.align(Alignment.CenterVertically)
             )
             CertInfoSection(
                 iconRes = R.drawable.ic_certification_16,
-                testInfo = certificationData.agencyName
+                testInfo = certificationData.agencyName,
+                modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
     }

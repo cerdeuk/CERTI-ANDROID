@@ -2,11 +2,10 @@ package org.sopt.certi.presentation.ui.resume.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
@@ -25,6 +24,7 @@ import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.certification.CertificationData
+import org.sopt.certi.presentation.ui.resume.component.card.ResumeCertificationSmallCard
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import java.time.LocalDate
@@ -87,19 +87,14 @@ private fun ResumeCertificationContent(
                 top = screenHeightDp(16.dp),
                 bottom = screenHeightDp(36.dp)
             ),
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp))
+        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(12.dp)),
+        contentPadding = PaddingValues(horizontal = screenWidthDp(20.dp))
     ) {
         itemsIndexed(acquiredCertificationList) { index, certification ->
-            if (index == 0) {
-                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
-            }
             ResumeCertificationSmallCard(
                 certification = certification,
-                onClick = { onCertificationClick(certification.certificationId) }
+                onClick = { certification.acquisitionId?.let { onCertificationClick(it) } }
             )
-            if (index == acquiredCertificationList.lastIndex) {
-                Spacer(modifier = Modifier.width(screenWidthDp(20.dp)))
-            }
         }
     }
 }
@@ -112,7 +107,8 @@ private fun ResumeEmptyCertificationSectionPreview() {
             title = stringResource(R.string.resume_section_experience_title),
             onClick = { },
             emptyText = stringResource(R.string.resume_empty_certification_message),
-            resumeListItems = listOf()
+            resumeListItems = listOf(),
+            bottomPadding = 13.dp
         )
     }
 }

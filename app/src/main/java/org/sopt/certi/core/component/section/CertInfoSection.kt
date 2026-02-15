@@ -37,6 +37,7 @@ fun CertInfoSection(
             text = testInfo,
             style = CertiTheme.typography.caption.regular_14,
             color = textColor
+
         )
     }
 }

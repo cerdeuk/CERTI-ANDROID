@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -50,7 +51,8 @@ fun DeleteAccountDialog(
                     Text(
                         text = stringResource(R.string.setting_delete_account_dialog_message),
                         style = CertiTheme.typography.body.semibold_18,
-                        color = CertiTheme.colors.gray600
+                        color = CertiTheme.colors.gray600,
+                        textAlign = TextAlign.Center
                     )
 
                     Spacer(modifier = Modifier.height(screenHeightDp(16.dp)))

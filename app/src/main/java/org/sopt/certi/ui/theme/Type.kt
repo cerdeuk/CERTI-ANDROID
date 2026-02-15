@@ -5,6 +5,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import org.sopt.certi.R
 
@@ -13,6 +14,13 @@ object PretendardFont {
     val SemiBold = FontFamily(Font(R.font.pretendard_semibold))
     val Regular = FontFamily(Font(R.font.pretendard_regular))
 }
+
+val BaseTextStyle = TextStyle(
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
+)
 
 sealed interface TypographyTokens {
 
@@ -59,13 +67,13 @@ data class CertiTypography(
 
 val defaultCertiTypography = CertiTypography(
     title = TypographyTokens.Title(
-        bold_24 = TextStyle(
+        bold_24 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 24.sp,
             lineHeight = 28.8.sp, // 120%
             letterSpacing = (-1.6).sp
         ),
-        bold_22 = TextStyle(
+        bold_22 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 22.sp,
             lineHeight = 26.4.sp, // 120%
@@ -73,13 +81,13 @@ val defaultCertiTypography = CertiTypography(
         )
     ),
     subtitle = TypographyTokens.Subtitle(
-        bold_20 = TextStyle(
+        bold_20 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 20.sp,
             lineHeight = 26.sp, // 130%
             letterSpacing = (-1.0).sp
         ),
-        semibold_20 = TextStyle(
+        semibold_20 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 20.sp,
             lineHeight = 26.sp,
@@ -87,31 +95,31 @@ val defaultCertiTypography = CertiTypography(
         )
     ),
     body = TypographyTokens.Body(
-        bold_18 = TextStyle(
+        bold_18 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 18.sp,
             lineHeight = 25.2.sp, // 140%
             letterSpacing = (-0.5).sp
         ),
-        semibold_18 = TextStyle(
+        semibold_18 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 18.sp,
             lineHeight = 25.2.sp,
             letterSpacing = (-0.5).sp
         ),
-        bold_16 = TextStyle(
+        bold_16 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 16.sp,
             lineHeight = 22.4.sp, // 140%
             letterSpacing = 0.sp
         ),
-        semibold_16 = TextStyle(
+        semibold_16 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 16.sp,
             lineHeight = 22.4.sp,
             letterSpacing = 0.sp
         ),
-        regular_16 = TextStyle(
+        regular_16 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Regular,
             fontSize = 16.sp,
             lineHeight = 22.4.sp,
@@ -119,43 +127,43 @@ val defaultCertiTypography = CertiTypography(
         )
     ),
     caption = TypographyTokens.Caption(
-        bold_14 = TextStyle(
+        bold_14 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Bold,
             fontSize = 14.sp,
             lineHeight = 19.6.sp, // 140%
             letterSpacing = 0.sp
         ),
-        semibold_14 = TextStyle(
+        semibold_14 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 14.sp,
             lineHeight = 19.6.sp,
             letterSpacing = 0.sp
         ),
-        regular_14 = TextStyle(
+        regular_14 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Regular,
             fontSize = 14.sp,
             lineHeight = 19.6.sp,
             letterSpacing = 0.sp
         ),
-        semibold_12 = TextStyle(
+        semibold_12 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 12.sp,
             lineHeight = 18.sp, // 150%
             letterSpacing = 0.8.sp
         ),
-        regular_12 = TextStyle(
+        regular_12 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Regular,
             fontSize = 12.sp,
             lineHeight = 18.sp,
             letterSpacing = 0.8.sp
         ),
-        semibold_10 = TextStyle(
+        semibold_10 = BaseTextStyle.copy(
             fontFamily = PretendardFont.SemiBold,
             fontSize = 10.sp,
             lineHeight = 15.sp, // 150%
             letterSpacing = 1.sp
         ),
-        regular_10 = TextStyle(
+        regular_10 = BaseTextStyle.copy(
             fontFamily = PretendardFont.Regular,
             fontSize = 10.sp,
             lineHeight = 15.sp,

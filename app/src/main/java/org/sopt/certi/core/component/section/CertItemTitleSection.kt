@@ -1,6 +1,8 @@
 package org.sopt.certi.core.component.section
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Icon
@@ -13,9 +15,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
+import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.ui.theme.CertiTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CertItemTitleSection(
     certName: String,
@@ -26,19 +30,25 @@ fun CertItemTitleSection(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
     ) {
-        Text(
-            text = certName,
-            style = CertiTheme.typography.subtitle.semibold_20,
-            color = CertiTheme.colors.black
-        )
-        Text(
-            text = certType,
-            style = CertiTheme.typography.caption.regular_12,
-            color = CertiTheme.colors.black
-        )
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(4.dp))
+        ) {
+            Text(
+                text = certName,
+                style = CertiTheme.typography.subtitle.semibold_20,
+                color = CertiTheme.colors.black,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+            Text(
+                text = certType,
+                style = CertiTheme.typography.caption.regular_12,
+                color = CertiTheme.colors.black,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 

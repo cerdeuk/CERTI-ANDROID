@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -38,7 +38,6 @@ fun FlipCardOverlay(
         animationSpec = tween(500, easing = FastOutSlowInEasing),
         label = "rotationY"
     )
-    val cameraDistance = with(LocalDensity.current) { 8.dp.toPx() }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -54,7 +53,7 @@ fun FlipCardOverlay(
                 .aspectRatio(2f / 3f)
                 .graphicsLayer {
                     this.rotationY = rotationY
-                    this.cameraDistance = cameraDistance
+                    this.cameraDistance = 12f * density
                     if (rotationY > 90f) {
                         scaleX = -1f
                     }
@@ -62,16 +61,20 @@ fun FlipCardOverlay(
                 .clip(RoundedCornerShape(12.dp))
                 .noRippleClickable { isFlipped = !isFlipped }
         ) {
-            if (rotationY <= 90f) {
-                CertificationCardFront(
-                    certificationData = certificationData
-                )
-            } else {
-                CertificationCardBack(
-                    certificationData = certificationData,
-                    nickname = nickname
-                )
-            }
+            CertificationCardFront(
+                certificationData = certificationData,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer { alpha = if (rotationY <= 90f) 1f else 0f }
+            )
+
+            CertificationCardBack(
+                certificationData = certificationData,
+                nickname = nickname,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer { alpha = if (rotationY > 90f) 1f else 0f }
+            )
         }
     }
 }
@@ -87,7 +90,7 @@ fun FlipCardInteractivePreview() {
         createdAt = LocalDate.now(),
         description = "• 1급과 2급, 급수의 차이는 이 업무를 수행하는 툴 활용 능력의 범위와 숙련도 등의 고도화 차이다.",
         index = 1,
-        cardFrontImageUrl = "https://sopt-certi-bucket.s3.ap-northeast-2.amazonaws.com/certi/color%3Dblue.png",
+        cardFrontImageUrl = "",
         cardBackImageUrl = "",
         tags = listOf("디자인", "컴퓨터", "김민지")
     )

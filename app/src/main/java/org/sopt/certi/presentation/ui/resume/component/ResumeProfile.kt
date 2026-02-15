@@ -44,7 +44,7 @@ fun ResumeProfile(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.padding(horizontal = screenWidthDp(20.dp)),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (profileImageUrl == null) {
@@ -85,7 +85,8 @@ fun ResumeProfile(
                 Spacer(modifier = Modifier.weight(1f))
 
                 Row(
-                    modifier = Modifier.noRippleClickable(navigateToMyPage)
+                    modifier = Modifier.noRippleClickable(navigateToMyPage),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_edit_16),

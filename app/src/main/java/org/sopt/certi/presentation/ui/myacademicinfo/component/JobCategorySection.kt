@@ -5,7 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +30,7 @@ import org.sopt.certi.domain.type.CategoryType
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun JobCategorySection(
     jobCategoryList: List<CategoryType>,
@@ -43,30 +45,20 @@ fun JobCategorySection(
             style = CertiTheme.typography.body.semibold_16,
             color = CertiTheme.colors.gray400
         )
-        JobCategoryList(
-            jobCategoryList = jobCategoryList,
-            modifier = Modifier.padding(vertical = screenHeightDp(16.dp))
-        )
+        FlowRow(
+            modifier = Modifier.padding(vertical = screenHeightDp(16.dp)),
+            horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp)),
+            verticalArrangement = Arrangement.spacedBy(screenHeightDp(6.dp))
+        ) {
+            jobCategoryList.forEach { job ->
+                JobCategoryChip(
+                    categoryType = job
+                )
+            }
+        }
         ReselectInterestedChip(
             onClick = onClick
         )
-    }
-}
-
-@Composable
-private fun JobCategoryList(
-    jobCategoryList: List<CategoryType>,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(screenWidthDp(8.dp))
-    ) {
-        jobCategoryList.forEach { job ->
-            JobCategoryChip(
-                categoryType = job
-            )
-        }
     }
 }
 
@@ -78,7 +70,7 @@ private fun JobCategoryChip(
     Box(
         modifier = modifier
             .roundedBackgroundWithBorder(cornerRadius = 24.dp, backgroundColor = CertiTheme.colors.gray0)
-            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(8.dp))
+            .padding(horizontal = screenWidthDp(12.dp), vertical = screenHeightDp(6.dp))
     ) {
         Text(
             text = categoryType.description,
@@ -100,7 +92,7 @@ private fun ReselectInterestedChip(
             .background(color = if (isPressed) CertiTheme.colors.lightBlue else CertiTheme.colors.white, shape = RoundedCornerShape(24.dp))
             .clip(RoundedCornerShape(24.dp))
             .border(width = 1.dp, color = CertiTheme.colors.mainBlue, shape = RoundedCornerShape(24.dp))
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .pressedClickable(
                 changePressed = {
                     isPressed = it
