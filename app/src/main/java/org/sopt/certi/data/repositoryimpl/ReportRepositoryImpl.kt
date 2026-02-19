@@ -11,9 +11,10 @@ class ReportRepositoryImpl @Inject constructor(
     private val reportRemoteDataSource: ReportRemoteDataSource
 ) : ReportRepository {
     override suspend fun reportComment(certificationCommentId: Long, reportCommentRequest: ReportCommentRequest): Result<Unit> {
-        return runCatching { reportRemoteDataSource.reportComment(certificationCommentId, reportCommentRequest.toDto())
-            .handleNullableApiResponse()
-            .getOrThrow()
+        return runCatching {
+            reportRemoteDataSource.reportComment(certificationCommentId, reportCommentRequest.toDto())
+                .handleNullableApiResponse()
+                .getOrThrow()
         }
     }
 }

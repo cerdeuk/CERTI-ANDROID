@@ -7,7 +7,7 @@ import androidx.paging.PagingState
 
 class CertiPagingSource<T : Any>(
     private val pageSize: Int,
-    private val getList: suspend (Int) -> List<T>,
+    private val getList: suspend (Int) -> List<T>
 ) : PagingSource<Int, T>() {
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         val anchor = state.anchorPosition ?: return null
@@ -30,13 +30,13 @@ class CertiPagingSource<T : Any>(
     }
 }
 
-fun <T: Any> createPager(
+fun <T : Any> createPager(
     limit: Int = 10,
     initialLoadSize: Int = 20,
     q: List<String>? = null,
     startPage: Int? = null,
     pagingSourceFactory: suspend (page: Int, limit: Int, sort: List<String>?) -> List<T>
-) : Pager<Int, T> {
+): Pager<Int, T> {
     return Pager(
         config = PagingConfig(
             pageSize = limit,

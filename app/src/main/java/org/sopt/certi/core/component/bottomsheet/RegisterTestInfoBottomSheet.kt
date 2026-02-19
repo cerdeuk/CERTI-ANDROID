@@ -298,7 +298,7 @@ fun RegisterTestInfoBottomSheet(
                                 }
                                 .padding(horizontal = screenWidthDp(12.dp))
                                 .noRippleClickable {
-                                    if(!showPlaceP2List) {
+                                    if (!showPlaceP2List) {
                                         showPlaceP1List = true
                                     }
                                 },

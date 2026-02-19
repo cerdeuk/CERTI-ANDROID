@@ -1,6 +1,5 @@
 package org.sopt.certi.core.component.dialog
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize

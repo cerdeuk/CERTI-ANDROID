@@ -6,7 +6,7 @@ import org.sopt.certi.domain.model.comment.CommentData
 import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.domain.type.CertStateType
 
-fun GetCommentListResponseDto.toDomain() : CommentData {
+fun GetCommentListResponseDto.toDomain(): CommentData {
     return CommentData(
         content = content.map { it.toDomain() },
         totalPages = totalPages,
@@ -15,7 +15,7 @@ fun GetCommentListResponseDto.toDomain() : CommentData {
     )
 }
 
-fun CommentItemResponseDto.toDomain() : CommentItemData {
+fun CommentItemResponseDto.toDomain(): CommentItemData {
     return CommentItemData(
         commentId = commentId,
         userId = userId,

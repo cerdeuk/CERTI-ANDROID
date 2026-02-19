@@ -86,8 +86,6 @@ fun CertDetailCommentRoute(
 
     var commentDialogState by remember { mutableStateOf<CommentDialogState>(CommentDialogState.Hidden) }
 
-
-
     LaunchedEffect(commentSortType) {
         viewModel.getMyUserId()
         viewModel.getCommentList(certificationId, commentSortType)
@@ -95,7 +93,7 @@ fun CertDetailCommentRoute(
 
     LaunchedEffect(Unit) {
         viewModel.updateCommentSuccess.collect { uiState ->
-            when(uiState) {
+            when (uiState) {
                 is UiState.Success -> {
                     commentList.refresh()
 
@@ -234,7 +232,7 @@ fun CertDetailCommentScreen(
                 )
             }
 
-            if(commentData.itemCount == 0) {
+            if (commentData.itemCount == 0) {
                 CommentEmptyView()
             } else {
                 LazyColumn(
@@ -299,8 +297,7 @@ fun CertDetailCommentScreen(
                     .padding(end = screenWidthDp(12.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
-                if(certStateType == CertStateType.NORMAL) {
+                if (certStateType == CertStateType.NORMAL) {
                     Spacer(Modifier.widthForScreenPercentage(12.dp))
 
                     Icon(

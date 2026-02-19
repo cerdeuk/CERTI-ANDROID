@@ -8,7 +8,6 @@ import org.sopt.certi.data.mapper.todto.comment.toDto
 import org.sopt.certi.data.pagingsource.createPager
 import org.sopt.certi.data.remote.datasource.CommentRemoteDataSource
 import org.sopt.certi.data.remote.dto.request.comment.CommentListPageableRequestDto
-import org.sopt.certi.data.remote.util.HttpResponseHandler.handleApiResponse
 import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResponse
 import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.domain.model.comment.RegisterCommentRequest

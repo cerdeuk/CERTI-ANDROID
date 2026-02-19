@@ -11,5 +11,5 @@ interface CommentRepository {
     suspend fun likeComment(commentId: Long): Result<Unit>
     suspend fun deleteComment(commentId: Long): Result<Unit>
 
-    fun getTotalCommentCount() : Flow<Int>
+    fun getTotalCommentCount(): Flow<Int>
 }

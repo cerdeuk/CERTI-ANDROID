@@ -61,7 +61,6 @@ class CertDetailViewModel @Inject constructor(
     private val _updateCommentSuccess = MutableStateFlow<UiState<Boolean>>(UiState.Init)
     val updateCommentSuccess: StateFlow<UiState<Boolean>> = _updateCommentSuccess.asStateFlow()
 
-
     val detailUiState: StateFlow<DetailUiState> =
         combine(
             _certDetailInfo
@@ -79,7 +78,6 @@ class CertDetailViewModel @Inject constructor(
 
     private val _sideEffect = Channel<DetailSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
-
 
     fun getCertDetailInfo(certId: Long) = viewModelScope.launch {
         getCertInfoUseCase.invoke(certId).fold(

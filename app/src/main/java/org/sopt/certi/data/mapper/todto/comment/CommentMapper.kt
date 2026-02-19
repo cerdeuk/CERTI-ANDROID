@@ -5,14 +5,14 @@ import org.sopt.certi.data.remote.dto.request.comment.RegisterCommentRequestDto
 import org.sopt.certi.domain.model.comment.CommentListPageableRequest
 import org.sopt.certi.domain.model.comment.RegisterCommentRequest
 
-fun RegisterCommentRequest.toDto() : RegisterCommentRequestDto {
+fun RegisterCommentRequest.toDto(): RegisterCommentRequestDto {
     return RegisterCommentRequestDto(
         content = content,
         certificationId = certificationId
     )
 }
 
-fun CommentListPageableRequest.toDto() : CommentListPageableRequestDto {
+fun CommentListPageableRequest.toDto(): CommentListPageableRequestDto {
     return CommentListPageableRequestDto(
         page = page,
         size = size,

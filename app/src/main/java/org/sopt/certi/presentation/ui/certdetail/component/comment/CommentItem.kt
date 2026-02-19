@@ -53,7 +53,7 @@ fun CommentItem(
     var likeCountStatus by remember { mutableStateOf(commentData.likeCount) }
 
     when (commentData.state) {
-        CertStateType.ANTICIPATED, -> {
+        CertStateType.ANTICIPATED -> {
             acquireStateText = stringResource(R.string.comment_state_pre)
             acquireStateTextColor = CertiTheme.colors.purpleBlue
         }
@@ -144,7 +144,7 @@ fun CommentItem(
 
             Spacer(Modifier.widthForScreenPercentage(8.dp))
 
-            if(commentData.userId != myUserId) {
+            if (commentData.userId != myUserId) {
                 Text(
                     text = stringResource(R.string.comment_report),
                     style = CertiTheme.typography.caption.semibold_12,

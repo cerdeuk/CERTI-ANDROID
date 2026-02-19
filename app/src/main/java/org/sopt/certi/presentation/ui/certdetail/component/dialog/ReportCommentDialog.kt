@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +31,6 @@ import androidx.compose.ui.window.Dialog
 import org.sopt.certi.R
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
-import org.sopt.certi.core.util.pressedClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
@@ -66,7 +64,7 @@ fun ReportCommentDialog(
                 Text(
                     text = stringResource(R.string.dialog_comment_report_title),
                     style = CertiTheme.typography.caption.semibold_14,
-                    color = CertiTheme.colors.black,
+                    color = CertiTheme.colors.black
                 )
 
                 Spacer(Modifier.weight(1f))
@@ -95,7 +93,7 @@ fun ReportCommentDialog(
             BasicTextField(
                 value = contentText,
                 onValueChange = {
-                    if(contentText.length < 100) {
+                    if (contentText.length < 100) {
                         contentText = it
                     }
                 },
@@ -104,7 +102,7 @@ fun ReportCommentDialog(
                         Text(
                             text = stringResource(R.string.dialog_comment_report_content_hint),
                             style = CertiTheme.typography.caption.regular_12,
-                            color = CertiTheme.colors.gray300,
+                            color = CertiTheme.colors.gray300
                         )
                     }
                     innerTextField()
@@ -136,7 +134,7 @@ fun ReportCommentDialog(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    painter = painterResource(if(blockState) R.drawable.ic_checkbox_fill else R.drawable.ic_checkbox_empty),
+                    painter = painterResource(if (blockState) R.drawable.ic_checkbox_fill else R.drawable.ic_checkbox_empty),
                     contentDescription = null,
                     tint = Color.Unspecified,
                     modifier = Modifier
@@ -150,7 +148,7 @@ fun ReportCommentDialog(
                 Text(
                     text = stringResource(R.string.dialog_comment_report_block_title),
                     style = CertiTheme.typography.caption.semibold_12,
-                    color = CertiTheme.colors.gray600,
+                    color = CertiTheme.colors.gray600
                 )
             }
 
@@ -160,13 +158,13 @@ fun ReportCommentDialog(
                 Text(
                     text = " ∙ ",
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray400,
+                    color = CertiTheme.colors.gray400
                 )
 
                 Text(
                     text = stringResource(R.string.dialog_comment_report_note_p1),
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray400,
+                    color = CertiTheme.colors.gray400
                 )
             }
 
@@ -176,13 +174,13 @@ fun ReportCommentDialog(
                 Text(
                     text = " ∙ ",
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray400,
+                    color = CertiTheme.colors.gray400
                 )
 
                 Text(
                     text = stringResource(R.string.dialog_comment_report_note_p2),
                     style = CertiTheme.typography.caption.regular_12,
-                    color = CertiTheme.colors.gray400,
+                    color = CertiTheme.colors.gray400
                 )
             }
 
@@ -217,10 +215,8 @@ fun ReportCommentDialog(
 private fun PreviewReportCommentDialog() {
     ReportCommentDialog(
         onReportClick = { _, _ ->
-
         },
         onDismissClick = {
-
         }
     )
 }

@@ -2,12 +2,9 @@ package org.sopt.certi.presentation.ui.certdetail.component.comment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +20,9 @@ import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
 fun CommentEmptyView(
-    modifier : Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -33,7 +30,7 @@ fun CommentEmptyView(
     ) {
         Image(
             painter = painterResource(R.drawable.img_empty),
-            contentDescription = null,
+            contentDescription = null
         )
 
         Spacer(Modifier.heightForScreenPercentage(20.dp))

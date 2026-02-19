@@ -2,7 +2,6 @@ package org.sopt.certi.data.remote.service
 
 import org.sopt.certi.data.remote.dto.base.ApiResponse
 import org.sopt.certi.data.remote.dto.base.NullableApiResponse
-import org.sopt.certi.data.remote.dto.request.comment.CommentListPageableRequestDto
 import org.sopt.certi.data.remote.dto.request.comment.RegisterCommentRequestDto
 import org.sopt.certi.data.remote.dto.response.comment.GetCommentListResponseDto
 import retrofit2.http.Body
@@ -17,14 +16,14 @@ interface CommentService {
     suspend fun getCommentList(
         @Query("certificationId") certificationId: Long,
         @Query("pageable") pageable: String
-    ) : ApiResponse<GetCommentListResponseDto>
+    ): ApiResponse<GetCommentListResponseDto>
 
     @POST("api/v1/comments")
-    suspend fun registerComment(@Body registerCommentRequest: RegisterCommentRequestDto) : NullableApiResponse<Unit>
+    suspend fun registerComment(@Body registerCommentRequest: RegisterCommentRequestDto): NullableApiResponse<Unit>
 
     @POST("api/v1/comments/{commentId}/like")
-    suspend fun likeComment(@Path("commentId") commentId: Long) : NullableApiResponse<Unit>
+    suspend fun likeComment(@Path("commentId") commentId: Long): NullableApiResponse<Unit>
 
     @DELETE("api/v1/comments/{commentId}")
-    suspend fun deleteComment(@Path("commentId") commentId: Long) : NullableApiResponse<Unit>
+    suspend fun deleteComment(@Path("commentId") commentId: Long): NullableApiResponse<Unit>
 }
