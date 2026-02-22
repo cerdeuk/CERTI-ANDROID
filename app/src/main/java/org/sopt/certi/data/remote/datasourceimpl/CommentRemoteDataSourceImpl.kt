@@ -13,7 +13,7 @@ class CommentRemoteDataSourceImpl @Inject constructor(
     private val commentService: CommentService
 ) : CommentRemoteDataSource {
     override suspend fun getCommentList(certificationId: Long, pageable: CommentListPageableRequestDto): ApiResponse<GetCommentListResponseDto> =
-        commentService.getCommentList(certificationId, "{\"page\": ${pageable.page}, \"size\": ${pageable.size}, \"sort\": ${pageable.sort}}")
+        commentService.getCommentList(certificationId, page = pageable.page, size = pageable.size, sort = if (pageable.sort.isNotEmpty()) pageable.sort.toString() else null)
 
     override suspend fun registerComment(registerCommentRequest: RegisterCommentRequestDto): NullableApiResponse<Unit> =
         commentService.registerComment(registerCommentRequest)
