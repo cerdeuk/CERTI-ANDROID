@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.domain.model.user.CertificationCount
 import org.sopt.certi.domain.model.user.MyPageInfo
+import org.sopt.certi.presentation.model.UrlConstants
 import org.sopt.certi.presentation.ui.mypage.component.MyPageCertMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageMenuItem
 import org.sopt.certi.presentation.ui.mypage.component.MyPageProfile
@@ -36,10 +38,10 @@ fun MyPageMainRoute(
     navigateToSchoolInfo: () -> Unit,
     navigateToCertManage: () -> Unit,
     navigateToSetting: () -> Unit,
-    navigateToQuestion: () -> Unit,
     viewModel: MyPageMainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.loadMyPageData()
@@ -51,7 +53,7 @@ fun MyPageMainRoute(
         onSchoolInfoClick = navigateToSchoolInfo,
         onCertManageClick = navigateToCertManage,
         onSettingClick = navigateToSetting,
-        onQuestionsClick = navigateToQuestion,
+        onQuestionsClick = { uriHandler.openUri(UrlConstants.INQUIRY_OPEN_CHAT) },
         modifier = Modifier.padding(padding)
     )
 }

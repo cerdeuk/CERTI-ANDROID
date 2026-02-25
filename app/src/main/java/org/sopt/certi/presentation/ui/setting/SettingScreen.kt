@@ -27,10 +27,12 @@ import org.sopt.certi.presentation.ui.setting.component.LogoutButton
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import org.sopt.certi.BuildConfig
 import org.sopt.certi.core.component.dialog.CertiDeleteDialog
+import org.sopt.certi.presentation.model.UrlConstants
 import org.sopt.certi.presentation.ui.setting.component.DeleteAccountDialog
 import org.sopt.certi.presentation.ui.setting.sideEffect.SettingSideEffect
 
@@ -42,8 +44,8 @@ fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     val lifecycleOwner = LocalLifecycleOwner.current
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect {
@@ -71,6 +73,7 @@ fun SettingRoute(
 
     SettingScreen(
         onNavigateToSettingNotification = navigateToSettingNotification,
+        onPrivacyPolicyClick = { uriHandler.openUri(UrlConstants.PRIVACY_POLICY) },
         onDeleteAccountClick = viewModel::onDeleteAccountClick,
         onLogoutClick = viewModel::onLogoutClick,
         modifier = Modifier.padding(padding)
@@ -80,6 +83,7 @@ fun SettingRoute(
 @Composable
 fun SettingScreen(
     onNavigateToSettingNotification: () -> Unit,
+    onPrivacyPolicyClick: () -> Unit,
     onDeleteAccountClick: () -> Unit,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -113,7 +117,7 @@ fun SettingScreen(
 
             MenuRow(
                 text = stringResource(R.string.setting_privacy_policy),
-                onClick = {}
+                onClick = onPrivacyPolicyClick
             )
 
             MenuRow(
@@ -146,6 +150,7 @@ private fun SettingPreview() {
     CERTITheme {
         SettingScreen(
             onNavigateToSettingNotification = {},
+            onPrivacyPolicyClick = {},
             onDeleteAccountClick = {},
             onLogoutClick = {}
         )
