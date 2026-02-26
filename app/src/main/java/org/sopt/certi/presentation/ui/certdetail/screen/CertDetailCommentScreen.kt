@@ -19,12 +19,14 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,109 +44,134 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOf
 import org.sopt.certi.R
+import org.sopt.certi.core.component.dialog.CertiContentDialog
+import org.sopt.certi.core.state.UiState
 import org.sopt.certi.core.util.heightForScreenPercentage
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
-import org.sopt.certi.domain.model.comment.CommentData
 import org.sopt.certi.domain.model.comment.CommentItemData
-import org.sopt.certi.domain.type.CertAcquireStateType
+import org.sopt.certi.domain.type.CertStateType
+import org.sopt.certi.presentation.type.CommentSortType
+import org.sopt.certi.presentation.ui.certdetail.CertDetailViewModel
 import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButton
-import org.sopt.certi.presentation.ui.certdetail.component.chip.CommentArrayButtonType
+import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentEmptyView
 import org.sopt.certi.presentation.ui.certdetail.component.comment.CommentItem
+import org.sopt.certi.presentation.ui.certdetail.component.dialog.ReportCommentDialog
+import org.sopt.certi.presentation.ui.certdetail.sideeffect.CommentDialogState
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
-fun CertDetailCommentRoute() {
-    val dummyCommentData = CommentData(
-        content = listOf(
-            CommentItemData(
-                commentId = 57,
-                userId = 1,
-                nickName = "이성민",
-                content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 58,
-                userId = 1,
-                nickName = "이성민2",
-                content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 59,
-                userId = 1,
-                nickName = "이성민3",
-                content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 60,
-                userId = 1,
-                nickName = "이성민4",
-                content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 61,
-                userId = 1,
-                nickName = "이성민5",
-                content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            )
-        ),
-        totalPages = 1,
-        totalElements = 5,
-        isLast = false
+fun CertDetailCommentRoute(
+    certificationId: Long,
+    certStateType: CertStateType,
+    viewModel: CertDetailViewModel = hiltViewModel()
+) {
+    var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
+    val commentList = viewModel.commentPagingData.collectAsLazyPagingItems()
+    val totalCommentCount by viewModel.totalCommentCount.collectAsStateWithLifecycle()
+    val myUserId by viewModel.myUserId.collectAsStateWithLifecycle()
+
+    val listState = rememberLazyListState()
+
+    var commentDialogState by remember { mutableStateOf<CommentDialogState>(CommentDialogState.Hidden) }
+
+    LaunchedEffect(commentSortType) {
+        viewModel.getMyUserId()
+        viewModel.getCommentList(certificationId, commentSortType)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.updateCommentSuccess.collect { uiState ->
+            when (uiState) {
+                is UiState.Success -> {
+                    commentList.refresh()
+
+                    delay(500)
+                    listState.animateScrollToItem(commentList.itemCount)
+                }
+                else -> {}
+            }
+        }
+    }
+
+    CertDetailCommentScreen(
+        commentData = commentList,
+        totalCommentCount = totalCommentCount,
+        myUserId = myUserId,
+        certStateType = certStateType,
+        listState = listState,
+        changeSortType = { changedSortType ->
+            commentSortType = changedSortType
+        },
+        writeComment = { content ->
+            viewModel.registerComment(certId = certificationId, content = content)
+        },
+        likeOnClick = { like, commentId ->
+            viewModel.likeComment(commentId)
+        },
+        reportOnClick = { commentId ->
+            commentDialogState = CommentDialogState.ShowReportCommentDialog(commentId)
+        },
+        deleteOnClick = { commentId ->
+            commentDialogState = CommentDialogState.ShowDeleteCommentDialog(commentId)
+        }
     )
 
-    CertDetailCommentScreen(commentData = dummyCommentData, myUserId = 0)
+    when (val state = commentDialogState) {
+        is CommentDialogState.Hidden -> { }
+        is CommentDialogState.ShowDeleteCommentDialog -> {
+            CertiContentDialog(
+                titleText = stringResource(R.string.dialog_comment_delete_title),
+                contentText = stringResource(R.string.dialog_comment_delete_content),
+                onConfirmClick = {
+                    viewModel.deleteComment(state.commentId)
+                    commentDialogState = CommentDialogState.Hidden
+                },
+                onDismissClick = {
+                    commentDialogState = CommentDialogState.Hidden
+                }
+            )
+        }
+        is CommentDialogState.ShowReportCommentDialog -> {
+            ReportCommentDialog(
+                onReportClick = { content, block ->
+                    viewModel.reportComment(state.commentId, content, block)
+                    commentDialogState = CommentDialogState.Hidden
+                },
+                onDismissClick = {
+                    commentDialogState = CommentDialogState.Hidden
+                }
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CertDetailCommentScreen(
-    commentData: CommentData,
+    commentData: LazyPagingItems<CommentItemData>,
+    totalCommentCount: Int,
     myUserId: Long,
+    certStateType: CertStateType,
+    listState: LazyListState = rememberLazyListState(),
+    changeSortType: (CommentSortType) -> Unit = {},
     writeComment: (content: String) -> Unit = {},
     likeOnClick: (like: Boolean, commentId: Long) -> Unit = { _, _ -> },
     reportOnClick: (commentId: Long) -> Unit = {},
     deleteOnClick: (commentId: Long) -> Unit = {}
 ) {
-    var commentSortType by remember { mutableStateOf(CommentArrayButtonType.Famous) }
+    var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
 
     var commentText by remember { mutableStateOf("") }
 
@@ -177,50 +204,62 @@ fun CertDetailCommentScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CommentArrayButton(
-                    commentArrayButtonType = CommentArrayButtonType.Famous,
-                    isSelected = commentSortType == CommentArrayButtonType.Famous,
+                    commentSortType = CommentSortType.Famous,
+                    isSelected = commentSortType == CommentSortType.Famous,
                     selectOnClick = {
-                        commentSortType = CommentArrayButtonType.Famous
+                        commentSortType = CommentSortType.Famous
+                        changeSortType(commentSortType)
                     }
                 )
 
                 Spacer(Modifier.widthForScreenPercentage(8.dp))
 
                 CommentArrayButton(
-                    commentArrayButtonType = CommentArrayButtonType.Recent,
-                    isSelected = commentSortType == CommentArrayButtonType.Recent,
+                    commentSortType = CommentSortType.Recent,
+                    isSelected = commentSortType == CommentSortType.Recent,
                     selectOnClick = {
-                        commentSortType = CommentArrayButtonType.Recent
+                        commentSortType = CommentSortType.Recent
+                        changeSortType(commentSortType)
                     }
                 )
 
                 Spacer(Modifier.weight(1f))
 
                 Text(
-                    text = stringResource(R.string.comment_count, commentData.totalElements),
+                    text = stringResource(R.string.comment_count, totalCommentCount),
                     style = CertiTheme.typography.caption.regular_14,
                     color = CertiTheme.colors.gray400
                 )
             }
 
-            LazyColumn(
-                contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
-                verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
-            ) {
-                itemsIndexed(commentData.content) { _, item ->
-                    CommentItem(
-                        commentData = item,
-                        myUserId = myUserId,
-                        likeOnClick = { like ->
-                            likeOnClick(like, item.commentId)
-                        },
-                        reportOnClick = {
-                            reportOnClick(item.commentId)
-                        },
-                        deleteOnClick = {
-                            deleteOnClick(item.commentId)
+            if (commentData.itemCount == 0) {
+                CommentEmptyView()
+            } else {
+                LazyColumn(
+                    state = listState,
+                    contentPadding = PaddingValues(top = screenHeightDp(12.dp)),
+                    verticalArrangement = Arrangement.spacedBy(screenHeightDp(12.dp))
+                ) {
+                    items(
+                        count = commentData.itemCount,
+                        key = commentData.itemKey { it.commentId }
+                    ) { index ->
+                        commentData[index]?.let { comment ->
+                            CommentItem(
+                                commentData = comment,
+                                myUserId = myUserId,
+                                likeOnClick = { like ->
+                                    likeOnClick(like, comment.commentId)
+                                },
+                                reportOnClick = {
+                                    reportOnClick(comment.commentId)
+                                },
+                                deleteOnClick = {
+                                    deleteOnClick(comment.commentId)
+                                }
+                            )
                         }
-                    )
+                    }
                 }
             }
         }
@@ -258,44 +297,67 @@ fun CertDetailCommentScreen(
                     .padding(end = screenWidthDp(12.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BasicTextField(
-                    value = commentText,
-                    onValueChange = { commentText = it },
-                    singleLine = true,
-                    maxLines = 1,
-                    textStyle = CertiTheme.typography.caption.regular_14.copy(
-                        color = CertiTheme.colors.black
-                    ),
-                    cursorBrush = SolidColor(CertiTheme.colors.black),
-                    decorationBox = { innerTextField ->
-                        if (commentText.isEmpty()) {
-                            Text(
-                                text = stringResource(R.string.comment_hint),
-                                style = CertiTheme.typography.caption.semibold_14,
-                                color = CertiTheme.colors.gray300
-                            )
-                        }
+                if (certStateType == CertStateType.NORMAL) {
+                    Spacer(Modifier.widthForScreenPercentage(12.dp))
 
-                        innerTextField()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = screenWidthDp(10.dp))
-                )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_lock),
+                        contentDescription = null,
+                        tint = Color.Unspecified,
+                        modifier = Modifier
+                            .widthForScreenPercentage(20.dp)
+                            .heightForScreenPercentage(20.dp)
+                    )
 
-                Spacer(Modifier.widthForScreenPercentage(12.dp))
+                    Spacer(Modifier.widthForScreenPercentage(8.dp))
 
-                Icon(
-                    painter = painterResource(R.drawable.ic_send),
-                    tint = if (commentText.isEmpty()) Color.Unspecified else CertiTheme.colors.purpleBlue,
-                    modifier = Modifier
-                        .widthForScreenPercentage(24.dp)
-                        .heightForScreenPercentage(24.dp)
-                        .noRippleClickable {
-                            writeComment(commentText)
+                    Text(
+                        text = stringResource(R.string.comment_write_unavailable),
+                        style = CertiTheme.typography.caption.semibold_14,
+                        color = CertiTheme.colors.gray300
+                    )
+                } else {
+                    BasicTextField(
+                        value = commentText,
+                        onValueChange = { commentText = it },
+                        singleLine = true,
+                        maxLines = 1,
+                        textStyle = CertiTheme.typography.caption.regular_14.copy(
+                            color = CertiTheme.colors.black
+                        ),
+                        cursorBrush = SolidColor(CertiTheme.colors.black),
+                        decorationBox = { innerTextField ->
+                            if (commentText.isEmpty()) {
+                                Text(
+                                    text = stringResource(R.string.comment_hint),
+                                    style = CertiTheme.typography.caption.semibold_14,
+                                    color = CertiTheme.colors.gray300
+                                )
+                            }
+
+                            innerTextField()
                         },
-                    contentDescription = null
-                )
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = screenWidthDp(10.dp))
+                    )
+
+                    Spacer(Modifier.widthForScreenPercentage(12.dp))
+
+                    Icon(
+                        painter = painterResource(R.drawable.ic_send),
+                        tint = if (commentText.isEmpty()) Color.Unspecified else CertiTheme.colors.purpleBlue,
+                        modifier = Modifier
+                            .widthForScreenPercentage(24.dp)
+                            .heightForScreenPercentage(24.dp)
+                            .noRippleClickable {
+                                writeComment(commentText)
+
+                                commentText = ""
+                            },
+                        contentDescription = null
+                    )
+                }
             }
         }
     }
@@ -304,78 +366,22 @@ fun CertDetailCommentScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewCertDetailCommentScreen() {
-    val dummyCommentData = CommentData(
-        content = listOf(
-            CommentItemData(
-                commentId = 57,
-                userId = 1,
-                nickName = "이성민",
-                content = "댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 58,
-                userId = 1,
-                nickName = "이성민2",
-                content = "댓글입니다.2댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 59,
-                userId = 1,
-                nickName = "이성민3",
-                content = "댓글입니다.3댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 60,
-                userId = 1,
-                nickName = "이성민4",
-                content = "댓글입니다.4댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            ),
-            CommentItemData(
-                commentId = 61,
-                userId = 1,
-                nickName = "이성민5",
-                content = "댓글입니다.5댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.",
-                userMajor = "전산학/컴퓨터공학",
-                userJob = "IT/인터넷",
-                state = CertAcquireStateType.ACQUIRED,
-                likeCount = 3,
-                createdTime = "2025-11-15T23:00:38.042089",
-                lastModifiedTime = "2025-11-15T23:00:38.042089",
-                isLike = false
-            )
-        ),
-        totalPages = 1,
-        totalElements = 4,
-        isLast = false
+    val dummyItem = CommentItemData(
+        commentId = 1L,
+        userId = 1L,
+        nickName = "홍길동",
+        content = "이 자격증 정말 추천합니다! 취업에 많은 도움이 되었어요.",
+        userMajor = "컴퓨터공학",
+        userJob = "백엔드 개발자",
+        state = CertStateType.ACQUISITION,
+        createdTime = "2024-01-15",
+        lastModifiedTime = "2024-01-15",
+        isLike = false,
+        likeCount = 5
     )
+    val dummyPagingData = PagingData.from(listOf(dummyItem))
+    val dummyFlow = flowOf(dummyPagingData)
+    val dummyList = dummyFlow.collectAsLazyPagingItems()
 
-    CertDetailCommentScreen(commentData = dummyCommentData, myUserId = 0)
+    CertDetailCommentScreen(commentData = dummyList, totalCommentCount = 1, myUserId = 0, certStateType = CertStateType.NORMAL)
 }

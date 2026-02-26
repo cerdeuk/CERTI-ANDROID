@@ -34,7 +34,7 @@ import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.comment.CommentItemData
-import org.sopt.certi.domain.type.CertAcquireStateType
+import org.sopt.certi.domain.type.CertStateType
 import org.sopt.certi.ui.theme.CertiTheme
 
 @Composable
@@ -53,13 +53,17 @@ fun CommentItem(
     var likeCountStatus by remember { mutableStateOf(commentData.likeCount) }
 
     when (commentData.state) {
-        CertAcquireStateType.ACQUIRED -> {
-            acquireStateText = stringResource(R.string.comment_state_acquired)
+        CertStateType.ANTICIPATED -> {
+            acquireStateText = stringResource(R.string.comment_state_pre)
             acquireStateTextColor = CertiTheme.colors.purpleBlue
         }
-        CertAcquireStateType.PRE -> {
-            acquireStateText = stringResource(R.string.comment_state_pre)
+        CertStateType.ACQUISITION -> {
+            acquireStateText = stringResource(R.string.comment_state_acquired)
             acquireStateTextColor = CertiTheme.colors.gray300
+        }
+        CertStateType.NORMAL -> {
+            acquireStateText = "ERROR"
+            acquireStateTextColor = CertiTheme.colors.error
         }
     }
 
@@ -140,19 +144,21 @@ fun CommentItem(
 
             Spacer(Modifier.widthForScreenPercentage(8.dp))
 
-            Text(
-                text = stringResource(R.string.comment_report),
-                style = CertiTheme.typography.caption.semibold_12,
-                color = CertiTheme.colors.gray400,
-                modifier = Modifier.noRippleClickable {
-                    reportOnClick()
-                }
-            )
+            if (commentData.userId != myUserId) {
+                Text(
+                    text = stringResource(R.string.comment_report),
+                    style = CertiTheme.typography.caption.semibold_12,
+                    color = CertiTheme.colors.gray400,
+                    modifier = Modifier.noRippleClickable {
+                        reportOnClick()
+                    }
+                )
 
-            Spacer(Modifier.widthForScreenPercentage(8.dp))
+                Spacer(Modifier.widthForScreenPercentage(8.dp))
+            }
 
             Text(
-                text = commentData.createdTime,
+                text = commentData.createdTime.split("T")[0].replace("-", "."),
                 style = CertiTheme.typography.caption.semibold_12,
                 color = CertiTheme.colors.gray400
             )
@@ -203,8 +209,8 @@ fun CommentItemPreview() {
         content = "이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~이 자격증 너무 좋은 것 같아요! 다들 꼭 따세요~",
         userMajor = "컴퓨터공학과",
         userJob = "개발자",
-        state = CertAcquireStateType.ACQUIRED,
-        createdTime = "2024.07.21",
+        state = CertStateType.ANTICIPATED,
+        createdTime = "2026-02-05T03:25:01.699655",
         lastModifiedTime = "2024.07.21",
         isLike = true,
         likeCount = 15

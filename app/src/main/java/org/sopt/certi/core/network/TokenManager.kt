@@ -76,6 +76,14 @@ class TokenManager @Inject constructor(
         return sharedPreferences.getString("NICKNAME", "").orEmpty()
     }
 
+    fun saveUserId(userId: Long) {
+        sharedPreferences.edit().putLong("USERID", userId).apply()
+    }
+
+    fun getUserId(): Long {
+        return sharedPreferences.getLong("USERID", 0L)
+    }
+
     fun nicknameFlow(): Flow<String> = callbackFlow {
         trySend(getNickName())
 

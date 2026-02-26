@@ -129,6 +129,11 @@ dependencies {
     // calendar
     implementation(libs.kizitonwose.calendar)
 
+    // Paging
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.runtime.android)
+    implementation(libs.androidx.paging.runtime)
+
     // Google
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

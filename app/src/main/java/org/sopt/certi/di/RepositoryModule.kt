@@ -9,10 +9,12 @@ import org.sopt.certi.data.repositoryimpl.AcquisitionRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.AuthRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CareerRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.CertRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.CommentRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.DummyRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.HomeRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.PreCertEditRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.PreCertRepositoryImpl
+import org.sopt.certi.data.repositoryimpl.ReportRepositoryImpl
 import org.sopt.certi.data.repositoryimpl.S3RepositoryImpl
 import org.sopt.certi.domain.repository.AcquisitionRepository
 import org.sopt.certi.data.repositoryimpl.UserRepositoryImpl
@@ -20,10 +22,12 @@ import org.sopt.certi.domain.repository.ActivityRepository
 import org.sopt.certi.domain.repository.AuthRepository
 import org.sopt.certi.domain.repository.CareerRepository
 import org.sopt.certi.domain.repository.CertRepository
+import org.sopt.certi.domain.repository.CommentRepository
 import org.sopt.certi.domain.repository.DummyRepository
 import org.sopt.certi.domain.repository.HomeRepository
 import org.sopt.certi.domain.repository.PreCertEditRepository
 import org.sopt.certi.domain.repository.PreCertRepository
+import org.sopt.certi.domain.repository.ReportRepository
 import org.sopt.certi.domain.repository.S3Repository
 import org.sopt.certi.domain.repository.UserRepository
 import javax.inject.Singleton
@@ -73,4 +77,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindS3Repository(s3RepositoryImpl: S3RepositoryImpl): S3Repository
+
+    @Binds
+    @Singleton
+    abstract fun bindCommentRepository(commentRepositoryImpl: CommentRepositoryImpl): CommentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindReportRepository(reportRepositoryImpl: ReportRepositoryImpl): ReportRepository
 }
