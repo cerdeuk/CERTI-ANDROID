@@ -62,9 +62,8 @@ fun String.toLocalizedDate(): String {
 
 fun String.splitDateTime(): Pair<String, String> {
     return try {
-        val parsed = LocalDateTime.parse(this)
-        val date = parsed.format(DateFormatters.dotDate)
-        val time = parsed.toLocalTime().toString()
+        val date = this.split("T")[0]
+        val time = this.split("T")[1]
         date to time
     } catch (e: Exception) {
         this to ""

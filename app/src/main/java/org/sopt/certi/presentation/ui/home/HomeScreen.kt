@@ -163,7 +163,8 @@ fun HomeScreen(
     ) {
         DDayoTopBar(
             logoutOnClick = {
-                navigateToLogin()
+                // TEST
+//                navigateToLogin()
             },
             modifier = Modifier.fillMaxWidth()
         )

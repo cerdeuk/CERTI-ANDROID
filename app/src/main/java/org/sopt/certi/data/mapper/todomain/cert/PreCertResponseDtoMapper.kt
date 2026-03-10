@@ -62,6 +62,7 @@ fun PreCertDayItemResponseDto.toDomain(): CertificationData {
         city = city,
         state = state,
         testDate = testDate,
+        testTime = testDate.splitDateTime().second,
         isAcquired = isAcquired
     )
 }
