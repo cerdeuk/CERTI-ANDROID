@@ -76,6 +76,9 @@ fun ReportCommentDialog(
                     modifier = Modifier
                         .widthForScreenPercentage(24.dp)
                         .heightForScreenPercentage(24.dp)
+                        .noRippleClickable {
+                            onDismissClick()
+                        }
                 )
             }
 

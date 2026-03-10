@@ -34,6 +34,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -42,6 +45,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -317,30 +321,53 @@ fun CertDetailCommentScreen(
                         color = CertiTheme.colors.gray300
                     )
                 } else {
-                    BasicTextField(
-                        value = commentText,
-                        onValueChange = { commentText = it },
-                        singleLine = true,
-                        maxLines = 1,
-                        textStyle = CertiTheme.typography.caption.regular_14.copy(
-                            color = CertiTheme.colors.black
-                        ),
-                        cursorBrush = SolidColor(CertiTheme.colors.black),
-                        decorationBox = { innerTextField ->
-                            if (commentText.isEmpty()) {
-                                Text(
-                                    text = stringResource(R.string.comment_hint),
-                                    style = CertiTheme.typography.caption.semibold_14,
-                                    color = CertiTheme.colors.gray300
-                                )
-                            }
+                    var isFocused by remember { mutableStateOf(false) }
+                    val focusRequester = remember { FocusRequester() }
 
-                            innerTextField()
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = screenWidthDp(10.dp))
-                    )
+                    if (!isFocused && commentText.isNotEmpty()) {
+                        Text(
+                            text = commentText,
+                            style = CertiTheme.typography.caption.regular_14.copy(
+                                color = CertiTheme.colors.black
+                            ),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = screenWidthDp(10.dp))
+                                .noRippleClickable {
+                                    isFocused = true
+                                    focusRequester.requestFocus()
+                                }
+                        )
+                    } else {
+                        BasicTextField(
+                            value = commentText,
+                            onValueChange = { commentText = it },
+                            singleLine = true,
+                            maxLines = 1,
+                            textStyle = CertiTheme.typography.caption.regular_14.copy(
+                                color = CertiTheme.colors.black
+                            ),
+                            cursorBrush = SolidColor(CertiTheme.colors.black),
+                            decorationBox = { innerTextField ->
+                                if (commentText.isEmpty()) {
+                                    Text(
+                                        text = stringResource(R.string.comment_hint),
+                                        style = CertiTheme.typography.caption.semibold_14,
+                                        color = CertiTheme.colors.gray300
+                                    )
+                                }
+
+                                innerTextField()
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = screenWidthDp(10.dp))
+                                .focusRequester(focusRequester)
+                                .onFocusChanged { isFocused = it.isFocused }
+                        )
+                    }
 
                     Spacer(Modifier.widthForScreenPercentage(12.dp))
 
