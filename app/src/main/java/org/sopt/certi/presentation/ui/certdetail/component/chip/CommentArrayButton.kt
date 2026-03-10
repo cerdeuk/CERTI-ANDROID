@@ -24,8 +24,8 @@ fun CommentArrayButton(
     modifier: Modifier = Modifier
 ) {
     val label = when (commentSortType) {
-        CommentSortType.Famous -> stringResource(R.string.comment_label_famous)
-        CommentSortType.Recent -> stringResource(R.string.comment_label_recent)
+        CommentSortType.POPULAR -> stringResource(R.string.comment_label_famous)
+        CommentSortType.LATEST -> stringResource(R.string.comment_label_recent)
     }
 
     Box(
@@ -53,7 +53,7 @@ fun CommentArrayButton(
 @Composable
 private fun PreviewCommentArrayButton() {
     CommentArrayButton(
-        commentSortType = CommentSortType.Recent,
+        commentSortType = CommentSortType.LATEST,
         isSelected = true,
         selectOnClick = {}
     )

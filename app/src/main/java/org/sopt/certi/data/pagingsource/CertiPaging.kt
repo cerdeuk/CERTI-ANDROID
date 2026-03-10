@@ -33,9 +33,9 @@ class CertiPagingSource<T : Any>(
 fun <T : Any> createPager(
     limit: Int = 10,
     initialLoadSize: Int = 20,
-    q: List<String>? = null,
+    q: String? = null,
     startPage: Int? = null,
-    pagingSourceFactory: suspend (page: Int, limit: Int, sort: List<String>?) -> List<T>
+    pagingSourceFactory: suspend (page: Int, limit: Int, sort: String?) -> List<T>
 ): Pager<Int, T> {
     return Pager(
         config = PagingConfig(

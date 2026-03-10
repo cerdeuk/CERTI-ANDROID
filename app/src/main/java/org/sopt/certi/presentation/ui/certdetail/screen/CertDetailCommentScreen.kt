@@ -81,7 +81,7 @@ fun CertDetailCommentRoute(
     certStateType: CertStateType,
     viewModel: CertDetailViewModel = hiltViewModel()
 ) {
-    var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
+    var commentSortType by remember { mutableStateOf(CommentSortType.POPULAR) }
     val commentList = viewModel.commentPagingData.collectAsLazyPagingItems()
     val totalCommentCount by viewModel.totalCommentCount.collectAsStateWithLifecycle()
     val myUserId by viewModel.myUserId.collectAsStateWithLifecycle()
@@ -175,7 +175,7 @@ fun CertDetailCommentScreen(
     reportOnClick: (commentId: Long) -> Unit = {},
     deleteOnClick: (commentId: Long) -> Unit = {}
 ) {
-    var commentSortType by remember { mutableStateOf(CommentSortType.Famous) }
+    var commentSortType by remember { mutableStateOf(CommentSortType.POPULAR) }
 
     var commentText by remember { mutableStateOf("") }
 
@@ -208,10 +208,10 @@ fun CertDetailCommentScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CommentArrayButton(
-                    commentSortType = CommentSortType.Famous,
-                    isSelected = commentSortType == CommentSortType.Famous,
+                    commentSortType = CommentSortType.POPULAR,
+                    isSelected = commentSortType == CommentSortType.POPULAR,
                     selectOnClick = {
-                        commentSortType = CommentSortType.Famous
+                        commentSortType = CommentSortType.POPULAR
                         changeSortType(commentSortType)
                     }
                 )
@@ -219,10 +219,10 @@ fun CertDetailCommentScreen(
                 Spacer(Modifier.widthForScreenPercentage(8.dp))
 
                 CommentArrayButton(
-                    commentSortType = CommentSortType.Recent,
-                    isSelected = commentSortType == CommentSortType.Recent,
+                    commentSortType = CommentSortType.LATEST,
+                    isSelected = commentSortType == CommentSortType.LATEST,
                     selectOnClick = {
-                        commentSortType = CommentSortType.Recent
+                        commentSortType = CommentSortType.LATEST
                         changeSortType(commentSortType)
                     }
                 )

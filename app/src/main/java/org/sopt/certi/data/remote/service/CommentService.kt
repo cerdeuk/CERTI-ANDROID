@@ -17,7 +17,7 @@ interface CommentService {
         @Query("certificationId") certificationId: Long,
         @Query("page") page: Int,
         @Query("size") size: Int,
-        @Query("sort") sort: String? = null
+        @Query("commentSortType") commentSortType: String? = null
     ): ApiResponse<GetCommentListResponseDto>
 
     @POST("api/v1/comments")
