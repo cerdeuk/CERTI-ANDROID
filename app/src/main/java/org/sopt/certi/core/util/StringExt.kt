@@ -2,7 +2,6 @@ package org.sopt.certi.core.util
 
 import org.sopt.certi.domain.model.DateData
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
