@@ -16,6 +16,6 @@ fun CommentListPageableRequest.toDto(): CommentListPageableRequestDto {
     return CommentListPageableRequestDto(
         page = page,
         size = size,
-        sort = sort
+        commentSortType = commentSortType.name
     )
 }

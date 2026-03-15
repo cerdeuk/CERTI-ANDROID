@@ -12,6 +12,7 @@ import org.sopt.certi.data.remote.util.HttpResponseHandler.handleNullableApiResp
 import org.sopt.certi.domain.model.comment.CommentItemData
 import org.sopt.certi.domain.model.comment.RegisterCommentRequest
 import org.sopt.certi.domain.repository.CommentRepository
+import org.sopt.certi.presentation.type.CommentSortType
 import javax.inject.Inject
 
 class CommentRepositoryImpl @Inject constructor(
@@ -20,18 +21,18 @@ class CommentRepositoryImpl @Inject constructor(
 
     private var _totalCommentCount = MutableStateFlow(0)
 
-    override suspend fun getCommentList(certificationId: Long, sort: List<String>): Flow<PagingData<CommentItemData>> {
+    override suspend fun getCommentList(certificationId: Long, commentSortType: CommentSortType): Flow<PagingData<CommentItemData>> {
         return createPager(
             limit = 12,
             initialLoadSize = 12,
-            q = sort
+            q = commentSortType.name
         ) { page, limit, sortParam ->
             val response = commentRemoteDataSource.getCommentList(
                 certificationId,
                 CommentListPageableRequestDto(
                     page = page,
                     size = limit,
-                    sort = sortParam ?: sort
+                    commentSortType = sortParam ?: commentSortType.name
                 )
             ).data.toDomain()
 

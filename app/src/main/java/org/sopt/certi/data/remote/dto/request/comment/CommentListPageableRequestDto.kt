@@ -9,6 +9,6 @@ data class CommentListPageableRequestDto(
     val page: Int,
     @SerialName("size")
     val size: Int,
-    @SerialName("sort")
-    val sort: List<String>
+    @SerialName("commentSortType")
+    val commentSortType: String
 )

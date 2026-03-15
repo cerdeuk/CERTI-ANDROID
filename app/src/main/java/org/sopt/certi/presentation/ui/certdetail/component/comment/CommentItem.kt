@@ -55,11 +55,11 @@ fun CommentItem(
     when (commentData.state) {
         CertStateType.ANTICIPATED -> {
             acquireStateText = stringResource(R.string.comment_state_pre)
-            acquireStateTextColor = CertiTheme.colors.purpleBlue
+            acquireStateTextColor = CertiTheme.colors.gray300
         }
         CertStateType.ACQUISITION -> {
             acquireStateText = stringResource(R.string.comment_state_acquired)
-            acquireStateTextColor = CertiTheme.colors.gray300
+            acquireStateTextColor = CertiTheme.colors.purpleBlue
         }
         CertStateType.NORMAL -> {
             acquireStateText = "ERROR"

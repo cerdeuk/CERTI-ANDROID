@@ -152,7 +152,7 @@ private fun CertificationStatus(acquired: Boolean) {
             } else {
                 stringResource(R.string.my_certification_pre)
             },
-            style = CertiTheme.typography.caption.regular_10,
+            style = CertiTheme.typography.caption.semibold_10,
             color = CertiTheme.colors.white
         )
     }

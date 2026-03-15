@@ -125,13 +125,7 @@ class CertDetailViewModel @Inject constructor(
     }
 
     fun getCommentList(certId: Long, commentSortType: CommentSortType) = viewModelScope.launch {
-        val sortValue = if (commentSortType == CommentSortType.Famous) {
-            listOf("likeCount", "desc")
-        } else {
-            listOf()
-        }
-
-        getCommentListUseCase.getCommentList(certId, sortValue)
+        getCommentListUseCase.getCommentList(certId, commentSortType)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect { pagingData ->
