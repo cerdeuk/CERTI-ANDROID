@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
@@ -24,6 +26,7 @@ import org.sopt.certi.R
 import org.sopt.certi.core.util.noRippleClickable
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
+import org.sopt.certi.core.util.widthForScreenPercentage
 import org.sopt.certi.domain.model.certification.CertificationData
 import org.sopt.certi.ui.theme.CERTITheme
 import org.sopt.certi.ui.theme.CertiTheme
@@ -69,7 +72,10 @@ fun Top3CertificationItem(
                     Text(
                         text = item.certificationType,
                         style = CertiTheme.typography.caption.regular_12,
-                        color = CertiTheme.colors.gray500
+                        color = CertiTheme.colors.gray500,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .widthForScreenPercentage(73.dp)
                     )
                 }
             }
@@ -87,6 +93,7 @@ private fun PreviewTop3CertificationItem() {
                     CertificationData(
                         certificationId = 1,
                         certificationName = "정보처리기사",
+                        certificationType = "국가자격",
                         tags = listOf("시각디자인", "컴퓨터공학", "경영"),
                         isFavorite = true,
                         testType = "실기형",
@@ -97,6 +104,7 @@ private fun PreviewTop3CertificationItem() {
                     CertificationData(
                         certificationId = 2,
                         certificationName = "GTQ 1급 (그래픽 기술 자격)",
+                        certificationType = "국가기술자격",
                         tags = listOf("시각디자인", "컴퓨터공학", "경영"),
                         isFavorite = false,
                         testType = "실기형",
@@ -107,6 +115,7 @@ private fun PreviewTop3CertificationItem() {
                     CertificationData(
                         certificationId = 3,
                         certificationName = "TOEIC 900+",
+                        certificationType = "국가기술자격",
                         tags = listOf("경영", "시각디자인", "컴퓨터공학"),
                         isFavorite = true,
                         testType = "실기형",

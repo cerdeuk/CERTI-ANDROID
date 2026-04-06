@@ -41,7 +41,8 @@ fun MyPageProfileImage(
                 .crossfade(true)
                 .build(),
             contentDescription = null,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.clip(CircleShape)
         )
     }
 }
