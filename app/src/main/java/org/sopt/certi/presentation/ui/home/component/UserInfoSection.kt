@@ -19,9 +19,13 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.tooling.preview.Preview
 import org.sopt.certi.ui.theme.CERTITheme
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.rememberAsyncImagePainter
 import org.sopt.certi.core.util.screenHeightDp
 import org.sopt.certi.core.util.screenWidthDp
 
@@ -46,10 +50,17 @@ fun UserInfoSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.img_profile),
+                painter = if (userInfoData.profileImageUrl.isNullOrBlank()) {
+                    painterResource(id = R.drawable.img_profile)
+                } else {
+                    rememberAsyncImagePainter(userInfoData.profileImageUrl)
+                },
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(screenWidthDp(80.dp))
+                    .height(screenHeightDp(80.dp))
+                    .clip(CircleShape)
             )
             Spacer(modifier = Modifier.width(screenWidthDp(8.dp)))
 
